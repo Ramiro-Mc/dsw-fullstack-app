@@ -1,0 +1,384 @@
+.main{
+    background-color: #F5F5DC;
+}
+
+.header{
+    box-shadow: 0 2 10px 1px #0007; 
+}
+
+.seccion-titulo{
+  font-size: 2rem;
+  padding: 15px 0px; 
+  /* font-family: 'Poppins', sans-serif; */
+  text-align: center;
+}
+
+.login{
+  border-radius: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border: 2px solid black;
+}
+
+.top-bar {
+  min-height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+
+.navbar{
+  margin-bottom:0px;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+.logo{
+  max-width: 80px;
+  height: auto;
+}
+
+nav a {
+  text-decoration: none;
+  margin-right: 40px;
+  font-size: 16px;
+  transition: filter 0.3s ease;
+  color: white;
+}
+
+nav a:hover {
+  filter: brightness(70%);
+  cursor: pointer;
+}
+
+.boton-busqueda{
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  
+}
+
+.barra-busqueda{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    height: 50px;
+    margin-left: 5px;
+    margin-right: 8px;
+}
+
+
+
+
+/* Presentacion */
+
+.presentacion{
+  display: flex;
+  justify-content: center;
+}
+
+.presentacion-carousel{
+  box-sizing: border-box;
+  width: 80rem;
+  max-height: 26rem;
+  margin: 0 auto;
+  overflow: hidden;
+}   
+
+.carousel-item-presentacion img{    
+  height: 100%;
+  width: 100%;
+  object-fit: cover;  
+}
+
+/* Cursos */
+
+.seccion-cursos{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 3rem;
+  padding: 2rem 0;
+  border-radius: 1rem;
+}
+
+.seccion-oscura{
+  background-color:  #56565617;
+  color: #2F2F2F;
+}
+
+.card{
+  margin: 30px 0;
+  border: 1px solid black;
+  transition: all 0.3s ease;
+  padding-bottom: 60px;
+}
+
+
+.card:hover {
+   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+}
+
+/* Footer */
+
+.seccion-footer{
+background-color: #2F2F2F;
+color: #f5f6f7;
+}
+
+.iconos-redes-sociales a{
+margin: 10px;
+margin-bottom: 30px;
+transition: all 0.2s ease-in;
+width: 50px;
+height: 50px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 50%; 
+padding: 2px;
+border: 2px solid #ffffff;
+}
+
+.iconos-redes-sociales i{
+
+color: #ffffff;
+font-size: 1.5rem;
+transition: all 0.2s ease-in;
+}
+
+.iconos-redes-sociales a:hover{
+background-color: #ffffff;
+color: #000000;
+cursor: pointer;
+border: 2px solid #000000;
+transform: translateY(-2px); 
+}
+
+.iconos-redes-sociales a:hover i{
+color: #000000;
+transform: translateY(-2px); 
+}
+
+.texto-footer{
+color: white;
+text-decoration: none;
+list-style: none; 
+padding: 0;
+text-align: left
+}
+
+
+/* Login */
+
+.fondo-loginRegister {
+background-size: cover;
+background-position: center;
+height: 100vh;
+display: flex;
+padding: 20px;
+}
+
+.loginRegister-box {
+
+background: rgb(255, 255, 255);
+color: #000000;
+top: 50%; 
+left: 50%;
+position: absolute;
+transform: translate(-50%, -50%); 
+padding: 70px 30px;
+/* margin: 5px 0 10px; */
+border-radius: 15px;
+border: 2px solid black;
+box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.loginRegister-box h1{
+margin: 0;
+padding: 0 0 20px;
+text-align: center;
+font-size: 22px;
+}
+
+.loginRegister-box h2{
+margin: 0;
+padding: 0 0 20px;
+text-align: center;
+font-size: 18px;
+}
+
+
+
+.loginRegister-box p{
+margin: 0;
+padding: 0;
+font-weight: bold;
+}
+
+.loginRegister-box input{
+width: 100%;
+margin-bottom: 20px;
+}
+
+.loginRegister-box input[type="email"], input[type="password"]{
+border: none;
+border-bottom: 1px solid #000000;
+background: transparent;
+outline: none;
+height: 40px;
+color: #000000;
+font-size: 16px;
+}
+
+.loginRegister-box input[name="Login"]{
+border: none;
+outline: none;
+height: 40px;
+background: rgb(255, 255, 255);
+cursor: pointer;
+transition: background 0.3s;
+font-size: 16px;
+border-radius: 20px;
+color: rgb(0, 0, 0);
+border: #000000 1px solid;
+transition: all 0.3s ease;
+}
+
+.loginRegister-box input[name="Login"]:hover{
+background: rgb(255, 255, 255);
+color: rgb(0, 0, 0);
+box-shadow: 0px 8px 16px -4px rgba(0, 0, 0, 0.35);
+transform: translateY(-3px) scale(1.02);
+}
+
+.loginRegister-box a{
+text-decoration: none;
+font-size: 14px;
+color: #000000;
+}
+
+.loginRegister-box button{
+width: 100%;
+margin-bottom: 20px;
+border: none;
+outline: none;
+height: 40px;
+background: #000000;
+color: #ffffff;;
+border: 1px solid black;
+font-size: 16px;
+border-radius: 20px;
+transition: all 0.3s ease;
+}
+
+.loginRegister-box button:hover{
+/* background: rgb(33, 33, 33);
+color: rgb(0, 0, 0); */
+box-shadow: 0px 8px 16px -4px rgba(0, 0, 0, 0.4);
+transform: translateY(-3px) scale(1.02);
+
+}
+
+input::placeholder{
+  color: rgb(0, 0, 0);
+}
+
+/* Register */
+
+.btn-radio {
+width: 100%;
+margin-bottom: 20px;
+height: 40px;
+background: #f4b119;
+color: #fff;
+font-size: 16px;
+border-radius: 20px;
+cursor: pointer;
+transition: background 0.3s;
+display: flex;
+justify-content: center; 
+align-items: center;  
+box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.35);
+transition: transform 0.3s ease;
+}
+
+input[type="radio"]:checked + .btn-radio {
+  background: #b56b04;
+  color: rgb(255, 255, 255);
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4);
+  transform: scale(0.96);
+  
+}
+
+.btn-radio:hover {
+  background: #b56b04; 
+  color: rgb(255, 255, 255);
+  
+  
+}
+
+/* Curso */
+
+.accordion-button::after {
+      filter: invert(1); /* hace la flecha blanca */
+    }
+
+    .accordion-button {
+      font-weight: bold;
+    }
+
+    .accordion-item {
+      border: none;
+    }
+
+    .accordion-body a {
+      color: #fff;
+      display: block;
+      padding: 5px 0;
+      text-decoration: none;
+    }
+
+    .accordion-body a:hover {
+      text-decoration: underline;
+    }
+
+
+  .cont-principal{
+    width: x;
+  }
+
+
+
+
+
+
+
+
+/* responsive */
+
+@media screen and (max-width: 990px){
+  .navbar-brand{
+    max-width: 30px;
+  }
+  .nav-item{
+    margin-bottom: 8px;
+  }
+  .navbar-toggler{
+    margin-left: -10px;
+  } 
+}
+
+
+
+
