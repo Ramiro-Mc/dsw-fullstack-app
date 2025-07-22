@@ -1,0 +1,31 @@
+{
+  "name": "dsw-fullstack-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ramiro-Mc/dsw-fullstack-app.git"
+  },
+  "author": "Ramiro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ramiro-Mc/dsw-fullstack-app/issues"
+  },
+  "homepage": "https://github.com/Ramiro-Mc/dsw-fullstack-app#readme",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.2",
+    "promise-mysql": "^5.2.0",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.1",
+    "nodemon": "^3.1.10"
+  }
+}

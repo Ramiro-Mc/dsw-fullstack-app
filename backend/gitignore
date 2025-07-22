@@ -1,0 +1,29 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de entorno
+.env
+*.env
+
+# Logs
+*.log
+
+# Compilados / binarios
+*.pyc
+*.class
+*.o
+*.exe
+*.out
+
+# Carpetas comunes a ignorar
+node_modules/
+dist/
+build/
+__pycache__/
+
+# Configs de editor
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
