@@ -11,9 +11,3 @@ routerCursos.get("/cursos/:idCurso", cursoController.getCursoById);
 
 export default routerCursos;
 
-
-// router.get("/", orderPurchaseControllers.getAllOrderPurchase);
-// router.get("/:id", orderPurchaseControllers.getOrderPurchaseById);
-// router.put("/:id", orderPurchaseControllers.updateOrderPurchase);
-// router.post("/", orderPurchaseControllers.createOrderPurchase);
-// router.patch("/:id", orderPurchaseControllers.statusOrderPurchase);
