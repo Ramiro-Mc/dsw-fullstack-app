@@ -34,7 +34,7 @@ export const cursoController = {
         idTipo: idTipo,
       });
 
-      Curso.status(201).json({
+      res.status(201).json({
         success: true,
         msg: "Curso creado",
         contenido: newCurso,
