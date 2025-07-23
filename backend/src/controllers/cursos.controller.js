@@ -39,7 +39,7 @@ export const cursoController = {
         msg: "Curso creado",
         contenido: newCurso,
       });
-      
+
       console.log(newCurso); // Para ver el curso creado en la consola
     } catch (error) {
       console.log(error.message);
@@ -55,20 +55,20 @@ export const cursoController = {
       const { idCurso } = req.params;
       const { titulo, descripcion, precio } = req.body;
 
-        //   if (!idCurso) {
-        //     return res.status(400).json({
-        //       success: false,
-        //       msg: "Falta el ID del curso",
-        //     });
-        //   }
+      //   if (!idCurso) {
+      //     return res.status(400).json({
+      //       success: false,
+      //       msg: "Falta el ID del curso",
+      //     });
+      //   }
 
       const curso = await Curso.findByPk(idCurso);
 
-      if(!curso){
+      if (!curso) {
         return res.status(404).json({
-            success: false,
-            msg: "curso no encontrado"
-        })
+          success: false,
+          msg: "curso no encontrado",
+        });
       }
 
       if (!titulo && !descripcion && !precio) {
@@ -90,15 +90,13 @@ export const cursoController = {
         msg: "Curso actualizado correctamente",
         atributo: curso,
       });
-      
     } catch (error) {
-        console.log(error.message);
+      console.log(error.message);
     }
   },
 
   getCursoById: async (req, res) => {
     try {
-
       const { idCurso } = req.params;
       const curso = await Curso.findByPk(idCurso);
 
@@ -108,14 +106,12 @@ export const cursoController = {
           msg: "Curso no encontrado",
         });
       }
-      
-        res.status(200).json({
-            success: true,
-            msg: "Curso encontrado",     
-            informacion: curso
-        })
-      
 
+      res.status(200).json({
+        success: true,
+        msg: "Curso encontrado",
+        informacion: curso,
+      });
     } catch (error) {
       console.log(error.message);
     }
@@ -149,4 +145,3 @@ export const cursoController = {
     }
   },
 };
-

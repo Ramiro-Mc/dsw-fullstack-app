@@ -1,7 +1,6 @@
 import Usuario from "../models/usuario.model.js";
 import { Op } from "sequelize";
 
-
 export const usuarioController = {
   getAllUsuarios: async (req, res) => {
     try {
@@ -146,56 +145,53 @@ export const usuarioController = {
     }
   },
 
-   getUsuarioById: async (req, res) => {
-      try {
-  
-        const { idUsuario } = req.params;
-        const usuario = await Usuario.findByPk(idUsuario);
-  
-        if (!usuario) {
-          return res.status(404).json({
-            success: false,
-            msg: "usuario no encontrado",
-          });
-        }
-        
-          res.status(200).json({
-              success: true,
-              msg: "usuario encontrado",     
-              informacion: usuario
-          })
-        
-  
-      } catch (error) {
-        console.log(error.message);
-      }
-    },
-  
-    deleteCurso: async (req, res) => {
-      try {
-        const { idUsuario } = req.params;
-  
-        const deleted = await Usuario.destroy({
-          where: { idUsuario: idUsuario },
-        });
-  
-        if (deleted === 0) {
-          return res.status(404).json({
-            success: false,
-            msg: "usuario no encontrado",
-          });
-        }
-  
-        res.status(200).json({
-          success: true,
-          msg: "usuario eliminado correctamente",
-        });
-      } catch (error) {
-        console.log(error.message);
-        res.status(500).json({
+  getUsuarioById: async (req, res) => {
+    try {
+      const { idUsuario } = req.params;
+      const usuario = await Usuario.findByPk(idUsuario);
+
+      if (!usuario) {
+        return res.status(404).json({
           success: false,
-          msg: "Error al eliminar el curso",
+          msg: "usuario no encontrado",
         });
       }
-    },
-  };
+
+      res.status(200).json({
+        success: true,
+        msg: "usuario encontrado",
+        informacion: usuario,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+
+  deleteCurso: async (req, res) => {
+    try {
+      const { idUsuario } = req.params;
+
+      const deleted = await Usuario.destroy({
+        where: { idUsuario: idUsuario },
+      });
+
+      if (deleted === 0) {
+        return res.status(404).json({
+          success: false,
+          msg: "usuario no encontrado",
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        msg: "usuario eliminado correctamente",
+      });
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).json({
+        success: false,
+        msg: "Error al eliminar el curso",
+      });
+    }
+  },
+};

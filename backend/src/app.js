@@ -5,7 +5,7 @@ import usuarioRoutes from "./routes/usuario.routes.js";
 const app = express();
 
 // Middlewares
-app.use(express.json()); 
+app.use(express.json());
 
 // Rutas
 app.use(cursosRoutes);

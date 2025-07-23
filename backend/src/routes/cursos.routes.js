@@ -10,4 +10,3 @@ routerCursos.delete("/cursos/:idCurso", cursoController.deleteCurso);
 routerCursos.get("/cursos/:idCurso", cursoController.getCursoById);
 
 export default routerCursos;
-
