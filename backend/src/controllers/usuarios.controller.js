@@ -137,8 +137,8 @@ export const usuarioController = {
 
       res.status(200).json({
         success: true,
-        msg: "Curso actualizado correctamente",
-        atributo: curso,
+        msg: "Usuario actualizado correctamente",
+        atributo: camposAActualizar,
       });
     } catch (error) {
       console.log(error.message);
