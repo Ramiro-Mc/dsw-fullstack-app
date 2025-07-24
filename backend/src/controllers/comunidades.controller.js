@@ -1,168 +1,152 @@
-import Category from "../models/Comunidad.js";
+import { Comunidad } from "../models/Comunidad.js";
 
-const comunidadesController = {
-  // Buscar todos
+export const comunidadesController = {
 
-  getAllCategories: async (req, res, next) => {
+
+  getAllComunidades: async (req, res) => {
     try {
-      const allCategories = await Category.findAll({
-        where: {
-          disabled: false,
-        },
-      });
+      const allComunidades = await Comunidad.findAll();
 
-      if (!allCategories) {
+      if (allComunidades.length === 0) {
         return res.status(404).json({
           success: false,
-          msg: "Categorías no encontradas",
+          msg: "Comunidades no encontradas",
         });
       }
 
       res.status(200).json({
         success: true,
-        msg: "Todas las categorias fueron envidas",
-        data: allCategories,
+        msg: "Todas las comunidades fueron envidas",
+        contenido: allComunidades,
       });
     } catch (error) {
       console.log(error.message);
-      next(error);
     }
+
   },
-  getCategoryById: async (req, res, next) => {
+
+  getComunidadById: async (req, res) => {
     try {
-      const { id } = req.params;
-      if (!id) {
+      const { idCurso } = req.params;
+      if (!idCurso) {
         return res.status(400).json({
           success: false,
-          msg: "Falta el ID de la categoría",
+          msg: "Falta el ID del curso",
         });
       }
+      //Uso .findOne ya que el idCurso es clave foranea y primaria a la vez
+      const comunidad = await Comunidad.findOne({ where: { idCurso } });
 
-      const category = await Category.findByPk(id, {
-        where: {
-          disabled: false,
-        },
-      });
-
-      if (!category) {
+      if (!comunidad) {
         return res.status(404).json({
           success: false,
-          msg: "Categoría no encontrada",
+          msg: "Comunidad no encontrada",
         });
       }
 
       res.status(200).json({
         success: true,
-        msg: "Categoría encontrada",
-        data: category,
+        msg: "Comunidad encontrada",
+        contenido: comunidad,
       });
     } catch (error) {
       console.log(error.message);
-      next(error);
     }
   },
-  createCategory: async (req, res, next) => {
+
+
+  createComunidad: async (req, res) => {
     try {
-      const { name, img } = req.body;
-      if (!name || !img) {
+      const { titulo, idCurso } = req.body;
+      if (!titulo || !idCurso) {
         return res.status(400).json({
           success: false,
           msg: "Faltan campos obligatorios",
         });
       }
-      const newCategory = await Category.create({ name, img });
+      const newComunidad = await Comunidad.create({ 
+        titulo:titulo,
+         idCurso:idCurso,
+        }); //Deberia poner el idCurso aca?
 
-      res.status(200).json({
+      res.status(201).json({
         success: true,
-        msg: "Categoría creada con éxito",
-        data: newCategory,
+        msg: "Comunidad creada con éxito",
+        contenido: newComunidad,
       });
     } catch (error) {
       console.log(error.message);
-      next(error);
     }
   },
 
-  updateCategory: async (req, res, next) => {
+  updateComunidad: async (req, res) => {
     try {
-      const { id } = req.params;
-      const { name, img } = req.body;
+      const { idCurso } = req.params;
+      const { titulo } = req.body;
 
-      if (!id) {
+      if (!idCurso) {
         return res.status(400).json({
           success: false,
-          msg: "Falta el ID de la categoría",
+          msg: "Falta el ID del Curso",
         });
       }
 
-      if (!name && !img) {
+      if (!titulo) {
         return res.status(400).json({
           success: false,
           msg: "No hay información para actualizar",
         });
       }
 
-      const category = await Category.findByPk(id);
-      if (!category) {
+      const comunidad = await Comunidad.findOne({ where: { idCurso } });
+      if (!comunidad) {
         return res.status(404).json({
           success: false,
-          msg: "Categoría no encontrada",
+          msg: "Comunidad no encontrada",
         });
       }
 
-      await category.update({ name, img });
+      await comunidad.update({ titulo });
 
       res.status(200).json({
         success: true,
-        msg: "Categoría actualizada correctamente",
-        data: category,
+        msg: "Comunidad actualizada correctamente",
+        contenido: comunidad,
       });
     } catch (error) {
       console.log(error.message);
-      next(error);
     }
   },
-  statusCategory: async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { disabled } = req.body;
-
-      if (!id) {
-        return res.status(400).json({
-          success: false,
-          msg: "Falta el ID de la categoría",
+    deleteComunidad: async (req, res) => {
+        try {
+        const { idCurso } = req.params;
+        if (!idCurso) {
+            return res.status(400).json({
+            success: false,
+            msg: "Falta el ID del Curso",
+            });
+        }
+    
+        const comunidad = await Comunidad.findOne({ where: { idCurso } });
+        if (!comunidad) {
+            return res.status(404).json({
+            success: false,
+            msg: "Comunidad no encontrada",
+            });
+        }
+    
+        await comunidad.destroy();
+    
+        res.status(200).json({
+            success: true,
+            msg: "Comunidad eliminada correctamente",
         });
-      }
+        } catch (error) {
+        console.log(error.message);
+        }
+    },
 
-      if (disabled === undefined) {
-        return res.status(400).json({
-          success: false,
-          msg: "Falta el estado de la categoría",
-        });
-      }
-
-      const category = await Category.findByPk(id);
-      if (!category) {
-        return res.status(404).json({
-          success: false,
-          msg: "Categoría no encontrada",
-        });
-      }
-
-      await category.update({ disabled });
-
-      res.status(200).json({
-        success: true,
-        msg: `Estado de la categoría actualizado a ${
-          disabled ? "deshabilitada" : "habilitada"
-        }`,
-        data: category,
-      });
-    } catch (error) {
-      console.error(error.message);
-      next(error);
-    }
-  },
+ 
 };
 
-export default categoriesController;
+export default comunidadesController;

@@ -15,6 +15,15 @@ export const Curso = sequelize.define("Curso", {
   precio: { type: DataTypes.FLOAT, allowNull: false },
 });
 
+//El .then es para que despues creada la comunidad, se asocie al Curso
+import("./Comunidad.js").then(({ Comunidad }) => {
+  
+  Curso.hasOne(Comunidad, {
+    foreignKey: "idCurso",
+    sourceKey: "idCurso",
+  });
+});
+
 // Curso.sync({ force: true }) // esto es para crear la tabla en la base de datos, si no existe
 
 /* Terminado */

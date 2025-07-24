@@ -1,11 +1,12 @@
 import { Router } from "express";
+import { comunidadesController } from "../controllers/comunidades.controller.js";
 
 const routerComunidades = Router();
 
-routerComunidades.get("/cursos", (req, res) => {});
-routerComunidades.post("/cursos", (req, res) => {});
-routerComunidades.put("/cursos/:idCurso", (req, res) => {});
-routerComunidades.delete("/cursos/:idCurso", (req, res) => {});
-routerComunidades.get("/cursos/:idCurso", (req, res) => {});
+routerComunidades.get("/comunidades", comunidadesController.getAllComunidades);
+routerComunidades.post("/comunidades",comunidadesController.createComunidad);
+routerComunidades.put("/comunidades/:idCurso", comunidadesController.updateComunidad);
+routerComunidades.delete("/comunidades/:idCurso",comunidadesController.deleteComunidad);
+routerComunidades.get("/comunidades/:idCurso", comunidadesController.getComunidadById);
 
 export default routerComunidades;

@@ -1,9 +1,15 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/sequelize.js";
+import { Curso } from "./Curso.js";
 
 export const Comunidad = sequelize.define("Comunidad", {
-  idCurso: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  titulo: { type: DataTypes.STRING, allowNull: false },
+  titulo: { type: DataTypes.STRING, allowNull: false }
+});
+
+//Comunidad pertenece a Curso
+Comunidad.belongsTo(Curso, {
+  foreignKey: "idCurso",
+  targetKey: "idCurso",
 });
 
 /* terminado */
