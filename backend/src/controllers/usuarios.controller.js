@@ -1,4 +1,4 @@
-import Usuario from "../models/usuario.model.js";
+import { Usuario } from "../models/Usuario.js";
 import { Op } from "sequelize";
 
 export const usuarioController = {
@@ -167,7 +167,7 @@ export const usuarioController = {
     }
   },
 
-  deleteCurso: async (req, res) => {
+  deleteUsuario: async (req, res) => {
     try {
       const { idUsuario } = req.params;
 
