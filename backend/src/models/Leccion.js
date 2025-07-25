@@ -12,12 +12,4 @@ export const Leccion = sequelize.define("Leccion", {
   horasLec: { type: DataTypes.INTEGER },
 });
 
-Leccion.belongsTo(Curso, {
-  foreignKey: "idCurso",
-  targetKey: "idCurso",
-});
 
-Curso.hasMany(Leccion, {
-  foreignKey: "idCurso",
-  sourceKey: "idCurso",
-});

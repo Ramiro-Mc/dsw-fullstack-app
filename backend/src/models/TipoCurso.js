@@ -10,12 +10,5 @@ export const TipoCurso = sequelize.define("TipoCurso", {
   descripcion: { type: DataTypes.STRING },
 });
 
-TipoCurso.hasMany(Curso, {
-  foreignKey: "idTipo",
-  sourceKey: "idTipo",
-});
 
-Curso.belongsTo(TipoCurso, {
-  foreignKey: "idTipo",
-  targetKey: "idTipo",
-});
+

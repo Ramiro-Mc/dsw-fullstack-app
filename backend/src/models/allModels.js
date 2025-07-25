@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 import { sequelize } from '../database/sequelize.js';
 
-// modelos
+// Modelos
 import {Comunidad} from './Comunidad.js';
 import {Curso} from './Curso.js';
 import {Descuento} from './Descuento.js';
@@ -10,7 +10,7 @@ import {Publicidad} from './Publicidad.js';
 import {TipoCurso} from './TipoCurso.js';
 import {Usuario} from './Usuario.js';
 
-// relaciones
+// Relaciones
 Leccion.belongsTo(Curso, {
   foreignKey: "idCurso",
   targetKey: "idCurso",

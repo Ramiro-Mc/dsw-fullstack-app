@@ -12,4 +12,4 @@ Comunidad.belongsTo(Curso, {
   targetKey: "idCurso",
 });
 
-/* terminado */
+/* Terminado */
