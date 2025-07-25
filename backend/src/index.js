@@ -3,8 +3,7 @@ import dotenv from "dotenv";
 import { sequelize } from "./database/sequelize.js";
 import morgan from "morgan";
 
-// import "./models/Curso.js";
-// import "./models/TipoCurso.js"; // estos 2 imports despues van a estar en la carpeta de routes
+import db from "./models/allModels.js"; // Importar el objeto db con todos los modelos
 
 dotenv.config();
 
