@@ -3,10 +3,10 @@ import { tipoCursoController } from "../controllers/tipoCurso.controller.js";
 
 const routerTipoCurso = Router();
 
-routerTipoCurso.get("/tipoCursos", tipoCursoController.getAll);
-routerTipoCurso.post("/tipoCursos", tipoCursoController.create);
-routerTipoCurso.put("/tipoCursos/:idTipo", tipoCursoController.update);
-routerTipoCurso.delete("/tipoCursos/:idTipo", tipoCursoController.delete);
-routerTipoCurso.get("/tipoCursos/:idTipo", tipoCursoController.getById);
+routerTipoCurso.get("/tipoCursos", tipoCursoController.getAllTipos);
+routerTipoCurso.post("/tipoCursos", tipoCursoController.createTipoCurso);
+routerTipoCurso.put("/tipoCursos/:idTipo", tipoCursoController.updateTipoCurso);
+routerTipoCurso.delete("/tipoCursos/:idTipo", tipoCursoController.deleteTipoCurso);
+routerTipoCurso.get("/tipoCursos/:idTipo", tipoCursoController.getTipoCursoById);
 
 export default routerTipoCurso;

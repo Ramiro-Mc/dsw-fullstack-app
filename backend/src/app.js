@@ -1,7 +1,7 @@
 import express from "express";
 import cursosRoutes from "./routes/cursos.routes.js";
 import usuarioRoutes from "./routes/usuario.routes.js";
-import leccionRoutes from "./routes/leccion.routes.js";
+import comunidadRoutes from "./routes/comunidad.routes.js";
 
 const app = express();
 
@@ -11,6 +11,6 @@ app.use(express.json());
 // Rutas
 app.use(cursosRoutes);
 app.use(usuarioRoutes);
-app.use(leccionRoutes);
+app.use(comunidadRoutes);
 
 export default app;
