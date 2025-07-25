@@ -1,4 +1,5 @@
 import { Comunidad } from "../models/Comunidad.js";
+import { Curso } from "../models/Curso.js";
 
 export const comunidadesController = {
 
@@ -57,23 +58,36 @@ export const comunidadesController = {
 
   createComunidad: async (req, res) => {
     try {
+
       const { titulo, idCurso } = req.body;
+
       if (!titulo || !idCurso) {
         return res.status(400).json({
           success: false,
           msg: "Faltan campos obligatorios",
         });
       }
+
+      const curso = await Curso.findByPk(idCurso);
+
+      if (!curso) {
+        return res.status(400).json({
+          success: false,
+          msg: "Curso no existente",
+        });
+      }
+
       const newComunidad = await Comunidad.create({ 
-        titulo:titulo,
-         idCurso:idCurso,
-        }); //Deberia poner el idCurso aca?
+        titulo: titulo,
+        idCurso: idCurso,
+      }); //Deberia poner el idCurso aca?
 
       res.status(201).json({
         success: true,
         msg: "Comunidad creada con éxito",
         contenido: newComunidad,
       });
+
     } catch (error) {
       console.log(error.message);
     }
@@ -81,6 +95,7 @@ export const comunidadesController = {
 
   updateComunidad: async (req, res) => {
     try {
+
       const { idCurso } = req.params;
       const { titulo } = req.body;
 
@@ -117,34 +132,38 @@ export const comunidadesController = {
       console.log(error.message);
     }
   },
-    deleteComunidad: async (req, res) => {
-        try {
-        const { idCurso } = req.params;
-        if (!idCurso) {
-            return res.status(400).json({
-            success: false,
-            msg: "Falta el ID del Curso",
-            });
-        }
-    
-        const comunidad = await Comunidad.findOne({ where: { idCurso } });
-        if (!comunidad) {
-            return res.status(404).json({
-            success: false,
-            msg: "Comunidad no encontrada",
-            });
-        }
-    
-        await comunidad.destroy();
-    
-        res.status(200).json({
-            success: true,
-            msg: "Comunidad eliminada correctamente",
+
+  deleteComunidad: async (req, res) => {
+    try {
+
+      const { idCurso } = req.params;
+
+      if (!idCurso) {
+        return res.status(400).json({
+        success: false,
+        msg: "Falta el ID del Curso",
         });
-        } catch (error) {
-        console.log(error.message);
-        }
-    },
+      }
+
+      const comunidad = await Comunidad.findOne({ where: { idCurso } });
+      if (!comunidad) {
+        return res.status(404).json({
+        success: false,
+        msg: "Comunidad no encontrada",
+        });
+      }
+
+      await comunidad.destroy();
+
+      res.status(200).json({
+        success: true,
+        msg: "Comunidad eliminada correctamente",
+      });
+      
+    } catch (error) {
+    console.log(error.message);
+    }
+  },
 
  
 };

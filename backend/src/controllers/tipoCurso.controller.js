@@ -1,4 +1,5 @@
 import { TipoCurso } from "../models/TipoCurso.js";
+import { Op } from "sequelize";
 
 export const tipoCursoController = {
 
@@ -20,10 +21,6 @@ export const tipoCursoController = {
       });
     } catch (error) {
       console.log(error.message);
-      res.status(500).json({
-        success: false,
-        msg: "Error al obtener los tipos de curso",
-      });
     }
   },
 
@@ -65,14 +62,11 @@ export const tipoCursoController = {
         msg: "Nuevo Tipo de Curso Creado",
         contenido: newTipo,
       });
+
       console.log(newTipo);
 
     } catch (error) {
       console.log(error.message);
-      res.status(500).json({
-        success: false,
-        msg: "Error al crear el TipoCurso",
-      });
     }
   },
 
@@ -167,12 +161,9 @@ export const tipoCursoController = {
         success: true,
         msg: "TipoCurso eliminado correctamente",
       });
+      
     } catch (error) {
       console.log(error.message);
-      res.status(500).json({
-        success: false,
-        msg: "Error al eliminar el TipoCurso",
-      });
     }
   },
 };

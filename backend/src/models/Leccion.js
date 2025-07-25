@@ -1,8 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/sequelize.js";
 
-import { Curso } from "./Curso.js";
-
 export const Leccion = sequelize.define("Leccion", {
   numeroLec: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },
   idCurso: { type: DataTypes.INTEGER, allowNull: false, primaryKey: true },

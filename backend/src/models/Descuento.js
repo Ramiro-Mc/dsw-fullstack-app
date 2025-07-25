@@ -12,6 +12,4 @@ export const Descuento = sequelize.define("Descuento", {
   porcentaje: { type: DataTypes.INTEGER, allowNull: false },
 });
 
-/* terminado */
 
-// Descuento.sync({ force: true })

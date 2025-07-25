@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/sequelize.js";
-// import { Sequelize } from 'sequelize';
 
 export const Publicidad = sequelize.define(
   "Publicidad",

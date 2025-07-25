@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/sequelize.js";
-// import { Sequelize } from 'sequelize';
 
 export const Curso = sequelize.define("Curso", {
   idCurso: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -24,6 +23,4 @@ import("./Comunidad.js").then(({ Comunidad }) => {
   });
 });
 
-// Curso.sync({ force: true }) // esto es para crear la tabla en la base de datos, si no existe
 
-/* Terminado */

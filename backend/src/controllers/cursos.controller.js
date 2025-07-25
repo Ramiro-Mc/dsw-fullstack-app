@@ -62,13 +62,6 @@ export const cursoController = {
       const { idCurso } = req.params;
       const { titulo, descripcion, precio } = req.body;
 
-      //   if (!idCurso) {
-      //     return res.status(400).json({
-      //       success: false,
-      //       msg: "Falta el ID del curso",
-      //     });
-      //   }
-
       const curso = await Curso.findByPk(idCurso);
 
       if (!curso) {
@@ -84,8 +77,6 @@ export const cursoController = {
           msg: "No hay informacion para actualizar",
         });
       }
-
-      // await Curso.update({ titulo, descripcion, precio});
 
       await Curso.update(
         { titulo, descripcion, precio },
