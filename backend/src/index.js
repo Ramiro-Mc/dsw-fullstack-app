@@ -3,15 +3,13 @@ import dotenv from "dotenv";
 import { sequelize } from "./database/sequelize.js";
 import morgan from "morgan";
 
-// import "./models/Curso.js";
-// import "./models/TipoCurso.js"; // estos 2 imports despues van a estar en la carpeta de routes
-// import "./models/Descuento.js";
+import db from "./models/allModels.js"; // Importar el objeto db con todos los modelos
 
 dotenv.config();
 
 app.use(morgan("dev"));
 
-// app.set("port",process.env.PORT) ; 
+// app.set("port",process.env.PORT) ;
 // app.listen(process.env.PORT);
 // console.log("Server is running on port "+app.get("port"));
 

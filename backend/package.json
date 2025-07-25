@@ -1,6 +1,7 @@
 {
   "name": "dsw-fullstack-app",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.js"

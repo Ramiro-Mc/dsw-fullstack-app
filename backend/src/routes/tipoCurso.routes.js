@@ -1,11 +1,12 @@
 import { Router } from "express";
+import { tipoCursoController } from "../controllers/tipoCurso.controller.js";
 
 const routerTipoCurso = Router();
 
-routerTipoCurso.get("/cursos", (req, res) => {});
-routerTipoCurso.post("/cursos", (req, res) => {});
-routerTipoCurso.put("/cursos/:idCurso", (req, res) => {});
-routerTipoCurso.delete("/cursos/:idCurso", (req, res) => {});
-routerTipoCurso.get("/cursos/:idCurso", (req, res) => {});
+routerTipoCurso.get("/tipoCursos", tipoCursoController.getAllTipos);
+routerTipoCurso.post("/tipoCursos", tipoCursoController.createTipoCurso);
+routerTipoCurso.put("/tipoCursos/:idTipo", tipoCursoController.updateTipoCurso);
+routerTipoCurso.delete("/tipoCursos/:idTipo", tipoCursoController.deleteTipoCurso);
+routerTipoCurso.get("/tipoCursos/:idTipo", tipoCursoController.getTipoCursoById);
 
 export default routerTipoCurso;
