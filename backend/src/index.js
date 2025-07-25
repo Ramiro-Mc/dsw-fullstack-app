@@ -5,6 +5,7 @@ import morgan from "morgan";
 
 // import "./models/Curso.js";
 // import "./models/TipoCurso.js"; // estos 2 imports despues van a estar en la carpeta de routes
+// import "./models/Descuento.js";
 
 dotenv.config();
 

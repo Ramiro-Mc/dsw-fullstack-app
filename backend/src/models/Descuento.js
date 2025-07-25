@@ -9,3 +9,5 @@ export const Descuento = sequelize.define('Descuento', {
 });
 
 /* terminado */
+
+// Descuento.sync({ force: true })

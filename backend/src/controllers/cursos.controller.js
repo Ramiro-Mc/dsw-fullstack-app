@@ -26,6 +26,13 @@ export const cursoController = {
     try {
       const { idCurso, titulo, descripcion, precio, idTipo } = req.body;
 
+      if (!idCurso || !titulo || !precio || !idTipo) {
+        return res.status(400).json({
+          success: false,
+          msg: "No se ingresaron todos los datos necesarios"
+        });
+      }
+
       const newCurso = await Curso.create({
         idCurso: idCurso,
         titulo: titulo,
@@ -34,7 +41,7 @@ export const cursoController = {
         idTipo: idTipo,
       });
 
-      Curso.status(201).json({
+      res.status(201).json({
         success: true,
         msg: "Curso creado",
         contenido: newCurso,

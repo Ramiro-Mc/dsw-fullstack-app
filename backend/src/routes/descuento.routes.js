@@ -1,11 +1,12 @@
 import { Router } from "express";
+import { descuentoController } from "../controllers/descuentos.controller.js";
 
-const routerDescuento = Router();
+const routerDescuentos = Router();
 
-routerDescuento.get("/cursos", (req, res) => {});
-routerDescuento.post("/cursos", (req, res) => {});
-routerDescuento.put("/cursos/:idCurso", (req, res) => {});
-routerDescuento.delete("/cursos/:idCurso", (req, res) => {});
-routerDescuento.get("/cursos/:idCurso", (req, res) => {});
+routerDescuentos.get("/descuentos", descuentoController.getAllDescuentos);
+routerDescuentos.post("/descuentos", descuentoController.createDescuento);
+routerDescuentos.put("/descuentos/:idDescuento", descuentoController.updateDescuento);
+routerDescuentos.delete("/descuentos/:idDescuento", descuentoController.deleteDescuento);
+routerDescuentos.get("/descuentos/:idDescuento", descuentoController.getDescuentoById);
 
-export default routerDescuento;
+export default routerDescuentos;
