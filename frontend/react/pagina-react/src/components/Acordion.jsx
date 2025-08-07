@@ -1,6 +1,7 @@
 import React from "react";
 import '../styles/Acordion.css'; 
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import Modulo from './Modulo';
     
 function Acordion() {
   const modulos = [
@@ -20,34 +21,16 @@ function Acordion() {
           <div className="col-3 bg-dark text-white overflow-auto">
             <div 
               className="accordion" 
-              id="sidebarAccordion"
+              id="Acordion"
             >
               {modulos.map((modulo, index) => (
-                <div className="accordion-item bg-dark" key={index}>
-                  <h2 className="accordion-header">
-                    <button
-                      className="accordion-button collapsed bg-dark text-white"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={`#mod${index}`}
-                    >
-                      {modulo.titulo}
-                    </button>
-                  </h2>
-                  <div
-                    id={`mod${index}`}
-                    className="accordion-collapse collapse"
-                    data-bs-parent="#sidebarAccordion"  /* 👈 Esto hace que solo se abra uno */
-                  >
-                    <div className="accordion-body d-flex flex-column">
-                      {modulo.clases.map((clase, i) => (
-                        <a href="#" key={i}>
-                          {clase}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                <Modulo
+                  key={index}
+                  titulo={modulo.titulo}
+                  clases={modulo.clases}
+                  index={index}
+                  AcordionId="Acordion"
+                />
               ))}
             </div>
           </div>
