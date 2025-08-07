@@ -1,0 +1,74 @@
+/* // copia de generalstyles.css */
+
+.main{
+    background-color: #F5F5DC;
+}
+
+/* .header{
+    box-shadow: 0 2 10px 1px #0007;    //.header se hace en header.css
+} */
+
+.seccion-titulo{
+  font-size: 2rem;
+  padding: 15px 0px; 
+  text-align: center;
+}
+
+
+/* .logo{
+  max-width: 80px;  // .logo se hace en header.css
+  height: auto;
+} */
+
+
+@media screen and (max-width: 990px){
+}
+
+/* Footer */
+
+.seccion-footer{
+background-color: #2F2F2F;
+color: #f5f6f7;
+}
+
+.iconos-redes-sociales a{
+margin: 10px;
+margin-bottom: 30px;
+transition: all 0.2s ease-in;
+width: 50px;
+height: 50px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 50%; 
+padding: 2px;
+border: 2px solid #ffffff;
+}
+
+.iconos-redes-sociales i{
+
+color: #ffffff;
+font-size: 1.5rem;
+transition: all 0.2s ease-in;
+}
+
+.iconos-redes-sociales a:hover{
+background-color: #ffffff;
+color: #000000;
+cursor: pointer;
+border: 2px solid #000000;
+transform: translateY(-2px); 
+}
+
+.iconos-redes-sociales a:hover i{
+color: #000000;
+transform: translateY(-2px); 
+}
+
+.texto-footer{
+color: white;
+text-decoration: none;
+list-style: none; 
+padding: 0;
+text-align: left
+}
