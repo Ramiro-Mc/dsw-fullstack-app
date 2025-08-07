@@ -62,5 +62,11 @@
 		padding: 5px 8px 5px 5px !important; /* Ajustar el padding para pantallas pequeñas */
 		font-size: 14px !important; /* Ajustar el tamaño de fuente */
 	}
+	.accordion-body {
+		padding: 10px !important; /* Ajustar el padding del cuerpo del acordeón */
+	}
+	.nombre-clase {
+		font-size: 0.75rem !important; /* Ajustar el tamaño de fuente */
+	}
 }
   

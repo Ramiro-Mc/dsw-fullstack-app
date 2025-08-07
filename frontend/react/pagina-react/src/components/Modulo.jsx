@@ -23,7 +23,7 @@ function ModuloItem({ titulo, clases, index, AccordionId}) {
         <div className="accordion-body d-flex flex-column">
           {clases.map((clase, i) => (
             <a href="#" key={i}>
-              {clase}
+              <span className="nombre-clase">{clase}</span>
             </a>
           ))}
         </div>
