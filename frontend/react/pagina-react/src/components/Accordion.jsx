@@ -1,9 +1,9 @@
 import React from "react";
-import '../styles/Acordion.css'; 
+import '../styles/Accordion.css'; 
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Modulo from './Modulo';
     
-function Acordion() {
+function Accordion() {
   const modulos = [
     { titulo: "MÓDULO 0", clases: ["Clase 1", "Clase 2", "Clase 3"] },
     { titulo: "MÓDULO 1", clases: ["Clase 1", "Clase 2", "Clase 3"] },
@@ -11,7 +11,6 @@ function Acordion() {
     { titulo: "MÓDULO 3", clases: ["Clase 1", "Clase 2", "Clase 3"] },
     { titulo: "MÓDULO 4", clases: ["Clase 1", "Clase 2", "Clase 3"] }
   ];
-
   return (
     <main>
       <div className="container-fluid">
@@ -21,7 +20,7 @@ function Acordion() {
           <div className="col-3 bg-dark text-white overflow-auto">
             <div 
               className="accordion" 
-              id="Acordion"
+              id="Accordion"
             >
               {modulos.map((modulo, index) => (
                 <Modulo
@@ -29,14 +28,14 @@ function Acordion() {
                   titulo={modulo.titulo}
                   clases={modulo.clases}
                   index={index}
-                  AcordionId="Acordion"
+                  AccordionId="Accordion"
                 />
               ))}
             </div>
           </div>
 
           {/* Contenido principal */}
-          <div className="col-8 bg-light cont-principal">
+          <div className="col-9 bg-light cont-principal">
             <h2>Contenido del módulo</h2>
           </div>
 
@@ -46,4 +45,4 @@ function Acordion() {
   );
 };
 
-export default Acordion;
+export default Accordion;

@@ -6,9 +6,6 @@
       font-weight: bold;
     }
 
-    .accordion-item {
-      border: none;
-    }
 
     .accordion-body a {
       color: #fff;
@@ -21,11 +18,8 @@
       text-decoration: underline;
     }
 
-    .accordion-header {
-      background-color: transparent;
-    }
-
 
   .cont-principal{
     width: x;
   }
+

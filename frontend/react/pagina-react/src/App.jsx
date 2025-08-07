@@ -1,12 +1,12 @@
 import './App.css'
 import Header from './components/Header.jsx'
-import Acordion from './components/Acordion.jsx'
+import Accordion from './components/Accordion.jsx'
 
 function App() {
   return (
     <>
       <Header />
-      <Acordion />
+      <Accordion />
     </>
   )
 }
