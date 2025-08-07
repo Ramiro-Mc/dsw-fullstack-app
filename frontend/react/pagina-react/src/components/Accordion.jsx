@@ -12,12 +12,11 @@ function Accordion() {
     { titulo: "MÓDULO 4", clases: ["Clase 1", "Clase 2", "Clase 3"] }
   ];
   return (
-    <main>
       <div className="container-fluid">
         <div className="row">
 
           {/* Sidebar */}
-          <div className="col-3 bg-dark text-white overflow-auto">
+          <div className="col-3 bg-dark text-white overflow-auto sidebar">
             <div 
               className="accordion" 
               id="Accordion"
@@ -41,7 +40,6 @@ function Accordion() {
 
         </div>
       </div>
-    </main>
   );
 };
 

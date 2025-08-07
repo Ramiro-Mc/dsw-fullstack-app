@@ -1,3 +1,19 @@
+.container-fluid {
+  flex: 1;
+  display: flex;
+
+}
+
+.row {
+  flex: 1;
+  display: flex;
+}
+
+.sidebar {
+  padding: 20px;
+}
+
+
 .accordion-button::after {
       filter: invert(1); /* hace la flecha blanca */
     }
