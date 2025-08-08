@@ -21,8 +21,7 @@ function Accordion({ modulos }) {
               {modulos.map((modulo, index) => (
                 <Modulo
                   key={index}
-                  titulo={modulo.titulo}
-                  clases={modulo.clases}
+                  modulo={modulo}
                   index={index}
                   AccordionId="Accordion"
                 />

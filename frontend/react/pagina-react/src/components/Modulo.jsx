@@ -1,7 +1,7 @@
 import React from "react";
 import '../styles/Modulo.css'; 
 
-function ModuloItem({ titulo, clases, index, AccordionId}) {
+function ModuloItem({ modulo, index, AccordionId}) {
   return (
     <div className="accordion-item bg-dark" style={{ border: 'none' }}>
       <h2 className="accordion-header">
@@ -11,7 +11,7 @@ function ModuloItem({ titulo, clases, index, AccordionId}) {
           data-bs-toggle="collapse"
           data-bs-target={`#modulo${index}`}
         >
-          <span className="titulo">{titulo}</span>
+          <span className="titulo">{modulo.titulo}</span>
           <span className="titulo-corto">MOD{index + 1}</span>
         </button>
       </h2>
@@ -21,7 +21,7 @@ function ModuloItem({ titulo, clases, index, AccordionId}) {
         data-bs-parent={`#${AccordionId}`}
       >
         <div className="accordion-body d-flex flex-column">
-          {clases.map((clase, i) => (
+          {modulo.clases.map((clase, i) => (
             <a href="#" key={i}>
               <span className="nombre-clase">{clase}</span>
             </a>
