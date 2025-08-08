@@ -19,15 +19,9 @@ main.main-content {
   flex-direction: column;
 }
 
-
-
 .main{
     background-color: #F5F5DC;
 }
-
-/* .header{
-    box-shadow: 0 2 10px 1px #0007;    //.header se hace en header.css
-} */
 
 .seccion-titulo{
   font-size: 2rem;
@@ -36,14 +30,17 @@ main.main-content {
 }
 
 
-/* .logo{
-  max-width: 80px;  // .logo se hace en header.css
-  height: auto;
-} */
+.container-fluid {
+  flex: 1;
+  display: flex;
 
-
-@media screen and (max-width: 990px){
 }
+
+.row {
+  flex: 1;
+  display: flex;
+}
+
 
 /* Footer */
 
