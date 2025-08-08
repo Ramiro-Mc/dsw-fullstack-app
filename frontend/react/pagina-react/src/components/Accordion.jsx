@@ -2,7 +2,7 @@ import '../styles/Accordion.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Modulo from './Modulo';
     
-function Accordion({ modulos }) {
+function Accordion({ modulos, manejarClick }) {
 
   // const modulos = [
   //   { titulo: "MÓDULO 0", clases: ["Clase 1", "Clase 2", "Clase 3"] },
@@ -24,6 +24,7 @@ function Accordion({ modulos }) {
                   modulo={modulo}
                   index={index}
                   AccordionId="Accordion"
+                  manejarClick={manejarClick}
                 />
               ))}
             </div>

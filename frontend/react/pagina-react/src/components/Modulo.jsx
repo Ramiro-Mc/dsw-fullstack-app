@@ -1,7 +1,7 @@
 import React from "react";
 import '../styles/Modulo.css'; 
 
-function ModuloItem({ modulo, index, AccordionId}) {
+function ModuloItem({ modulo, index, AccordionId, manejarClick }) {
   return (
     <div className="accordion-item bg-dark" style={{ border: 'none' }}>
       <h2 className="accordion-header">
@@ -22,8 +22,15 @@ function ModuloItem({ modulo, index, AccordionId}) {
       >
         <div className="accordion-body d-flex flex-column">
           {modulo.clases.map((clase, i) => (
-            <a href="#" key={i}>
-              <span className="nombre-clase">{clase}</span>
+            <a 
+              href="#" 
+              key={i}
+              onClick={(e) => {
+                e.preventDefault(); //prevenir el comportamiento por defecto del enlace
+                manejarClick(clase);
+              }}
+              >
+              <span className="nombre-clase">{clase.tituloClase}</span>
             </a>
           ))}
         </div>
