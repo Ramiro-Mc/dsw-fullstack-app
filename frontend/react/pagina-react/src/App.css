@@ -1,6 +1,11 @@
 /* // copia de generalstyles.css */
 
 /* Sticky Footer Setup */
+/* *{
+  padding: 0 !important;
+  margin: 0 !important;
+} */
+
 html, body, #root {
   height: 100%;
   margin: 0;
@@ -20,7 +25,7 @@ main.main-content {
 }
 
 .main{
-    background-color: #F5F5DC;
+  background-color: #F5F5DC;
 }
 
 .seccion-titulo{
@@ -32,61 +37,14 @@ main.main-content {
 
 .container-fluid {
   flex: 1;
-  display: flex;
-
+  display: flex;  
+  --bs-gutter-x: 0 !important; /* Elimina el padding horizontal */
 }
 
 .row {
   flex: 1;
   display: flex;
+  --bs-gutter-x: 0 !important; /* Elimina el padding horizontal */
 }
 
 
-/* Footer */
-
-.seccion-footer{
-background-color: #2F2F2F;
-color: #f5f6f7;
-}
-
-.iconos-redes-sociales a{
-margin: 10px;
-margin-bottom: 30px;
-transition: all 0.2s ease-in;
-width: 50px;
-height: 50px;
-display: flex;
-align-items: center;
-justify-content: center;
-border-radius: 50%; 
-padding: 2px;
-border: 2px solid #ffffff;
-}
-
-.iconos-redes-sociales i{
-
-color: #ffffff;
-font-size: 1.5rem;
-transition: all 0.2s ease-in;
-}
-
-.iconos-redes-sociales a:hover{
-background-color: #ffffff;
-color: #000000;
-cursor: pointer;
-border: 2px solid #000000;
-transform: translateY(-2px); 
-}
-
-.iconos-redes-sociales a:hover i{
-color: #000000;
-transform: translateY(-2px); 
-}
-
-.texto-footer{
-color: white;
-text-decoration: none;
-list-style: none; 
-padding: 0;
-text-align: left
-}

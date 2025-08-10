@@ -13,6 +13,7 @@ function ModuloItem({ modulo, index, AccordionId, manejarClick }) {
         >
           <span className="titulo">{modulo.titulo}</span>
           <span className="titulo-corto">MOD{index + 1}</span>
+         
         </button>
       </h2>
       <div
@@ -20,19 +21,26 @@ function ModuloItem({ modulo, index, AccordionId, manejarClick }) {
         className="accordion-collapse collapse"
         data-bs-parent={`#${AccordionId}`}
       >
-        <div className="accordion-body d-flex flex-column">
-          {modulo.clases.map((clase, i) => (
-            <a 
-              href="#" 
-              key={i}
-              onClick={(e) => {
-                e.preventDefault(); //prevenir el comportamiento por defecto del enlace
-                manejarClick(clase);
-              }}
-              >
-              <span className="nombre-clase">{clase.tituloClase}</span>
-            </a>
-          ))}
+        <div className="accordion-body">
+              {modulo.clases.map((clase, i) => (
+                <a 
+                  href="#" 
+                  key={i}
+                  onClick={(e) => {
+                    e.preventDefault(); //prevenir el comportamiento por defecto del enlace
+                    manejarClick(clase);
+                  }}
+                  className="clase-item"
+                >
+                  <span className="nombre-clase">{clase.tituloClase}</span>
+                  <span className="icono-check">
+
+                      {clase.completado ? <i style={{ color: 'green' }} className=" bi bi-check-circle"></i>
+                      : <i style={{ color: 'red' }} className=" bi bi-check-circle-fill"></i>
+                    }
+                  </span>
+                </a>
+              ))}
         </div>
       </div>
     </div>

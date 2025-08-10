@@ -9,12 +9,13 @@
       border-bottom: 1px solid #444; /* línea divisoria entre módulos */    
     }
 
-    .accordion-body a {
+    .clase-item {
       color: #fff;
       display: block;
       padding: 5px 0;
       text-decoration: none;
       border-bottom: 1px solid #444; /* línea divisoria entre clases */
+  
     }
 
     .accordion-body a:last-child {
@@ -70,3 +71,9 @@
 	}
 }
   
+
+.clase-item {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+}
