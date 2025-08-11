@@ -43,6 +43,22 @@
      display: none; /* Ocultar por defecto */
   }
 
+  h6.noClicked {
+    color: white;
+  }
+
+  h6.clicked {
+    color: orange;
+  }
+
+  i.completado {
+    color: green;
+  }
+  
+  i.noCompletado {
+    color: red;
+  }
+
   /* responsive */
 @media (max-width: 768px) {
   .titulo {

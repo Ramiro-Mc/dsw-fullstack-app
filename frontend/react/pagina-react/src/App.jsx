@@ -7,9 +7,7 @@ import BarraSuperior from './components/BarraSuperior.jsx';
 import { useState } from 'react';
 
 function App() {
-  // const clase = [
 
-  // ]
   const [modulos, setModulos] = useState([
     { titulo: "MÓDULO 0", clases: 
       [{idClase: "0001", tituloClase: "Clase 1", contenido: "Contenido de la Clase 1, modulo 0", videoClase: "https://www.youtube.com/embed/MPLN1ahXgcs", completado: false}, 
@@ -45,9 +43,6 @@ function App() {
     setClaseClicked(clase);
   };
 
-  // const completarClase = (clase) => {
-  //   setClaseCompletada(!clase);
-  // };
 
   const completarClase = () => {
     setModulos(prevModulos =>
@@ -74,6 +69,7 @@ function App() {
               <Accordion 
                 modulos={modulos} 
                 manejarClick={manejarClick}
+                claseClicked={claseClicked}
                />
             </div>
 

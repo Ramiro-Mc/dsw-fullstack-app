@@ -1,7 +1,7 @@
 import React from "react";
 import '../styles/Modulo.css'; 
 
-function ModuloItem({ modulo, index, AccordionId, manejarClick }) {
+function ModuloItem({ modulo, index, AccordionId, manejarClick, claseClicked }) {
   return (
     <div className="accordion-item bg-dark" style={{ border: 'none' }}>
       <h2 className="accordion-header">
@@ -32,13 +32,20 @@ function ModuloItem({ modulo, index, AccordionId, manejarClick }) {
                   }}
                   className="clase-item"
                 >
-                  <span className="nombre-clase">{clase.tituloClase}</span>
-                  <span className="icono-check">
 
-                      {clase.completado ? <i style={{ color: 'green' }} className=" bi bi-check-circle"></i>
-                      : <i style={{ color: 'red' }} className=" bi bi-check-circle-fill"></i>
+                  <span className="nombre-clase">
+                    {clase.idClase === claseClicked.idClase?
+                    <h6 className="clicked">{clase.tituloClase}</h6> 
+                    : <h6 className="noClicked">{clase.tituloClase}</h6>
+                      }
+                    </span>
+                    
+                  <span className="icono-check">
+                      {clase.completado ? <i className=" bi bi-check-circle completado"></i>
+                      : <i className=" bi bi-check-circle-fill noCompletado"></i>
                     }
                   </span>
+
                 </a>
               ))}
         </div>
