@@ -21,7 +21,12 @@ function BarraSuperior ({completarClase,clase, claseClicked}) {
         onClick={() => {
           completarClase(clase)
         }}
-        ><i className="check bi bi-check-circle"></i>Marcar como completado</button> : ""}
+        ><i className="check bi bi-check-circle"></i>Marcar como completado</button> 
+        :  <button
+        onClick={() => {
+          completarClase(clase)
+        }}
+        ><i className="check bi bi-check-circle"></i>Desmarcar como completado</button>}
       </div>
         
     </div>

@@ -50,18 +50,17 @@ function App() {
   // };
 
   const completarClase = () => {
-    let flag = false;
     setModulos(prevModulos =>
       prevModulos.map(modulo => ({
         ...modulo,
         clases: modulo.clases.map(clase =>
           clase.idClase === claseClicked.idClase
-            ? { ...clase, completado: !flag }
+            ? { ...clase, completado: !clase.completado}
             : clase
         )
       })) 
     );
-    setClaseClicked({ ...claseClicked, completado: true });
+    setClaseClicked({ ...claseClicked, completado: !claseClicked.completado });
   };
   
   return (
