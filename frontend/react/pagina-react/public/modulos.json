@@ -1,0 +1,133 @@
+[
+    {
+        "titulo": "MÓDULO 0",
+        "clases": [
+            {
+                "idClase": "0001",
+                "tituloClase": "Clase 1",
+                "contenido": "Contenido de la Clase 1, modulo 0",
+                "videoClase": "https://www.youtube.com/embed/MPLN1ahXgcs",
+                "completado": false
+            },
+            {
+                "idClase": "0002",
+                "tituloClase": "Clase 2",
+                "contenido": "Contenido de la Clase 2, modulo 0",
+                "videoClase": "https://www.youtube.com/embed/6rqT8OP-yn0",
+                "completado": false
+            },
+            {
+                "idClase": "0003",
+                "tituloClase": "Clase 3",
+                "contenido": "Contenido de la Clase 3, modulo 0",
+                "videoClase": "https://www.youtube.com/embed/EH4L-EYt63Y",
+                "completado": false
+            }
+        ]
+    },
+    {
+        "titulo": "MÓDULO 1",
+        "clases": [
+            {
+                "idClase": "0101",
+                "tituloClase": "Clase 1",
+                "contenido": "Contenido de la Clase 1, modulo 1",
+                "videoClase": "",
+                "completado": false
+            },
+            {
+                "idClase": "0102",
+                "tituloClase": "Clase 2",
+                "contenido": "Contenido de la Clase 2, modulo 1",
+                "videoClase": "",
+                "completado": false
+            },
+            {
+                "idClase": "0103",
+                "tituloClase": "Clase 3",
+                "contenido": "Contenido de la Clase 3, modulo 1",
+                "videoClase": "",
+                "completado": false
+            }
+        ]
+    },
+    {
+        "titulo": "MÓDULO 2",
+        "clases": [
+            {
+                "idClase": "0201",
+                "tituloClase": "Clase 1",
+                "contenido": "Contenido de la Clase 1, modulo 2",
+                "videoClase": "",
+                "completado": false
+            },
+            {
+                "idClase": "0202",
+                "tituloClase": "Clase 2",
+                "contenido": "Contenido de la Clase 2, modulo 2",
+                "videoClase": "",
+                "completado": false
+            },
+            {
+                "idClase": "0203",
+                "tituloClase": "Clase 3",
+                "contenido": "Contenido de la Clase 3, modulo 2",
+                "videoClase": "",
+                "completado": false
+            }
+        ]
+    },
+    {
+        "titulo": "MÓDULO 3",
+        "clases": [
+            {
+                "idClase": "0301",
+                "tituloClase": "Clase 1",
+                "contenido": "Contenido de la Clase 1, modulo 3",
+                "videoClase": "",
+                "completado": false
+            },
+            {
+                "idClase": "0302",
+                "tituloClase": "Clase 2",
+                "contenido": "Contenido de la Clase 2, modulo 3",
+                "videoClase": "",
+                "completado": false
+            },
+            {
+                "idClase": "0303",
+                "tituloClase": "Clase 3",
+                "contenido": "Contenido de la Clase 3, modulo 3",
+                "videoClase": "",
+                "completado": false
+            }
+        ]
+    },
+    {
+        "titulo": "MÓDULO 4",
+        "clases": [
+            {
+                "idClase": "0401",
+                "tituloClase": "Clase 1",
+                "contenido": "Contenido de la Clase 1, modulo 4",
+                "videoClase": "",
+                "completado": false
+            },
+            {
+                "idClase": "0402",
+                "tituloClase": "Clase 2",
+                "contenido": "Contenido de la Clase 2, modulo 4",
+                "videoClase": "",
+                "completado": false
+            },
+            {
+                "idClase": "0403",
+                "tituloClase": "Clase 3",
+                "contenido": "Contenido de la Clase 3, modulo 4",
+                "videoClase": "",
+                "completado": false
+            }
+        ]
+    }               
+]
+  
