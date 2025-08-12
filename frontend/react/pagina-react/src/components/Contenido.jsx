@@ -6,6 +6,7 @@ function Contenido({ claseClicked }) {
             <h2>{claseClicked.tituloClase}</h2>
             <p>{claseClicked.contenido}</p>
             <hr/>
+            <div className="contenedor-video">
                 <iframe className="video"
                 width="560" 
                 height="315" 
@@ -15,6 +16,7 @@ function Contenido({ claseClicked }) {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                 allowFullScreen
                 ></iframe> 
+            </div>
         </div>
     )
 }

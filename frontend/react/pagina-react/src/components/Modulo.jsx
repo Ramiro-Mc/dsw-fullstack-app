@@ -41,8 +41,8 @@ function ModuloItem({ modulo, index, AccordionId, manejarClick, claseClicked }) 
                     </span>
                     
                   <span className="icono-check">
-                      {clase.completado ? <i className=" bi bi-check-circle completado"></i>
-                      : <i className=" bi bi-check-circle-fill noCompletado"></i>
+                      {clase.completado ? <i className=" bi bi-check-circle-fill completado"></i>
+                      : <i class="bi bi-circle noCompletado"></i>
                     }
                   </span>
 

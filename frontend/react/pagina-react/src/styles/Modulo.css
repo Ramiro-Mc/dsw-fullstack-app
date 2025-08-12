@@ -52,11 +52,11 @@
   }
 
   i.completado {
-    color: green;
+    color: orange;
   }
   
   i.noCompletado {
-    color: red;
+    color: white;
   }
 
   /* responsive */

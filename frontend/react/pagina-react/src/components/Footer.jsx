@@ -24,7 +24,7 @@
 
       <nav className="texto-footer ">
         <h5>Mapa del sitio</h5>
-        <div className="mb-2"><a href="Index.html"></a></div>
+        <div className="mb-2"><a href="Index.html">Cerrar Sesion</a></div>
         <div className="mb-2"><a href="#"></a></div>
         <div className="mb-2"><a href="#"></a></div>
         <div className="mb-2"><a href=""></a></div>
@@ -34,7 +34,6 @@
         <h5>Contacto</h5>
         <p>Email: <a href="#">contacto@.com</a></p>
         <p>Teléfono: <a href="#">+54 9 11 2345-6789</a></p>
-        <p>Dirección: Calle 123, Ciudad</p>
       </section>
     </div>
 
