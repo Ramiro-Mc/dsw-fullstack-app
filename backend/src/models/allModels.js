@@ -2,12 +2,12 @@ import { Sequelize } from 'sequelize';
 import { sequelize } from '../database/sequelize.js';
 
 // Modelos
+import {TipoCurso} from './TipoCurso.js';
 import {Comunidad} from './Comunidad.js';
 import {Curso} from './Curso.js';
 import {Descuento} from './Descuento.js';
 import {Leccion} from './Leccion.js';
 import {Publicidad} from './Publicidad.js';
-import {TipoCurso} from './TipoCurso.js';
 import {Usuario} from './Usuario.js';
 
 // Relaciones
