@@ -1,0 +1,95 @@
+
+    .accordion-button {
+      font-weight: bold;
+    }
+
+
+    .accordion-header { 
+      border: none;
+      border-bottom: 1px solid #444; /* línea divisoria entre módulos */    
+    }
+
+    .clase-item {
+      color: #fff;
+      display: block;
+      padding: 5px 0;
+      text-decoration: none;
+      border-bottom: 1px solid #444; /* línea divisoria entre clases */
+  
+    }
+
+    .accordion-body a:last-child {
+  border-bottom: none; /* quitar borde del último elemento */
+}
+
+    .accordion-body a:hover {
+      text-decoration: underline;
+    }
+
+    .accordion-header {
+      background-color: transparent;
+    }
+
+
+  .cont-principal{
+    width: x;
+  }
+
+  .titulo {
+    display:inline;
+  }
+
+  .titulo-corto {
+     display: none; /* Ocultar por defecto */
+  }
+
+  h6.noClicked {
+    color: white;
+  }
+
+  h6.clicked {
+    color: orange;
+  }
+
+  i.completado {
+    color: orange;
+  }
+  
+  i.noCompletado {
+    color: white;
+  }
+
+  /* responsive */
+@media (max-width: 768px) {
+  .titulo {
+		font-size: 0.75rem !important; /* Ajustar el tamaño de fuente */
+	}
+
+	}
+
+
+@media (max-width: 600px) {
+  .titulo {
+		display: none; /* Ocultar en pantallas pequeñas */
+	}
+	.titulo-corto {
+		display: inline; /* Mostrar en pantallas pequeñas */
+	}
+	.accordion-button {
+		padding: 5px 8px 5px 5px !important; /* Ajustar el padding para pantallas pequeñas */
+		font-size: 14px !important; /* Ajustar el tamaño de fuente */
+	}
+	.accordion-body {
+		padding: 10px !important; /* Ajustar el padding del cuerpo del acordeón */
+	}
+	.nombre-clase {
+		font-size: 0.75rem !important; /* Ajustar el tamaño de fuente */
+	}
+}
+  
+
+.clase-item {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+}

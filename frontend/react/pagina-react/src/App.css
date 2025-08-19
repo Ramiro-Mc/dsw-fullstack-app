@@ -1,0 +1,50 @@
+/* // copia de generalstyles.css */
+
+/* Sticky Footer Setup */
+/* *{
+  padding: 0 !important;
+  margin: 0 !important;
+} */
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+main.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.main{
+  background-color: #F5F5DC;
+}
+
+.seccion-titulo{
+  font-size: 2rem;
+  padding: 15px 0px; 
+  text-align: center;
+}
+
+
+.container-fluid {
+  flex: 1;
+  display: flex;  
+  --bs-gutter-x: 0 !important; /* Elimina el padding horizontal */
+}
+
+.row {
+  flex: 1;
+  display: flex;
+  --bs-gutter-x: 0 !important; /* Elimina el padding horizontal */
+}
+
+

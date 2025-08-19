@@ -1,33 +1,9 @@
-.main{
-  background-color: #F5F5DC;
-}
-
-.header{
-  box-shadow: 0 2 10px 1px #0007; 
-}
-
-.seccion-titulo{
-  font-size: 2rem;
-  padding: 15px 0px; 
-  /* font-family: 'Poppins', sans-serif; */
-  text-align: center;
-}
-
-
-.logo{
-  max-width: 80px;
-  height: auto;
-}
-
-
-@media screen and (max-width: 990px){
-}
-
-/* Footer */
-
 .seccion-footer{
 background-color: #2F2F2F;
 color: #f5f6f7;
+padding: 20px 20px;
+margin-top: auto;
+box-shadow: 0 2 10px 1px #0007;
 }
 
 .iconos-redes-sociales a{
