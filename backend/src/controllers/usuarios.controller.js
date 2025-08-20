@@ -29,8 +29,8 @@ export const usuarioController = {
 
   createUsuario: async (req, res) => {
     try {
-      const { nombreUsuario, email, contrasena } = req.body;
-      if (!nombreUsuario || !email || !contrasena) {
+      const { nombreUsuario, email, contrasena, tipoUsuario } = req.body;
+      if (!nombreUsuario || !email || !contrasena || !tipoUsuario) {
         return res.status(400).json({
           success: false,
           msg: "Faltan datos para crear el usuario",
@@ -60,6 +60,7 @@ export const usuarioController = {
         nombreUsuario: nombreUsuario,
         email: email,
         contrasena: contrasena,
+        tipoUsuario: req.body.tipoUsuario, 
       });
 
       res.status(201).json({
@@ -194,4 +195,33 @@ export const usuarioController = {
       });
     }
   },
+
+  //Para conectar el frontend con el backend
+  loginUsuario: async (req, res) => {
+    try {
+      const { email, contrasena } = req.body;
+      const usuario = await Usuario.findOne({ where: { email } });
+
+      if (!usuario || usuario.contrasena !== contrasena) {
+        return res.status(401).json({
+          success: false,
+          msg: "Credenciales inválidas",
+        });
+      }
+
+      // Si usas JWT, aquí lo generas y lo envías
+      res.status(200).json({
+        success: true,
+        msg: "Login exitoso",
+        usuario: usuario,
+        // token: "aquí va el token si usas JWT"
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        msg: "Error en el login",
+      });
+  }
+
+}
 };

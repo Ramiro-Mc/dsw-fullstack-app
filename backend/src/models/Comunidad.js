@@ -4,6 +4,9 @@ import { Curso } from "./Curso.js";
 
 export const Comunidad = sequelize.define("Comunidad", {
   titulo: { type: DataTypes.STRING, allowNull: false }
+},{
+  tableName: 'Comunidades',
+  timestamps: true
 });
 
 //Comunidad pertenece a Curso

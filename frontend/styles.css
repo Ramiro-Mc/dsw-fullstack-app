@@ -209,7 +209,7 @@ width: 100%;
 margin-bottom: 20px;
 }
 
-.loginRegister-box input[type="email"], input[type="password"]{
+.loginRegister-box input[type="email"], [type="text"], input[type="password"]{
 border: none;
 border-bottom: 1px solid #000000;
 background: transparent;
@@ -278,7 +278,7 @@ input::placeholder{
 width: 100%;
 margin-bottom: 20px;
 height: 40px;
-background: #f4b119;
+background: #ffa500;
 color: #fff;
 font-size: 16px;
 border-radius: 20px;
@@ -292,7 +292,7 @@ transition: transform 0.3s ease;
 }
 
 input[type="radio"]:checked + .btn-radio {
-  background: #b56b04;
+  background: rgb(225, 146, 0);
   color: rgb(255, 255, 255);
   box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4);
   transform: scale(0.96);
@@ -300,7 +300,7 @@ input[type="radio"]:checked + .btn-radio {
 }
 
 .btn-radio:hover {
-  background: #b56b04; 
+  background: rgb(225, 146, 0); 
   color: rgb(255, 255, 255);
   
   

@@ -3,10 +3,13 @@ import { sequelize } from "../database/sequelize.js";
 
 export const Publicidad = sequelize.define(
   "Publicidad",
-  {
+  { 
     fechaDesde: { type: DataTypes.DATE, allowNull: false },
     fechaHasta: { type: DataTypes.DATE, allowNull: false },
     precioDia: { type: DataTypes.FLOAT, allowNull: false },
+  },{
+  tableName: 'Publicidades',
+  timestamps: true
   },
   {
     // Atributo derivado

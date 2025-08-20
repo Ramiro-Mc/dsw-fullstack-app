@@ -14,7 +14,7 @@ function App() {
 
   
   useEffect(() => {
-  fetch("/modulos.json")  // Cargar módulos desde un archivo JSON
+  fetch("modulos.json")  // Cargar módulos desde un archivo JSON
     .then(res => res.json()) //convierte la respuesta a JSON
     .then(modulos => {
       setModulos(modulos); // Establece los módulos en el estado
