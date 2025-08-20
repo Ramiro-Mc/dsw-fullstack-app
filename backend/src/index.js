@@ -31,28 +31,28 @@ async function main() {
     
     // Sincronizar modelos en el orden correcto (padres antes que hijos)
     console.log("Sincronizando TipoCurso...");
-    await TipoCurso.sync({ force: true });
+    await TipoCurso.sync({ force: false });
     
     console.log("Sincronizando Usuario...");
-    await Usuario.sync({ force: true });
+    await Usuario.sync({ force: false });
     
     console.log("Sincronizando Descuento...");
-    await Descuento.sync({ force: true });
+    await Descuento.sync({ force: false });
     
     console.log("Sincronizando Publicidad...");
-    await Publicidad.sync({ force: true });
+    await Publicidad.sync({ force: false });
     
     console.log("Sincronizando Curso...");
-    await Curso.sync({ force: true });
+    await Curso.sync({ force: false });
     
     console.log("Sincronizando Modulo...");
-    await Modulo.sync({ force: true });
+    await Modulo.sync({ force: false });
     
     console.log("Sincronizando Leccion...");
-    await Leccion.sync({ force: true });
+    await Leccion.sync({ force: false });
     
     console.log("Sincronizando Comunidad...");
-    await Comunidad.sync({ force: true });
+    await Comunidad.sync({ force: false });
     
     // Reactivar restricciones de claves foráneas
     await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
