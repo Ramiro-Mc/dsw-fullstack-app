@@ -54,6 +54,8 @@ async function main() {
     console.log("Sincronizando Comunidad...");
     await Comunidad.sync({ force: false });
     
+    //falta agregar unas tablas mas
+    
     // Reactivar restricciones de claves foráneas
     await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
     
