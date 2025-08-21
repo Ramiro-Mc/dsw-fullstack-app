@@ -14,6 +14,7 @@ import { Publicidad } from "./models/Publicidad.js";
 import { Curso } from "./models/Curso.js";
 import { Modulo } from "./models/Modulo.js";
 import { Leccion } from "./models/Leccion.js";
+import { Publicacion } from "./models/Publicacion.js";
 
 // Importar relaciones (esto debe ir después de importar los modelos)
 import db from "./models/allModels.js";
@@ -53,6 +54,9 @@ async function main() {
     
     console.log("Sincronizando Comunidad...");
     await Comunidad.sync({ force: false });
+    
+    console.log("Sincronizando Publicacion...");
+    await Publicacion.sync({ force: false });
     
     //falta agregar unas tablas mas
     
