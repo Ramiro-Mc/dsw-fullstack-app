@@ -30,12 +30,6 @@ export const usuarioController = {
   createUsuario: async (req, res) => {
     try {
       const { nombreUsuario, email, contrasena, tipoUsuario } = req.body;
-      if (!nombreUsuario || !email || !contrasena || !tipoUsuario) {
-        return res.status(400).json({
-          success: false,
-          msg: "Faltan datos para crear el usuario",
-        });
-      }
 
       const usuarioExistente = await Usuario.findOne({
         where: {
@@ -68,7 +62,7 @@ export const usuarioController = {
         msg: "Usuario creado",
         contenido: newUsuario,
       });
-      console.log(newUsuario); // Para ver el usuario creado en la consola
+      
     } catch (error) {
       console.log(error.message);
       res.status(500).json({
