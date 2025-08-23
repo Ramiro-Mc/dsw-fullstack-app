@@ -2,7 +2,7 @@ import { Usuario } from "../models/Usuario.js";
 import { Op } from "sequelize";
 
 export const usuarioController = {
-  getAllUsuarios: async (res) => {
+  getAllUsuarios: async (req , res) => {
     try {
       const allUsuarios = await Usuario.findAll();
 
@@ -66,7 +66,7 @@ export const usuarioController = {
 
       await Usuario.update(camposAActualizar, { where: { idUsuario } });
 
-      const usuarioActualizado = await Curso.findByPk(idUsuario);
+      const usuarioActualizado = await Usuario.findByPk(idUsuario);
 
       res.status(200).json({
         success: true,
@@ -118,7 +118,7 @@ export const usuarioController = {
         success: true,
         msg: "usuario eliminado correctamente",
       });
-      
+
     } catch (error) {
       console.error(error);
       res.status(500).json({

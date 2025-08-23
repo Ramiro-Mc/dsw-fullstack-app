@@ -26,8 +26,8 @@ const validateCreate = [
 ];
 
 const validateUpdate = [
-  check('idUsuario').optional().notEmpty()
-  .custom( async (idUsuario, { req }) => {
+  check('idUsuario').exists().notEmpty()
+  .custom( async (idUsuario) => {
     const usuarioEnc = await Usuario.findByPk(idUsuario);
     if(!usuarioEnc){
       throw new Error("Usuario no encontrado");
@@ -48,7 +48,7 @@ const validateUpdate = [
     return true;
   } ),   
   check('email').optional().notEmpty().isEmail()
-    .custom( async (email) => {
+    .custom( async (email, { req }) => {
       const emailEnc = await Usuario.findOne({
         where: {
           email,
@@ -60,18 +60,20 @@ const validateUpdate = [
       }
       return true;
     } ),
-  check('contrasena').optional().notEmpty()
+  check('contrasena').optional().notEmpty(),
+  validateResult
 ]
 
 const validateGetByIdAndDelete = [
-  check('idUsuario').optional().notEmpty()
-  .custom( async (idUsuario, { req }) => {
+  check('idUsuario').exists().notEmpty()
+  .custom( async (idUsuario) => {
     const usuarioEnc = await Usuario.findByPk(idUsuario);
     if(!usuarioEnc){
       throw new Error("Usuario no encontrado");
     }
     return true;
-  } )
+  } ),
+  validateResult
 ]
 
 
