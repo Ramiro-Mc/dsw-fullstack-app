@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { cursoController } from "../controllers/cursos.controller.js";
-import { validateCreate } from "../validators/cursos.js";
+import validateCreate from "../validators/cursos.js";
 
 const routerCursos = Router();
 
