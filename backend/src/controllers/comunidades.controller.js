@@ -11,47 +11,47 @@ export const comunidadesController = {
       if (allComunidades.length === 0) {
         return res.status(404).json({
           success: false,
-          msg: "Comunidades no encontradas",
+          msg: "No hay ninguna comunidad",
         });
       }
 
       res.status(200).json({
         success: true,
-        msg: "Todas las comunidades fueron envidas",
+        msg: "Comunidades enviadas",
         contenido: allComunidades,
       });
-    } catch (error) {
-      console.log(error.message);
-    }
 
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
+    }
   },
 
   getComunidadById: async (req, res) => {
     try {
       const { idCurso } = req.params;
-      if (!idCurso) {
-        return res.status(400).json({
-          success: false,
-          msg: "Falta el ID del curso",
-        });
-      }
-      //Uso .findOne ya que el idCurso es clave foranea y primaria a la vez
-      const comunidad = await Comunidad.findOne({ where: { idCurso } });
-
-      if (!comunidad) {
-        return res.status(404).json({
-          success: false,
-          msg: "Comunidad no encontrada",
-        });
-      }
+      
+      const comunidad = await Comunidad.findOne(idCurso);
 
       res.status(200).json({
         success: true,
         msg: "Comunidad encontrada",
         contenido: comunidad,
       });
+
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 
@@ -61,26 +61,7 @@ export const comunidadesController = {
 
       const { titulo, idCurso } = req.body;
 
-      if (!titulo || !idCurso) {
-        return res.status(400).json({
-          success: false,
-          msg: "Faltan campos obligatorios",
-        });
-      }
-
-      const curso = await Curso.findByPk(idCurso);
-
-      if (!curso) {
-        return res.status(400).json({
-          success: false,
-          msg: "Curso no existente",
-        });
-      }
-
-      const newComunidad = await Comunidad.create({ 
-        titulo: titulo,
-        idCurso: idCurso,
-      }); //Deberia poner el idCurso aca?
+      const newComunidad = await Comunidad.create({ titulo, idCurso: idCurso,});
 
       res.status(201).json({
         success: true,
@@ -89,7 +70,13 @@ export const comunidadesController = {
       });
 
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 
@@ -99,27 +86,7 @@ export const comunidadesController = {
       const { idCurso } = req.params;
       const { titulo } = req.body;
 
-      if (!idCurso) {
-        return res.status(400).json({
-          success: false,
-          msg: "Falta el ID del Curso",
-        });
-      }
-
-      if (!titulo) {
-        return res.status(400).json({
-          success: false,
-          msg: "No hay información para actualizar",
-        });
-      }
-
-      const comunidad = await Comunidad.findOne({ where: { idCurso } });
-      if (!comunidad) {
-        return res.status(404).json({
-          success: false,
-          msg: "Comunidad no encontrada",
-        });
-      }
+      const comunidad = await Comunidad.findByPk(idCurso);
 
       await comunidad.update({ titulo });
 
@@ -128,8 +95,15 @@ export const comunidadesController = {
         msg: "Comunidad actualizada correctamente",
         contenido: comunidad,
       });
+
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 
@@ -138,22 +112,7 @@ export const comunidadesController = {
 
       const { idCurso } = req.params;
 
-      if (!idCurso) {
-        return res.status(400).json({
-        success: false,
-        msg: "Falta el ID del Curso",
-        });
-      }
-
-      const comunidad = await Comunidad.findOne({ where: { idCurso } });
-      if (!comunidad) {
-        return res.status(404).json({
-        success: false,
-        msg: "Comunidad no encontrada",
-        });
-      }
-
-      await comunidad.destroy();
+      await Comunidad.destroy({where: {idCurso:idCurso}});
 
       res.status(200).json({
         success: true,
@@ -161,7 +120,13 @@ export const comunidadesController = {
       });
       
     } catch (error) {
-    console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 
