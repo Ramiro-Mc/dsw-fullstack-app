@@ -1,11 +1,13 @@
 import { Router } from "express";
+import { leccionController } from "../controllers/lecciones.controller";
+import leccionValidator from "../validators/leccion.js";
 
 const routerLeccion = Router();
 
-routerLeccion.get("/cursos", (req, res) => {});
-routerLeccion.post("/cursos", (req, res) => {});
-routerLeccion.put("/cursos/:idCurso", (req, res) => {});
-routerLeccion.delete("/cursos/:idCurso", (req, res) => {});
-routerLeccion.get("/cursos/:idCurso", (req, res) => {});
+routerLeccion.get("/lecciones", leccionController.getAllLecciones);
+routerLeccion.post("/lecciones", leccionValidator.validateCreate, leccionController.createLeccion);
+routerLeccion.put("/lecciones/:idLeccion", leccionValidator.validateUpdate, leccionController.updateLeccion);
+routerLeccion.delete("/lecciones/:idLeccion", leccionValidator.validateGetByIdAndDelete, leccionController.deleteCurso);
+routerLeccion.get("/lecciones/:idLeccion", leccionValidator.validateGetByIdAndDelete, leccionController.getLeccionById);
 
 export default routerLeccion;
