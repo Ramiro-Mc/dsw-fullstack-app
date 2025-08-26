@@ -19,43 +19,23 @@ export const tipoCursoController = {
         msg: "Se encontraron los tipos de curso",
         contenido: allTipos,
       });
+
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 
   createTipoCurso: async (req, res) => {
     try {
-      const { idTipo, nombreTipo, descripcion } = req.body;
+      const { nombreTipo, descripcion } = req.body;
 
-      if (!nombreTipo || !descripcion) {
-        return res.status(400).json({
-          success: false,
-          msg: "Faltan datos para crear el tipo de curso",
-        });
-      }
-
-      const tipoExistente = await TipoCurso.findOne({
-        where: {
-          [Op.and]: [{ nombreTipo: nombreTipo }, { descripcion: descripcion }],
-        },
-      });
-
-
-      if (tipoExistente !== null) {
-        if (tipoExistente.idTipo === idTipo) {
-          return res.status(400).json({
-            success: false,
-            msg: "Ya hay un tipo de curso con ese nombre y descripcion",
-          });
-        }
-      }
-
-      const newTipo = await TipoCurso.create({
-        idTipo: idTipo,
-        nombreTipo: nombreTipo,
-        descripcion: descripcion,
-      });
+      const newTipo = await TipoCurso.create({ nombreTipo, descripcion});
 
       res.status(201).json({
         success: true,
@@ -63,10 +43,14 @@ export const tipoCursoController = {
         contenido: newTipo,
       });
 
-      console.log(newTipo);
-
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 
@@ -75,70 +59,53 @@ export const tipoCursoController = {
       const { idTipo } = req.params;
       const { nombreTipo, descripcion } = req.body;
 
-
-      const tipoCurso = await TipoCurso.findByPk(idTipo);
-
-      if (!tipoCurso) {
-        return res.status(404).json({
-          success: false,
-          msg: "TipoCurso no encontrado",
-        });
-      }
-
-      if (!nombreTipo && !descripcion) {
-        return res.status(404).json({
-          success: false,
-          msg: "No hay información para actualizar",
-        });
-      }
-
-      // await TipoCurso.update(
-      //   { nombreTipo, descripcion },
-      //   { where: { idTipo } }
-      // );
-
       const camposAActualizar = {};
 
-      if (nombreTipo) {
-        camposAActualizar.nombreTipo = nombreTipo;
-      }
-
-      if (descripcion) {
-        camposAActualizar.descripcion = descripcion;
-      }
+      if (nombreTipo) {camposAActualizar.nombreTipo = nombreTipo;}
+      if (descripcion) {camposAActualizar.descripcion = descripcion;}
 
       await TipoCurso.update(camposAActualizar, { where: { idTipo } });
+
+      const tipoCursoActualizado = await Curso.findByPk(idTipo);
 
 
       res.status(200).json({
         success: true,
-        msg: "TipoCurso actualizado correctamente",
-        atributo: camposAActualizar,
+        msg: "Tipo curso actualizado correctamente",
+        atributo: tipoCursoActualizado,
       });
+
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 
   getTipoCursoById: async (req, res) => {
     try {
       const { idTipo } = req.params;
-      const tipoCurso = await TipoCurso.findByPk(idTipo);
 
-      if (!tipoCurso) {
-        return res.status(404).json({
-          success: false,
-          msg: "TipoCurso no encontrado",
-        });
-      }
+      const tipoCurso = await TipoCurso.findByPk(idTipo);
 
       res.status(200).json({
         success: true,
-        msg: "TipoCurso encontrado",
+        msg: "Tipo curso encontrado",
         informacion: tipoCurso,
       });
+
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 
@@ -146,16 +113,7 @@ export const tipoCursoController = {
     try {
       const { idTipo } = req.params;
 
-      const deleted = await TipoCurso.destroy({
-        where: { idTipo: idTipo },
-      });
-
-      if (deleted === 0) {
-        return res.status(404).json({
-          success: false,
-          msg: "TipoCurso no encontrado",
-        });
-      }
+      await TipoCurso.destroy({where: { idTipo: idTipo }});
 
       res.status(200).json({
         success: true,
@@ -163,7 +121,13 @@ export const tipoCursoController = {
       });
       
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 };

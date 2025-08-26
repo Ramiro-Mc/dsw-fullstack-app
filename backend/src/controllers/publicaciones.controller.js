@@ -1,5 +1,4 @@
 import { Publicacion } from "../models/Publicacion.js";
-import { Op } from "sequelize";
 
 export const publicacionController = {
 
@@ -19,38 +18,39 @@ export const publicacionController = {
         msg: "Se encontraron las publicaciones",
         contenido: allPublicaciones,
       });
+
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 
   createPublicacion: async (req, res) => {
     try {
+
       const {titulo, contenido, comentarios, fechaPublicacion } = req.body;
 
-      if (!titulo || !contenido || !comentarios || !fechaPublicacion) {
-        return res.status(400).json({
-          success: false,
-          msg: "Faltan datos para crear la Publicacion",
-        });
-      }
-
-      const newPublicacion = await Publicacion.create({
-        titulo: titulo,
-        contenido: contenido,
-        comentarios: comentarios,
-        fechaPublicacion: fechaPublicacion,
-      });
+      const newPublicacion = await Publicacion.create({titulo, contenido, comentarios, fechaPublicacion});
 
       res.status(201).json({
         success: true,
-        msg: "Nueva publicacion Creado",
+        msg: "Nueva publicacion Creada",
         contenido: newPublicacion,
       });
 
-
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 
@@ -60,35 +60,31 @@ export const publicacionController = {
       const { titulo, contenido, comentarios, fechaPublicacion } = req.body;
 
 
-      const publicacion = await Publicacion.findByPk(idTipo);
+      const camposAActualizar = {};
 
-      if (!publicacion) {
-        return res.status(404).json({
-          success: false,
-          msg: "Publicacion no encontrada",
-        });
-      }
+      if (titulo) {camposAActualizar.titulo = titulo;}
+      if (contenido) {camposAActualizar.contenido = contenido;}
+      if (comentarios) {camposAActualizar.comentarios = comentarios;}
+      if (fechaPublicacion) {camposAActualizar.fechaPublicacion = fechaPublicacion;}
 
-      if (idPublicacion && !titulo && !contenido && !comentarios && !fechaPublicacion) {
-        return res.status(404).json({
-          success: false,
-          msg: "No hay información para actualizar",
-        });
-      }
-      
-      await Publicacion.update(
-        { titulo, contenido, comentarios, fechaPublicacion },
-        { where: { idPublicacion } }
-      );
+      await Publicacion.update(camposAActualizar, { where: { idPublicacion } });
+
+      const publicacionActualizada = await Publicacion.findByPk(idPublicacion);
 
       res.status(200).json({
         success: true,
         msg: "Publicacion actualizada correctamente",
-        atributo: publicacion,
+        atributo: publicacionActualizada,
       });
 
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 
@@ -97,20 +93,20 @@ export const publicacionController = {
       const { idPublicacion } = req.params;
       const publicacion = await Publicacion.findByPk(idPublicacion);
 
-      if (!publicacion) {
-        return res.status(404).json({
-          success: false,
-          msg: "Publicacion no encontrada",
-        });
-      }
-
       res.status(200).json({
         success: true,
         msg: "Publicacion encontrada",
         informacion: publicacion,
       });
+
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 
@@ -118,16 +114,7 @@ export const publicacionController = {
     try {
       const { idPublicacion } = req.params;
 
-      const deleted = await Publicacion.destroy({
-        where: { idPublicacion: idPublicacion },
-      });
-
-      if (deleted === 0) {
-        return res.status(404).json({
-          success: false,
-          msg: "Publicacion no encontrada",
-        });
-      }
+      await Publicacion.destroy({where: { idPublicacion: idPublicacion }});
 
       res.status(200).json({
         success: true,
@@ -135,7 +122,13 @@ export const publicacionController = {
       });
       
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 };
