@@ -1,11 +1,13 @@
 import { Router } from "express";
+import { publicidadController } from "../controllers/publicidades.controller";
+import publicidadValidator from "../validators/publicidad";
 
 const routerPublicidad = Router();
 
-routerPublicidad.get("/cursos", (req, res) => {});
-routerPublicidad.post("/cursos", (req, res) => {});
-routerPublicidad.put("/cursos/:idCurso", (req, res) => {});
-routerPublicidad.delete("/cursos/:idCurso", (req, res) => {});
-routerPublicidad.get("/cursos/:idCurso", (req, res) => {});
+routerPublicidad.get("/cursos",publicidadController.getAllPublicidades);
+routerPublicidad.post("/cursos", publicidadValidator.validateCreate, publicidadController.createPublicidad);
+routerPublicidad.put("/cursos/:idCurso", publicidadValidator.validateUpdate, publicidadController.updatePublicidad);
+routerPublicidad.delete("/cursos/:idCurso", publicidadValidator.validateGetByIdAndDelete, publicidadController.deletePublicidad);
+routerPublicidad.get("/cursos/:idCurso", publicidadValidator.validateGetByIdAndDelete, publicidadController.getPublicidadById);
 
 export default routerPublicidad;

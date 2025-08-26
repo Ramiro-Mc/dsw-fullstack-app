@@ -1,21 +1,21 @@
-import { Curso } from "../models/Curso.js";
+import { Publicidad } from "../models/Publicidad.js";
 
-export const cursoController = {
-  getAllCursos: async (req, res) => {
+export const publicidadController = {
+  getAllPublicidades: async (req, res) => {
     try {
-      const allCursos = await Curso.findAll();
+      const allPublicidades = await Publicidad.findAll();
 
-      if (allCursos.length === 0) {
+      if (allPublicidades.length === 0) {
         return res.status(404).json({
           success: false,
-          msg: "No hay cursos",
+          msg: "No hay publicidades",
         });
       }
 
       res.status(200).json({
         success: true,
-        msg: "Cursos enviados",
-        contenido: allCursos,
+        msg: "Publicidades enviados",
+        contenido: allPublicidades,
       });
 
     } catch (error) {
@@ -29,16 +29,16 @@ export const cursoController = {
     }
   },
 
-  createCurso: async (req, res) => {
+  createPublicidad: async (req, res) => {
     try {
-      const { titulo, descripcion, precio, idTipo } = req.body;
+      const { fechaDesde, fechaHasta, precioDia, costoTotal } = req.body;
 
-      const newCurso = await Curso.create({ titulo, descripcion, precio, idTipo });
+      const newPublicacidad = await Publicidad.create({ fechaDesde, fechaHasta, precioDia, costoTotal });
 
       res.status(201).json({
         success: true,
-        msg: "Curso creado",
-        contenido: newCurso,
+        msg: "Publicidad creada",
+        contenido: newPublicacidad,
       });
 
     } catch (error) {
@@ -52,26 +52,26 @@ export const cursoController = {
     }
   },
 
-  updateCurso: async (req, res) => {
+  updatePublicidad: async (req, res) => {
     try {
-      const { idCurso } = req.params;
-      const { titulo, descripcion, precio, idTipo } = req.body;
+      const { idPublicidad } = req.params;
+      const { fechaDesde, fechaHasta, precioDia, costoTotal } = req.body;
 
       const camposAActualizar = {};
 
-      if (titulo) {camposAActualizar.titulo = titulo;}
-      if (descripcion) {camposAActualizar.descripcion = descripcion;}
-      if (precio) {camposAActualizar.precio = precio;}
-      if (idTipo) {camposAActualizar.idTipo = idTipo;}
+      if (fechaDesde) {camposAActualizar.fechaDesde = fechaDesde;}
+      if (fechaHasta) {camposAActualizar.fechaHasta = fechaHasta;}
+      if (precioDia) {camposAActualizar.precioDia = precioDia;}
+      if (costoTotal) {camposAActualizar.costoTotal = costoTotal;}
 
-      await Curso.update(camposAActualizar, { where: { idCurso } });
+      await Publicidad.update(camposAActualizar, { where: { idPublicidad } });
 
-      const cursoActualizado = await Curso.findByPk(idCurso);
+      const publicidadActualizada = await Publicidad.findByPk(idPublicidad);
 
       res.status(200).json({
         success: true,
-        msg: "Curso actualizado correctamente",
-        atributo: cursoActualizado,
+        msg: "Publicidad actualizada correctamente",
+        atributo: publicidadActualizada,
       });
 
     } catch (error) {
@@ -85,16 +85,16 @@ export const cursoController = {
     }
   },
 
-  getCursoById: async (req, res) => {
+  getPublicidadById: async (req, res) => {
     try {
-      const { idCurso } = req.params;
+      const { idPublicidad } = req.params;
 
-      const curso = await Curso.findByPk(idCurso);
+      const publicidad = await Publicidad.findByPk(idPublicidad);
 
       res.status(200).json({
         success: true,
-        msg: "Curso encontrado",
-        informacion: curso,
+        msg: "Publicidad encontrada",
+        informacion: publicidad,
       });
 
     } catch (error) {
@@ -108,15 +108,15 @@ export const cursoController = {
     }
   },
 
-  deleteCurso: async (req, res) => {
+  deletePublicidad: async (req, res) => {
     try {
-      const { idCurso } = req.params;
+      const { idPublicidad } = req.params;
 
-      await Curso.destroy({where: { idCurso: idCurso }});
+      await Publicidad.destroy({where: { idPublicidad: idPublicidad }});
 
       res.status(200).json({
         success: true,
-        msg: "Curso eliminado correctamente",
+        msg: "Publicidad eliminada correctamente",
       });
 
     } catch (error) {
