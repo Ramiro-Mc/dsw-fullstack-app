@@ -21,28 +21,22 @@ export const descuentoController = {
       });
 
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 
   createDescuento: async (req, res) => {
     try {
 
-      const { idDescuento, fechaDesde, fechahasta, porcentaje } = req.body;
+      const { fechaDesde, fechahasta, porcentaje } = req.body;
 
-      if (!idDescuento || !fechaDesde || !fechahasta || !porcentaje) {
-        return res.status(400).json({
-          success: false,
-          msg: "No se ingresaron todos los datos necesarios"
-        });
-      }
-
-      const newDescuento = await Descuento.create({
-        idDescuento: idDescuento,
-        fechaDesde: fechaDesde,
-        fechahasta: fechahasta,
-        porcentaje: porcentaje
-      });
+      const newDescuento = await Descuento.create({ fechaDesde, fechahasta, porcentaje }); 
 
       res.status(201).json({
         success: true,
@@ -51,8 +45,14 @@ export const descuentoController = {
       });
       
       
-    }  catch (error) {
-      console.log(error.message);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
 
   },
@@ -63,36 +63,30 @@ export const descuentoController = {
       const { idDescuento } = req.params;
       const { fechaDesde, fechahasta, porcentaje } = req.body;
 
+      const camposAActualizar = {};
 
-      const descuento = await Descuento.findByPk(idDescuento);
+      if (fechaDesde) {camposAActualizar.fechaDesde = fechaDesde;}
+      if (fechahasta) {camposAActualizar.fechahasta = fechahasta;}
+      if (porcentaje) {camposAActualizar.porcentaje = porcentaje;}
 
-      if(!descuento){
-        return res.status(404).json({
-            success: false,
-            msg: "descuento no encontrado"
-        })
-      }
+      await Descuento.update(camposAActualizar, { where: { idDescuento } });
 
-      if (!idDescuento && !fechaDesde && !fechahasta && !porcentaje) {
-        return res.status(404).json({
-          success: false,
-          msg: "No hay informacion para actualizar",
-        });
-      }
-
-      await Descuento.update(
-        { fechaDesde, fechahasta, porcentaje },
-        { where: { idDescuento } }
-      );
+      const descuentoActualizado = await Descuento.findByPk(idDescuento);
 
       res.status(200).json({
         success: true,
         msg: "Descuento actualizado correctamente",
-        contenido: descuento,
+        contenido: descuentoActualizado,
       });
       
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 
@@ -100,24 +94,23 @@ export const descuentoController = {
     try {
 
       const { idDescuento } = req.params;
+
       const descuento = await Descuento.findByPk(idDescuento);
 
-      if (!descuento) {
-        return res.status(404).json({
-          success: false,
-          msg: "Descuento no encontrado",
-        });
-      }
-      
-        res.status(200).json({
-          success: true,
-          msg: "Descuento encontrado",     
-          contenido: descuento
-        })
-      
+      res.status(200).json({
+        success: true,
+        msg: "Descuento encontrado",     
+        contenido: descuento
+      })
 
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 
@@ -125,16 +118,7 @@ export const descuentoController = {
     try {
       const { idDescuento } = req.params;
 
-      const deleted = await Descuento.destroy({
-        where: { idDescuento: idDescuento },
-      });
-
-      if (deleted === 0) {
-        return res.status(404).json({
-          success: false,
-          msg: "Descuento no encontrado",
-        });
-      }
+      await Descuento.destroy({where: { idDescuento: idDescuento }});
 
       res.status(200).json({
         success: true,
@@ -142,7 +126,13 @@ export const descuentoController = {
       });
 
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
     }
   },
 };
