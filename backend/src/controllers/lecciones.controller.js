@@ -57,7 +57,7 @@ export const leccionController = {
     try {
       const { numeroLec, tituloLec, descripcionLec, estadoLec, horasLec, idModulo } = req.body;
 
-      const newLeccion = await Curso.create({ numeroLec, tituloLec, descripcionLec, estadoLec, horasLec, idModulo });
+      const newLeccion = await Leccion.create({ numeroLec, tituloLec, descripcionLec, estadoLec, horasLec, idModulo });
 
       res.status(201).json({
         success: true,
@@ -111,7 +111,7 @@ export const leccionController = {
     }
   },
 
-  deleteCurso: async (req, res) => {
+  deleteLeccion: async (req, res) => {
     try {
       const { idLeccion } = req.params;
 

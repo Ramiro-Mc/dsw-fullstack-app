@@ -1,6 +1,7 @@
 import { check } from "express-validator";
 import validateResult from "../helpers/validateHelper.js";
 import {Curso} from "../models/Curso.js";
+import { Descuento } from "../models/Descuento.js";
 import { Op } from "sequelize";
 
 const validateCreate = [
@@ -58,6 +59,25 @@ const validateGetByIdAndDelete = [
   validateResult
 ]
 
+const validateAgregarQuitarDescuento = [
+  check('idCurso').exists().notEmpty()
+  .custom( async (idCurso) => {
+    const cursoEnc = await Curso.findByPk(idCurso);
+    if(!cursoEnc){
+      throw new Error("Curso no encontrado");
+    }
+    return true;
+  } ),
+  check('idDescuento').exists().notEmpty()
+  .custom( async (idDescuento) => {
+    const descuentoEnc = await Descuento.findByPk(idDescuento);
+    if(!descuentoEnc){
+      throw new Error("Descuento no encontrado");
+    }
+    return true;
+  } ),
+  validateResult
+]
 
 
-export default { validateCreate, validateUpdate, validateGetByIdAndDelete };
+export default { validateCreate, validateUpdate, validateGetByIdAndDelete, validateAgregarQuitarDescuento };

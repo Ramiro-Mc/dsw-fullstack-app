@@ -1,4 +1,5 @@
 import { Curso } from "../models/Curso.js";
+import { Descuento } from "../models/Descuento.js";
 
 export const cursoController = {
   getAllCursos: async (req, res) => {
@@ -128,5 +129,88 @@ export const cursoController = {
           : "Error interno del servidor",
       });
     }
+  },
+
+  agregarDescuento: async(req, res) => {
+    try{
+
+    const {idCurso} = req.params;
+    const {idDescuento} = req.body;
+
+    const curso = Curso.findByPk(idCurso);
+    const descuento = Descuento.findByPk(idDescuento);
+
+    await curso.addDescuento(descuento);
+
+    res.status(200).json({
+      success: true,
+      msg: "Descuento agregado correctamente",
+    });
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
+    }
+  },
+
+  quitarDescuento: async (req, res) => {
+    try{
+
+    const {idCurso} = req.params;
+    const {idDescuento} = req.body;
+
+      const curso = Curso.findByPk(idCurso);
+      const descuento = Descuento.findByPk(idDescuento);
+
+      await curso.removeDescuento(descuento);
+
+      res.status(200).json({
+        success: true,
+        msg: "Descuento removido correctamente",
+      });
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
+    }
+  },
+
+
+  getAllDescuentosCurso: async (req, res) => {
+    try{
+
+      const { idCurso } = req.params;
+
+      const curso = await Curso.findByPk(idCurso, {
+        include: Descuento
+      });
+
+      res.status(200).json({
+        success: true,
+        msg: "Descuento removido correctamente",
+        informacion: curso.Descuento
+      });
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+          ? error.message 
+          : "Error interno del servidor",
+      });
+    }
   }
+
+
 };

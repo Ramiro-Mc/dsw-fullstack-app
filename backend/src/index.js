@@ -15,11 +15,13 @@ import { Curso } from "./models/Curso.js";
 import { Modulo } from "./models/Modulo.js";
 import { Leccion } from "./models/Leccion.js";
 import { Publicacion } from "./models/Publicacion.js";
+import { applyAssociations } from "./models/associations.js";
 
-// Importar relaciones (esto debe ir después de importar los modelos)
-import db from "./models/allModels.js";
+
+/* import db from "./models/allModels.js"; */
 
 app.use(morgan("dev"));
+applyAssociations(); 
 
 async function main() {
   try {

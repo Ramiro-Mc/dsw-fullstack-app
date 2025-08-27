@@ -10,4 +10,9 @@ routerCursos.put("/cursos/:idCurso", cursoValidator.validateUpdate, cursoControl
 routerCursos.delete("/cursos/:idCurso", cursoValidator.validateGetByIdAndDelete, cursoController.deleteCurso);
 routerCursos.get("/cursos/:idCurso", cursoValidator.validateGetByIdAndDelete, cursoController.getCursoById);
 
+
+routerCursos.post("/cursos/:idCurso/descuentos", cursoValidator.validateAgregarQuitarDescuento, cursoController.agregarDescuento);
+routerCursos.delete("/cursos/:idCurso/descuentos", cursoValidator.validateAgregarQuitarDescuento, cursoController.quitarDescuento);
+routerCursos.get("/cursos/:idCurso/descuentos", cursoValidator.validateGetByIdAndDelete, cursoController.getAllDescuentosCurso);
+
 export default routerCursos;
