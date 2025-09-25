@@ -1,9 +1,9 @@
 import "./App.css";
-import Header from "./components/Header.jsx";
-import Accordion from "./components/Accordion.jsx";;
-import Footer from "./components/Footer.jsx";
-import Contenido from "./components/Contenido.jsx";
-import BarraSuperior from "./components/Barrasuperior.jsx";
+import Header from "../components/Header.jsx";
+import Accordion from "../components/Accordion.jsx";;
+import Footer from "../components/Footer.jsx";
+import Contenido from "../components/Contenido.jsx";
+import BarraSuperior from "../components/Barrasuperior.jsx";
 import { useState, useEffect } from "react";
 
 function App() {
