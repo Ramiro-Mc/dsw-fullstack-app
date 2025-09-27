@@ -1,4 +1,4 @@
-import '../styles/Accordion.css'; 
+import '../../styles/Accordion.css'; 
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Modulo from './Modulo';
     

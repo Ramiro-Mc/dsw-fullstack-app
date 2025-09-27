@@ -1,5 +1,5 @@
 import React from "react";
-import '../styles/BarraSuperior.css';
+import '../../styles/BarraSuperior.css';
 
 
 function BarraSuperior ({completarClase, claseClicked, cantCompletada, modulos}) {

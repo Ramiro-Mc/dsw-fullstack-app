@@ -1,5 +1,5 @@
 import React from "react";
-import '../styles/Modulo.css'; 
+import '../../styles/Modulo.css'; 
 
 function ModuloItem({ modulo, index, AccordionId, manejarClick, claseClicked }) {
   return (

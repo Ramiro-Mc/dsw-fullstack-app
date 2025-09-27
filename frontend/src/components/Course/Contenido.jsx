@@ -1,4 +1,4 @@
-import '../styles/Contenido.css'
+import '../../styles/Contenido.css'
 
 function Contenido({ claseClicked }) {
     return (

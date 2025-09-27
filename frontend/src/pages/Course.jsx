@@ -1,12 +1,11 @@
-import "./App.css";
-import Header from "../components/Header.jsx";
-import Accordion from "../components/Accordion.jsx";;
-import Footer from "../components/Footer.jsx";
-import Contenido from "../components/Contenido.jsx";
-import BarraSuperior from "../components/Barrasuperior.jsx";
+import "../App.css";
+import Accordion from "../components/Course/Accordion.jsx";
+import Contenido from "../components/Course/Contenido.jsx";
+import BarraSuperior from "../components/Course/BarraSuperior.jsx";
 import { useState, useEffect } from "react";
 
-function App() {
+function Course() {
+  console.log("Course se está montando");
   const [modulos, setModulos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [claseClicked, setClaseClicked] = useState({});
@@ -14,7 +13,8 @@ function App() {
 
   
   useEffect(() => {
-  fetch("modulos.json")  // Cargar módulos desde un archivo JSON
+    console.log("Intentando cargar modulos.json...");
+  fetch("/modulos.json")  // Cargar módulos desde un archivo JSON
     .then(res => res.json()) //convierte la respuesta a JSON
     .then(modulos => {
       setModulos(modulos); // Establece los módulos en el estado
@@ -61,7 +61,6 @@ function App() {
 
   return (
     <div className="app-container">
-      <Header />
       <main className="main-content">
         <div className="container-fluid">
           <div className="row">
@@ -85,9 +84,8 @@ function App() {
           </div>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }
 
-export default App;
+export default Course;
