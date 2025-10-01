@@ -18,13 +18,13 @@ function Landing() {
           </div>
           <div className="carousel-inner">
             <div className="carousel-item active carousel-item-presentacion">
-              <img src="/imagenes/principal1.jpeg" className="d-block w-100" alt="..." />
+              <img src="/principal1.jpeg" className="d-block w-100" alt="..." />
             </div>
             <div className="carousel-item carousel-item-presentacion">
-              <img src="/imagenes/principal1.jpeg" className="d-block w-100" alt="..." />
+              <img src="/principal1.jpeg" className="d-block w-100" alt="..." />
             </div>
             <div className="carousel-item carousel-item-presentacion">
-              <img src="/imagenes/principal1.jpeg" className="d-block w-100" alt="..." />
+              <img src="/principal1.jpeg" className="d-block w-100" alt="..." />
             </div>
           </div>
           <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
@@ -70,7 +70,7 @@ function Landing() {
             
             <div className="columna col-12 col-md-3 col-sm-6" >
               <a href="curso.html" className="card" style={{textDecoration: "none", color: "inherit"}}>
-                <img src="/imagenes/principal1.jpeg" className="card-img-top" alt="..." />
+                <img src="/principal1.jpeg" className="card-img-top" alt="..." />
                 <div className="card-body">
                   <p className="card-text">
                     Some quick example text to build on the card title and make
@@ -82,7 +82,7 @@ function Landing() {
             
             <div className="columna col-12 col-md-3 col-sm-6" >
               <a href="curso.html" className="card" style={{textDecoration: "none", color: "inherit"}}>
-                <img src="/imagenes/principal1.jpeg" className="card-img-top" alt="..." />
+                <img src="/principal1.jpeg" className="card-img-top" alt="..." />
                 <div className="card-body">
                   <p className="card-text">
                     Some quick example text to build on the card title and make
@@ -94,7 +94,7 @@ function Landing() {
             
             <div className="columna col-12 col-md-3 col-sm-6" >
               <a href="curso.html" className="card" style={{textDecoration: "none", color: "inherit"}}>
-                <img src="/imagenes/principal1.jpeg" className="card-img-top" alt="..." />
+                <img src="/principal1.jpeg" className="card-img-top" alt="..." />
                 <div className="card-body">
                   <p className="card-text">
                     Some quick example text to build on the card title and make
@@ -106,7 +106,7 @@ function Landing() {
             
             <div className="columna col-12 col-md-3 col-sm-6" >
               <a href="curso.html" className="card" style={{textDecoration: "none", color: "inherit"}}>
-                <img src="/imagenes/principal1.jpeg" className="card-img-top" alt="..." />
+                <img src="/principal1.jpeg" className="card-img-top" alt="..." />
                 <div className="card-body">
                   <p className="card-text">
                     Some quick example text to build on the card title and make
