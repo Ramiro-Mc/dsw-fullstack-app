@@ -1,21 +1,9 @@
-/* // copia de generalstyles.css */
-
-/* Sticky Footer Setup */
-/* *{
-  padding: 0 !important;
-  margin: 0 !important;
-} */
-
-html, body, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
+/* === LAYOUT PRINCIPAL DE LA APLICACIÓN === */
 
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  min-height: 100vh;
 }
 
 main.main-content {
@@ -24,20 +12,14 @@ main.main-content {
   flex-direction: column;
 }
 
-.main{
-  background-color: #F5F5DC;
+.main {
+  background-color: #f5f5dc;
 }
 
-.seccion-titulo{
-  font-size: 2rem;
-  padding: 15px 0px; 
-  text-align: center;
-}
-
-
+/* Bootstrap overrides específicos para layout */
 .container-fluid {
   flex: 1;
-  display: flex;  
+  display: flex;
   --bs-gutter-x: 0 !important; /* Elimina el padding horizontal */
 }
 
@@ -46,5 +28,3 @@ main.main-content {
   display: flex;
   --bs-gutter-x: 0 !important; /* Elimina el padding horizontal */
 }
-
-

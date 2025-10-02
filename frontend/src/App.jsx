@@ -1,13 +1,12 @@
 import "./App.css";
-import "./estilos-a-revisar.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Course from "./pages/Course";
+import Course from "./pages/Course/Course";
 import Layout from "./components/Layout";
-import Landing from "./pages/Landing";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import UsuariosPage from "./pages/UsuariosPage";
-import CrearCursoPage from "./pages/CrearCurso";
+import Landing from "./pages/Landing/Landing";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import UsuariosPage from "./pages/UsuariosPage/UsuariosPage";
+import CrearCursoPage from "./pages/CrearCurso/CrearCurso";
 
 const router = createBrowserRouter([
   {

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./CrearCurso.css";
 
 function CrearCursoPage() {
   const [moduloSeleccionado, setModuloSeleccionado] = useState("");

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../public/logo.png"; // si lo pones en public, lo accedes así
-import "../../styles/Header.css";
+import "../../component-styles/Header.css";
 
 function Header() {
   return (

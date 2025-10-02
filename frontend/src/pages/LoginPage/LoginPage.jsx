@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./LoginPage.css";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -24,25 +25,11 @@ function LoginPage() {
         <form className="formulario-transparente" onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label">Mail</label>
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Correo electrónico"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <input type="email" className="form-control" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
           <div className="mb-3">
             <label className="form-label">Contraseña</label>
-            <input
-              type="password"
-              className="form-control"
-              placeholder="Contraseña"
-              value={contrasena}
-              onChange={(e) => setContrasena(e.target.value)}
-              required
-            />
+            <input type="password" className="form-control" placeholder="Contraseña" value={contrasena} onChange={(e) => setContrasena(e.target.value)} required />
           </div>
           <div className="d-grid gap-2 mb-2">
             <button type="submit" className="btn btn-primary">

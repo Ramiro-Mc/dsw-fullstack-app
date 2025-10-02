@@ -1,4 +1,6 @@
 import { useState } from "react";
+import "../LoginPage/LoginPage.css";
+import "./RegisterPage.css";
 
 function RegisterPage() {
   const [nombreUsuario, setNombreUsuario] = useState("");
@@ -41,63 +43,25 @@ function RegisterPage() {
         <form className="formulario-transparente" onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label">Nombre de usuario</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Nombre de usuario"
-              value={nombreUsuario}
-              onChange={(e) => setNombreUsuario(e.target.value)}
-              required
-            />
+            <input type="text" className="form-control" placeholder="Nombre de usuario" value={nombreUsuario} onChange={(e) => setNombreUsuario(e.target.value)} required />
           </div>
           <div className="mb-3">
             <label className="form-label">Mail</label>
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Correo electrónico"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <input type="email" className="form-control" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
           <div className="mb-3">
             <label className="form-label">Contraseña</label>
-            <input
-              type="password"
-              className="form-control"
-              placeholder="Contraseña"
-              value={contrasena}
-              onChange={(e) => setContrasena(e.target.value)}
-              required
-            />
+            <input type="password" className="form-control" placeholder="Contraseña" value={contrasena} onChange={(e) => setContrasena(e.target.value)} required />
           </div>
           <p style={{ textAlign: "center" }} className="mb-2">
             Tipo de usuario
           </p>
           <div className="d-flex justify-content-center gap-3 mb-3">
-            <input
-              type="radio"
-              className="btn-check"
-              name="tipoUsuario"
-              id="alumno"
-              value="alumno"
-              checked={tipoUsuario === "alumno"}
-              onChange={() => setTipoUsuario("alumno")}
-              required
-            />
+            <input type="radio" className="btn-check" name="tipoUsuario" id="alumno" value="alumno" checked={tipoUsuario === "alumno"} onChange={() => setTipoUsuario("alumno")} required />
             <label className="btn-radio" htmlFor="alumno">
               Alumno
             </label>
-            <input
-              type="radio"
-              className="btn-check"
-              name="tipoUsuario"
-              id="profesor"
-              value="profesor"
-              checked={tipoUsuario === "profesor"}
-              onChange={() => setTipoUsuario("profesor")}
-            />
+            <input type="radio" className="btn-check" name="tipoUsuario" id="profesor" value="profesor" checked={tipoUsuario === "profesor"} onChange={() => setTipoUsuario("profesor")} />
             <label className="btn-radio" htmlFor="profesor">
               Profesor
             </label>
