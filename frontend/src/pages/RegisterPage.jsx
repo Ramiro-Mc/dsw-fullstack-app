@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function RegisterPage() {
   const [nombreUsuario, setNombreUsuario] = useState("");
@@ -28,14 +29,14 @@ function RegisterPage() {
   return (
     <main
       style={{
-        backgroundImage: "url('/imagenes/principal1.jpeg')",
+        backgroundImage: "url('/principal1.jpeg')",
         minHeight: "100vh",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
       className="fondo-loginRegister d-flex align-items-center justify-content-center"
     >
-      <section className="loginRegister-box p-4 rounded shadow bg-white bg-opacity-75">
+      <section className="loginRegister-box p-4 rounded shadow bg-white">
         <h1 className="mb-2 text-center">Crea una nueva cuenta</h1>
         <h2 className="mb-4 text-center fs-5">Es rápido y fácil.</h2>
         <form className="formulario-transparente" onSubmit={handleSubmit}>
@@ -108,9 +109,9 @@ function RegisterPage() {
             </button>
           </div>
           <div className="text-center">
-            <a href="/loginPage" className="text-decoration-none">
+            <Link to="/loginPage" className="text-decoration-none">
               ¿Ya tienes una cuenta?
-            </a>
+            </Link>
           </div>
         </form>
       </section>

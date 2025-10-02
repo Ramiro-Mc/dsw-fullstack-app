@@ -1,25 +1,43 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [contrasena, setContrasena] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí va tu lógica de login...
+    try {
+    const response = await fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, contrasena }),
+    });
+    const data = await response.json();
+    if (data.success) {
+      localStorage.setItem("token", data.token); // Guarda el token en localStorage
+      navigate("/"); // Redirige si el login es exitoso
+    } else {
+      alert(data.msg); // Muestra el error
+    }
+  } catch (error) {
+    alert("Error de conexión");
+  }
   };
 
   return (
     <main
       style={{
-        backgroundImage: "url('/imagenes/principal1.jpeg')",
+        backgroundImage: "url('/principal1.jpeg')",
         minHeight: "100vh",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
       className="fondo-loginRegister d-flex align-items-center justify-content-center"
     >
-      <section className="loginRegister-box p-4 rounded shadow bg-white bg-opacity-75">
+      <section className="loginRegister-box p-4 rounded shadow bg-white">
         <h1 className="mb-4 text-center">Inicio Sesión</h1>
         <form className="formulario-transparente" onSubmit={handleSubmit}>
           <div className="mb-3">
@@ -48,14 +66,14 @@ function LoginPage() {
             <button type="submit" className="btn btn-primary">
               Login
             </button>
-            <a href="/register.html" className="btn btn-secondary">
+            <Link to="/registerPage" className="btn btn-primary">
               Register
-            </a>
+            </Link>
           </div>
           <div className="text-center">
-            <a href="#" className="text-decoration-none">
+            <Link to="#" className="text-decoration-none">
               ¿Olvidó su contraseña?
-            </a>
+            </Link>
           </div>
         </form>
       </section>

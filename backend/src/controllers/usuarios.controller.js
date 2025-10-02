@@ -1,5 +1,6 @@
 import { Usuario } from "../models/Usuario.js";
 import { Op } from "sequelize";
+import jwt from "jsonwebtoken";
 
 export const usuarioController = {
   getAllUsuarios: async (req , res) => {
@@ -143,12 +144,15 @@ export const usuarioController = {
         });
       }
 
-      // Si usas JWT, aquí lo generas y lo envías
+      // Generar un token JWT al iniciar sesión
+      const token = jwt.sign({ id: usuario.idUsuario }, process.env.JWT_SECRET, {
+        expiresIn: "7d",
+      });
       res.status(200).json({
         success: true,
         msg: "Login exitoso",
         usuario: usuario,
-        // token: "aquí va el token si usas JWT"
+        token: token,
       });
 
     } catch (error) {
