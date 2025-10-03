@@ -50,32 +50,32 @@ function Landing() {
             <button type="submit" name="categoria" value="Todos" className="btn btn-outline-info">
               Todos
             </button>
-            <button type="submit" name="categoria" value="Accesorios" className="btn btn-secondary">
+            <button type="submit" name="categoria" value="Accesorios" className="btn btn-outline-info">
               <i class="bi bi-filetype-html"></i> HTML
             </button>
-            <button type="submit" name="categoria" value="Deportes" className="btn btn-secondary">
+            <button type="submit" name="categoria" value="Deportes" className="btn btn-outline-info">
               <i class="bi bi-filetype-css"></i> CSS
             </button>
-            <button type="submit" name="categoria" value="Electro" className="btn btn-secondary">
+            <button type="submit" name="categoria" value="Electro" className="btn btn-outline-info">
               <i class="bi bi-people"></i> Coaching
             </button>
-            <button type="submit" name="categoria" value="Estetica" className="btn btn-secondary">
+            <button type="submit" name="categoria" value="Estetica" className="btn btn-outline-info">
               <i class="bi bi-camera"></i> Fotografia
             </button>
-            <button type="submit" name="categoria" value="Gastronomía" className="btn btn-secondary">
+            <button type="submit" name="categoria" value="Gastronomía" className="btn btn-outline-info">
               <i class="bi bi-cookie"></i> Gastronomía
             </button>
-            <button type="submit" name="categoria" value="Calzado" className="btn btn-secondary">
+            <button type="submit" name="categoria" value="Calzado" className="btn btn-outline-info">
               <i class="bi bi-chat-left-dots"></i> ChatGPT
             </button>
-            <button type="submit" name="categoria" value="Indumentaria" className="btn btn-secondary">
+            <button type="submit" name="categoria" value="Indumentaria" className="btn btn-outline-info">
               <i class="bi bi-graph-up-arrow"></i> Innovacion
             </button>
           </form>
           
         </div>
 
-        <div className="container">
+        <div className="container contenedor-tarjetas">
 
           <div className="row">
             <div className="columna col-12 col-md-3 col-sm-6">

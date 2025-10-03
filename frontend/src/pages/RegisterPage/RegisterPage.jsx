@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import "./RegisterPage.css";
 
 function RegisterPage() {
   const [nombreUsuario, setNombreUsuario] = useState("");
@@ -11,19 +12,36 @@ function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const res = await fetch("http://localhost:3000/usuarios", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombreUsuario, email, contrasena, tipoUsuario }),
-    });
-    const data = await res.json();
-    if (data.success) {
-      alert("Usuario creado");
-      window.location.href = "/loginPage";
-    } else {
-      alert(data.msg);
+
+    try {
+      const res = await fetch("http://localhost:3000/usuarios", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombreUsuario, email, contrasena, tipoUsuario }),
+      });
+
+      const data = await res.json();
+
+      // Si es exitoso
+      if (data.success) {
+        alert("Usuario creado exitosamente");
+        window.location.href = "/loginPage";
+      }
+      // Si hay errores de validación (formato: {errors: [{msg: "..."}]})
+      else if (data.errors && Array.isArray(data.errors)) {
+        const errorMessages = data.errors.map((error) => error.msg).join(", ");
+        alert("Errores de validación: " + errorMessages);
+      }
+      // Si hay otros errores (formato: {success: false, msg: "..."})
+      else {
+        alert(data.msg || "Error desconocido al crear usuario");
+      }
+    } catch (error) {
+      console.error("Error en registro:", error);
+      alert("Error de conexión: " + error.message);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -42,63 +60,25 @@ function RegisterPage() {
         <form className="formulario-transparente" onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label">Nombre de usuario</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Nombre de usuario"
-              value={nombreUsuario}
-              onChange={(e) => setNombreUsuario(e.target.value)}
-              required
-            />
+            <input type="text" className="form-control" placeholder="Nombre de usuario" value={nombreUsuario} onChange={(e) => setNombreUsuario(e.target.value)} required />
           </div>
           <div className="mb-3">
             <label className="form-label">Mail</label>
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Correo electrónico"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <input type="email" className="form-control" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
           <div className="mb-3">
             <label className="form-label">Contraseña</label>
-            <input
-              type="password"
-              className="form-control"
-              placeholder="Contraseña"
-              value={contrasena}
-              onChange={(e) => setContrasena(e.target.value)}
-              required
-            />
+            <input type="password" className="form-control" placeholder="Contraseña" value={contrasena} onChange={(e) => setContrasena(e.target.value)} required />
           </div>
           <p style={{ textAlign: "center" }} className="mb-2">
             Tipo de usuario
           </p>
           <div className="d-flex justify-content-center gap-3 mb-3">
-            <input
-              type="radio"
-              className="btn-check"
-              name="tipoUsuario"
-              id="alumno"
-              value="alumno"
-              checked={tipoUsuario === "alumno"}
-              onChange={() => setTipoUsuario("alumno")}
-              required
-            />
+            <input type="radio" className="btn-check" name="tipoUsuario" id="alumno" value="alumno" checked={tipoUsuario === "alumno"} onChange={() => setTipoUsuario("alumno")} required />
             <label className="btn-radio" htmlFor="alumno">
               Alumno
             </label>
-            <input
-              type="radio"
-              className="btn-check"
-              name="tipoUsuario"
-              id="profesor"
-              value="profesor"
-              checked={tipoUsuario === "profesor"}
-              onChange={() => setTipoUsuario("profesor")}
-            />
+            <input type="radio" className="btn-check" name="tipoUsuario" id="profesor" value="profesor" checked={tipoUsuario === "profesor"} onChange={() => setTipoUsuario("profesor")} />
             <label className="btn-radio" htmlFor="profesor">
               Profesor
             </label>
