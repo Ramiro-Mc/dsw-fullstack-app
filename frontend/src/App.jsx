@@ -23,7 +23,7 @@ const router = createBrowserRouter([
         element: <Landing />,
       },
       {
-        path: "course",
+        path: "course/:idCurso",
         element: <Course />,
       },
       {

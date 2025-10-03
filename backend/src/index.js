@@ -16,12 +16,10 @@ import { Modulo } from "./models/Modulo.js";
 import { Leccion } from "./models/Leccion.js";
 import { Publicacion } from "./models/Publicacion.js";
 import { applyAssociations } from "./models/associations.js";
+import db from "./models/allModels.js"
 
-
-/* import db from "./models/allModels.js"; */
 
 app.use(morgan("dev"));
-applyAssociations(); 
 
 async function main() {
   try {
@@ -60,8 +58,6 @@ async function main() {
     console.log("Sincronizando Publicacion...");
     await Publicacion.sync({ force: false });
 
-    
-    //falta agregar unas tablas mas
     
     // Reactivar restricciones de claves foráneas
     await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');

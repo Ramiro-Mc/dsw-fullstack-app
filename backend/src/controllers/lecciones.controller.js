@@ -1,10 +1,19 @@
 import { Leccion } from "../models/Leccion.js";
+import { Modulo } from "../models/Modulo.js";
 
 export const leccionController = {
 
   getAllLecciones: async (req, res) => {
     try {
-      const allLecciones = await Leccion.findAll();
+      const allLecciones = await Leccion.findAll({
+        include: [
+          {
+            model: Modulo,
+            as: 'modulo',
+            attributes: ['idModulo', 'titulo']
+          }
+        ]
+      });
 
       if (allLecciones.length === 0) {
         return res.status(404).json({
@@ -23,7 +32,7 @@ export const leccionController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development"
           ? error.message 
           : "Error interno del servidor",
       });
@@ -32,13 +41,28 @@ export const leccionController = {
 
   getLeccionById: async (req, res) => {
     try {
-      const { idLeccion } = req.params;
+      const { numeroLec } = req.params; // ← Cambiar a numeroLec
 
-      const leccion = await Leccion.findByPk(idLeccion);
+      const leccion = await Leccion.findByPk(numeroLec, {
+        include: [
+          {
+            model: Modulo,
+            as: 'modulo',
+            attributes: ['idModulo', 'titulo']
+          }
+        ]
+      });
+
+      if (!leccion) {
+        return res.status(404).json({
+          success: false,
+          msg: "Lección no encontrada",
+        });
+      }
 
       res.status(200).json({
         success: true,
-        msg: "leccion encontrada",
+        msg: "Lección encontrada",
         contenido: leccion,
       });
 
@@ -46,7 +70,7 @@ export const leccionController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development"
           ? error.message 
           : "Error interno del servidor",
       });
@@ -55,13 +79,35 @@ export const leccionController = {
 
   createLeccion: async (req, res) => {
     try {
-      const { numeroLec, tituloLec, descripcionLec, estadoLec, horasLec, idModulo } = req.body;
+      // NO incluir numeroLec porque es autoincremental
+      // Incluir TODOS los campos del modelo
+      const { 
+        idModulo, 
+        tituloLec, 
+        descripcionLec, 
+        estadoLec, 
+        horasLec, 
+        videoUrl, 
+        contenidoTexto, 
+        imagenUrl, 
+        archivoUrl 
+      } = req.body;
 
-      const newLeccion = await Leccion.create({ numeroLec, tituloLec, descripcionLec, estadoLec, horasLec, idModulo });
+      const newLeccion = await Leccion.create({ 
+        idModulo, 
+        tituloLec, 
+        descripcionLec, 
+        estadoLec, 
+        horasLec, 
+        videoUrl, 
+        contenidoTexto, 
+        imagenUrl, 
+        archivoUrl 
+      });
 
       res.status(201).json({
         success: true,
-        msg: "Leccion creada",
+        msg: "Lección creada",
         contenido: newLeccion,
       });
 
@@ -69,7 +115,7 @@ export const leccionController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development"
           ? error.message 
           : "Error interno del servidor",
       });
@@ -78,33 +124,41 @@ export const leccionController = {
 
   updateLeccion: async (req, res) => {
     try {
-      const { idLeccion } = req.params;
-      const { numeroLec, tituloLec, descripcionLec, estadoLec, horasLec, idModulo } = req.body;
+      const { numeroLec } = req.params; // ← Cambiar a numeroLec
+      const updateData = req.body;
 
-      const camposAActualizar = {};
+      const [updatedRowsCount] = await Leccion.update(updateData, {
+        where: { numeroLec } // ← Usar numeroLec
+      });
 
-      if (numeroLec) {camposAActualizar.numeroLec = numeroLec;}
-      if (tituloLec) {camposAActualizar.tituloLec = tituloLec;}
-      if (descripcionLec) {camposAActualizar.descripcionLec = descripcionLec;}
-      if (estadoLec) {camposAActualizar.estadoLec = estadoLec;}
-      if (horasLec) {camposAActualizar.horasLec = horasLec;}
-      if (idModulo) {camposAActualizar.idModulo = idModulo;}
+      if (updatedRowsCount === 0) {
+        return res.status(404).json({
+          success: false,
+          msg: "Lección no encontrada",
+        });
+      }
 
-      await Leccion.update(camposAActualizar, { where: { idLeccion } });
-
-      const leccionActualizada = await Leccion.findByPk(idLeccion);
+      const leccionActualizada = await Leccion.findByPk(numeroLec, {
+        include: [
+          {
+            model: Modulo,
+            as: 'modulo',
+            attributes: ['idModulo', 'titulo']
+          }
+        ]
+      });
 
       res.status(200).json({
         success: true,
-        msg: "Leccion actualizado correctamente",
-        atributo: leccionActualizada,
+        msg: "Lección actualizada correctamente",
+        contenido: leccionActualizada, // ← Cambiar 'atributo' por 'contenido'
       });
 
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development"
           ? error.message 
           : "Error interno del servidor",
       });
@@ -113,24 +167,72 @@ export const leccionController = {
 
   deleteLeccion: async (req, res) => {
     try {
-      const { idLeccion } = req.params;
+      const { numeroLec } = req.params; // ← Cambiar a numeroLec
 
-      await Leccion.destroy({where: { idLeccion: idLeccion }});
+      const deletedRowsCount = await Leccion.destroy({
+        where: { numeroLec } // ← Usar numeroLec
+      });
+
+      if (deletedRowsCount === 0) {
+        return res.status(404).json({
+          success: false,
+          msg: "Lección no encontrada",
+        });
+      }
 
       res.status(200).json({
         success: true,
-        msg: "Leccion eliminada correctamente",
+        msg: "Lección eliminada correctamente",
       });
 
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development"
           ? error.message 
           : "Error interno del servidor",
       });
     }
-    
   },
+
+  getLeccionesByModulo: async (req, res) => {
+    try {
+      const { idModulo } = req.params;
+
+      const lecciones = await Leccion.findAll({
+        where: { idModulo },
+        include: [
+          {
+            model: Modulo,
+            as: 'modulo',
+            attributes: ['idModulo', 'titulo']
+          }
+        ],
+        order: [['numeroLec', 'ASC']]
+      });
+
+      if (lecciones.length === 0) {
+        return res.status(404).json({
+          success: false,
+          msg: "No se encontraron lecciones para este módulo",
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        msg: "Lecciones del módulo enviadas",
+        contenido: lecciones,
+      });
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development"
+          ? error.message 
+          : "Error interno del servidor",
+      });
+    }
+  }
 };
