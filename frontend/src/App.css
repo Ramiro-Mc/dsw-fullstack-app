@@ -13,7 +13,7 @@ main.main-content {
 }
 
 .main {
-  background-color: #f5f5dc;
+  background-color: #56565617;
 }
 
 /* Bootstrap overrides específicos para layout */
@@ -27,14 +27,6 @@ main.main-content {
   flex: 1;
   display: flex;
   --bs-gutter-x: 0 !important; /* Elimina el padding horizontal */
-}
-
-/* ============================================
-   ESTILOS GENERALES
-   ============================================ */
-
-.main {
-  background-color: #56565617;
 }
 
 .header {
