@@ -31,7 +31,7 @@ function Header() {
             <ul className="navbar-nav">
               {token ? (
                 <li className="nav-item dropdown">
-                  <Link className="nav-link fw-bold dropdown-toggle" to="/MiPerfil">
+                  <Link className="nav-link fw-bold dropdown-toggle" to="/MiPerfil" >
                     <i className="bi bi-person-circle"></i>
                   </Link>
                   <ul className="dropdown-menu dropdown-menu-end">
