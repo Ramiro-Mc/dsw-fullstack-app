@@ -59,6 +59,7 @@ async function main() {
     
     console.log("Sincronizando Publicacion...");
     await Publicacion.sync({ force: false });
+
     
     //falta agregar unas tablas mas
     
