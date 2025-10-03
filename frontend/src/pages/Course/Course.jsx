@@ -23,7 +23,7 @@ function Course() {
 
     console.log("Intentando cargar curso desde la base de datos...");
     // Usar el endpoint del curso completo
-    fetch(`http://localhost:3000/api/cursoDetalle/${idCurso}`)
+    fetch(`http://localhost:3000/cursoDetalle/${idCurso}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);

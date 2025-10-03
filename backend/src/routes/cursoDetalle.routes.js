@@ -10,16 +10,16 @@ routercursoDetalle.get('/cursoDetalle/:idCurso',
   cursoDetalleController.getCursoCompleto
 );
 
-// Completar/descompletar una clase
-routercursoDetalle  .put('/clases/:idClase/completar', 
-  cursoDetalleValidators.validateCompletarClase,
-  cursoDetalleController.completarClase
+// Completar/descompletar una lección
+routercursoDetalle.put('/lecciones/:numeroLec/completar', 
+  cursoDetalleValidators.validateCompletarLeccion,
+  cursoDetalleController.completarLeccion
 );
 
-// Obtener clases de un módulo específico
-routercursoDetalle.get('/modulos/:idModulo/clases',
-  cursoDetalleValidators.validateGetClasesByModulo,
-  cursoDetalleController.getClasesByModulo
+// Obtener lecciones de un módulo específico
+routercursoDetalle.get('/modulos/:idModulo/lecciones',
+  cursoDetalleValidators.validateGetLeccionesByModulo,
+  cursoDetalleController.getLeccionesByModulo
 );
 
 export default routercursoDetalle;

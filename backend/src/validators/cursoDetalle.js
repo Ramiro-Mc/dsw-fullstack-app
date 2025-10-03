@@ -16,8 +16,8 @@ const validateGetCursoCompleto = [
   validateResult
 ];
 
-const validateCompletarClase = [
-  check('idClase').exists().notEmpty()
+const validateCompletarLeccion = [
+  check('numeroLec').exists().notEmpty()
     .isInt({ min: 1 }).withMessage('El ID de la clase debe ser un número entero positivo')
     .custom(async (numeroLec) => {
       const claseEnc = await Leccion.findByPk(numeroLec);
@@ -45,10 +45,10 @@ const validateModuloExists = [
   validateResult
 ];
 
-const validateClaseExists = [
-  check('idClase').exists().notEmpty()
+const validateLeccionExists = [
+  check('numeroLec').exists().notEmpty()
     .isInt({ min: 1 }).withMessage('El ID de la clase debe ser un número entero positivo')
-    .custom(async (idClase) => {
+    .custom(async (numeroLec) => {
       const claseEnc = await Leccion.findByPk(numeroLec);
       if (!claseEnc) {
         throw new Error("Clase no encontrada");
@@ -59,7 +59,7 @@ const validateClaseExists = [
 ];
 
 // Validación para obtener clases de un módulo específico
-const validateGetClasesByModulo = [
+const validateGetLeccionesByModulo = [
   check('idModulo').exists().notEmpty()
     .isInt({ min: 1 }).withMessage('El ID del módulo debe ser un número entero positivo')
     .custom(async (idModulo) => {
@@ -91,9 +91,9 @@ const validateGetClasesByModulo = [
 
 export default { 
   validateGetCursoCompleto, 
-  validateCompletarClase, 
+  validateCompletarLeccion, 
   validateModuloExists, 
-  validateClaseExists,
-  validateGetClasesByModulo,
+  validateLeccionExists,
+  validateGetLeccionesByModulo,
 //   validateActualizarTiempoVisto
 };

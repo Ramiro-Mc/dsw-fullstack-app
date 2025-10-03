@@ -13,21 +13,25 @@ export const cursoDetalleController = {
         include: [
           {
             model: TipoCurso,
-            as: 'tipoCurso'
           },
           {
             model: Modulo,
-            as: 'modulos',
+            as: 'Modulos',
             include: [
               {
-                model: Clase,
-                as: 'clases'
+                model: Leccion,
               }
             ]
           }
         ]
       });
-
+      
+      if (!curso) {
+        return res.status(404).json({
+          success: false,
+          msg: "Curso no encontrado"
+        });
+      }
       res.status(200).json({
         success: true,
         msg: "Curso cargado correctamente",
@@ -45,14 +49,14 @@ export const cursoDetalleController = {
     }
   },
 
-  completarClase: async (req, res) => {
+  completarLeccion: async (req, res) => {
     try {
-      const { idClase } = req.params;
+      const { numeroLec } = req.params;
       const { completado } = req.body;
 
-      await Clase.update(
+      await Leccion.update(
         { completado: completado },
-        { where: { idClase } }
+        { where: { numeroLec } }
       );
 
       res.status(200).json({
@@ -71,12 +75,12 @@ export const cursoDetalleController = {
     }
   },
 
-  // Método adicional para obtener clases de un módulo
-  getClasesByModulo: async (req, res) => {
+  // Método adicional para obtener lecciones de un módulo
+  getLeccionesByModulo: async (req, res) => {
     try {
       const { idModulo } = req.params;
 
-      const clases = await Clase.findAll({
+      const lecciones = await Leccion.findAll({
         where: { idModulo },
         order: [['orden', 'ASC']]
       });

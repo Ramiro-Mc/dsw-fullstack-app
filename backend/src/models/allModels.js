@@ -52,7 +52,12 @@ Curso.hasOne(Comunidad, {
 Comunidad.belongsTo(Curso, {
   foreignKey: "idCurso",
   targetKey: "idCurso",
+
+
 });
+
+Curso.belongsToMany(Descuento, { through: "CursoDescuento", foreignKey: "idCurso" });
+Descuento.belongsToMany(Curso, { through: "CursoDescuento", foreignKey: "idDescuento" });
 
 const db = {
   sequelize,
