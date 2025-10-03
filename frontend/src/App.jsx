@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import UsuariosPage from "./pages/UsuariosPage/UsuariosPage";
 import CrearCursoPage from "./pages/CrearCurso/CrearCurso";
+import MiPerfil from "./pages/MiPerfil";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "registerPage",
         element: <RegisterPage />,
+      },
+      {
+        path: "MiPerfil",
+        element: <MiPerfil />,
       },
       {
         path: "usuariosPage",

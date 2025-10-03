@@ -1,9 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../public/logo.png"; // si lo pones en public, lo accedes así
 import "../../component-styles/Header.css";
 
 function Header() {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/loginPage");
+  };
+
   return (
     <header className="contenedor-header">
       <nav className="navbar navbar-expand-lg bg-body-tertiary border-bottom">
@@ -21,31 +29,39 @@ function Header() {
           {/* Menú de navegación */}
           <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul className="navbar-nav">
-              <li className="nav-item dropdown">
-                <Link className="nav-link fw-bold dropdown-toggle" to="/MiPerfil" >
-                  <i className="bi bi-person-circle"></i>
-                </Link>
-                <ul className="dropdown-menu dropdown-menu-end">
-                  <li>
-                    <Link className="dropdown-item" to="/MiPerfil">
-                      Mi perfil
-                    </Link>
-                  </li>
-                  <li>
-                    <Link className="dropdown-item" to="/course">
-                      Mis Cursos
-                    </Link>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <button className="dropdown-item" to="/loginPage">
-                      Cerrar sesión
-                    </button>
-                  </li>
-                </ul>
-              </li>
+              {token ? (
+                <li className="nav-item dropdown">
+                  <Link className="nav-link fw-bold dropdown-toggle" to="/MiPerfil">
+                    <i className="bi bi-person-circle"></i>
+                  </Link>
+                  <ul className="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <Link className="dropdown-item" to="/MiPerfil">
+                        Mi perfil
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/course">
+                        Mis Cursos
+                      </Link>
+                    </li>
+                    <li>
+                      <hr className="dropdown-divider" />
+                    </li>
+                    <li>
+                      <button className="dropdown-item" onClick={handleLogout}>
+                        Cerrar sesión
+                      </button>
+                    </li>
+                  </ul>
+                </li>
+              ) : (
+                <li>
+                  <Link className="nav-link fw-bold" to="/loginPage">
+                    Iniciar sesión
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>

@@ -1,8 +1,9 @@
 import { Usuario } from "../models/Usuario.js";
 import { Op } from "sequelize";
+import jwt from "jsonwebtoken";
 
 export const usuarioController = {
-  getAllUsuarios: async (req , res) => {
+  getAllUsuarios: async (req, res) => {
     try {
       const allUsuarios = await Usuario.findAll();
 
@@ -18,14 +19,14 @@ export const usuarioController = {
         msg: "Usuarios enviados",
         contenido: allUsuarios,
       });
-
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
-          ? error.message 
-          : "Error interno del servidor",
+        msg:
+          process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+            ? error.message
+            : "Error interno del servidor",
       });
     }
   },
@@ -41,14 +42,14 @@ export const usuarioController = {
         msg: "Usuario creado",
         contenido: newUsuario,
       });
-      
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
-          ? error.message 
-          : "Error interno del servidor",
+        msg:
+          process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+            ? error.message
+            : "Error interno del servidor",
       });
     }
   },
@@ -60,9 +61,15 @@ export const usuarioController = {
 
       const camposAActualizar = {};
 
-      if (nombreUsuario) {camposAActualizar.nombreUsuario = nombreUsuario;}
-      if (email) {camposAActualizar.email = email;}
-      if (contrasena) {camposAActualizar.contrasena = contrasena;}
+      if (nombreUsuario) {
+        camposAActualizar.nombreUsuario = nombreUsuario;
+      }
+      if (email) {
+        camposAActualizar.email = email;
+      }
+      if (contrasena) {
+        camposAActualizar.contrasena = contrasena;
+      }
 
       await Usuario.update(camposAActualizar, { where: { idUsuario } });
 
@@ -73,14 +80,14 @@ export const usuarioController = {
         msg: "Usuario actualizado correctamente",
         atributo: usuarioActualizado,
       });
-
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
-          ? error.message 
-          : "Error interno del servidor",
+        msg:
+          process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+            ? error.message
+            : "Error interno del servidor",
       });
     }
   },
@@ -96,14 +103,14 @@ export const usuarioController = {
         msg: "usuario encontrado",
         informacion: usuario,
       });
-
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
-          ? error.message 
-          : "Error interno del servidor",
+        msg:
+          process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+            ? error.message
+            : "Error interno del servidor",
       });
     }
   },
@@ -112,20 +119,20 @@ export const usuarioController = {
     try {
       const { idUsuario } = req.params;
 
-      await Usuario.destroy({where: { idUsuario: idUsuario }});
+      await Usuario.destroy({ where: { idUsuario: idUsuario } });
 
       res.status(200).json({
         success: true,
         msg: "usuario eliminado correctamente",
       });
-
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
-          ? error.message 
-          : "Error interno del servidor",
+        msg:
+          process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+            ? error.message
+            : "Error interno del servidor",
       });
     }
   },
@@ -143,22 +150,26 @@ export const usuarioController = {
         });
       }
 
-      // Si usas JWT, aquí lo generas y lo envías
+      // Generar un token JWT al iniciar sesión
+      const token = jwt.sign({ id: usuario.idUsuario }, process.env.JWT_SECRET, {
+        expiresIn: "7d",
+      });
+
       res.status(200).json({
         success: true,
         msg: "Login exitoso",
         usuario: usuario,
-        // token: "aquí va el token si usas JWT"
+        token: token,
       });
-
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
-          ? error.message 
-          : "Error interno del servidor",
+        msg:
+          process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+            ? error.message
+            : "Error interno del servidor",
       });
     }
-  }
+  },
 };

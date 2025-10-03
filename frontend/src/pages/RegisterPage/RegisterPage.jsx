@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "../LoginPage/LoginPage.css";
 import "./RegisterPage.css";
 
@@ -8,6 +9,7 @@ function RegisterPage() {
   const [contrasena, setContrasena] = useState("");
   const [tipoUsuario, setTipoUsuario] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +22,7 @@ function RegisterPage() {
     const data = await res.json();
     if (data.success) {
       alert("Usuario creado");
-      window.location.href = "/loginPage";
+      navigate("/loginPage");
     } else {
       alert(data.msg);
     }

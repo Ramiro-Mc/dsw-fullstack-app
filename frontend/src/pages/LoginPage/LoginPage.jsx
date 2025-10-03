@@ -1,13 +1,31 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [contrasena, setContrasena] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí va tu lógica de login...
+    try {
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, contrasena }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        localStorage.setItem("token", data.token); // Guarda el token en localStorage
+        navigate("/"); // Redirige si el login es exitoso
+      } else {
+        alert(data.msg); // Muestra el error
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error de conexión");
+    }
   };
 
   return (
@@ -35,14 +53,14 @@ function LoginPage() {
             <button type="submit" className="btn btn-primary">
               Login
             </button>
-            <a href="/register.html" className="btn btn-secondary">
+            <Link to="/registerPage" className="btn btn-primary">
               Register
-            </a>
+            </Link>
           </div>
           <div className="text-center">
-            <a href="#" className="text-decoration-none">
+            <Link to="#" className="text-decoration-none">
               ¿Olvidó su contraseña?
-            </a>
+            </Link>
           </div>
         </form>
       </section>
