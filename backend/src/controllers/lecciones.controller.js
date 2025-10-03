@@ -131,6 +131,6 @@ export const leccionController = {
           : "Error interno del servidor",
       });
     }
-
+    
   },
 };
