@@ -6,6 +6,8 @@ import usuarioRoutes from "./routes/usuario.routes.js";
 import comunidadRoutes from "./routes/comunidad.routes.js";
 import publicacionRoutes from "./routes/publicacion.routes.js";
 import cursoDetalleRoutes from "./routes/cursoDetalle.routes.js";
+import modulosRoutes from "./routes/modulo.routes.js"
+import leccionRoutes from "./routes/leccion.routes.js"
 import cors from "cors";
 
 
@@ -23,5 +25,7 @@ app.use(descuentosRoutes);
 app.use(usuarioRoutes);
 app.use(publicacionRoutes);
 app.use(cursoDetalleRoutes);
+app.use(modulosRoutes);
+app.use(leccionRoutes);
 
 export default app;

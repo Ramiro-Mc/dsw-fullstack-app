@@ -1,4 +1,7 @@
-import { Curso, Modulo, Clase, TipoCurso } from '../models/index.js';
+import { Curso } from '../models/Curso.js';
+import { Modulo } from '../models/Modulo.js';
+import { Leccion } from '../models/Leccion.js';
+import { TipoCurso } from '../models/TipoCurso.js';
 
 export const cursoDetalleController = {
   

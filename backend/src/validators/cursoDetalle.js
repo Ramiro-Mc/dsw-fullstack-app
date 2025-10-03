@@ -1,7 +1,7 @@
 import { check } from "express-validator";
 import validateResult from "../helpers/validateHelper.js";
 import { Curso } from "../models/Curso.js";
-import { Clase } from "../models/Clase.js";
+import { Leccion } from "../models/Leccion.js";
 
 const validateGetCursoCompleto = [
   check('idCurso').exists().notEmpty()
@@ -19,8 +19,8 @@ const validateGetCursoCompleto = [
 const validateCompletarClase = [
   check('idClase').exists().notEmpty()
     .isInt({ min: 1 }).withMessage('El ID de la clase debe ser un número entero positivo')
-    .custom(async (idClase) => {
-      const claseEnc = await Clase.findByPk(idClase);
+    .custom(async (numeroLec) => {
+      const claseEnc = await Leccion.findByPk(numeroLec);
       if (!claseEnc) {
         throw new Error("Clase no encontrada");
       }
@@ -49,7 +49,7 @@ const validateClaseExists = [
   check('idClase').exists().notEmpty()
     .isInt({ min: 1 }).withMessage('El ID de la clase debe ser un número entero positivo')
     .custom(async (idClase) => {
-      const claseEnc = await Clase.findByPk(idClase);
+      const claseEnc = await Leccion.findByPk(numeroLec);
       if (!claseEnc) {
         throw new Error("Clase no encontrada");
       }
