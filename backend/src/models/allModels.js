@@ -18,7 +18,6 @@ TipoCurso.hasMany(Curso, {
   foreignKey: "idTipo",
   sourceKey: "idTipo",
 });
-
 Curso.belongsTo(TipoCurso, {
   foreignKey: "idTipo",
   targetKey: "idTipo",
@@ -30,19 +29,16 @@ Curso.hasMany(Modulo, {
   sourceKey: "idCurso",
   as: "Modulos"
 });
-
 Modulo.belongsTo(Curso, {
   foreignKey: "idCurso",
   targetKey: "idCurso",
 });
-
 
 // Relaciones Modulo -> Leccion
 Modulo.hasMany(Leccion, {
   foreignKey: "idModulo",
   sourceKey: "idModulo",
 });
-
 Leccion.belongsTo(Modulo, {
   foreignKey: "idModulo",
   targetKey: "idModulo",
@@ -53,18 +49,10 @@ Curso.hasOne(Comunidad, {
   foreignKey: "idCurso",
   sourceKey: "idCurso",
 });
-
 Comunidad.belongsTo(Curso, {
   foreignKey: "idCurso",
   targetKey: "idCurso",
 });
-
-// Curso.belongsToMany(Descuento, {
-//    through: CursoDescuento, foreignKey: "idCurso" });
-// Descuento.belongsToMany(Curso, {
-//    through: CursoDescuento, foreignKey: "idDescuento" });
-
-
 
 const db = {
   sequelize,

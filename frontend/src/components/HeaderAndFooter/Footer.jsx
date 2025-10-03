@@ -37,7 +37,7 @@
       </section>
     </div>
 
-    <p class="texto-footer text-center">
+    <p className="texto-footer text-center">
       © 2025 . Todos los derechos reservados.
     </p>
   	</footer>

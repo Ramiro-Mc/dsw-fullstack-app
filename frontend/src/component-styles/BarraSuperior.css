@@ -37,7 +37,7 @@
 }
 
 .textoChico {
-  display: none;
+  display: none !important;
 }
 
 @media (max-width: 768px) {
@@ -45,10 +45,10 @@
     display: none !important;
   }
   .textoChico {
-    display: block;
+    display: block !important;
   }
   .texto {
-    display: none;
+    display: none !important  ;
   }
 
   .boton-completar {

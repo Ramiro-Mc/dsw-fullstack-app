@@ -8,6 +8,11 @@ export const Leccion = sequelize.define("Leccion", {
   descripcionLec: { type: DataTypes.STRING },
   estadoLec: { type: DataTypes.STRING },
   horasLec: { type: DataTypes.INTEGER },
+  videoUrl: { type: DataTypes.STRING },
+  contenidoTexto: { type: DataTypes.TEXT },
+  imagenUrl: { type: DataTypes.STRING },
+  archivoUrl: { type: DataTypes.STRING },
+  completado: { type: DataTypes.BOOLEAN, defaultValue: false },
 },{
   tableName: 'Lecciones',
     timestamps: true
