@@ -10,21 +10,22 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-    const response = await fetch("http://localhost:3000/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, contrasena }),
-    });
-    const data = await response.json();
-    if (data.success) {
-      localStorage.setItem("token", data.token); // Guarda el token en localStorage
-      navigate("/"); // Redirige si el login es exitoso
-    } else {
-      alert(data.msg); // Muestra el error
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, contrasena }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        localStorage.setItem("token", data.token); // Guarda el token en localStorage
+        navigate("/"); // Redirige si el login es exitoso
+      } else {
+        alert(data.msg); // Muestra el error
+      }
+    } catch (error) {
+      console.error("Error en login:", error);
+      alert("Error de conexión: " + (error.message || "No se pudo conectar con el servidor"));
     }
-  } catch (error) {
-    alert("Error de conexión");
-  }
   };
 
   return (
@@ -42,25 +43,11 @@ function LoginPage() {
         <form className="formulario-transparente" onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label">Mail</label>
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Correo electrónico"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <input type="email" className="form-control" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
           <div className="mb-3">
             <label className="form-label">Contraseña</label>
-            <input
-              type="password"
-              className="form-control"
-              placeholder="Contraseña"
-              value={contrasena}
-              onChange={(e) => setContrasena(e.target.value)}
-              required
-            />
+            <input type="password" className="form-control" placeholder="Contraseña" value={contrasena} onChange={(e) => setContrasena(e.target.value)} required />
           </div>
           <div className="d-grid gap-2 mb-2">
             <button type="submit" className="btn btn-primary">

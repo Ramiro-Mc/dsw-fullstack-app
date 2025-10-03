@@ -57,6 +57,7 @@ async function main() {
     
     console.log("Sincronizando Publicacion...");
     await Publicacion.sync({ force: false });
+
     
     // Reactivar restricciones de claves foráneas
     await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
