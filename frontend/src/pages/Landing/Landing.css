@@ -139,3 +139,28 @@ main {
     padding: 0.25rem 0.5rem;
   }
 }
+
+/* ============================================
+   ESTILOS ADICIONALES DE CURSOS
+   ============================================ */
+
+.card {
+  margin: 30px 0;
+  border: 1px solid black;
+  transition: all 0.3s ease;
+  padding-bottom: 60px;
+}
+
+.card:hover {
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+}
+
+/* ============================================
+   PRESENTACIÓN ADICIONAL
+   ============================================ */
+
+.presentacion {
+  display: flex;
+  justify-content: center;
+}

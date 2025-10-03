@@ -28,3 +28,21 @@ main.main-content {
   display: flex;
   --bs-gutter-x: 0 !important; /* Elimina el padding horizontal */
 }
+
+/* ============================================
+   ESTILOS GENERALES
+   ============================================ */
+
+.main {
+  background-color: #56565617;
+}
+
+.header {
+  box-shadow: 0 2 10px 1px #0007;
+}
+
+.seccion-titulo {
+  font-size: 2rem;
+  padding: 15px 0px;
+  text-align: center;
+}

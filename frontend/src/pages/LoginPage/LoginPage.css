@@ -109,6 +109,29 @@ input::placeholder {
   color: rgb(0, 0, 0);
 }
 
+/* Estilos adicionales para botones primarios */
+.btn-primary {
+  width: 100% !important;
+  margin-bottom: 20px !important;
+  border: none !important;
+  outline: none !important;
+  height: 40px !important;
+  background: rgba(255, 166, 0, 0.752) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 166, 0, 0.752) !important;
+  font-size: 16px !important;
+  border-radius: 20px !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-primary:hover {
+  background-color: orange !important;
+  border: orange !important;
+  color: #ffffff;
+  box-shadow: 0px 8px 16px -4px rgba(0, 0, 0, 0.4);
+  transform: translateY(-3px) scale(1.02);
+}
+
 /* Media queries específicas para LoginPage */
 @media screen and (max-width: 1000px) {
   .loginRegister-box {
