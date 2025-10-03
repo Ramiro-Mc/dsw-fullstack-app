@@ -1,46 +1,38 @@
-.barraSuperior{
+.barraSuperior {
   background-color: #ffa500;
   padding: 0;
   margin: 0;
   vertical-align: middle;
-  
 }
 
-.barraSuperior button{
+.barraSuperior button {
   font-size: 1rem;
   background: none;
   color: black;
   display: flex;
-  align-items: center; 
+  align-items: center;
   font-weight: bold;
   margin: 10px;
-  border:1px solid black; 
+  border: 1px solid black;
   size: 7px;
   border-radius: 5px;
   align-items: center;
   height: 50px;
   transform: translateY(0);
   transition: all 0.1s ease;
-
 }
 
-.barraSuperior button:active { 
+.barraSuperior button:active {
   transform: translateY(3px);
 }
 
-
-p{
-  display: flex; 
+.barraSuperior p {
+  display: flex;
   margin-top: revert !important;
   margin-left: 15px;
 }
 
-.barraSuperior p{
-  font-weight: bold;
-  
-}
-
-.barraSuperior button i{
+.barraSuperior button i {
   margin-right: 3px;
 }
 
@@ -48,23 +40,22 @@ p{
   display: none;
 }
 
-
 @media (max-width: 768px) {
   .desaparecer {
     display: none !important;
   }
-  .textoChico{
+  .textoChico {
     display: block;
   }
-  .texto{
+  .texto {
     display: none;
   }
-  
-  .boton-completar{
-  padding:0px 20px;
+
+  .boton-completar {
+    padding: 0px 20px;
   }
 
-  .check{
+  .check {
     font-size: 1.5rem;
   }
 }
@@ -74,5 +65,3 @@ p{
     transform: scale(0.8);
   }
 }
-
-

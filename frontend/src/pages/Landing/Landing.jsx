@@ -13,13 +13,13 @@ function Landing() {
           </div>
           <div className="carousel-inner">
             <div className="carousel-item active carousel-item-presentacion">
-              <img src="/principal1.jpeg" className="d-block w-100" alt="..." />
+              <img src="/placeholder.jpg" className="d-block w-100" alt="..." />
             </div>
             <div className="carousel-item carousel-item-presentacion">
-              <img src="/principal1.jpeg" className="d-block w-100" alt="..." />
+              <img src="/placeholder.jpg" className="d-block w-100" alt="..." />
             </div>
             <div className="carousel-item carousel-item-presentacion">
-              <img src="/principal1.jpeg" className="d-block w-100" alt="..." />
+              <img src="/placeholder.jpg" className="d-block w-100" alt="..." />
             </div>
           </div>
           <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -34,44 +34,49 @@ function Landing() {
       </section>
 
       {/* Seccion cursos */}
-      <h2 className="seccion-titulo">¿Listo para reinventar tu carrera profesional?</h2>
-      <p className="text-center">Consigue las habilidades y la experiencia real que buscan los empleadores con los aceleradores para carreras profesionales.</p>
+ 
+      <section className="seccion-cursos ">
 
-      <section className="seccion-cursos seccion-oscura">
-        <div className="container">
-          <h3 className="seccion-titulo text-center">Cursos destacados</h3>
-          <p className="text-center">Explora nuestros cursos más populares y comienza tu viaje de aprendizaje hoy mismo.</p>
+        <div className="container seccion-titulo">
+
+          <h2>Descubre los mejores cursos</h2>
+          <p>¡Aprende algo nuevo!</p>
+
         </div>
+
         <div className="container categoria-botones text-center">
+
           <form method="GET" action="#locales" className="d-inline">
-            <button type="submit" name="categoria" value="Todos" className="btn btn-secondary">
+            <button type="submit" name="categoria" value="Todos" className="btn btn-outline-info">
               Todos
             </button>
             <button type="submit" name="categoria" value="Accesorios" className="btn btn-secondary">
-              HTML
+              <i class="bi bi-filetype-html"></i> HTML
             </button>
             <button type="submit" name="categoria" value="Deportes" className="btn btn-secondary">
-              CSS
+              <i class="bi bi-filetype-css"></i> CSS
             </button>
             <button type="submit" name="categoria" value="Electro" className="btn btn-secondary">
-              Coaching
+              <i class="bi bi-people"></i> Coaching
             </button>
             <button type="submit" name="categoria" value="Estetica" className="btn btn-secondary">
-              Fotografia
+              <i class="bi bi-camera"></i> Fotografia
             </button>
             <button type="submit" name="categoria" value="Gastronomía" className="btn btn-secondary">
-              Gastronomía
+              <i class="bi bi-cookie"></i> Gastronomía
             </button>
             <button type="submit" name="categoria" value="Calzado" className="btn btn-secondary">
-              ChatGPT
+              <i class="bi bi-chat-left-dots"></i> ChatGPT
             </button>
             <button type="submit" name="categoria" value="Indumentaria" className="btn btn-secondary">
-              Innovacion
+              <i class="bi bi-graph-up-arrow"></i> Innovacion
             </button>
           </form>
+          
         </div>
 
-        <div className="container ">
+        <div className="container">
+
           <div className="row">
             <div className="columna col-12 col-md-3 col-sm-6">
               <a href="curso.html" className="card" style={{ textDecoration: "none", color: "inherit" }}>
@@ -109,7 +114,9 @@ function Landing() {
               </a>
             </div>
           </div>
+
         </div>
+
       </section>
     </main>
   );
