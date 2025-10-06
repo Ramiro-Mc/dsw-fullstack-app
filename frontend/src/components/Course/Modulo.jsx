@@ -22,32 +22,32 @@ function ModuloItem({ modulo, index, AccordionId, manejarClick, claseClicked }) 
         data-bs-parent={`#${AccordionId}`}
       >
         <div className="accordion-body">
-              {modulo.clases.map((clase, i) => (
+              {modulo.lecciones?.map((leccion, i) => (
                 <a 
                   href="#" 
                   key={i}
                   onClick={(e) => {
-                    e.preventDefault(); //prevenir el comportamiento por defecto del enlace
-                    manejarClick(clase);
+                    e.preventDefault();
+                    manejarClick(leccion);
                   }}
                   className="clase-item"
                 >
 
                   <span className="nombre-clase">
-                    {clase.idClase === claseClicked.idClase?
-                    <h6 className="clicked">{clase.tituloClase}</h6> 
-                    : <h6 className="noClicked">{clase.tituloClase}</h6>
+                    {leccion.idLeccion === claseClicked.idLeccion?
+                    <h6 className="clicked">{leccion.tituloLeccion}</h6> 
+                    : <h6 className="noClicked">{leccion.tituloLeccion}</h6>
                       }
                     </span>
                     
                   <span className="icono-check">
-                      {clase.completado ? <i className=" bi bi-check-circle-fill completado"></i>
-                      : <i class="bi bi-circle noCompletado"></i>
+                      {leccion.completado ? <i className=" bi bi-check-circle-fill completado"></i>
+                      : <i className="bi bi-circle noCompletado"></i>
                     }
                   </span>
 
                 </a>
-              ))}
+              )) || <p>No hay lecciones disponibles</p>}
         </div>
       </div>
     </div>
