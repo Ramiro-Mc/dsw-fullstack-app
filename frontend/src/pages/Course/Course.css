@@ -12,6 +12,10 @@
   border: none;
 }
 
+.main-content {
+  padding: 0px;
+}
+
 .accordion-body a {
   color: #fff;
   display: block;
