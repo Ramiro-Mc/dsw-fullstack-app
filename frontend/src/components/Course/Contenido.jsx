@@ -7,29 +7,21 @@ function Contenido({ claseClicked }) {
     console.log("Tipo de videoLeccion:", typeof claseClicked.videoLeccion);
 
     const getVideoEmbedUrl = (url) => {
-        console.log("=== getVideoEmbedUrl ===");
-        console.log("URL recibida:", url);
-        console.log("URL es null/undefined?", url == null);
-        console.log("URL es string vacío?", url === '');
-        
+   
         if (!url) {
-            console.log("URL vacía, retornando string vacío");
             return '';
         }
         
         // Si ya es una URL de embed de YouTube
         if (url.includes('youtube.com/embed/')) {
-            console.log("Ya es URL de embed:", url);
             return url;
         }
         
         // Si es una URL normal de YouTube
         if (url.includes('youtube.com/watch?v=')) {
             const videoId = url.split('v=')[1]?.split('&')[0];
-            console.log("Video ID extraído de watch:", videoId);
             if (videoId) {
                 const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&showinfo=0`;
-                console.log("URL embed generada:", embedUrl);
                 return embedUrl;
             }
         }
@@ -37,15 +29,13 @@ function Contenido({ claseClicked }) {
         // Si es una URL corta de YouTube
         if (url.includes('youtu.be/')) {
             const videoId = url.split('youtu.be/')[1]?.split('?')[0];
-            console.log("Video ID extraído de youtu.be:", videoId);
             if (videoId) {
                 const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&showinfo=0`;
-                console.log("URL embed generada:", embedUrl);
                 return embedUrl;
             }
         }
-        
-        console.log("No se pudo procesar la URL:", url);
+
+        // Si no es una URL reconocida,
         return '';
     };
 
@@ -69,8 +59,8 @@ function Contenido({ claseClicked }) {
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                         allowFullScreen
                         loading="lazy"
-                        onLoad={() => console.log("✅ Iframe cargado correctamente")}
-                        onError={(e) => console.error("❌ Error en iframe:", e)}
+                        onLoad={() => console.log(" Iframe cargado correctamente")}
+                        onError={(e) => console.error(" Error en iframe:", e)}
                     />
                 ) : (
                     <div className="video-placeholder">
