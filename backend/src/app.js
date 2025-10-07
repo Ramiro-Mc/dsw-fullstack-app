@@ -9,6 +9,7 @@ import cursoDetalleRoutes from "./routes/cursoDetalle.routes.js";
 import modulosRoutes from "./routes/modulo.routes.js"
 import leccionRoutes from "./routes/leccion.routes.js"
 import loginRoutes from "./routes/login.routes.js";
+import adminRoutes from './routes/admin.routes.js';
 import cors from "cors";
 
 
@@ -29,6 +30,7 @@ app.use(publicacionRoutes);
 app.use(cursoDetalleRoutes);
 app.use(modulosRoutes);
 app.use(leccionRoutes);
+app.use("/api/admin", adminRoutes); 
 
 
 export default app;
