@@ -12,6 +12,7 @@ import InformacionDePago from "./pages/InformacionDePago/InformacionDePago";
 import Reportes from "./pages/Reportes/Reportes";
 import MisCursos from "./pages/MisCursos/MisCursos";
 import InformacionPersonal from "./pages/InformacionPersonal/InformacionPersonal";
+import CrearCursoPage2 from "./pages/CrearCurso/CrearCurso2";
 
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import AdminCursos from "./pages/AdminCursos/AdminCursos";
@@ -67,7 +68,7 @@ const router = createBrowserRouter([
       },
       {
         path: "crearCurso",
-        element: <CrearCursoPage />,
+        element: <CrearCursoPage2 />,
       },
       {
         path: "admin",
