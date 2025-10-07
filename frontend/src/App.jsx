@@ -13,6 +13,11 @@ import Reportes from "./pages/Reportes/Reportes";
 import MisCursos from "./pages/MisCursos/MisCursos";
 import InformacionPersonal from "./pages/InformacionPersonal/InformacionPersonal";
 
+import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
+import AdminCursos from "./pages/AdminCursos/AdminCursos";
+import AdminUsuarios from "./pages/AdminUsuarios/AdminUsuarios";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -63,6 +68,30 @@ const router = createBrowserRouter([
       {
         path: "crearCurso",
         element: <CrearCursoPage />,
+      },
+      {
+        path: "admin",
+        element: (
+          <ProtectedRoute requiredRole="administrador">
+            <AdminDashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "admin/cursos",
+        element: (
+          <ProtectedRoute requiredRole="administrador">
+            <AdminCursos />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "admin/usuarios",
+        element: (
+          <ProtectedRoute requiredRole="administrador">
+            <AdminUsuarios />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

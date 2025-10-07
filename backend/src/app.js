@@ -8,6 +8,7 @@ import publicacionRoutes from "./routes/publicacion.routes.js";
 import cursoDetalleRoutes from "./routes/cursoDetalle.routes.js";
 import modulosRoutes from "./routes/modulo.routes.js"
 import leccionRoutes from "./routes/leccion.routes.js"
+import loginRoutes from "./routes/login.routes.js";
 import cors from "cors";
 
 
@@ -16,6 +17,7 @@ const app = express();
 // Middlewares
 app.use(express.json());
 app.use(cors());
+app.use("/", loginRoutes);
 
 // Rutas
 app.use(tipoCursoRoutes);
@@ -27,5 +29,6 @@ app.use(publicacionRoutes);
 app.use(cursoDetalleRoutes);
 app.use(modulosRoutes);
 app.use(leccionRoutes);
+
 
 export default app;
