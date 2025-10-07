@@ -1,0 +1,241 @@
+/* Crear Curso */
+
+.formulario-curso {
+  border: 2px solid black;
+  margin: auto;
+  width: 60rem;
+    height: auto;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  border-radius: 1rem;
+  padding: 2rem;
+  background-color: #ffffff;
+}
+
+.formulario-curso .boton-opciones {
+  width: 100%;
+  margin-bottom: 20px;
+  border: none;
+  outline: none;
+  height: 40px;
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid black;
+  font-size: 16px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.formulario-curso .form-select {
+  text-align: left;
+  margin: 0;
+  display: block;
+}
+
+.container-modulos {
+		border: 2px solid rgb(0, 0, 0) !important;
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+		padding: 1rem;
+}
+.boton-multimedia {
+  padding: 10px 20px;
+  background: transparent;
+  color: #000000;
+  border: 1px solid black;
+  font-size: 16px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.boton-multimedia:hover {
+  background-color: #f0f0f0;
+}
+
+button.crear{
+    background-color: orange !important;
+    border-color: orange !important;
+    color: black !important;
+        max-width: 200px;
+}
+
+button.cancelar{
+        background-color: red !important;
+        border-color: red !important;
+        color: white !important;
+        max-width: 200px;
+}
+
+.botones-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+button.finalizar {
+    background-color: black !important;
+    border-color: black !important;
+    color: orange !important;	
+  margin-left: auto !important;
+}
+
+.formulario-curso .input {
+  border: none;
+  border-bottom: 1px solid #000000;
+  background: transparent;
+  outline: none;
+  min-height: 40px;
+  width: 100%;
+  color: #000000;
+  font-size: 16px;
+  margin: 1rem 0;
+}
+
+textarea {
+  resize: none;
+  border: #000000 solid 1px;
+}
+
+.formulario-curso p {
+  padding-top: 1rem;
+  font-size: 1.3rem;
+}
+
+.formulario-curso select {
+  margin: auto;
+  width: 25rem;
+  height: 3rem;
+  border-radius: 1rem;
+  border: 1px solid #aaa;
+}
+
+.formulario-curso h3 {
+  margin: 1rem 0 1.5rem 0;
+  padding: 0;
+  text-align: center;
+}
+
+.file-input {
+  display: none;
+}
+
+.archivo-multimedia {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.formulario-curso i {
+  height: 2rem;
+  width: 2rem;
+}
+
+/* RESPONSIVE PARA DISPOSITIVOS PEQUEÑOS */
+
+/* Tablets (768px y menores) */
+@media (max-width: 768px) {
+  .formulario-curso {
+    width: 95%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+  }
+
+  .formulario-curso select {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  button.crear,
+  button.cancelar {
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  button.finalizar {
+    margin-left: 0 !important;
+    width: 100%;
+  }
+
+  .d-flex.gap-2 {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+
+  .botones-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Móviles (480px y menores) */
+@media (max-width: 480px) {
+  .formulario-curso {
+    width: 98%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+  }
+
+  .formulario-curso h3 {
+    font-size: 1.5rem;
+  }
+
+  .formulario-curso p {
+    font-size: 1.1rem;
+    padding-top: 0.5rem;
+  }
+
+  .formulario-curso i {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+
+  /* Hacer que las listas de lecciones sean más amigables en móvil */
+  .small.d-flex {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding: 0.5rem 0;
+  }
+
+  .small.d-flex .d-flex.gap-1 {
+    margin-top: 0.5rem;
+    align-self: flex-end;
+  }
+
+  /* Prevenir zoom en iOS cuando se toca un input */
+  .form-control {
+    font-size: 16px !important;
+  }
+
+  textarea {
+    min-height: 80px;
+  }
+}
+
+/* Móviles muy pequeños (360px y menores) */
+@media (max-width: 360px) {
+  .formulario-curso {
+    width: 100%;
+    margin: 0.5rem auto;
+    padding: 0.75rem;
+    border-width: 1px;
+  }
+
+  .formulario-curso h3 {
+    font-size: 1.3rem;
+    margin: 0.5rem 0 1rem 0;
+  }
+
+  .btn-sm {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.75rem;
+  }
+
+  .d-flex.gap-1 {
+    gap: 0.25rem !important;
+  }
+}
