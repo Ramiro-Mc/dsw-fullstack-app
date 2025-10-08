@@ -1,6 +1,39 @@
+import CursoCard from "../../components/LandingPage/CursoCard";
 import "./Landing.css";
+import { useEffect, useState } from "react";
 
 function Landing() {
+  const [cursos, setCursos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // Busco los cursos cuando el componente se monta
+  useEffect(() => {
+    const fetchCursos = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/cursos", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          setCursos(data.cursos); // Asumiendo que el backend devuelve { success: true, cursos: [...] }
+        } else {
+          setError(data.msg || "Error al cargar cursos");
+        }
+      } catch (error) {
+        console.error("Error al cargar cursos:", error);
+        setError("Error de conexión. Intenta de nuevo.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCursos();
+  }, []);
+
   return (
     <main>
       {/* Seccion presentacion */}
@@ -34,18 +67,14 @@ function Landing() {
       </section>
 
       {/* Seccion cursos */}
- 
+
       <section className="seccion-cursos ">
-
         <div className="container seccion-titulo">
-
           <h2>Descubre los mejores cursos</h2>
           <p>¡Aprende algo nuevo!</p>
-
         </div>
 
         <div className="container categoria-botones text-center">
-
           <form method="GET" action="#locales" className="d-inline">
             <button type="submit" name="categoria" value="Todos" className="btn btn-outline-info">
               Todos
@@ -72,51 +101,15 @@ function Landing() {
               <i class="bi bi-graph-up-arrow"></i> Innovacion
             </button>
           </form>
-          
         </div>
 
         <div className="container contenedor-tarjetas">
-
           <div className="row">
-            <div className="columna col-12 col-md-3 col-sm-6">
-              <a href="curso.html" className="card" style={{ textDecoration: "none", color: "inherit" }}>
-                <img src="/principal1.jpeg" className="card-img-top" alt="..." />
-                <div className="card-body">
-                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                </div>
-              </a>
-            </div>
+            
 
-            <div className="columna col-12 col-md-3 col-sm-6">
-              <a href="curso.html" className="card" style={{ textDecoration: "none", color: "inherit" }}>
-                <img src="/principal1.jpeg" className="card-img-top" alt="..." />
-                <div className="card-body">
-                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                </div>
-              </a>
-            </div>
-
-            <div className="columna col-12 col-md-3 col-sm-6">
-              <a href="curso.html" className="card" style={{ textDecoration: "none", color: "inherit" }}>
-                <img src="/principal1.jpeg" className="card-img-top" alt="..." />
-                <div className="card-body">
-                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                </div>
-              </a>
-            </div>
-
-            <div className="columna col-12 col-md-3 col-sm-6">
-              <a href="curso.html" className="card" style={{ textDecoration: "none", color: "inherit" }}>
-                <img src="/principal1.jpeg" className="card-img-top" alt="..." />
-                <div className="card-body">
-                  <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                </div>
-              </a>
-            </div>
+            <CursoCard titulo="hola" descripcion="xd" imagen="/principal1.jpeg" />
           </div>
-
         </div>
-
       </section>
     </main>
   );
