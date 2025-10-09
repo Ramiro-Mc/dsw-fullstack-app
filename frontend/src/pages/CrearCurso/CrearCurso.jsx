@@ -1,91 +1,194 @@
 import { useState } from "react";
+import FormularioCurso from "../../components/crearCurso/FormularioCurso";
+import ListaModulos from "../../components/crearCurso/ListaModulos";
+import FormularioModulo from "../../components/crearCurso/FormularioModulo";
+import FormularioLecciones from "../../components/crearCurso/FormularioLecciones";
 import "./CrearCurso.css";
 
 function CrearCursoPage() {
   const [moduloSeleccionado, setModuloSeleccionado] = useState("");
-  const [tituloClase, setTituloClase] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [archivo, setArchivo] = useState(null);
+  const [mostrarFormularioModulo, setMostrarFormularioModulo] = useState(false);
+  const [mostrarFormularioLecciones, setMostrarFormularioLecciones] = useState(false);
+  
+  // Estados para el curso
+  const [nombreCurso, setNombreCurso] = useState("");
+  const [descripcionCurso, setDescripcionCurso] = useState("");
+  const [precioCurso, setPrecioCurso] = useState("");
+  
+  // Estados para módulo
+  const [nombreModulo, setNombreModulo] = useState("");
+  const [moduloActual, setModuloActual] = useState(null);
+  const [modulosGuardados, setModulosGuardados] = useState([]);
+  const [editandoModulo, setEditandoModulo] = useState(null);
 
-  // Opciones de módulos (puedes traerlas de un backend si quieres)
+  // Opciones de módulos
   const modulos = [
-    { id: 1, nombre: "Módulo 1" },
-    { id: 2, nombre: "Módulo 2" },
-    { id: 3, nombre: "Módulo 3" },
+    { id: 1, nombre: "Programación" },
+    { id: 2, nombre: "Diseño" },
+    { id: 3, nombre: "Marketing" },
   ];
-
-  const handleFileChange = (e) => {
-    setArchivo(e.target.files[0]);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí va la lógica para enviar los datos al backend
-    alert("Clase creada (simulado)");
+    handleGuardarCursoCompleto();
+  };
+
+  const handleCrearModulo = () => {
+    setMostrarFormularioModulo(true);
+  };
+
+  const handleCancelarModulo = () => {
+    setMostrarFormularioModulo(false);
+    setNombreModulo("");
+  };
+
+  const handleGuardarModulo = (nombreModulo) => {
+    if (!nombreModulo.trim()) {
+      alert("El nombre del módulo es requerido");
+      return;
+    }
+    
+    const nuevoModulo = {
+      id: Date.now(),
+      nombre: nombreModulo,
+      lecciones: []
+    };
+    
+    setModuloActual(nuevoModulo);
+    setMostrarFormularioModulo(false);
+    setMostrarFormularioLecciones(true);
+    setNombreModulo("");
+  };
+
+  const handleEditarModulo = (modulo) => {
+    setEditandoModulo(modulo);
+    setModuloActual(modulo);
+    setNombreModulo(modulo.nombre);
+    setMostrarFormularioLecciones(true);
+  };
+
+  const handleEliminarModulo = (moduloId) => {
+    if (window.confirm("¿Está seguro de que desea eliminar este módulo?")) {
+      setModulosGuardados(prev => prev.filter(modulo => modulo.id !== moduloId));
+    }
+  };
+
+  const handleFinalizarModulo = (moduloCompleto) => {
+    if (editandoModulo) {
+      setModulosGuardados(prev => 
+        prev.map(modulo => 
+          modulo.id === editandoModulo.id ? moduloCompleto : modulo
+        )
+      );
+      alert(`Módulo "${moduloCompleto.nombre}" actualizado`);
+      setEditandoModulo(null);
+    } else {
+      setModulosGuardados(prev => [...prev, moduloCompleto]);
+      alert(`Módulo "${moduloCompleto.nombre}" guardado con ${moduloCompleto.lecciones.length} lección(es)`);
+    }
+    
+    setMostrarFormularioLecciones(false);
+    setModuloActual(null);
+    setNombreModulo("");
+  };
+
+  const handleCancelarLecciones = () => {
+    setMostrarFormularioLecciones(false);
+    setModuloActual(null);
+    setEditandoModulo(null);
+    setNombreModulo("");
+  };
+
+  const handleGuardarCursoCompleto = () => {
+    if (!nombreCurso.trim() || !descripcionCurso.trim() || !precioCurso.trim()) {
+      alert("Por favor complete todos los campos del curso");
+      return;
+    }
+
+    if (modulosGuardados.length === 0) {
+      alert("Debe agregar al menos un módulo al curso");
+      return;
+    }
+
+    const cursoCompleto = {
+      nombre: nombreCurso,
+      descripcion: descripcionCurso,
+      precio: precioCurso,
+      categoria: moduloSeleccionado,
+      modulos: modulosGuardados
+    };
+
+    console.log("Curso completo:", cursoCompleto);
+    alert("¡Curso creado exitosamente!");
   };
 
   return (
     <main style={{ backgroundColor: "#56565641", minHeight: "100vh" }}>
       <section className="d-flex justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
         <div className="formulario-curso bg-white bg-opacity-75 p-4 rounded shadow">
-          <h3>Nueva clase</h3>
+          <h3>Nuevo Curso</h3>
           <form onSubmit={handleSubmit}>
-            <p>Seleccione un módulo:</p>
-            <div className="text-center mb-3">
-              <select
-                name="seccion"
-                id="seccion"
-                className="form-select"
-                value={moduloSeleccionado}
-                onChange={e => setModuloSeleccionado(e.target.value)}
-                required
-              >
-                <option value="">Seleccione un módulo</option>
-                {modulos.map(modulo => (
-                  <option key={modulo.id} value={modulo.id}>{modulo.nombre}</option>
-                ))}
-              </select>
-            </div>
-            <p>Ingrese el título de la clase:</p>
-            <input
-              className="input form-control mb-3"
-              type="text"
-              placeholder="Clase..."
-              value={tituloClase}
-              onChange={e => setTituloClase(e.target.value)}
-              required
-            />
-            <p>Seleccione una descripción breve:</p>
-            <textarea
-              className="input form-control mb-3"
-              name="descripcion"
-              rows="1"
-              placeholder="Escribe tu descripción aquí..."
-              value={descripcion}
-              onChange={e => setDescripcion(e.target.value)}
+            <FormularioCurso
+              nombreCurso={nombreCurso}
+              setNombreCurso={setNombreCurso}
+              descripcionCurso={descripcionCurso}
+              setDescripcionCurso={setDescripcionCurso}
+              precioCurso={precioCurso}
+              setPrecioCurso={setPrecioCurso}
+              moduloSeleccionado={moduloSeleccionado}
+              setModuloSeleccionado={setModuloSeleccionado}
+              modulos={modulos}
             />
 
-            <div className="archivo-multimedia mb-3">
-              <p>Seleccione un archivo multimedia:</p>
-              <input
-                type="file"
-                id="archivo"
-                name="archivo"
-                className="form-control mb-3"
-                accept="image/*,audio/*,video/*"
-                onChange={handleFileChange}
+            <ListaModulos 
+              modulos={modulosGuardados}
+              onEditarModulo={handleEditarModulo}
+              onEliminarModulo={handleEliminarModulo}
+            />
+            
+            {!mostrarFormularioModulo && !mostrarFormularioLecciones && (
+              <>
+                <div className="d-flex gap-2 mt-3">
+                  <button 
+                    type="button" 
+                    className="btn crear"
+                    onClick={handleCrearModulo}
+                  >
+                    <i className="bi bi-plus-circle"></i> Crear nuevo módulo
+                  </button>
+                </div>
+                <div className="mt-3 finalizar">
+                  {modulosGuardados.length > 0 && (
+                    <button 
+                      type="submit" 
+                      className="btn finalizar"
+                    >
+                      <i className="bi bi-check-circle"></i> Finalizar curso 
+                    </button>
+                  )}
+                </div>
+              </>
+            )}
+
+            {mostrarFormularioModulo && (
+              <FormularioModulo
+                nombreModulo={nombreModulo}
+                setNombreModulo={setNombreModulo}
+                onGuardar={handleGuardarModulo}
+                onCancelar={handleCancelarModulo}
               />
-              {archivo && <div className="mt-2">{archivo.name}</div>}
-            </div>
+            )}
 
-            <div className="d-flex gap-2">
-              <button type="button" className="boton-opciones btn btn-secondary">
-                Agregar módulo
-              </button>
-              <button type="submit" className="boton-opciones btn btn-primary">
-                Finalizar clase
-              </button>
-            </div>
+            {mostrarFormularioLecciones && moduloActual && (
+              <FormularioLecciones
+                modulo={moduloActual}
+                nombreModulo={nombreModulo}
+                setNombreModulo={setNombreModulo}
+                editandoModulo={editandoModulo}
+                onFinalizarModulo={handleFinalizarModulo}
+                onCancelar={handleCancelarLecciones}
+              />
+            )}
           </form>
         </div>
       </section>
