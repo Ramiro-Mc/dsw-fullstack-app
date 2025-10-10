@@ -104,7 +104,11 @@ function RegisterPage() {
             </label>
           </div>
           <div className="d-grid gap-2 mb-2">
-            <button type="submit" className="btn btn-primary" disabled={loading}>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={loading}
+            >
               {loading ? "Registrando..." : "Únete"}
             </button>
           </div>
@@ -112,6 +116,23 @@ function RegisterPage() {
             <Link to="/loginPage" className="text-decoration-none">
               ¿Ya tienes una cuenta?
             </Link>
+          </div>
+          <div className="d-grid gap-2 mb-2">
+            <button
+              type="button"
+              className="btn btn-outline-danger"
+              onClick={() =>
+                (window.location.href = "http://localhost:3000/auth/google")
+              }
+              style={{ marginBottom: "10px" }}
+            >
+              <img
+                src="https://developers.google.com/identity/images/g-logo.png"
+                alt="Google"
+                style={{ width: 20, marginRight: 8, verticalAlign: "middle" }}
+              />
+              Continuar con Google
+            </button>
           </div>
         </form>
       </section>
