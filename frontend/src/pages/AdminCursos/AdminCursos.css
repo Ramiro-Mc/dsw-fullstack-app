@@ -1,0 +1,207 @@
+/* AdminCursos.css - Estilo similar al AdminDashboard */
+
+/* Contenedor principal */
+.admin-cursos {
+  background-color: #f5f5f5;
+  min-height: calc(100vh - 80px);
+  padding: 20px;
+}
+
+.cursos-container {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Header del dashboard */
+.cursos-header {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  text-align: center;
+  border-left: 5px solid #fd7e14;
+}
+
+.cursos-title {
+  color: #212529;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+}
+
+.cursos-subtitle {
+  color: #6c757d;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Contenido principal */
+.cursos-content {
+  display: flex;
+  justify-content: center;
+}
+
+/* Panel de opciones */
+.cursos-menu {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Header del panel */
+.panel-header {
+  padding: 20px;
+  background-color: #495057;
+  color: white;
+  margin: 0;
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+/* Body del panel */
+.panel-body {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Botones de opciones */
+.admin-option-btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  width: 100%;
+  padding: 20px 25px;
+  background: white;
+  color: #495057;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.admin-option-btn:hover {
+  background-color: #fd7e14;
+  border-color: #fd7e14;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(253, 126, 20, 0.3);
+}
+
+.admin-option-btn:active {
+  transform: translateY(0);
+}
+
+.btn-icon {
+  font-size: 1.5rem;
+  min-width: 30px;
+}
+
+.btn-text {
+  font-weight: 600;
+  flex: 1;
+}
+
+/* Estilos específicos para diferentes botones */
+.btn-pendientes:hover {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.btn-todos-cursos:hover {
+  background-color: #28a745;
+  border-color: #28a745;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+/* Estados de loading y error (por si los necesitas después) */
+.loading-stats,
+.error-stats {
+  text-align: center;
+  padding: 20px;
+}
+
+.retry-btn {
+  background-color: #fd7e14;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.retry-btn:hover {
+  background-color: #e06b00;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-cursos {
+    padding: 15px;
+  }
+  
+  .cursos-container {
+    max-width: 100%;
+  }
+  
+  .cursos-title {
+    font-size: 1.6rem;
+  }
+  
+  .cursos-header {
+    padding: 20px;
+  }
+  
+  .panel-body {
+    padding: 20px;
+    gap: 15px;
+  }
+  
+  .admin-option-btn {
+    padding: 15px 20px;
+    font-size: 1rem;
+  }
+  
+  .btn-icon {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-cursos {
+    padding: 10px;
+  }
+  
+  .cursos-title {
+    font-size: 1.4rem;
+  }
+  
+  .panel-body {
+    padding: 15px;
+  }
+  
+  .admin-option-btn {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .cursos-subtitle {
+    font-size: 1rem;
+  }
+}

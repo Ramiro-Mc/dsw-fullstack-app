@@ -1,0 +1,229 @@
+/* Estilos base de la tarjeta */
+.curso-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.curso-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Variantes */
+.curso-card--pendiente {
+  border-left: 4px solid #ffc107;
+}
+
+.curso-card--admin {
+  border-left: 4px solid #fd7e14;
+}
+
+/* Header de la tarjeta */
+.card-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.curso-titulo {
+  color: #212529;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+  line-height: 1.4;
+}
+
+/* Badge de estado */
+.estado-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.estado-badge.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.estado-badge.warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.estado-badge.danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Body de la tarjeta */
+.card-body {
+  padding: 20px;
+}
+
+.curso-descripcion {
+  color: #6c757d;
+  margin: 0 0 15px 0;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Layout para solicitudes pendientes */
+.curso-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.label {
+  color: #6c757d;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.value {
+  color: #212529;
+  font-weight: 600;
+}
+
+.value.precio {
+  color: #fd7e14;
+  font-size: 1.1rem;
+}
+
+/* Layout para todos los cursos */
+.curso-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.precio {
+  color: #fd7e14;
+  font-size: 1.2rem;
+}
+
+.fechas {
+  color: #6c757d;
+  font-size: 0.85rem;
+}
+
+/* Acciones de la tarjeta */
+.card-actions {
+  padding: 20px;
+  border-top: 1px solid #eee;
+  background-color: #f8f9fa;
+  display: flex;
+  gap: 10px;
+}
+
+/* Botones base */
+.btn-aprobar,
+.btn-rechazar,
+.btn-eliminar {
+  padding: 12px 15px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.btn-aprobar {
+  flex: 1;
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-aprobar:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.btn-rechazar {
+  flex: 1;
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-rechazar:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+.btn-eliminar {
+  width: 100%;
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-eliminar:hover:not(:disabled) {
+  background-color: #c82333;
+  transform: translateY(-1px);
+}
+
+.btn-eliminar:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .card-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .btn-aprobar,
+  .btn-rechazar {
+    width: 100%;
+  }
+  
+  .curso-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}

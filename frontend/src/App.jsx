@@ -1,5 +1,6 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Course from "./pages/Course/Course";
 import Layout from "./components/Layout";
 import Landing from "./pages/Landing/Landing";
@@ -17,7 +18,8 @@ import CrearCursoPage2 from "./pages/CrearCurso/CrearCurso2";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import AdminCursos from "./pages/AdminCursos/AdminCursos";
 import AdminUsuarios from "./pages/AdminUsuarios/AdminUsuarios";
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import SolicitudesPendientes from "./pages/AdminCursos/SolicitudesPendientes/SolicitudesPendientes";
+import TodosLosCursos from "./pages/AdminCursos/TodosLosCursos/TodosLosCursos";
 
 const router = createBrowserRouter([
   {
@@ -91,6 +93,22 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute requiredRole="administrador">
             <AdminUsuarios />
+          </ProtectedRoute>
+        ),
+      },
+       {
+        path: "admin/cursos/pendientes",
+        element: (
+          <ProtectedRoute requiredRole="administrador">
+            <SolicitudesPendientes />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "admin/cursos/todos",
+        element: (
+          <ProtectedRoute requiredRole="administrador">
+            <TodosLosCursos />
           </ProtectedRoute>
         ),
       },
