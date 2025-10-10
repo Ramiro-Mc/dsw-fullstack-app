@@ -54,6 +54,8 @@ function Course() {
                     descripcion: leccion.descripcionLec,
                     horas: leccion.horasLec,
                     estado: leccion.estadoLec,
+                    imagenUrl: leccion.imagenUrl,
+                    archivoUrl: leccion.archivoUrl, 
                     idModulo: leccion.idModulo
                   }))
                 }))
