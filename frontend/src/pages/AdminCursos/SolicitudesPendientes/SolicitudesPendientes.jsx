@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CursoCard from '../../../components/CursoCard/CursoCard';
+import AdmCursoCard from '../../../components/AdmCursoCard/AdmCursoCard';
 import './SolicitudesPendientes.css';
 
 const SolicitudesPendientes = () => {
@@ -142,7 +142,7 @@ return (
         ) : (
           <div className="solicitudes-grid">
             {solicitudes.map((curso) => (
-              <CursoCard
+              <AdmCursoCard
                 key={curso.idCurso}
                 curso={curso}
                 variant="pendiente"

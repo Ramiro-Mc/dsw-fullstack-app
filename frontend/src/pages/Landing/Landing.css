@@ -105,7 +105,6 @@ main {
 .seccion-cursos .card {
   margin: 30px 10px;
   transition: all 0.3s ease;
-  padding-bottom: 60px;
   box-shadow: 0 0 0.5rem rgb(0 0 0 / 15%);
   border-radius: 10px;
 }
@@ -122,6 +121,12 @@ main {
 .contenedor-tarjetas{
   margin-bottom: 0;
   padding-bottom: 0;
+}
+
+.seccion-cursos .precio{
+  display: flex;
+  justify-content: end;
+  margin: 0 1rem;
 }
 
 /* Columnas responsivas para las tarjetas */

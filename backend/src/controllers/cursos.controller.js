@@ -4,7 +4,18 @@ import { Descuento } from "../models/Descuento.js";
 export const cursoController = {
   getAllCursos: async (req, res) => {
     try {
-      const allCursos = await Curso.findAll();
+
+      const { categoria } = req.query;
+
+      let whereClause = {};
+
+      if(categoria && categoria !== "Todos"){
+        whereClause.categoria = categoria;
+      }
+
+      const allCursos = await Curso.findAll({
+        where: whereClause
+      });
 
       if (allCursos.length === 0) {
         return res.status(404).json({
