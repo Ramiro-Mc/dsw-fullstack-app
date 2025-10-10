@@ -65,7 +65,7 @@ function FormularioLeccion({ leccionEditando, moduloId, onGuardarLeccion, onCanc
   };
 
   return (
-    <div>
+    <div className="formulario-leccion">
       <p>Título de la lección:</p>
       <div className="input-group mb-3">
         <input 
