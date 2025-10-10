@@ -19,7 +19,7 @@ function Landing() {
         const data = await response.json();
 
         if (data.success) {
-          setCursos(data.cursos); // Asumiendo que el backend devuelve { success: true, cursos: [...] }
+          setCursos(data.contenido); // El backend devuelve { success: true, contenido: [...] }
         } else {
           setError(data.msg || "Error al cargar cursos");
         }
@@ -33,6 +33,28 @@ function Landing() {
 
     fetchCursos();
   }, []);
+
+  const handleSubmit = async () =>{
+    try {
+      const response = await fetch("http://localhost:3000/cursos", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setCursos(data.contenido); // El backend devuelve { success: true, contenido: [...] }
+      } else {
+        setError(data.msg || "Error al cargar cursos");
+      }
+    } catch (error) {
+      console.error("Error al cargar cursos:", error);
+      setError("Error de conexión. Intenta de nuevo.");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <main>
@@ -75,7 +97,7 @@ function Landing() {
         </div>
 
         <div className="container categoria-botones text-center">
-          <form method="GET" action="#locales" className="d-inline">
+          <form method="GET" action="#locales" className="d-inline" onSubmit={handleSubmit}>
             <button type="submit" name="categoria" value="Todos" className="btn btn-outline-info">
               Todos
             </button>
@@ -105,9 +127,28 @@ function Landing() {
 
         <div className="container contenedor-tarjetas">
           <div className="row">
-            
-
-            <CursoCard titulo="hola" descripcion="xd" imagen="/principal1.jpeg" />
+            {loading ? (
+              <div className="text-center">
+                <p>Cargando cursos...</p>
+              </div>
+            ) : error ? (
+              <div className="text-center">
+                <p className="text-danger">{error}</p>
+              </div>
+            ) : cursos.length > 0 ? (
+              cursos.map((curso) => 
+              <CursoCard 
+                key={curso.idCurso} 
+                titulo={curso.titulo} 
+                descripcion={curso.descripcion} 
+                precio={curso.precio}
+                imagen={curso.imagen || "/principal1.jpeg"} 
+              />)
+            ) : (
+              <div className="text-center">
+                <p>No hay cursos disponibles</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
