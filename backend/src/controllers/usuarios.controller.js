@@ -1,5 +1,6 @@
 import { Usuario } from "../models/Usuario.js";
 import { Op } from "sequelize";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const usuarioController = {
@@ -34,8 +35,8 @@ export const usuarioController = {
   createUsuario: async (req, res) => {
     try {
       const { nombreUsuario, email, contrasena, tipoUsuario } = req.body;
-
-      const newUsuario = await Usuario.create({ nombreUsuario, email, contrasena, tipoUsuario });
+const hashedPassword = await bcrypt.hash(contrasena, 10);
+      const newUsuario = await Usuario.create({ nombreUsuario, email, contrasena: hashedPassword, tipoUsuario });
 
       res.status(201).json({
         success: true,

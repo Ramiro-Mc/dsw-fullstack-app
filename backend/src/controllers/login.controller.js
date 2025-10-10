@@ -30,7 +30,7 @@ export const loginController = {
       if (!passwordMatch) {
         return res.status(401).json({
           success: false,
-          msg: "Credenciales inválidas"
+          msg: "Contraseña incorrecta"
         });
       }
 

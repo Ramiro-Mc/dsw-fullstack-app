@@ -7,7 +7,7 @@ const routerCursos = Router();
 routerCursos.get("/cursos", cursoController.getAllCursos);
 routerCursos.post("/cursos", cursoValidator.validateCreate,  cursoController.createCurso);
 routerCursos.put("/cursos/:idCurso", cursoValidator.validateUpdate, cursoController.updateCurso);
-routerCursos.delete("/cursos/:idCurso", cursoValidator.validateGetByIdAndDelete, cursoController.deleteCurso);
+//routerCursos.delete("/cursos/:idCurso", cursoValidator.validateGetByIdAndDelete, cursoController.deleteCurso);
 routerCursos.get("/cursos/:idCurso", cursoValidator.validateGetByIdAndDelete, cursoController.getCursoById);
 
 
