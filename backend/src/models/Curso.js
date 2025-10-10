@@ -16,6 +16,11 @@ export const Curso = sequelize.define("Curso", {
   titulo: { type: DataTypes.STRING, allowNull: false },
   descripcion: { type: DataTypes.STRING },
   precio: { type: DataTypes.FLOAT, allowNull: false },
+  estado: { 
+    type: DataTypes.ENUM('pendiente', 'aprobado', 'rechazado'), 
+    allowNull: false,
+    defaultValue: 'pendiente'
+  },
 }, {
   tableName: 'Cursos',
   timestamps: true

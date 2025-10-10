@@ -1,0 +1,198 @@
+/* AdminDashboard.css - Sin Bootstrap */
+
+/* Contenedor principal */
+.admin-dashboard {
+  background-color: #f5f5f5;
+  min-height: calc(100vh - 80px);
+  padding: 20px;
+}
+
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Header del dashboard */
+.admin-header {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  text-align: center;
+  border-left: 5px solid #fd7e14;
+}
+
+.admin-title {
+  color: #212529;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+}
+
+.welcome-text {
+  color: #6c757d;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Contenido principal */
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  gap: 20px;
+  align-items: start;
+}
+
+/* Panels base */
+.admin-menu,
+.admin-stats {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Headers de los panels */
+.panel-header {
+  padding: 20px;
+  color: white;
+  margin: 0;
+}
+
+.admin-menu .panel-header {
+  background-color: #495057;
+}
+
+.admin-stats .panel-header {
+  background-color: #6c757d;
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+/* Body de los panels */
+.panel-body {
+  padding: 20px;
+}
+
+/* Panel de gestión */
+.admin-menu .panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.admin-link {
+  display: block;
+  padding: 15px 20px;
+  background: white;
+  color: #495057;
+  text-decoration: none;
+  border: 2px solid #dee2e6;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.admin-link:hover {
+  background-color: #fd7e14;
+  border-color: #fd7e14;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(253, 126, 20, 0.3);
+}
+
+/* Panel de estadísticas */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.stat-card {
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+  border-color: #fd7e14;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.stat-title {
+  color: #495057;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 15px 0;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fd7e14;
+  margin: 0;
+  line-height: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-dashboard {
+    padding: 15px;
+  }
+  
+  .dashboard-content {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .admin-title {
+    font-size: 1.6rem;
+  }
+  
+  .admin-header {
+    padding: 20px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-dashboard {
+    padding: 10px;
+  }
+  
+  .admin-title {
+    font-size: 1.4rem;
+  }
+  
+  .panel-body {
+    padding: 15px;
+  }
+  
+  .admin-link {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .stat-number {
+    font-size: 1.8rem;
+  }
+}

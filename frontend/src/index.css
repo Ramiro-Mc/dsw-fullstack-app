@@ -1,0 +1,59 @@
+/* === ESTILOS GLOBALES BASE === */
+
+/* Reset y normalización */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Variables CSS globales */
+:root {
+  --primary-color: #646cff;
+  --secondary-color: #535bf2;
+  --background-light: #f5f5f5;
+  --background-dark: #242424;
+  --text-light: #213547;
+  --text-dark: rgba(255, 255, 255, 0.87);
+}
+
+/* Estilos base para elementos HTML */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 500;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Media query para tema claro */
+@media (prefers-color-scheme: light) {
+  :root {
+    color: var(--text-light);
+    background-color: #ffffff;
+  }
+}

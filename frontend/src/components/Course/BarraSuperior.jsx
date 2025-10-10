@@ -1,17 +1,15 @@
 import React from "react";
-import '../../styles/BarraSuperior.css';
-
+import '../../component-styles/BarraSuperior.css';
 
 function BarraSuperior ({completarClase, claseClicked, cantCompletada, modulos}) {
 
   const calcularPorcentaje = () => {
-
-    {let total = 0;
+    let total = 0;
     modulos.forEach(modulo => {
-      total += modulo.clases.length;
+      total += modulo.lecciones?.length || 0;
     });
-    return Number(((cantCompletada / total) * 100).toFixed(1));
-  }}
+    return total > 0 ? Number(((cantCompletada / total) * 100).toFixed(1)) : 0;
+  }
 
   return(
     <div className="barraSuperior d-flex justify-content-between align-items-center">

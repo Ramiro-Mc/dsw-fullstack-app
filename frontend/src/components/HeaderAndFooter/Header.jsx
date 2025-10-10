@@ -1,16 +1,18 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../../../public/logo.png"; // si lo pones en public, lo accedes así
-import "../../styles/Header.css";
+import logo from "../../../public/logo.png";
+import "../../component-styles/Header.css";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 function Header() {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    logout();
     navigate("/loginPage");
   };
+
 
   return (
     <header className="contenedor-header">
@@ -22,17 +24,26 @@ function Header() {
           </Link>
 
           {/* Botón hamburguesa */}
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <button 
+            className="navbar-toggler" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#navbarNav" 
+            aria-controls="navbarNav" 
+            aria-expanded="false" 
+            aria-label="Toggle navigation"
+          >
             <span className="navbar-toggler-icon"></span>
           </button>
 
           {/* Menú de navegación */}
           <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul className="navbar-nav">
-              {token ? (
+              {user ? (
                 <li className="nav-item dropdown">
-                  <Link className="nav-link fw-bold dropdown-toggle" to="/MiPerfil" >
+                  <Link className="nav-link fw-bold dropdown-toggle" to="/MiPerfil">
                     <i className="bi bi-person-circle"></i>
+                    <span className="ms-1">{user.nombreUsuario}</span>
                   </Link>
                   <ul className="dropdown-menu dropdown-menu-end">
                     <li>
@@ -41,10 +52,22 @@ function Header() {
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/course">
+                      <Link className="dropdown-item" to="/MiPerfil/misCursos">
                         Mis Cursos
                       </Link>
                     </li>
+                    
+                    {user.tipoUsuario === 'administrador' && (
+                      <>
+                        <li><hr className="dropdown-divider" /></li>
+                        <li>
+                          <Link className="dropdown-item" to="/admin">
+                            Panel de Admin
+                          </Link>
+                        </li>
+                      </>
+                    )}
+                    
                     <li>
                       <hr className="dropdown-divider" />
                     </li>

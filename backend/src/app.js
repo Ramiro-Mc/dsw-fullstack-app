@@ -9,6 +9,11 @@ import descuentosRoutes from "./routes/descuento.routes.js";
 import usuarioRoutes from "./routes/usuario.routes.js";
 import comunidadRoutes from "./routes/comunidad.routes.js";
 import publicacionRoutes from "./routes/publicacion.routes.js";
+import cursoDetalleRoutes from "./routes/cursoDetalle.routes.js";
+import modulosRoutes from "./routes/modulo.routes.js"
+import leccionRoutes from "./routes/leccion.routes.js"
+import loginRoutes from "./routes/login.routes.js";
+import adminRoutes from './routes/admin.routes.js';
 import cors from "cors";
 
 // Configura tus credenciales de Google
@@ -53,41 +58,8 @@ const app = express();
 
 // Middlewares
 app.use(express.json());
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
-}));
-app.use(
-  session({
-    secret: "secreto_super_seguro",
-    resave: false,
-    saveUninitialized: true,
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/loginPage" }),
-  (req, res) => {
-    const usuario = req.user;
-
-    const token = jwt.sign(
-      { id: usuario.idUsuario },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
-
-    // Redirigimos al frontend pasando el token en query
-    res.redirect(`http://localhost:5173/?token=${token}`);
-  }
-);
+app.use(cors());
+app.use("/", loginRoutes);
 
 // Rutas
 app.use(tipoCursoRoutes);
@@ -96,5 +68,10 @@ app.use(comunidadRoutes);
 app.use(descuentosRoutes);
 app.use(usuarioRoutes);
 app.use(publicacionRoutes);
+app.use(cursoDetalleRoutes);
+app.use(modulosRoutes);
+app.use(leccionRoutes);
+app.use("/api/admin", adminRoutes); 
+
 
 export default app;

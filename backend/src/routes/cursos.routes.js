@@ -15,4 +15,10 @@ routerCursos.post("/cursos/:idCurso/descuentos", cursoValidator.validateAgregarQ
 routerCursos.delete("/cursos/:idCurso/descuentos", cursoValidator.validateAgregarQuitarDescuento, cursoController.quitarDescuento);
 routerCursos.get("/cursos/:idCurso/descuentos", cursoValidator.validateGetByIdAndDelete, cursoController.getAllDescuentosCurso);
 
+// Rutas para admin
+routerCursos.get("/admin/cursos/pendientes", cursoController.getCursosPendientes);
+routerCursos.put("/admin/cursos/:idCurso/aprobar", cursoValidator.validateGetByIdAndDelete, cursoController.aprobarCurso);
+routerCursos.put("/admin/cursos/:idCurso/rechazar", cursoValidator.validateGetByIdAndDelete, cursoController.rechazarCurso);
+routerCursos.get("/cursos/aprobados", cursoController.getAllCursosAprobados);
+
 export default routerCursos;

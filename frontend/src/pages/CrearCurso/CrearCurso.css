@@ -1,0 +1,91 @@
+/* Crear Curso */
+
+.formulario-curso {
+  border: 2px solid black;
+  margin: auto;
+  width: 500px;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  border-radius: 1rem;
+  padding: 2rem;
+  background-color: #ffffff;
+}
+
+.formulario-curso .boton-opciones {
+  width: 100%;
+  margin-bottom: 20px;
+  border: none;
+  outline: none;
+  height: 40px;
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid black;
+  font-size: 16px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.boton-multimedia {
+  padding: 10px 20px;
+  background: transparent;
+  color: #000000;
+  border: 1px solid black;
+  font-size: 16px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.boton-multimedia:hover {
+  background-color: #f0f0f0;
+}
+
+.formulario-curso .input {
+  border: none;
+  border-bottom: 1px solid #000000;
+  background: transparent;
+  outline: none;
+  min-height: 40px;
+  width: 100%;
+  color: #000000;
+  font-size: 16px;
+  margin: 1rem 0;
+}
+
+textarea {
+  resize: none;
+  border: #000000 solid 1px;
+}
+
+.formulario-curso p {
+  padding-top: 1rem;
+  font-size: 1.3rem;
+}
+
+.formulario-curso select {
+  margin: auto;
+  width: 25rem;
+  height: 3rem;
+  border-radius: 1rem;
+  border: 1px solid #aaa;
+}
+
+.formulario-curso h3 {
+  margin: 1rem 0 1.5rem 0;
+  padding: 0;
+  text-align: center;
+}
+
+.file-input {
+  display: none; /* Ocultamos el input original */
+}
+
+.archivo-multimedia {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.formulario-curso i {
+  height: 2rem;
+  width: 2rem;
+}

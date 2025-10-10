@@ -1,0 +1,157 @@
+@import url("https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Quicksand:wght@300..700&family=Rubik+Dirt&family=Share+Tech+Mono&display=swap");
+
+main {
+  background-color: #56565617;
+  color: #2f2f2f;
+  padding: 1rem 0; 
+}
+
+/* ============================================
+   ESTILOS PARA LANDING PAGE
+   ============================================ */
+
+/* Títulos de sección */
+
+.seccion-titulo {
+  text-align: center;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 400;
+  color: #4a5568;
+}
+
+.seccion-titulo h2 {
+  font-size: 2rem;
+  padding: 0;
+  font-family: "Alfa Slab One", sans-serif;
+  font-weight: 500;
+  color: #2d3748;
+}
+
+.seccion-titulo p {
+  font-family: "Quicksand", sans-serif;
+  font-size: 1.3rem;
+  margin-bottom: 0;
+}
+
+/* ============================================
+   SECCIÓN PRESENTACIÓN (CAROUSEL)
+   ============================================ */
+
+.presentacion {
+  display: flex;
+  justify-content: center;
+}
+
+.presentacion-carousel {
+  box-sizing: border-box;
+  width: 80rem;
+  max-height: 26rem;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.carousel-item-presentacion img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* ============================================
+   SECCIÓN CURSOS
+   ============================================ */
+
+.seccion-cursos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  padding: 1.5rem 0 0 0;
+  border-radius: 1rem;
+  box-shadow: 0 0 0.5rem rgb(0 0 0 / 15%);
+  max-width: 1250px;
+}
+
+/* ============================================
+   BOTONES DE CATEGORÍA
+   ============================================ */
+
+.categoria-botones {
+  margin: 0;
+}
+
+.categoria-botones .btn {
+  margin: 0.25rem 0.25rem;
+  color: black;
+  background-color: #fff;
+  border-color: #dee2e6;
+  box-shadow: 0 0.25rem 0.5rem rgb(0 0 0 / 15%);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.categoria-botones .btn:hover {
+  background-color: #e2e6ea;
+  color: black;
+}
+
+/* ============================================
+   TARJETAS DE CURSOS
+   ============================================ */
+
+.seccion-cursos .card {
+  margin: 30px 10px;
+  transition: all 0.3s ease;
+  padding-bottom: 60px;
+  box-shadow: 0 0 0.5rem rgb(0 0 0 / 15%);
+  border-radius: 10px;
+}
+
+.seccion-cursos .card:hover {
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+}
+
+.seccion-cursos .row{
+  margin: 0 1rem;
+}
+
+.contenedor-tarjetas{
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Columnas responsivas para las tarjetas */
+.columna {
+  margin-bottom: 1.5rem;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media screen and (max-width: 768px) {
+  .presentacion-carousel {
+    width: 95%;
+    max-height: 20rem;
+  }
+
+  .seccion-cursos {
+    margin: 1rem;
+    padding: 1rem 0;
+  }
+
+  .seccion-titulo {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .categoria-botones .btn {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+  }
+}

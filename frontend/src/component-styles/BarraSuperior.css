@@ -1,0 +1,67 @@
+.barraSuperior {
+  background-color: #ffa500;
+  padding: 0;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.barraSuperior button {
+  font-size: 1rem;
+  background: none;
+  color: black;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  margin: 10px;
+  border: 1px solid black;
+  size: 7px;
+  border-radius: 5px;
+  align-items: center;
+  height: 50px;
+  transform: translateY(0);
+  transition: all 0.1s ease;
+}
+
+.barraSuperior button:active {
+  transform: translateY(3px);
+}
+
+.barraSuperior p {
+  display: flex;
+  margin-top: revert !important;
+  margin-left: 15px;
+}
+
+.barraSuperior button i {
+  margin-right: 3px;
+}
+
+.textoChico {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .desaparecer {
+    display: none !important;
+  }
+  .textoChico {
+    display: block !important;
+  }
+  .texto {
+    display: none !important  ;
+  }
+
+  .boton-completar {
+    padding: 0px 20px;
+  }
+
+  .check {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .barraSuperior button {
+    transform: scale(0.8);
+  }
+}
