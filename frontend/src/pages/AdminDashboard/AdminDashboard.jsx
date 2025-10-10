@@ -77,9 +77,6 @@ const AdminDashboard = () => {
               <Link to="/admin/usuarios" className="admin-link">
                 Gestionar Usuarios
               </Link>
-              <Link to="/admin/descuentos" className="admin-link">
-                Gestionar Descuentos
-              </Link>
             </div>
           </div>
 
