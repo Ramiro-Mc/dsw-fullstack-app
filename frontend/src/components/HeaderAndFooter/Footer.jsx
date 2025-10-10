@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthContext.jsx';
+import { Link } from 'react-router-dom';
 import '../../component-styles/Footer.css'; 
 
 function Footer() {
@@ -40,38 +41,25 @@ function Footer() {
             //  LINKS PARA ADMINISTRADOR
             <>
               <div className="mb-2">
-                <a href="/admin">Panel de Admin</a>
+                <Link to="/admin">Panel de Admin</Link>
               </div>
               <div className="mb-2">
-                <a href="/admin/cursos">Gestionar Cursos</a>
+                <Link to="/admin/cursos">Gestionar Cursos</Link>
               </div>
               <div className="mb-2">
-                <a href="/admin/usuarios">Gestionar Usuarios</a>
+                <Link to="/admin/usuarios">Gestionar Usuarios</Link>
               </div>
-              <div className="mb-2">
-                <a href="/admin/descuentos">Gestionar Descuentos</a>
-              </div>
+
             </>
           ) : (
            
             <>
-              <div className="mb-2">
-                <a href="/">Inicio</a>
-              </div>
-              <div className="mb-2">
-                <a href="/courses">Cursos</a>
-              </div>
-              <div className="mb-2">
-                <a href="/about">Acerca de</a>
-              </div>
-              <div className="mb-2">
-                <a href="/contact">Contacto</a>
-              </div>
+              {/* Nada */}
             </>
           )}
         </nav>
 
-        {/* ⬅️ CONTACTO - Siempre visible */}
+  
         <section className="texto-footer">
           <h5>Contacto</h5>
           <p>Email: <a href="mailto:contacto@utndemy.com">contacto@utndemy.com</a></p>
