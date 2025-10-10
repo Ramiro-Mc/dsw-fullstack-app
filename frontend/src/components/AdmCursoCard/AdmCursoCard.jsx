@@ -1,7 +1,7 @@
 import React from 'react';
-import './CursoCard.css';
+import './AdmCursoCard.css';
 
-const CursoCard = ({ 
+const AdmCursoCard = ({ 
   curso, 
   showActions = true, 
   actions = [], 
@@ -89,4 +89,4 @@ const CursoCard = ({
   );
 };
 
-export default CursoCard;
+export default AdmCursoCard;

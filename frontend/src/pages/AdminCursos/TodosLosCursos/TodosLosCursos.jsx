@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CursoCard from '../../../components/CursoCard/CursoCard';
+import AdmCursoCard from '../../../components/AdmCursoCard/AdmCursoCard';
 import './TodosLosCursos.css';
 
 const TodosLosCursos = () => {
@@ -105,7 +105,7 @@ const TodosLosCursos = () => {
         ) : (
           <div className="cursos-grid">
             {cursos.map((curso) => (
-              <CursoCard
+              <AdmCursoCard
                 key={curso.idCurso}
                 curso={curso}
                 variant="admin"
