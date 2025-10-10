@@ -33,43 +33,6 @@ function Footer() {
           </div>
         )}
 
-        
-        <nav className="texto-footer">
-          <h5>{isAdmin ? 'Administración' : 'Mapa del sitio'}</h5>
-          {isAdmin ? (
-            //  LINKS PARA ADMINISTRADOR
-            <>
-              <div className="mb-2">
-                <a href="/admin">Panel de Admin</a>
-              </div>
-              <div className="mb-2">
-                <a href="/admin/cursos">Gestionar Cursos</a>
-              </div>
-              <div className="mb-2">
-                <a href="/admin/usuarios">Gestionar Usuarios</a>
-              </div>
-              <div className="mb-2">
-                <a href="/admin/descuentos">Gestionar Descuentos</a>
-              </div>
-            </>
-          ) : (
-           
-            <>
-              <div className="mb-2">
-                <a href="/">Inicio</a>
-              </div>
-              <div className="mb-2">
-                <a href="/courses">Cursos</a>
-              </div>
-              <div className="mb-2">
-                <a href="/about">Acerca de</a>
-              </div>
-              <div className="mb-2">
-                <a href="/contact">Contacto</a>
-              </div>
-            </>
-          )}
-        </nav>
 
         {/* ⬅️ CONTACTO - Siempre visible */}
         <section className="texto-footer">
