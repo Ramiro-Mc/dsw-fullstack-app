@@ -13,15 +13,28 @@ function Profesores() {
       .then((data) => setTiposCurso(data.contenido || []));
   }, []);
 
-  // Obtener profesores (con filtro)
   useEffect(() => {
-    let url = "http://localhost:3000/usuarios?tipoUsuario=profesor";
-    if (filtroTipo) {
-      url += `&tipoCurso=${filtroTipo}`;
-    }
-    fetch(url)
+    // trae todos los profesores con sus cursos creados
+    fetch(
+      "http://localhost:3000/usuarios?tipoUsuario=profesor&includeCursos=true"
+    )
       .then((res) => res.json())
-      .then((data) => setProfesores(data.contenido || []));
+      .then((data) => {
+        let profesores = data.contenido || []; //guarda la lista de profesores o un arreglo vacio si no hay lista
+        console.log("Profesores recibidos:", profesores);
+        // si hay filtro, solo deja los profesores que tengan al menos un curso del tipo seleccionado
+        if (filtroTipo) {
+          profesores = profesores.filter(
+            (profesor) =>
+              profesor.cursos &&
+              profesor.cursos.some(
+                //some hace que si el profesor tiene al menos un tipo que sea igual al filtro, lo guarda y sino lo descarta
+                (curso) => String(curso.idTipo) === String(filtroTipo)
+              )
+          );
+        }
+        setProfesores(profesores);
+      });
   }, [filtroTipo]);
 
   return (
@@ -40,7 +53,7 @@ function Profesores() {
               >
                 <option value="">Todos</option>
                 {tiposCurso.map((tipo) => (
-                  <option key={tipo.idTipo} value={tipo.nombreTipo}>
+                  <option key={tipo.idTipo} value={tipo.idTipo}>
                     {tipo.nombreTipo}
                   </option>
                 ))}

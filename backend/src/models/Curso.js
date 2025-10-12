@@ -1,9 +1,18 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/sequelize.js";
 import { TipoCurso } from "./TipoCurso.js"
+import { Usuario } from "./Usuario.js";
 
 export const Curso = sequelize.define("Curso", {
   idCurso: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  idProfesor: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Usuario,
+      key: "idUsuario"
+    }
+  },
   idTipo: {
     type: DataTypes.INTEGER, 
     primaryKey: false, 
