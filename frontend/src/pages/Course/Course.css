@@ -1,0 +1,28 @@
+/* === ESTILOS DE COURSE PAGE (ACCORDION) === */
+
+.accordion-button::after {
+  filter: invert(1); /* hace la flecha blanca */
+}
+
+.accordion-button {
+  font-weight: bold;
+}
+
+.accordion-item {
+  border: none;
+}
+
+.main-content {
+  padding: 0px;
+}
+
+.accordion-body a {
+  color: #fff;
+  display: block;
+  padding: 5px 0;
+  text-decoration: none;
+}
+
+.accordion-body a:hover {
+  text-decoration: underline;
+}
