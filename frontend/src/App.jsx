@@ -13,7 +13,7 @@ import Reportes from "./pages/Reportes/Reportes";
 import MisCursos from "./pages/MisCursos/MisCursos";
 import InformacionPersonal from "./pages/InformacionPersonal/InformacionPersonal";
 import CrearCursoPage from "./pages/CrearCurso/CrearCurso";
-
+import Profesores from "./pages/Profesores/profesores";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import AdminCursos from "./pages/AdminCursos/AdminCursos";
 import AdminUsuarios from "./pages/AdminUsuarios/AdminUsuarios";
@@ -72,6 +72,10 @@ const router = createBrowserRouter([
         element: <CrearCursoPage />,
       },
       {
+        path: "profesores",
+        element: <Profesores />,
+      },
+      {
         path: "admin",
         element: (
           <ProtectedRoute requiredRole="administrador">
@@ -95,7 +99,7 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-       {
+      {
         path: "admin/cursos/pendientes",
         element: (
           <ProtectedRoute requiredRole="administrador">

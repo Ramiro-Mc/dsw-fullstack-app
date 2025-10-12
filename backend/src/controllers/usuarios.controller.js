@@ -6,7 +6,14 @@ import jwt from "jsonwebtoken";
 export const usuarioController = {
   getAllUsuarios: async (req , res) => {
     try {
-      const allUsuarios = await Usuario.findAll();
+
+      const where = {};
+
+      if (req.query.tipoUsuario) {
+      where.tipoUsuario = req.query.tipoUsuario;
+      }
+
+      const allUsuarios = await Usuario.findAll({ where });
 
       if (allUsuarios.length === 0) {
         return res.status(404).json({

@@ -60,25 +60,63 @@ function RegisterPage() {
         <form className="formulario-transparente" onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label">Nombre de usuario</label>
-            <input type="text" className="form-control" placeholder="Nombre de usuario" value={nombreUsuario} onChange={(e) => setNombreUsuario(e.target.value)} required />
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Nombre de usuario"
+              value={nombreUsuario}
+              onChange={(e) => setNombreUsuario(e.target.value)}
+              required
+            />
           </div>
           <div className="mb-3">
             <label className="form-label">Mail</label>
-            <input type="email" className="form-control" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Correo electrónico"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
           <div className="mb-3">
             <label className="form-label">Contraseña</label>
-            <input type="password" className="form-control" placeholder="Contraseña" value={contrasena} onChange={(e) => setContrasena(e.target.value)} required />
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Contraseña"
+              value={contrasena}
+              onChange={(e) => setContrasena(e.target.value)}
+              required
+            />
           </div>
           <p style={{ textAlign: "center" }} className="mb-2">
             Tipo de usuario
           </p>
           <div className="d-flex justify-content-center gap-3 mb-3">
-            <input type="radio" className="btn-check" name="tipoUsuario" id="alumno" value="alumno" checked={tipoUsuario === "alumno"} onChange={() => setTipoUsuario("alumno")} required />
+            <input
+              type="radio"
+              className="btn-check"
+              name="tipoUsuario"
+              id="alumno"
+              value="alumno"
+              checked={tipoUsuario === "alumno"}
+              onChange={() => setTipoUsuario("alumno")}
+              required
+            />
             <label className="btn-radio" htmlFor="alumno">
               Alumno
             </label>
-            <input type="radio" className="btn-check" name="tipoUsuario" id="profesor" value="profesor" checked={tipoUsuario === "profesor"} onChange={() => setTipoUsuario("profesor")} />
+            <input
+              type="radio"
+              className="btn-check"
+              name="tipoUsuario"
+              id="profesor"
+              value="profesor"
+              checked={tipoUsuario === "profesor"}
+              onChange={() => setTipoUsuario("profesor")}
+            />
             <label className="btn-radio" htmlFor="profesor">
               Profesor
             </label>
@@ -96,23 +134,6 @@ function RegisterPage() {
             <Link to="/loginPage" className="text-decoration-none">
               ¿Ya tienes una cuenta?
             </Link>
-          </div>
-          <div className="d-grid gap-2 mb-2">
-            <button
-              type="button"
-              className="btn btn-outline-danger"
-              onClick={() =>
-                (window.location.href = "http://localhost:3000/auth/google")
-              }
-              style={{ marginBottom: "10px" }}
-            >
-              <img
-                src="https://developers.google.com/identity/images/g-logo.png"
-                alt="Google"
-                style={{ width: 20, marginRight: 8, verticalAlign: "middle" }}
-              />
-              Continuar con Google
-            </button>
           </div>
         </form>
       </section>
