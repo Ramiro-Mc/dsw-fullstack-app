@@ -2,35 +2,52 @@ import { Usuario } from "../models/Usuario.js";
 import { Op } from "sequelize";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { Curso } from "../models/Curso.js";
 
 export const usuarioController = {
+
   getAllUsuarios: async (req , res) => {
-    try {
-      const allUsuarios = await Usuario.findAll();
+  try {
+    const where = {};
 
-      if (allUsuarios.length === 0) {
-        return res.status(404).json({
-          success: false,
-          msg: "No hay usuarios",
-        });
-      }
+    if (req.query.tipoUsuario) {
+      where.tipoUsuario = req.query.tipoUsuario;
+    }
 
-      res.status(200).json({
-        success: true,
-        msg: "Usuarios enviados",
-        contenido: allUsuarios,
-      });
-
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
-          ? error.message 
-          : "Error interno del servidor",
+    // Si el frontend pide includeCursos, incluye los cursos creados por el usuario
+    const include = [];
+    if (req.query.includeCursos === "true") {
+      include.push({
+        model: Curso,
+        as: "cursos", // Usa el alias que pusiste en la asociación en allModels.js
       });
     }
-  },
+
+    const allUsuarios = await Usuario.findAll({ where, include });
+
+    if (allUsuarios.length === 0) {
+      return res.status(404).json({
+        success: false,
+        msg: "No hay usuarios",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      msg: "Usuarios enviados",
+      contenido: allUsuarios,
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      msg: process.env.NODE_ENV === "development"
+        ? error.message
+        : "Error interno del servidor",
+    });
+  }
+},
 
   createUsuario: async (req, res) => {
     try {
@@ -110,27 +127,46 @@ const hashedPassword = await bcrypt.hash(contrasena, 10);
     }
   },
 
-  deleteUsuario: async (req, res) => {
-    try {
-      const { idUsuario } = req.params;
+ deleteUsuario: async (req, res) => {
+  try {
+    const { idUsuario } = req.params;
 
-      await Usuario.destroy({where: { idUsuario: idUsuario }});
-
-      res.status(200).json({
-        success: true,
-        msg: "usuario eliminado correctamente",
-      });
-
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
+    // Verificar que el usuario existe
+    const usuario = await Usuario.findByPk(idUsuario);
+    if (!usuario) {
+      return res.status(404).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
-          ? error.message 
-          : "Error interno del servidor",
+        msg: "Usuario no encontrado",
       });
     }
-  },
+
+    // Verificar que no sea un administrador
+    if (usuario.tipoUsuario === 'administrador') {
+      return res.status(403).json({
+        success: false,
+        msg: "No se puede eliminar un administrador",
+      });
+    }
+
+    // Eliminar físicamente el usuario
+    await Usuario.destroy({ where: { idUsuario: idUsuario } });
+
+    res.status(200).json({
+      success: true,
+      msg: "Usuario eliminado correctamente",
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      msg: process.env.NODE_ENV === "development" 
+        ? error.message 
+        : "Error interno del servidor",
+    });
+  }
+},
+
 
   //Para conectar el frontend con el backend
   loginUsuario: async (req, res) => {

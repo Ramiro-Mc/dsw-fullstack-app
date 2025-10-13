@@ -13,35 +13,45 @@ function Header() {
     navigate("/loginPage");
   };
 
-
   return (
     <header className="contenedor-header">
       <nav className="navbar navbar-expand-lg bg-body-tertiary border-bottom">
         <div className="container-fluid top-bar align-items-center d-flex justify-content-between">
           {/* Logo */}
-          <Link className="navbar-brand d-flex align-items-center" to="/">
+          <Link className="boton navbar-brand d-flex align-items-center" to="/">
             <img className="logo" src={logo} alt="Logo de la página web" />
           </Link>
 
           {/* Botón hamburguesa */}
-          <button 
-            className="navbar-toggler" 
-            type="button" 
-            data-bs-toggle="collapse" 
-            data-bs-target="#navbarNav" 
-            aria-controls="navbarNav" 
-            aria-expanded="false" 
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
 
           {/* Menú de navegación */}
-          <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <div
+            className="collapse navbar-collapse justify-content-end"
+            id="navbarNav"
+          >
             <ul className="navbar-nav">
+              <li className="nav-item">
+                <Link className="boton nav-link fw-bold" to="/profesores">
+                  Profesores
+                </Link>
+              </li>
               {user ? (
                 <li className="nav-item dropdown">
-                  <Link className="nav-link fw-bold dropdown-toggle" to="/MiPerfil">
+                  <Link
+                    className="nav-link fw-bold dropdown-toggle"
+                    to="/MiPerfil"
+                  >
                     <i className="bi bi-person-circle"></i>
                     <span className="ms-1">{user.nombreUsuario}</span>
                   </Link>
@@ -56,10 +66,12 @@ function Header() {
                         Mis Cursos
                       </Link>
                     </li>
-                    
-                    {user.tipoUsuario === 'administrador' && (
+
+                    {user.tipoUsuario === "administrador" && (
                       <>
-                        <li><hr className="dropdown-divider" /></li>
+                        <li>
+                          <hr className="dropdown-divider" />
+                        </li>
                         <li>
                           <Link className="dropdown-item" to="/admin">
                             Panel de Admin
@@ -67,7 +79,7 @@ function Header() {
                         </li>
                       </>
                     )}
-                    
+
                     <li>
                       <hr className="dropdown-divider" />
                     </li>

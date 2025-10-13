@@ -1,38 +1,37 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import  { useAuth }  from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
+import "./LoginPage.css";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [contrasena, setContrasena] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [error, setError] = useState(""); 
-  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); 
-    setError(""); 
-   try {
+    setLoading(true);
+    setError("");
+    try {
       const response = await fetch("http://localhost:3000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, contrasena }),
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success) {
-      
         login(data.usuario, data.token);
-     
-       
-        if (data.usuario.tipoUsuario === 'administrador') {
-          navigate('/admin');
+
+        if (data.usuario.tipoUsuario === "administrador") {
+          navigate("/admin");
         } else {
-          navigate('/');
+          navigate("/");
         }
       } else {
         setError(data.msg || "Credenciales inválidas");
@@ -67,14 +66,32 @@ function LoginPage() {
         <form className="formulario-transparente" onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label">Mail</label>
-            <input type="email" className="form-control" placeholder="Correo electrónico" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <input
+              type="email"
+              className="form-control"
+              placeholder="Correo electrónico"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
           <div className="mb-3">
             <label className="form-label">Contraseña</label>
-            <input type="password" className="form-control" placeholder="Contraseña" value={contrasena} onChange={(e) => setContrasena(e.target.value)} required />
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Contraseña"
+              value={contrasena}
+              onChange={(e) => setContrasena(e.target.value)}
+              required
+            />
           </div>
           <div className="d-grid gap-2 mb-2">
-             <button type="submit" className="btn btn-primary" disabled={loading}>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={loading}
+            >
               {loading ? "Iniciando..." : "Login"}
             </button>
             <Link to="/registerPage" className="btn btn-primary">

@@ -3,6 +3,13 @@
   padding: 0px 0;
 }
 
+.boton:hover {
+  filter: brightness(70%);
+  cursor: pointer;
+  transform: translateY(-2px);
+  transition: transform 0.2s;
+}
+
 .top-bar {
   min-height: 80px;
   display: flex;

@@ -1,6 +1,7 @@
 .seccion-footer{
-background-color: #2F2F2F;
-color: #f5f6f7;
+border-top: 1px solid #000000;
+background-color: orange;
+color: #000000;
 padding: 20px 20px;
 margin-top: auto;
 box-shadow: 0 2 10px 1px #0007;
@@ -17,18 +18,18 @@ align-items: center;
 justify-content: center;
 border-radius: 50%; 
 padding: 2px;
-border: 2px solid #ffffff;
+border: 2px solid #000000;
 }
 
 .iconos-redes-sociales i{
 
-color: #ffffff;
+color: #000000;
 font-size: 1.5rem;
 transition: all 0.2s ease-in;
 }
 
 .iconos-redes-sociales a:hover{
-background-color: #ffffff;
+background-color: #000000;
 color: #000000;
 cursor: pointer;
 border: 2px solid #000000;
@@ -41,7 +42,7 @@ transform: translateY(-2px);
 }
 
 .texto-footer{
-color: white;
+color: rgb(0, 0, 0);
 text-decoration: none;
 list-style: none; 
 padding: 0;

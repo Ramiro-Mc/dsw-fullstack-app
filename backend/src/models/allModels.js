@@ -10,6 +10,7 @@ import {Leccion} from './Leccion.js';
 import {Publicidad} from './Publicidad.js';
 import {Usuario} from './Usuario.js';
 import {Modulo} from './Modulo.js';
+import { AlumnoCurso } from './Alumnos_Cursos.js';
 
 // Relaciones
 
@@ -22,6 +23,30 @@ Curso.belongsTo(TipoCurso, {
   foreignKey: "idTipo",
   targetKey: "idTipo",
 });
+
+
+//Relaciones Usuario (profesor) -> Curso
+Curso.belongsTo(Usuario, { 
+  as: "profesor", 
+  foreignKey: "idProfesor" 
+});
+Usuario.hasMany(Curso, { 
+  as: "cursos", 
+  foreignKey: "idProfesor" 
+});
+
+// Un usuario (alumno) puede comprar muchos cursos
+Usuario.belongsToMany(Curso, 
+  { through: AlumnoCurso, 
+    as: "cursosComprados", 
+    foreignKey: "idUsuario" 
+  });
+Curso.belongsToMany(Usuario, 
+  { through: AlumnoCurso, 
+    as: "alumnos", 
+    foreignKey: "idCurso" 
+  });
+
 
 // Relaciones Curso -> Modulo
 Curso.hasMany(Modulo, {

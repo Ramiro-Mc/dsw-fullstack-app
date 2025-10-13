@@ -1,0 +1,150 @@
+.usuario-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 4px solid #6f42c1;
+}
+
+.usuario-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.usuario-info {
+  flex: 1;
+}
+
+.usuario-nombre {
+  color: #212529;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 5px 0;
+  line-height: 1.4;
+}
+
+.usuario-email {
+  color: #6c757d;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.badges {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tipo-badge {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.tipo-badge.admin {
+  background-color: #dc3545;
+  color: white;
+}
+
+.tipo-badge.creator {
+  background-color: #fd7e14;
+  color: white;
+}
+
+.tipo-badge.student {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.usuario-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.label {
+  color: #6c757d;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.value {
+  color: #212529;
+  font-weight: 600;
+}
+
+.card-actions {
+  padding: 20px;
+  border-top: 1px solid #eee;
+  background-color: #f8f9fa;
+}
+
+.btn-eliminar {
+  width: 100%;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-eliminar:not(:disabled) {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-eliminar:not(:disabled):hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+.btn-eliminar:disabled {
+  background-color: #6c757d;
+  color: white;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .badges {
+    flex-direction: row;
+  }
+}
