@@ -14,6 +14,7 @@ import modulosRoutes from "./routes/modulo.routes.js"
 import leccionRoutes from "./routes/leccion.routes.js"
 import loginRoutes from "./routes/login.routes.js";
 import adminRoutes from './routes/admin.routes.js';
+import nuevosCursos from './routes/nuevosCursos.routes.js';
 import cors from "cors";
 
 
@@ -41,6 +42,7 @@ app.use(publicacionRoutes);
 app.use(cursoDetalleRoutes);
 app.use(modulosRoutes);
 app.use(leccionRoutes);
+app.use(nuevosCursos);
 app.use("/api/admin", adminRoutes); 
 
 
