@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FormularioCurso from "../../components/crearCurso/FormularioCurso";
 import ListaModulos from "../../components/crearCurso/ListaModulos";
 import FormularioModulo from "../../components/crearCurso/FormularioModulo";
@@ -21,6 +21,7 @@ function CrearCursoPage() {
   const [modulosGuardados, setModulosGuardados] = useState([]);
   const [editandoModulo, setEditandoModulo] = useState(null);
 
+
   // Opciones de tipos de curso (cargadas desde el backend)
   const [tiposCurso, setTiposCurso] = useState([]);
 
@@ -34,6 +35,10 @@ function CrearCursoPage() {
       console.error('Error al cargar tipos de curso:', error);
     }
   };
+
+  useEffect(() => {
+    cargarTiposCurso();
+  }, []);
 
   // Función para crear el curso completo
   const crearCursoCompleto = async (datoCurso) => {
@@ -204,7 +209,7 @@ function CrearCursoPage() {
               moduloSeleccionado={moduloSeleccionado}
               setModuloSeleccionado={setModuloSeleccionado}
               modulos={tiposCurso}
-              cargarTiposCurso={cargarTiposCurso}
+              // cargarTiposCurso={cargarTiposCurso}
             />
 
             <ListaModulos 
