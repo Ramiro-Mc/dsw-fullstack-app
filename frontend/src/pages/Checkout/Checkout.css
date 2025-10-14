@@ -301,3 +301,16 @@
     position: static;
   }
 }
+
+
+.mercadopago-logo {
+  height: 100px;
+  width: auto;
+  margin-left: 10px;
+}
+
+.payment-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

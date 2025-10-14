@@ -76,11 +76,16 @@ const router = createBrowserRouter([
         path: "profesores",
         element: <Profesores />,
       },
-      {
+          {
         path: "checkout/:idCurso",
-        element: <Checkout />,
+        element: (
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        ),
       },
-      {
+
+    {      
         path: "admin",
         element: (
           <ProtectedRoute requiredRole="administrador">
