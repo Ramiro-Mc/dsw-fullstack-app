@@ -21,12 +21,42 @@ function CrearCursoPage() {
   const [modulosGuardados, setModulosGuardados] = useState([]);
   const [editandoModulo, setEditandoModulo] = useState(null);
 
-  // Opciones de módulos
-  const modulos = [
-    { id: 1, nombre: "Programación" },
-    { id: 2, nombre: "Diseño" },
-    { id: 3, nombre: "Marketing" },
-  ];
+  // Opciones de tipos de curso (cargadas desde el backend)
+  const [tiposCurso, setTiposCurso] = useState([]);
+
+  // Cargar tipos de curso al montar el componente
+  const cargarTiposCurso = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/tipos-curso');
+      const tipos = await response.json();
+      setTiposCurso(tipos);
+    } catch (error) {
+      console.error('Error al cargar tipos de curso:', error);
+    }
+  };
+
+  // Función para crear el curso completo
+  const crearCursoCompleto = async (datoCurso) => {
+    try {
+      const response = await fetch('http://localhost:3000/cursos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datoCurso),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al crear el curso');
+      }
+
+      const cursoCreado = await response.json();
+      return cursoCreado;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -99,8 +129,8 @@ function CrearCursoPage() {
     setNombreModulo("");
   };
 
-  const handleGuardarCursoCompleto = () => {
-    if (!nombreCurso.trim() || !descripcionCurso.trim() || !precioCurso.trim()) {
+  const handleGuardarCursoCompleto = async () => {
+    if (!nombreCurso.trim() || !descripcionCurso.trim() || !precioCurso.trim() || !moduloSeleccionado) {
       alert("Por favor complete todos los campos del curso");
       return;
     }
@@ -110,22 +140,58 @@ function CrearCursoPage() {
       return;
     }
 
+    // Obtener el ID del usuario logueado (profesor)
+    // Esto depende de cómo se maneja la autenticación 
+    const usuario = JSON.parse(localStorage.getItem('usuario')); // O de donde obtengas el usuario
+    const idProfesor = usuario?.idUsuario;
+
+    if (!idProfesor) {
+      alert("Error: No se pudo identificar al profesor. Por favor inicie sesión nuevamente.");
+      return;
+    }
+
     const cursoCompleto = {
-      nombre: nombreCurso,
+      titulo: nombreCurso,
       descripcion: descripcionCurso,
-      precio: precioCurso,
-      categoria: moduloSeleccionado,
-      modulos: modulosGuardados
+      precio: parseFloat(precioCurso),
+      idTipo: parseInt(moduloSeleccionado),
+      idProfesor: idProfesor,
+      modulos: modulosGuardados.map(modulo => ({
+        titulo: modulo.nombre,
+        lecciones: modulo.lecciones.map(leccion => ({
+          tituloLec: leccion.titulo,
+          descripcionLec: leccion.descripcion || null,
+          horasLec: leccion.horas ? parseInt(leccion.horas) : null,
+          videoUrl: leccion.videoUrl || null,
+          contenidoTexto: leccion.contenidoTexto || null,
+          imagenUrl: leccion.imagenUrl || null,
+          archivoUrl: leccion.archivoUrl || null,
+          estadoLec: 'activo',
+          completado: false
+        }))
+      }))
     };
 
-    console.log("Curso completo:", cursoCompleto);
-    alert("¡Curso creado exitosamente!");
+    try {
+      await crearCursoCompleto(cursoCompleto);
+      alert("¡Curso creado exitosamente!");
+      
+      // Limpiar formulario
+      setNombreCurso("");
+      setDescripcionCurso("");
+      setPrecioCurso("");
+      setModuloSeleccionado("");
+      setModulosGuardados([]);
+      
+    } catch (error) {
+      alert("Error al crear el curso. Por favor intente nuevamente.");
+    }
   };
 
   return (
     <main style={{ backgroundColor: "#56565641", minHeight: "100vh" }}>
       <section className="d-flex justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
-        <div className="formulario-curso bg-white bg-opacity-75 p-4 rounded shadow">
+        <div className="formulario-curso p-4">
           <h3>Nuevo Curso</h3>
           <form onSubmit={handleSubmit}>
             <FormularioCurso
@@ -137,7 +203,8 @@ function CrearCursoPage() {
               setPrecioCurso={setPrecioCurso}
               moduloSeleccionado={moduloSeleccionado}
               setModuloSeleccionado={setModuloSeleccionado}
-              modulos={modulos}
+              modulos={tiposCurso}
+              cargarTiposCurso={cargarTiposCurso}
             />
 
             <ListaModulos 

@@ -7,7 +7,7 @@ export const Leccion = sequelize.define("Leccion", {
   tituloLec: { type: DataTypes.STRING, allowNull: false },
   descripcionLec: { type: DataTypes.STRING },
   estadoLec: { type: DataTypes.STRING },
-  horasLec: { type: DataTypes.INTEGER },
+  horasLec: { type: DataTypes.INTEGER },  
   videoUrl: { type: DataTypes.STRING },
   contenidoTexto: { type: DataTypes.TEXT },
   imagenUrl: { type: DataTypes.STRING },

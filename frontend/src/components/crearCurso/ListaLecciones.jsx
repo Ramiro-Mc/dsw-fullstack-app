@@ -2,7 +2,7 @@ function ListaLecciones({ lecciones, onEditarLeccion, onEliminarLeccion }) {
   if (lecciones.length === 0) return null;
 
   return (
-    <div className="mb-3 p-2 bg-light rounded">
+    <div className="mb-3 p-2 bg-light rounded container-lecciones">
       <strong>Lecciones:</strong>
       <ul className="mb-0 mt-1">
         {lecciones.map((leccion) => (

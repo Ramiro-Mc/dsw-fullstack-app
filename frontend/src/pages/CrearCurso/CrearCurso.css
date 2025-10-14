@@ -2,7 +2,7 @@
 
 
 .formulario-curso {
-  border: 2px solid black;
+  /* border: 2px solid black; */
   margin: auto;
   width: 90%;
   height: 100%;
@@ -10,7 +10,7 @@
   margin-bottom: 2rem;
   border-radius: 1rem;
   padding: 2rem;
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
 }
 
 .formulario-curso .boton-opciones {
@@ -51,7 +51,15 @@
 }
 
 .container-modulos {
-  border: 2px solid rgb(0, 0, 0) !important;
+  border: 1px solid rgb(0, 0, 0) !important;
+  background-color: #ffffff;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+
+.container-lecciones {
+  border: 1px solid rgb(0, 0, 0) !important;
   margin-top: 1rem;
   margin-bottom: 1rem;
   padding: 1rem;
@@ -150,6 +158,28 @@ textarea {
 .formulario-curso i {
   height: 2rem;
   width: 2rem;
+}
+
+/* Estilo para el botón de editar (lápiz) */
+.btn-outline-primary {
+  color: orange !important;
+  border-color: orange !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: orange !important;
+  border-color: orange !important;
+  color: white !important;
+}
+
+.btn-outline-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 165, 0, 0.25) !important;
+}
+
+.btn-outline-primary:active {
+  background-color: orange !important;
+  border-color: orange !important;
+  color: white !important;
 }
 
 /* RESPONSIVE PARA DISPOSITIVOS PEQUEÑOS */

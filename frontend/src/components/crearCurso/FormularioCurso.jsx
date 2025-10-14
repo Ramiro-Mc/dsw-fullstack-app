@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 function FormularioCurso({ 
   nombreCurso, 
   setNombreCurso, 
@@ -7,8 +9,14 @@ function FormularioCurso({
   setPrecioCurso,
   moduloSeleccionado,
   setModuloSeleccionado,
-  modulos
+  modulos,
+  cargarTiposCurso
 }) {
+
+  useEffect(() => {
+    cargarTiposCurso();
+  }, [cargarTiposCurso]);
+
   return (
     <div>
       <div>
@@ -22,8 +30,8 @@ function FormularioCurso({
           required
         >
           <option value="">Elegir...</option>
-          {modulos.map(modulo => (
-            <option key={modulo.id} value={modulo.id} className="form-select-option">{modulo.nombre}</option>
+          {modulos.map(tipo => (
+            <option key={tipo.idTipo} value={tipo.idTipo} className="form-select-option">{tipo.nombreTipo}</option>
           ))}
         </select>
       </div>
