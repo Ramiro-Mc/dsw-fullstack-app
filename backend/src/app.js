@@ -17,6 +17,7 @@ import adminRoutes from './routes/admin.routes.js';
 import nuevosCursosRoutes from './routes/nuevosCursos.routes.js';
 import alumnoLeccionRoutes from './routes/alumnoLeccion.routes.js';
 import cors from "cors";
+import routerPagos from './routes/pagos.routes.js';
 
 // Importar modelos con asociaciones
 import db from "./models/allModels.js";
@@ -47,6 +48,8 @@ app.use(modulosRoutes);
 app.use(leccionRoutes);
 app.use(nuevosCursosRoutes);
 app.use(alumnoLeccionRoutes);
+app.use(nuevosCursos);
+app.use('/api', routerPagos);
 app.use("/api/admin", adminRoutes); 
 
 export default app;
