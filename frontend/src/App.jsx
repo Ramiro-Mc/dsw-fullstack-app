@@ -19,6 +19,7 @@ import AdminCursos from "./pages/AdminCursos/AdminCursos";
 import AdminUsuarios from "./pages/AdminUsuarios/AdminUsuarios";
 import SolicitudesPendientes from "./pages/AdminCursos/SolicitudesPendientes/SolicitudesPendientes";
 import TodosLosCursos from "./pages/AdminCursos/TodosLosCursos/TodosLosCursos";
+import Checkout from "./pages/Checkout/Checkout"; 
 
 const router = createBrowserRouter([
   {
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
       {
         path: "profesores",
         element: <Profesores />,
+      },
+      {
+        path: "checkout/:idCurso",
+        element: <Checkout />,
       },
       {
         path: "admin",

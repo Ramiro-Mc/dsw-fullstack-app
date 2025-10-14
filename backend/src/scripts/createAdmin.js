@@ -26,7 +26,8 @@ const createAdmin = async () => {
       nombreUsuario: "Administrador",
       email: "admin@utndemy.com",
       contrasena: hashedPassword,
-      tipoUsuario: "administrador"
+      tipoUsuario: "administrador",
+      fotoDePerfil: "/Default",
     });
 
     console.log("Administrador creado exitosamente:");
