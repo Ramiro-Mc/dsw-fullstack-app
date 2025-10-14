@@ -198,6 +198,7 @@ function CrearCursoPage() {
       <section className="d-flex justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
         <div className="formulario-curso p-4">
           <h3>Nuevo Curso</h3>
+          <hr />
           <form onSubmit={handleSubmit}>
             <FormularioCurso
               nombreCurso={nombreCurso}
