@@ -88,6 +88,7 @@ function FormularioLecciones({
       <h4>
         {editandoModulo ? 'Editar' : 'Agregar Lección al Módulo'}: {nombreModulo || modulo.nombre}
       </h4>
+      <hr />
 
       {editandoModulo && (
         <>

@@ -11,6 +11,7 @@ import {Publicidad} from './Publicidad.js';
 import {Usuario} from './Usuario.js';
 import {Modulo} from './Modulo.js';
 import { AlumnoCurso } from './Alumnos_Cursos.js';
+import { AlumnoLeccion } from "./AlumnoLeccion.js";
 
 // Relaciones
 
@@ -96,6 +97,24 @@ Descuento.belongsToMany(Curso, {
   as: "CursosConDescuento" // Cambiar para evitar conflictos
 });
 
+
+Usuario.belongsToMany(Leccion, { 
+  through: AlumnoLeccion, 
+  foreignKey: 'idUsuario',
+  otherKey: 'numeroLec',
+  as: 'LeccionesProgreso'
+});
+
+Leccion.belongsToMany(Usuario, { 
+  through: AlumnoLeccion, 
+  foreignKey: 'numeroLec', 
+  otherKey: 'idUsuario',
+  as: 'AlumnosProgreso'
+});
+
+AlumnoLeccion.belongsTo(Usuario, { foreignKey: 'idUsuario', as: 'Usuario' });
+AlumnoLeccion.belongsTo(Leccion, { foreignKey: 'numeroLec', as: 'Leccion' });
+
 const db = {
   sequelize,
   Sequelize,
@@ -107,7 +126,8 @@ const db = {
   Publicidad,
   Usuario,
   Modulo,
-  AlumnoCurso
+  AlumnoCurso,
+  AlumnoLeccion
 };
 
 export default db;

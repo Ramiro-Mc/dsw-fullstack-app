@@ -86,21 +86,7 @@ function FormularioLeccion({ leccionEditando, moduloId, onGuardarLeccion, onCanc
           onChange={e => setDescripcionLeccion(e.target.value)}
         ></textarea>
       </div>
-
-      <p>Estado de la lección:</p>
-      <div className="input-group mb-3">
-        <select 
-          className="form-control"
-          value={estadoLeccion}
-          onChange={e => setEstadoLeccion(e.target.value)}
-        >
-          <option value="">Seleccionar estado</option>
-          <option value="borrador">Borrador</option>
-          <option value="publicado">Publicado</option>
-          <option value="archivado">Archivado</option>
-        </select>
-      </div>
-
+           
       <p>Horas de duración:</p>
       <div className="input-group mb-3">
         <input 
