@@ -18,35 +18,35 @@ import { AlumnoCurso } from './Alumnos_Cursos.js';
 TipoCurso.hasMany(Curso, {
   foreignKey: "idTipo",
   sourceKey: "idTipo",
+  as: "CursosDelTipo" // Cambiar para evitar conflictos
 });
 Curso.belongsTo(TipoCurso, {
   foreignKey: "idTipo",
   targetKey: "idTipo",
+  as: "TipoCurso"
 });
-
 
 //Relaciones Usuario (profesor) -> Curso
 Curso.belongsTo(Usuario, { 
-  as: "profesor", 
+  as: "Profesor",
   foreignKey: "idProfesor" 
 });
 Usuario.hasMany(Curso, { 
-  as: "cursos", 
+  as: "CursosCreados",
   foreignKey: "idProfesor" 
 });
 
 // Un usuario (alumno) puede comprar muchos cursos
 Usuario.belongsToMany(Curso, 
   { through: AlumnoCurso, 
-    as: "cursosComprados", 
+    as: "CursosComprados", // Cambiar a PascalCase
     foreignKey: "idUsuario" 
   });
 Curso.belongsToMany(Usuario, 
   { through: AlumnoCurso, 
-    as: "alumnos", 
+    as: "Alumnos", // Cambiar a PascalCase
     foreignKey: "idCurso" 
   });
-
 
 // Relaciones Curso -> Modulo
 Curso.hasMany(Modulo, {
@@ -57,32 +57,44 @@ Curso.hasMany(Modulo, {
 Modulo.belongsTo(Curso, {
   foreignKey: "idCurso",
   targetKey: "idCurso",
+  as: "CursoDelModulo" // Cambiar para ser más específico
 });
 
 // Relaciones Modulo -> Leccion
 Modulo.hasMany(Leccion, {
   foreignKey: "idModulo",
   sourceKey: "idModulo",
+  as: "Lecciones"
 });
 Leccion.belongsTo(Modulo, {
   foreignKey: "idModulo",
   targetKey: "idModulo",
+  as: "ModuloDeLeccion" // Cambiar para ser más específico
 });
 
 // Relación Curso -> Comunidad
 Curso.hasOne(Comunidad, {
   foreignKey: "idCurso",
   sourceKey: "idCurso",
+  as: "ComunidadDelCurso" // Cambiar para evitar conflictos
 });
 Comunidad.belongsTo(Curso, {
   foreignKey: "idCurso",
   targetKey: "idCurso",
-
-
+  as: "CursoDeComunidad" // Cambiar para evitar conflictos
 });
 
-Curso.belongsToMany(Descuento, { through: "CursoDescuento", foreignKey: "idCurso" });
-Descuento.belongsToMany(Curso, { through: "CursoDescuento", foreignKey: "idDescuento" });
+// Relación Curso -> Descuento
+Curso.belongsToMany(Descuento, { 
+  through: "CursoDescuento", 
+  foreignKey: "idCurso",
+  as: "DescuentosDelCurso" // Cambiar para evitar conflictos
+});
+Descuento.belongsToMany(Curso, { 
+  through: "CursoDescuento", 
+  foreignKey: "idDescuento",
+  as: "CursosConDescuento" // Cambiar para evitar conflictos
+});
 
 const db = {
   sequelize,
@@ -94,7 +106,8 @@ const db = {
   Leccion,
   Publicidad,
   Usuario,
-  Modulo
+  Modulo,
+  AlumnoCurso
 };
 
 export default db;
