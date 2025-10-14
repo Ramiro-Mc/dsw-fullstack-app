@@ -1,12 +1,11 @@
 import { Curso } from "../models/Curso.js";
 import { Descuento } from "../models/Descuento.js";
+import { TipoCurso } from "../models/TipoCurso.js";
 
 export const cursoController = {
   getAllCursos: async (req, res) => {
     try {
-
       const { categoria } = req.query;
-
       let whereClause = {};
 
       if(categoria && categoria !== "Todos"){
@@ -14,7 +13,8 @@ export const cursoController = {
       }
 
       const allCursos = await Curso.findAll({
-        where: whereClause
+        where: whereClause,
+        include: [{ model: TipoCurso, as: "TipoCurso" }] // Agregar alias
       });
 
       if (allCursos.length === 0) {
@@ -34,7 +34,7 @@ export const cursoController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development" 
           ? error.message 
           : "Error interno del servidor",
       });
@@ -43,9 +43,23 @@ export const cursoController = {
 
   createCurso: async (req, res) => {
     try {
-      const { titulo, descripcion, precio, idTipo } = req.body;
+      const { titulo, descripcion, precio, idTipo, idProfesor } = req.body;
 
-      const newCurso = await Curso.create({ titulo, descripcion, precio, idTipo });
+      // Validar que idProfesor esté presente
+      if (!idProfesor) {
+        return res.status(400).json({
+          success: false,
+          error: "ID del profesor es requerido"
+        });
+      }
+
+      const newCurso = await Curso.create({ 
+        titulo, 
+        descripcion, 
+        precio, 
+        idTipo, 
+        idProfesor  // Incluir idProfesor en la creación
+      });
 
       res.status(201).json({
         success: true,
@@ -57,7 +71,7 @@ export const cursoController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development" 
           ? error.message 
           : "Error interno del servidor",
       });
@@ -90,7 +104,7 @@ export const cursoController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development" 
           ? error.message 
           : "Error interno del servidor",
       });
@@ -101,7 +115,9 @@ export const cursoController = {
     try {
       const { idCurso } = req.params;
 
-      const curso = await Curso.findByPk(idCurso);
+      const curso = await Curso.findByPk(idCurso, {
+        include: [{ model: TipoCurso, as: "TipoCurso" }] // Agregar alias
+      });
 
       res.status(200).json({
         success: true,
@@ -113,56 +129,40 @@ export const cursoController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development" 
           ? error.message 
           : "Error interno del servidor",
       });
     }
   },
 
-  // deleteCurso: async (req, res) => { //USAMOS BAJA LOGICA
-  //   try {
-  //     const { idCurso } = req.params;
-
-  //     await Curso.destroy({where: { idCurso: idCurso }});
-
-  //     res.status(200).json({
-  //       success: true,
-  //       msg: "Curso eliminado correctamente",
-  //     });
-
-  //   } catch (error) {
-  //     console.error(error);
-  //     res.status(500).json({
-  //       success: false,
-  //       msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
-  //         ? error.message 
-  //         : "Error interno del servidor",
-  //     });
-  //   }
-  // },
-
   agregarDescuento: async(req, res) => {
     try{
+      const {idCurso} = req.params;
+      const {idDescuento} = req.body;
 
-    const {idCurso} = req.params;
-    const {idDescuento} = req.body;
+      const curso = await Curso.findByPk(idCurso);
+      const descuento = await Descuento.findByPk(idDescuento);
 
-    const curso = Curso.findByPk(idCurso);
-    const descuento = Descuento.findByPk(idDescuento);
+      if (!curso || !descuento) {
+        return res.status(404).json({
+          success: false,
+          msg: "Curso o descuento no encontrado"
+        });
+      }
 
-    await curso.addDescuento(descuento);
+      await curso.addDescuentosDelCurso(descuento); // Usar el alias correcto
 
-    res.status(200).json({
-      success: true,
-      msg: "Descuento agregado correctamente",
-    });
+      res.status(200).json({
+        success: true,
+        msg: "Descuento agregado correctamente",
+      });
 
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development" 
           ? error.message 
           : "Error interno del servidor",
       });
@@ -171,14 +171,20 @@ export const cursoController = {
 
   quitarDescuento: async (req, res) => {
     try{
+      const {idCurso} = req.params;
+      const {idDescuento} = req.body;
 
-    const {idCurso} = req.params;
-    const {idDescuento} = req.body;
+      const curso = await Curso.findByPk(idCurso);
+      const descuento = await Descuento.findByPk(idDescuento);
 
-      const curso = Curso.findByPk(idCurso);
-      const descuento = Descuento.findByPk(idDescuento);
+      if (!curso || !descuento) {
+        return res.status(404).json({
+          success: false,
+          msg: "Curso o descuento no encontrado"
+        });
+      }
 
-      await curso.removeDescuento(descuento);
+      await curso.removeDescuentosDelCurso(descuento); // Usar el alias correcto
 
       res.status(200).json({
         success: true,
@@ -189,27 +195,25 @@ export const cursoController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development" 
           ? error.message 
           : "Error interno del servidor",
       });
     }
   },
 
-
   getAllDescuentosCurso: async (req, res) => {
     try{
-
       const { idCurso } = req.params;
 
       const curso = await Curso.findByPk(idCurso, {
-        include: Descuento
+        include: [{ model: Descuento, as: "DescuentosDelCurso" }] // Usar alias correcto
       });
 
       res.status(200).json({
         success: true,
-        msg: "Descuento removido correctamente",
-        informacion: curso.Descuento
+        msg: "Descuentos obtenidos correctamente",
+        informacion: curso?.DescuentosDelCurso || [] // Usar alias correcto
       });
 
     } catch (error) {
@@ -227,7 +231,7 @@ export const cursoController = {
     try {
       const cursosPendientes = await Curso.findAll({
         where: { estado: 'pendiente' },
-        include: [TipoCurso] 
+        include: [{ model: TipoCurso, as: "TipoCurso" }] // Agregar alias
       });
 
       res.status(200).json({
@@ -240,12 +244,13 @@ export const cursoController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development" 
           ? error.message 
           : "Error interno del servidor",
       });
     }
   },
+
   aprobarCurso: async (req, res) => {
     try {
       const { idCurso } = req.params;
@@ -277,7 +282,7 @@ export const cursoController = {
   rechazarCurso: async (req, res) => {
     try {
       const { idCurso } = req.params;
-      const { motivo } = req.body; // Opcional: para guardar el motivo del rechazo
+      const { motivo } = req.body;
 
       await Curso.update(
         { estado: 'rechazado' }, 
@@ -300,11 +305,11 @@ export const cursoController = {
     }
   },
 
-  // Modificar getAllCursos para que solo muestre aprobados en el frontend público
   getAllCursosAprobados: async (req, res) => {
     try {
       const cursosAprobados = await Curso.findAll({
-        where: { estado: 'aprobado' }
+        where: { estado: 'aprobado' },
+        include: [{ model: TipoCurso, as: "TipoCurso" }] // Agregar alias
       });
 
       res.status(200).json({
@@ -323,5 +328,4 @@ export const cursoController = {
       });
     }
   },
-
 };

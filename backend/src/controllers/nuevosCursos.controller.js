@@ -80,11 +80,11 @@ export const crearCursoCompleto = async (req, res) => {
     const cursoCompleto = await Curso.findByPk(nuevoCurso.idCurso, {
       include: [
         {
-          model: Modulo,
-          include: [Leccion]
+          model: Modulo, as: "Modulos",
+          include: [ { model: Leccion, as: "Lecciones" } ]
         },
         {
-          model: TipoCurso
+          model: TipoCurso, as: "TipoCurso"
         }
       ]
     });

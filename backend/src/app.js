@@ -17,6 +17,8 @@ import adminRoutes from './routes/admin.routes.js';
 import nuevosCursos from './routes/nuevosCursos.routes.js';
 import cors from "cors";
 
+// Importar modelos con asociaciones
+import db from "./models/allModels.js";
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -34,7 +36,7 @@ app.use("/", loginRoutes);
 
 // Rutas
 app.use(tipoCursoRoutes);
-app.use(cursosRoutes);
+app.use("/api", cursosRoutes);
 app.use(comunidadRoutes);
 app.use(descuentosRoutes);
 app.use(usuarioRoutes);
@@ -44,6 +46,5 @@ app.use(modulosRoutes);
 app.use(leccionRoutes);
 app.use(nuevosCursos);
 app.use("/api/admin", adminRoutes); 
-
 
 export default app;
