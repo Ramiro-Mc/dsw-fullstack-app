@@ -33,9 +33,9 @@ export const tipoCursoController = {
 
   createTipoCurso: async (req, res) => {
     try {
-      const { nombreTipo, descripcion } = req.body;
+      const { nombreTipo, descripcion, icono } = req.body;
 
-      const newTipo = await TipoCurso.create({ nombreTipo, descripcion});
+      const newTipo = await TipoCurso.create({ nombreTipo, descripcion, icono});
 
       res.status(201).json({
         success: true,
@@ -57,12 +57,13 @@ export const tipoCursoController = {
   updateTipoCurso: async (req, res) => {
     try {
       const { idTipo } = req.params;
-      const { nombreTipo, descripcion } = req.body;
+      const { nombreTipo, descripcion, icono } = req.body;
 
       const camposAActualizar = {};
 
       if (nombreTipo) {camposAActualizar.nombreTipo = nombreTipo;}
       if (descripcion) {camposAActualizar.descripcion = descripcion;}
+      if (icono) {camposAActualizar.icono = icono;}
 
       await TipoCurso.update(camposAActualizar, { where: { idTipo } });
 

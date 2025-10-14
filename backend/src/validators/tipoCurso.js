@@ -13,6 +13,7 @@ const validateCreate = [
       return true;
     } ),   
   check('descripcion').exists().notEmpty(),
+  check('icono').exists().notEmpty(),
   validateResult
 ];
 
@@ -39,6 +40,7 @@ const validateUpdate = [
     return true;
   } ),   
   check('descripcion').optional().notEmpty(),
+  check('icono').optional().notEmpty(),
   validateResult
 ]
 

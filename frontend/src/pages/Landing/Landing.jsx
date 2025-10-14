@@ -1,9 +1,11 @@
 import CursoCard from "../../components/LandingPage/CursoCard";
+import TipoCursoBadge from "../../components/LandingPage/TipoCursoBarge";
 import "./Landing.css";
 import { useEffect, useState } from "react";
 
 function Landing() {
   const [cursos, setCursos] = useState([]);
+  const [tipos, setTipos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -11,7 +13,7 @@ function Landing() {
   useEffect(() => {
     const fetchCursos = async () => {
       try {
-        const response = await fetch("http://localhost:3000/cursos", {
+        const response = await fetch("http://localhost:3000/api/cursos", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
@@ -30,18 +32,50 @@ function Landing() {
         setLoading(false);
       }
     };
+    const fetchTipos = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/tipoCursos", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          setTipos(data.contenido); 
+        } else {
+          setError(data.msg || "Error al cargar tipos");
+        }
+      } catch (error) {
+        console.error("Error al cargar tipos:", error);
+        setError("Error de conexión. Intenta de nuevo.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
     fetchCursos();
+    fetchTipos();
   }, []);
 
-  const handleSubmit = async () =>{
+  const handleSubmit = async (categoria) =>{
+
+    setLoading(true);
+    setError("");
+
     try {
-      const response = await fetch("http://localhost:3000/cursos", {
+
+      const url = categoria && categoria !== 'Todos' 
+      ? `http://localhost:3000/api/cursos?categoria=${categoria}`
+      : "http://localhost:3000/api/cursos";
+
+      const response = await fetch(url, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
 
       const data = await response.json();
+    console.log('Respuesta del servidor:', data); // ← Para debug
 
       if (data.success) {
         setCursos(data.contenido); // El backend devuelve { success: true, contenido: [...] }
@@ -97,32 +131,35 @@ function Landing() {
         </div>
 
         <div className="container categoria-botones text-center">
-          <form method="GET" action="#locales" className="d-inline" onSubmit={handleSubmit}>
-            <button type="submit" name="categoria" value="Todos" className="btn btn-outline-info">
-              Todos
-            </button>
-            <button type="submit" name="categoria" value="Accesorios" className="btn btn-outline-info">
-              <i class="bi bi-filetype-html"></i> HTML
-            </button>
-            <button type="submit" name="categoria" value="Deportes" className="btn btn-outline-info">
-              <i class="bi bi-filetype-css"></i> CSS
-            </button>
-            <button type="submit" name="categoria" value="Electro" className="btn btn-outline-info">
-              <i class="bi bi-people"></i> Coaching
-            </button>
-            <button type="submit" name="categoria" value="Estetica" className="btn btn-outline-info">
-              <i class="bi bi-camera"></i> Fotografia
-            </button>
-            <button type="submit" name="categoria" value="Gastronomía" className="btn btn-outline-info">
-              <i class="bi bi-cookie"></i> Gastronomía
-            </button>
-            <button type="submit" name="categoria" value="Calzado" className="btn btn-outline-info">
-              <i class="bi bi-chat-left-dots"></i> ChatGPT
-            </button>
-            <button type="submit" name="categoria" value="Indumentaria" className="btn btn-outline-info">
-              <i class="bi bi-graph-up-arrow"></i> Innovacion
-            </button>
-          </form>
+          
+          <TipoCursoBadge
+            handleSubmit={handleSubmit}
+            tipo="Todos"
+            icono=""
+          />
+          
+          {loading ? (
+            <div className="text-center">
+              <p>Cargando tipos...</p>
+            </div>
+          ) : error ? (
+            <div className="text-center">
+              <p className="text-danger">{error}</p>
+            </div>
+          ) : tipos.length > 0 ? (
+            tipos.map((tipo) => 
+            <TipoCursoBadge 
+              key={tipo.idTipo}
+              handleSubmit={handleSubmit}
+              tipo={tipo.nombreTipo}
+              icono={tipo.icono}
+            />)
+          ) : (
+            <div className="text-center">
+              <p>No hay tipos disponibles</p>
+            </div>
+          )}
+         
         </div>
 
         <div className="container contenedor-tarjetas">

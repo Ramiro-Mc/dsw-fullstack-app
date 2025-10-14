@@ -7,17 +7,19 @@ function RegisterPage() {
   const [email, setEmail] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [tipoUsuario, setTipoUsuario] = useState("");
+  const [fotoDePerfil, setFotoDePerfil] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setFotoDePerfil("/Default.jpg")
 
     try {
       const res = await fetch("http://localhost:3000/usuarios", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombreUsuario, email, contrasena, tipoUsuario }),
+        body: JSON.stringify({ nombreUsuario, email, contrasena, tipoUsuario, fotoDePerfil }),
       });
 
       const data = await res.json();

@@ -1,11 +1,6 @@
-.Contenedor-barra {
-  height: 800px;
-  box-sizing: border-box;
-  box-shadow: 0 0 0.5rem rgb(0 0 0 / 15%);
-}
 
 .seccion {
-  height: 80px;
+  height: 100px;
   border-bottom: 1px solid #ccc;
   display: flex;
   align-items: center;
@@ -20,4 +15,18 @@
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+}
+
+.activo{
+  box-shadow: inset 3px 0 0 #007bff;
+}
+
+.relleno{
+  height: 300px;
+  box-sizing: border-box;
+  box-shadow: 2px 0 4px rgb(0 0 0 / 15%);
+}
+
+.no_activo{
+  box-shadow: 2px 0 4px rgb(0 0 0 / 15%);
 }
