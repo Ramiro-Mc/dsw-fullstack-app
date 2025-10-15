@@ -66,7 +66,8 @@ const createCursosData = async () => {
         titulo: "React JS desde Cero",
         descripcion: "Aprende React desde los fundamentos hasta proyectos avanzados. Incluye hooks, context, y mejores prácticas.",
         precio: 15999,
-        estado: "aprobado"
+        estado: "aprobado",
+        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
       },
       {
         idProfesor: profesor.idUsuario,
@@ -74,7 +75,8 @@ const createCursosData = async () => {
         titulo: "Node.js y Express",
         descripcion: "Desarrollo backend completo con Node.js, Express y MongoDB. APIs RESTful desde cero.",
         precio: 18999,
-        estado: "aprobado"
+        estado: "aprobado",
+        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
       },
       {
         idProfesor: profesor.idUsuario,
@@ -82,7 +84,8 @@ const createCursosData = async () => {
         titulo: "JavaScript Avanzado",
         descripcion: "Conceptos avanzados de JavaScript: closures, prototipos, async/await y más.",
         precio: 12999,
-        estado: "pendiente"
+        estado: "pendiente",
+        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
       },
       {
         idProfesor: profesor.idUsuario,
@@ -90,7 +93,8 @@ const createCursosData = async () => {
         titulo: "Diseño UI/UX Completo",
         descripcion: "Principios de diseño de interfaces y experiencia de usuario. De wireframes a prototipos.",
         precio: 14999,
-        estado: "aprobado"
+        estado: "aprobado",
+        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
       },
       {
         idProfesor: profesor.idUsuario,
@@ -98,7 +102,8 @@ const createCursosData = async () => {
         titulo: "Figma Masterclass",
         descripcion: "Domina Figma para crear diseños profesionales y sistemas de diseño.",
         precio: 9999,
-        estado: "rechazado"
+        estado: "rechazado",
+        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
       },
       {
         idProfesor: profesor.idUsuario,
@@ -106,7 +111,8 @@ const createCursosData = async () => {
         titulo: "Marketing Digital 2024",
         descripcion: "Estrategias de marketing digital para empresas: SEO, SEM, redes sociales y analytics.",
         precio: 16999,
-        estado: "aprobado"
+        estado: "aprobado",
+        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
       },
       {
         idProfesor: profesor.idUsuario,
@@ -114,7 +120,8 @@ const createCursosData = async () => {
         titulo: "Python Full Stack",
         descripcion: "Desarrollo completo con Python: Django, APIs, bases de datos y deployment.",
         precio: 22999,
-        estado: "pendiente"
+        estado: "pendiente",
+        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
       },
       {
         idProfesor: profesor.idUsuario,
@@ -122,7 +129,8 @@ const createCursosData = async () => {
         titulo: "TypeScript Profesional",
         descripcion: "JavaScript tipado para proyectos enterprise. Tipos avanzados y mejores prácticas.",
         precio: 19999,
-        estado: "aprobado"
+        estado: "aprobado",
+        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
       }
     ];
 

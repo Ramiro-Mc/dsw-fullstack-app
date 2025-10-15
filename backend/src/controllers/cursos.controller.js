@@ -43,7 +43,7 @@ export const cursoController = {
 
   createCurso: async (req, res) => {
     try {
-      const { titulo, descripcion, precio, idTipo, idProfesor } = req.body;
+      const { titulo, descripcion, precio, idTipo, idProfesor, imagen } = req.body; // <--- Agregar imagen
 
       // Validar que idProfesor esté presente
       if (!idProfesor) {
@@ -58,7 +58,8 @@ export const cursoController = {
         descripcion, 
         precio, 
         idTipo, 
-        idProfesor  // Incluir idProfesor en la creación
+        idProfesor, 
+        imagen // <--- Incluir imagen en la creación
       });
 
       res.status(201).json({

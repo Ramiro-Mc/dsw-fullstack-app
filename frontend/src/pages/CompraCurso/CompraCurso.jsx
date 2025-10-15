@@ -1,52 +1,59 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import './CompraCurso.css';
 
-const CompraCurso = ({ curso }) => {
-  // Placeholder data - replace with actual course data from props or API
-  const cursoEjemplo = curso || {
-    titulo: 'Título del Curso',
-    descripcion: 'Descripción detallada del curso...',
-    precio: 29.99,
-    duracion: '25 horas',
-    recursos: ['Videos bajo demanda', 'Tareas', '1 artículo', 'Acceso móvil'],
-    profesor: 'Nombre del Profesor',
-    certificado: true
-  };
+const CompraCurso = () => {
+  const { idCurso } = useParams();
+  const [curso, setCurso] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Ajuste: la URL apunta a tu backend local en el puerto 3000
+    fetch(`http://localhost:3000/api/cursos/${idCurso}`)
+      .then(res => res.json())
+      .then(data => {
+        setCurso(data.informacion);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [idCurso]);
+
+  if (loading) return <div className="compra-curso-container">Cargando...</div>;
+  if (!curso) return <div className="compra-curso-container">No se encontró el curso.</div>;
 
   return (
     <div className="compra-curso-container">
       <div className="curso-preview">
+        <img
+          src={curso.imagen || 'https://img-c.udemycdn.com/course/480x270/123456.jpg'}
+          alt="Vista previa del curso"
+          className="curso-imagen-preview"
+        />
         <div className="curso-header">
-          <h1>{cursoEjemplo.titulo}</h1>
-          <p className="curso-descripcion">{cursoEjemplo.descripcion}</p>
+          <h1>{curso.titulo}</h1>
+          <p className="curso-descripcion">{curso.descripcion}</p>
           <div className="curso-metadata">
-            <span>Creado por {cursoEjemplo.profesor}</span>
-            <span>Última actualización: {new Date().toLocaleDateString()}</span>
+            <span>Creado por {curso.Profesor?.nombre || 'Profesor'}</span>
+            <span>Última actualización: {new Date(curso.updatedAt).toLocaleDateString()}</span>
           </div>
         </div>
       </div>
 
       <div className="curso-detalles">
-        <div className="curso-precio-card">
+        <div className="curso-precio-card curso-precio-card-fisica">
           <div className="precio-container">
-            <h2 className="precio">US$ {cursoEjemplo.precio}</h2>
-            {/* Agregar lógica de descuento si es necesario */}
+            <h2 className="precio">US$ {curso.precio}</h2>
           </div>
-          
           <div className="botones-compra">
             <button className="btn-comprar-ahora">Comprar ahora</button>
-            <button className="btn-anadir-cesta">Añadir a la cesta</button>
           </div>
-
           <div className="curso-incluye">
             <h3>Este curso incluye:</h3>
             <ul>
-              {cursoEjemplo.recursos.map((recurso, index) => (
-                <li key={index}>{recurso}</li>
-              ))}
-              {cursoEjemplo.certificado && (
-                <li>Certificado de finalización</li>
-              )}
+              <li>Videos bajo demanda</li>
+              <li>Tareas</li>
+              <li>Acceso móvil</li>
+              <li>Certificado de finalización</li>
             </ul>
           </div>
         </div>

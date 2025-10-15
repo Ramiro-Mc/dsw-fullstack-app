@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../database/sequelize.js";
-import { TipoCurso } from "./TipoCurso.js"
+import { TipoCurso } from "./TipoCurso.js";
 import { Usuario } from "./Usuario.js";
 
 export const Curso = sequelize.define("Curso", {
@@ -30,6 +30,7 @@ export const Curso = sequelize.define("Curso", {
     allowNull: false,
     defaultValue: 'pendiente'
   },
+  imagen: { type: DataTypes.STRING }, 
 }, {
   tableName: 'Cursos',
   timestamps: true
