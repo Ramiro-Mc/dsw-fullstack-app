@@ -1,0 +1,163 @@
+.compra-curso-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  color: #333;
+}
+
+.curso-preview {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.curso-header h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #000;
+}
+
+.curso-descripcion {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  color: #666;
+}
+
+.curso-metadata {
+  display: flex;
+  gap: 2rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.curso-precio-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 2rem;
+}
+
+.precio-container {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.precio {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #000;
+}
+
+.botones-compra {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.btn-comprar-ahora,
+.btn-anadir-cesta {
+  padding: 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-comprar-ahora {
+  background-color: #ff8c00; /* Orange color */
+  color: white;
+}
+
+.btn-comprar-ahora:hover {
+  background-color: #ff7300;
+}
+
+.btn-anadir-cesta {
+  background-color: white;
+  color: #ff8c00;
+  border: 2px solid #ff8c00;
+}
+
+.btn-anadir-cesta:hover {
+  background-color: #fff5e6;
+}
+
+.curso-incluye {
+  margin-top: 2rem;
+}
+
+.curso-incluye h3 {
+  margin-bottom: 1rem;
+  color: #000;
+}
+
+.curso-incluye ul {
+  list-style: none;
+  padding: 0;
+}
+
+.curso-incluye li {
+  margin-bottom: 0.5rem;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.curso-incluye li::before {
+  content: "✓";
+  color: #ff8c00;
+}
+
+.curso-aprendizaje {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.curso-aprendizaje h3 {
+  margin-bottom: 1rem;
+  color: #000;
+}
+
+.objetivos-aprendizaje {
+  list-style: none;
+  padding: 0;
+}
+
+.objetivos-aprendizaje li {
+  margin-bottom: 0.8rem;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.objetivos-aprendizaje li::before {
+  content: "•";
+  color: #ff8c00;
+  font-size: 1.5em;
+}
+
+@media (max-width: 768px) {
+  .compra-curso-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .curso-precio-card {
+    position: relative;
+    top: 0;
+  }
+}
