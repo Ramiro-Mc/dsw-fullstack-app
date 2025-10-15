@@ -34,11 +34,18 @@ const app = express();
 // Middlewares
 app.use(express.json());
 app.use(cors());
+
+// IMPORTANTE: Rutas específicas PRIMERO
+app.use("/api", cursosRoutes);
+app.use('/api', routerPagos);  // ← MOVER ESTO AL PRINCIPIO
+
+app.use("/api/admin", adminRoutes);
+
+// Rutas de autenticación
 app.use("/", loginRoutes);
 
-// Rutas
+// Otras rutas (sin /api)
 app.use(tipoCursoRoutes);
-app.use("/api", cursosRoutes);
 app.use(comunidadRoutes);
 app.use(descuentosRoutes);
 app.use(usuarioRoutes);
@@ -48,8 +55,10 @@ app.use(modulosRoutes);
 app.use(leccionRoutes);
 app.use(nuevosCursosRoutes);
 app.use(alumnoLeccionRoutes);
+
 // app.use(nuevosCursos);
 app.use('/api', routerPagos);
 app.use("/api/admin", adminRoutes); 
+
 
 export default app;

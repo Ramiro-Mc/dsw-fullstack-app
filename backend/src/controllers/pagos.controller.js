@@ -2,29 +2,42 @@ import { AlumnoCurso } from "../models/Alumnos_Cursos.js";
 import { Curso } from "../models/Curso.js";
 import { Usuario } from "../models/Usuario.js";
 import { TipoCurso } from "../models/TipoCurso.js";
-
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 
-// Configurar MercadoPago
-const client = new MercadoPagoConfig({ 
-  accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN 
-});
-
+// Configurar MercadoPago SOLO si tienes el token
+const client = process.env.MERCADOPAGO_ACCESS_TOKEN 
+  ? new MercadoPagoConfig({ accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN })
+  : null;
 
 export const pagoController = {
   
-  // Obtener datos del curso para checkout
   getCursoCheckout: async (req, res) => {
     try {
       const { idCurso } = req.params;
+      console.log('=== DEBUG CHECKOUT ===');
+      console.log('ID Curso recibido:', idCurso);
       
-      const curso = await Curso.findByPk(idCurso, {
-        where: { estado: 'aprobado' }, // Solo cursos aprobados
+      const curso = await Curso.findOne({
+        where: { 
+          idCurso: parseInt(idCurso),
+          estado: 'aprobado' 
+        },
         include: [
-          { model: TipoCurso, as: "TipoCurso" },
-          { model: Usuario, as: "Profesor", attributes: ['nombreUsuario'] }
+          { 
+            model: TipoCurso, 
+            as: "TipoCurso",
+            required: false 
+          },
+          { 
+            model: Usuario, 
+            as: "Profesor", 
+            attributes: ['nombreUsuario'],
+            required: false 
+          }
         ]
       });
+
+      console.log('Curso encontrado:', curso ? 'SÍ' : 'NO');
 
       if (!curso) {
         return res.status(404).json({
@@ -40,24 +53,32 @@ export const pagoController = {
       });
 
     } catch (error) {
-      console.error(error);
+      console.error('Error en getCursoCheckout:', error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" 
-          ? error.message 
-          : "Error interno del servidor"
+        msg: "Error interno del servidor"
       });
     }
   },
 
-  // Crear preferencia de MercadoPago
   crearPreferencia: async (req, res) => {
     try {
       const { idCurso, idUsuario } = req.body;
+      console.log('=== CREAR PREFERENCIA ===');
+      console.log('Body:', req.body);
 
-      const curso = await Curso.findByPk(idCurso, {
-        where: { estado: 'aprobado' },
-        include: [{ model: TipoCurso, as: "TipoCurso" }]
+      if (!idUsuario) {
+        return res.status(400).json({
+          success: false,
+          msg: "ID de usuario requerido"
+        });
+      }
+
+      const curso = await Curso.findOne({
+        where: { 
+          idCurso: parseInt(idCurso),
+          estado: 'aprobado' 
+        }
       });
 
       if (!curso) {
@@ -67,114 +88,79 @@ export const pagoController = {
         });
       }
 
-      // Verificar si ya compró el curso
-      const yaComprado = await AlumnoCurso.findOne({
-        where: { idUsuario, idCurso, estadoPago: 'aprobado' }
-      });
+      // SIEMPRE SIMULAR en desarrollo para proteger tokens reales
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Modo desarrollo - simulando pago');
+        res.status(200).json({
+          success: true,
+          msg: "Preferencia creada (simulado para desarrollo)",
+          preferenceId: `dev_${Date.now()}`,
+          initPoint: `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=dev_${Date.now()}`
+        });
+        return;
+      }
 
-      if (yaComprado) {
-        return res.status(400).json({
+      // Código real SOLO para producción
+      if (client) {
+        const preference = new Preference(client);
+        
+        const preferenceData = {
+          items: [
+            {
+              id: curso.idCurso.toString(),
+              title: curso.titulo,
+              description: curso.descripcion || 'Curso online',
+              quantity: 1,
+              currency_id: 'ARS',
+              unit_price: parseFloat(curso.precio)
+            }
+          ],
+          payer: {
+            email: 'test_user_123@testuser.com'
+          },
+          back_urls: {
+            success: `${process.env.FRONTEND_URL}/checkout/success`,
+            failure: `${process.env.FRONTEND_URL}/checkout/failure`,
+            pending: `${process.env.FRONTEND_URL}/checkout/pending`
+          },
+          auto_return: 'approved',
+          external_reference: `${idUsuario}_${idCurso}`,
+          notification_url: `${process.env.BACKEND_URL}/api/pagos/webhook`
+        };
+
+        const response = await preference.create({ body: preferenceData });
+
+        res.status(200).json({
+          success: true,
+          msg: "Preferencia creada",
+          preferenceId: response.id,
+          initPoint: response.init_point
+        });
+      } else {
+        res.status(500).json({
           success: false,
-          msg: "Ya tienes este curso"
+          msg: "MercadoPago no configurado"
         });
       }
 
-      // Crear preferencia en MercadoPago
-      const preference = {
-        items: [
-          {
-            title: curso.titulo,
-            description: curso.descripcion,
-            quantity: 1,
-            currency_id: 'ARS',
-            unit_price: curso.precio
-          }
-        ],
-        payer: {
-          email: 'test@test.com' // Usar email real del usuario
-        },
-        back_urls: {
-          success: `${process.env.FRONTEND_URL}/checkout/success`,
-          failure: `${process.env.FRONTEND_URL}/checkout/failure`,
-          pending: `${process.env.FRONTEND_URL}/checkout/pending`
-        },
-        auto_return: 'approved',
-        external_reference: `${idUsuario}_${idCurso}`, // Para identificar la compra
-        notification_url: `${process.env.BACKEND_URL}/api/pagos/webhook`
-      };
-
-      const response = await mercadopago.preferences.create(preference);
-
-      res.status(200).json({
-        success: true,
-        msg: "Preferencia creada",
-        preferenceId: response.body.id,
-        initPoint: response.body.init_point
-      });
-
     } catch (error) {
-      console.error(error);
+      console.error('Error en crearPreferencia:', error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" 
-          ? error.message 
-          : "Error interno del servidor"
+        msg: "Error interno del servidor"
       });
     }
   },
 
-  // Webhook para notificaciones de MercadoPago
   webhook: async (req, res) => {
-    try {
-      const { type, data } = req.body;
-
-      if (type === 'payment') {
-        const payment = await mercadopago.payment.findById(data.id);
-        const [idUsuario, idCurso] = payment.body.external_reference.split('_');
-
-        // Actualizar o crear registro de compra
-        if (payment.body.status === 'approved') {
-          await AlumnoCurso.upsert({
-            idUsuario: parseInt(idUsuario),
-            idCurso: parseInt(idCurso),
-            precioCompra: payment.body.transaction_amount,
-            metodoPago: 'mercadopago',
-            estadoPago: 'aprobado',
-            transactionId: payment.body.id.toString()
-          });
-        }
-      }
-
-      res.status(200).send('OK');
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error');
-    }
+    console.log('Webhook recibido:', req.body);
+    res.status(200).send('OK');
   },
 
-  // Verificar estado del pago
   verificarPago: async (req, res) => {
-    try {
-      const { idUsuario, idCurso } = req.params;
-
-      const compra = await AlumnoCurso.findOne({
-        where: { idUsuario, idCurso }
-      });
-
-      res.status(200).json({
-        success: true,
-        msg: "Estado del pago",
-        contenido: compra
-      });
-
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        success: false,
-        msg: process.env.NODE_ENV === "development" 
-          ? error.message 
-          : "Error interno del servidor"
-      });
-    }
+    res.status(200).json({ 
+      success: true, 
+      msg: "Verificación pendiente" 
+    });
   }
 };
