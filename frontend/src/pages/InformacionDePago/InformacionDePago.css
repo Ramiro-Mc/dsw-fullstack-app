@@ -1,0 +1,39 @@
+.contenedor-info-de-pago{
+  width: 80%;
+  background-color: lightgray;
+  border: 1px solid gray;
+  margin: 20px auto;
+  padding: 40px 60px;
+  border-radius: 8px;
+}
+
+.contenedor-info-de-pago label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.contenedor-info-de-pago input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #f0f0f0;
+}
+
+.contenedor-info-de-pago h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.contenedor-info-de-pago button {
+  width: 80%;
+  padding: 10px;
+  margin: auto;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+  margin-top: 10px;
+}

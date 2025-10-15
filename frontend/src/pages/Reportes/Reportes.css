@@ -1,0 +1,13 @@
+.contenedor-reportes button{
+  margin-top: 20px;
+  padding: 50px 70px;
+  font-size: 26px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contenedor-reportes{
+  text-align: center;
+}

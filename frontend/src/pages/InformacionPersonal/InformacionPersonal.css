@@ -1,0 +1,54 @@
+.informacion-personal .col-3 {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.informacion-personal img {
+  width: 200px;
+  height: 200px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.informacion-personal h2 {
+  margin-top: 40px;
+}
+
+.informacion-personal p {
+  font-size: 18px;
+  margin: 5px 0;
+}
+
+/* ✅ AGREGAR position: relative */
+.profile-image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-image-container:hover::after {
+  content: "📷";
+  position: absolute;
+  top: 90%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 8px; /* Ajuste fino para centrar el icono */
+  z-index: 10; /* ← Agregar para que esté encima */
+}
+
+.profile-image-clickable {
+  transition: opacity 0.3s ease, transform 0.3s ease; /* ← Mejorar transición */
+}
+
+.profile-image-clickable:hover {
+  opacity: 0.8;
+  transform: scale(1.01);
+}

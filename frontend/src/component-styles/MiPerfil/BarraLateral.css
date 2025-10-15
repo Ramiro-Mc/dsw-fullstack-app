@@ -10,7 +10,44 @@
   gap: 6px;
 }
 
+.subseccion {
+  height: 60px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  text-decoration: none;
+  color: inherit;
+  gap: 6px;
+  transition: 0.2s;
+  background-color: #f8f9fa;
+  overflow: hidden;
+  animation: slideDown 0.1s ease-out;
+  transform-origin: top;
+}
+
+
+@keyframes slideDown {
+  from {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    max-height: 200px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .seccion:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.subseccion:hover {
   background-color: #f0f0f0;
   cursor: pointer;
   text-decoration: none;
@@ -21,12 +58,15 @@
   box-shadow: inset 3px 0 0 #007bff;
 }
 
-.relleno{
-  height: 300px;
-  box-sizing: border-box;
-  box-shadow: 2px 0 4px rgb(0 0 0 / 15%);
+
+
+.opciones button{
+  background-color: transparent;
+  width: 100%;
 }
 
-.no_activo{
+.Contenedor-barra{
   box-shadow: 2px 0 4px rgb(0 0 0 / 15%);
+  box-sizing: border-box;
+  height: 700px;
 }
