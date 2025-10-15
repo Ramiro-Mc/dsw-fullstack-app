@@ -13,19 +13,22 @@ const Checkout = () => {
   const [procesandoPago, setProcesandoPago] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    fetchCurso();
-  }, [idCurso, user]);
+useEffect(() => {
+  if (!user) {
+    navigate('/login');
+    return;
+  }
+  fetchCurso();
+}, [idCurso, user, navigate]);
 
-  const fetchCurso = async () => {
+ const fetchCurso = async () => {
   try {
-    // Cambiar la URL para apuntar directamente al backend
+    console.log('Buscando curso con ID:', idCurso); // Debug
     const response = await fetch(`/api/checkout/curso/${idCurso}`);
+    console.log('Response status:', response.status); // Debug
+    
     const data = await response.json();
+    console.log('Data recibida:', data); // Debug
     
     if (data.success) {
       setCurso(data.contenido);
@@ -92,7 +95,7 @@ const handlePagar = async () => {
                 <label htmlFor="mercadopago">
                     <div className="payment-label">
                         <img 
-                        src="/public/mercadopagologo.png" 
+                        src="/mercadopagologo.png" 
                         alt="MercadoPago" 
                         className="mercadopago-logo"
                         />
@@ -115,7 +118,7 @@ const handlePagar = async () => {
               <div className="course-info">
                 <h3>{curso.titulo}</h3>
                 <p>Por {curso.Profesor?.nombreUsuario || 'Instructor'}</p>
-                <p>{curso.TipoCurso?.nombre || 'Curso'}</p>
+                <p>{curso.TipoCurso?.nombreTipo || 'Curso'}</p> 
               </div>
               <div className="course-price">
                 ${curso.precio}
