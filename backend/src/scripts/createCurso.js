@@ -3,6 +3,7 @@ import { Usuario } from "../models/Usuario.js";
 import { TipoCurso } from "../models/TipoCurso.js";
 import { sequelize } from "../database/sequelize.js";
 import bcrypt from "bcrypt";
+import '../models/allModels.js'; // <--- asegura que se registren todos los modelos y relaciones
 
 const createCursosData = async () => {
   try {
@@ -103,12 +104,12 @@ const createCursosData = async () => {
       // Coaching
       {
         idProfesor: profesor.idUsuario,
-        idTipo: tipoCoaching.idTipo,
-        titulo: "Coaching Personal y Profesional",
-        descripcion: "Desarrolla habilidades de liderazgo, comunicación efectiva y crecimiento personal.",
-        precio: 18999,
-        estado: "aprobado",
-        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
+        idTipo: tipoProgramacion.idTipo,
+        titulo: "JavaScript Avanzado",
+        descripcion: "Conceptos avanzados de JavaScript: closures, prototipos, async/await y más.",
+        precio: 12999,
+        estado: "pendiente",
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400 " // <--- Agregar imagen
       },
 
       // Fotografía
