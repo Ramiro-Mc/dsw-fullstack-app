@@ -1,14 +1,15 @@
-import { AlumnoCurso } from "../models/AlumnoCurso.js";
+import { AlumnoCurso } from "../models/Alumnos_Cursos.js";
 import { Curso } from "../models/Curso.js";
 import { Usuario } from "../models/Usuario.js";
 import { TipoCurso } from "../models/TipoCurso.js";
-// Instalar: npm install mercadopago
-import mercadopago from 'mercadopago';
+
+import { MercadoPagoConfig, Preference } from 'mercadopago';
 
 // Configurar MercadoPago
-mercadopago.configure({
-  access_token: process.env.MERCADOPAGO_ACCESS_TOKEN // Agregar en .env
+const client = new MercadoPagoConfig({ 
+  accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN 
 });
+
 
 export const pagoController = {
   

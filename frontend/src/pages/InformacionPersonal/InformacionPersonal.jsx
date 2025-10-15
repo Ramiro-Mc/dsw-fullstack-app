@@ -1,15 +1,22 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import "./informacionPersonal.css";
+import { useAuth } from "../../context/AuthContext"
 
 function InformacionPersonal() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [usuario, setUsuario] = useState({});
+  const fileInputRef = useRef(null);
+
+  const {user, loading: authLoading} = useAuth();
 
   useEffect(() => {
     const fetchUsuario = async () => {
       try {
-        const response = await fetch("http://localhost:3000/usuarios/1", {
+        const userId = user.id;
+
+        const response = await fetch(`http://localhost:3000/usuarios/${userId}`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
@@ -29,11 +36,37 @@ function InformacionPersonal() {
       }
     };
 
+    if(!authLoading && user){
     fetchUsuario();
-  }, []);
+    }
+  }, [user, authLoading]);
+
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+
+  // Función para manejar cambio de archivo
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // Aquí puedes procesar el archivo
+      console.log('Archivo seleccionado:', file);
+      
+      // Preview de la imagen
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        // Actualizar la imagen del usuario
+        setUsuario(prev => ({
+          ...prev,
+          fotoDePerfil: e.target.result
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   // Mostrar loading
-  if (loading) {
+  if (authLoading || loading) {
     return (
       <div className="container text-center">
         <p>Cargando información del usuario...</p>
@@ -51,10 +84,20 @@ function InformacionPersonal() {
   }
 
   return (
-    <div className="container">
+    <div className="container informacion-personal">
       <div className="row">
         <div className="col-3">
-          <img src="/Default.jpg" alt="Foto de perfil" className="img-fluid rounded-circle"/>
+          <input 
+            type="file" 
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept="image/*"
+            style={{ display: 'none' }} 
+          />
+          <div className="profile-image-container">
+            <img src={usuario.fotoDePerfil || "/image.png"} alt="Foto de perfil" className="img-fluid rounded-circle profile-image-clickable" onClick={handleImageClick}/>
+          </div>
+
         </div>
         <div className="col-9">
           <h2>{usuario.nombreUsuario}</h2>

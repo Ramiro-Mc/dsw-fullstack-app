@@ -6,6 +6,7 @@ function FormularioModulo({ nombreModulo, setNombreModulo, onGuardar, onCancelar
   return (
     <div className="mt-4 p-3 rounded container-modulos">
       <h4>Crear Nuevo Módulo</h4>
+      <hr />
       
       <p>Título del módulo:</p>
       <div className="input-group mb-3">

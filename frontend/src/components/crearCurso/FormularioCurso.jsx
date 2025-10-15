@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 
 function FormularioCurso({ 
   nombreCurso, 
@@ -10,12 +10,12 @@ function FormularioCurso({
   moduloSeleccionado,
   setModuloSeleccionado,
   modulos,
-  cargarTiposCurso
+  // cargarTiposCurso
 }) {
 
-  useEffect(() => {
-    cargarTiposCurso();
-  }, [cargarTiposCurso]);
+  // useEffect(() => {
+  //   cargarTiposCurso();
+  // }, [cargarTiposCurso]);
 
   return (
     <div>

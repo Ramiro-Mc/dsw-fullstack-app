@@ -22,53 +22,53 @@ const Checkout = () => {
   }, [idCurso, user]);
 
   const fetchCurso = async () => {
-    try {
-      const response = await fetch(`/api/checkout/curso/${idCurso}`);
-      const data = await response.json();
-      
-      if (data.success) {
-        setCurso(data.contenido);
-      } else {
-        setError('Curso no encontrado');
-      }
-    } catch (error) { // Cambié 'err' por 'error'
-      console.error('Error al cargar curso:', error);
-      setError('Error al cargar el curso');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handlePagar = async () => {
-    setProcesandoPago(true);
+  try {
+    // Cambiar la URL para apuntar directamente al backend
+    const response = await fetch(`/api/checkout/curso/${idCurso}`);
+    const data = await response.json();
     
-    try {
-      const response = await fetch('/api/pagos/crear-preferencia', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          idCurso: parseInt(idCurso),
-          idUsuario: user.idUsuario
-        })
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        // Redirigir a MercadoPago
-        window.location.href = data.initPoint;
-      } else {
-        alert(data.msg || 'Error al procesar el pago');
-      }
-    } catch (error) { // Cambié 'err' por 'error'
-      console.error('Error al procesar pago:', error);
-      alert('Error de conexión');
-    } finally {
-      setProcesandoPago(false);
+    if (data.success) {
+      setCurso(data.contenido);
+    } else {
+      setError('Curso no encontrado');
     }
-  };
+  } catch (error) { 
+    console.error('Error al cargar curso:', error);
+    setError('Error al cargar el curso');
+  } finally {
+    setLoading(false);
+  }
+};
+
+const handlePagar = async () => {
+  setProcesandoPago(true);
+  
+  try {
+    const response = await fetch('/api/pagos/crear-preferencia', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        idCurso: parseInt(idCurso),
+        idUsuario: user.id
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      window.location.href = data.initPoint;
+    } else {
+      alert(data.msg || 'Error al procesar el pago');
+    }
+  } catch (error) {
+    console.error('Error al procesar pago:', error);
+    alert('Error de conexión');
+  } finally {
+    setProcesandoPago(false);
+  }
+};
 
   if (loading) return <div className="loading">Cargando...</div>;
   if (error) return <div className="error">{error}</div>;
@@ -82,15 +82,6 @@ const Checkout = () => {
           
           <div className="billing-section">
             <h2>Información de facturación</h2>
-            <div className="country-section">
-              <label>País</label>
-              <select defaultValue="AR">
-                <option value="AR">🇦🇷 Argentina</option>
-              </select>
-              <p className="tax-info">
-                Se requiere información fiscal para compras realizadas en ciertas jurisdicciones fiscales.
-              </p>
-            </div>
           </div>
 
           <div className="payment-section">
@@ -99,13 +90,14 @@ const Checkout = () => {
               <div className="mercadopago-option">
                 <input type="radio" id="mercadopago" name="payment" defaultChecked />
                 <label htmlFor="mercadopago">
-                  <span>💳 MercadoPago</span>
-                  <div className="payment-icons">
-                    <span>VISA</span>
-                    <span>MC</span>
-                    <span>AMEX</span>
-                  </div>
-                </label>
+                    <div className="payment-label">
+                        <img 
+                        src="/public/mercadopagologo.png" 
+                        alt="MercadoPago" 
+                        className="mercadopago-logo"
+                        />
+                    </div>
+                    </label>
               </div>
             </div>
             
@@ -115,7 +107,7 @@ const Checkout = () => {
           </div>
 
           <div className="order-details">
-            <h2>Detalles del pedido (1 curso)</h2>
+            <h2>Detalles del pedido</h2>
             <div className="course-item">
               <div className="course-thumbnail">
                 <img src="/placeholder-course.jpg" alt={curso.titulo} />
@@ -142,13 +134,13 @@ const Checkout = () => {
             </div>
             
             <div className="total-line">
-              <span><strong>Total (1 curso):</strong></span>
+              <span><strong>Total:</strong></span>
               <span><strong>${curso.precio}</strong></span>
             </div>
 
             <div className="terms-text">
-              Al completar tu compra, aceptas estos{' '}
-              <a href="/terms">Términos de Uso</a>
+              Al completar tu compra, aceptas nuestros{' '}
+              <b>Términos de Uso</b>
             </div>
 
             <button 
@@ -156,7 +148,7 @@ const Checkout = () => {
               onClick={handlePagar}
               disabled={procesandoPago}
             >
-              {procesandoPago ? 'Procesando...' : `💳 Pagar $${curso.precio}`}
+              {procesandoPago ? 'Procesando...' : ` Pagar $${curso.precio}`}
             </button>
 
             <div className="guarantee">
@@ -166,7 +158,7 @@ const Checkout = () => {
 
             <div className="success-tip">
               🎯 <strong>Aprovecha el éxito ahora</strong>
-              <p>2 personas de tu país se inscribieron recientemente en este curso en las últimas 24 horas.</p>
+              <p>2 personas se inscribieron recientemente en este curso en las últimas 24 horas.</p>
             </div>
           </div>
         </div>

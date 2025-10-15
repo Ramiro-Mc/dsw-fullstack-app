@@ -1,10 +1,11 @@
 import React from "react";
+import "./Reportes.css"
 
 function Reportes() {
   return (
-    <>
-      Reportes
-    </>
+    <div className="contenedor-reportes">
+      <button className="btn btn-warning"> <i class="bi bi-newspaper"></i> Generar reporte de ingresos </button>
+    </div>
   );
 }
 

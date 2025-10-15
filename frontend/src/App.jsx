@@ -10,7 +10,8 @@ import UsuariosPage from "./pages/UsuariosPage/UsuariosPage";
 import LayoutMiPerfil from "./components/MiPerfil/LayoutMiPerfil";
 import InformacionDePago from "./pages/InformacionDePago/InformacionDePago";
 import Reportes from "./pages/Reportes/Reportes";
-import MisCursos from "./pages/MisCursos/MisCursos";
+import MisCursosCreados from "./pages/MisCursosCreados/MisCursosCreados";
+import MisCursosComprados from "./pages/MisCursosComprados/MisCursosComprados";
 import InformacionPersonal from "./pages/InformacionPersonal/InformacionPersonal";
 import CrearCursoPage from "./pages/CrearCurso/CrearCurso";
 import Profesores from "./pages/Profesores/profesores";
@@ -53,8 +54,12 @@ const router = createBrowserRouter([
             element: <InformacionPersonal />,
           },
           {
-            path: "misCursos",
-            element: <MisCursos />,
+            path: "misCursosCreados",
+            element: <MisCursosCreados />,
+          },
+          {
+            path: "misCursosComprados",
+            element: <MisCursosComprados />,
           },
           {
             path: "informacionDePago",
@@ -78,15 +83,24 @@ const router = createBrowserRouter([
         path: "profesores",
         element: <Profesores />,
       },
+
       {path: "compraCurso/:idCurso",
        element: <CompraCurso />
       },
 
-      {
+
+
+          {
+
         path: "checkout/:idCurso",
-        element: <Checkout />,
+        element: (
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        ),
       },
-      {
+
+    {      
         path: "admin",
         element: (
           <ProtectedRoute requiredRole="administrador">
