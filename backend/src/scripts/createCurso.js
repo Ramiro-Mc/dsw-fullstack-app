@@ -3,12 +3,16 @@ import { Usuario } from "../models/Usuario.js";
 import { TipoCurso } from "../models/TipoCurso.js";
 import { sequelize } from "../database/sequelize.js";
 import bcrypt from "bcrypt";
+import '../models/allModels.js'; // <--- asegura que se registren todos los modelos y relaciones
 
 const createCursosData = async () => {
   try {
     // Conectar a la base de datos
     await sequelize.authenticate();
     console.log("Conectado a la base de datos");
+
+    // Asegurar que las tablas existan / se actualicen según los modelos
+    await sequelize.sync({ alter: true }); // <- crea/ajusta tablas. Usa { force: true } si querés borrarlas y recrearlas
 
     // Crear tipos de curso si no existen
     const tiposPorDefecto = [
@@ -67,7 +71,7 @@ const createCursosData = async () => {
         descripcion: "Aprende React desde los fundamentos hasta proyectos avanzados. Incluye hooks, context, y mejores prácticas.",
         precio: 15999,
         estado: "aprobado",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400 " // <--- Agregar imagen
       },
       {
         idProfesor: profesor.idUsuario,
@@ -76,7 +80,7 @@ const createCursosData = async () => {
         descripcion: "Desarrollo backend completo con Node.js, Express y MongoDB. APIs RESTful desde cero.",
         precio: 18999,
         estado: "aprobado",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400 " // <--- Agregar imagen
       },
       {
         idProfesor: profesor.idUsuario,
@@ -85,7 +89,7 @@ const createCursosData = async () => {
         descripcion: "Conceptos avanzados de JavaScript: closures, prototipos, async/await y más.",
         precio: 12999,
         estado: "pendiente",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400 " // <--- Agregar imagen
       },
       {
         idProfesor: profesor.idUsuario,
@@ -94,7 +98,7 @@ const createCursosData = async () => {
         descripcion: "Principios de diseño de interfaces y experiencia de usuario. De wireframes a prototipos.",
         precio: 14999,
         estado: "aprobado",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400 " // <--- Agregar imagen
       },
       {
         idProfesor: profesor.idUsuario,
@@ -103,7 +107,7 @@ const createCursosData = async () => {
         descripcion: "Domina Figma para crear diseños profesionales y sistemas de diseño.",
         precio: 9999,
         estado: "rechazado",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400 " // <--- Agregar imagen
       },
       {
         idProfesor: profesor.idUsuario,
@@ -112,7 +116,7 @@ const createCursosData = async () => {
         descripcion: "Estrategias de marketing digital para empresas: SEO, SEM, redes sociales y analytics.",
         precio: 16999,
         estado: "aprobado",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400 " // <--- Agregar imagen
       },
       {
         idProfesor: profesor.idUsuario,
@@ -121,7 +125,7 @@ const createCursosData = async () => {
         descripcion: "Desarrollo completo con Python: Django, APIs, bases de datos y deployment.",
         precio: 22999,
         estado: "pendiente",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400 " // <--- Agregar imagen
       },
       {
         idProfesor: profesor.idUsuario,
@@ -130,7 +134,7 @@ const createCursosData = async () => {
         descripcion: "JavaScript tipado para proyectos enterprise. Tipos avanzados y mejores prácticas.",
         precio: 19999,
         estado: "aprobado",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400 " // <--- Agregar imagen
       }
     ];
 
