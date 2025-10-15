@@ -5,10 +5,12 @@ import Contenido from "../../components/Course/Contenido.jsx";
 import BarraSuperior from "../../components/Course/BarraSuperior.jsx";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 function Course() {
   console.log("Course esta cargando...");
   const { idCurso } = useParams(); // Obtener el ID del curso desde la URL
+  const { user } = useAuth(); // Usar el contexto de autenticación
   const [curso, setCurso] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [claseClicked, setClaseClicked] = useState({});
@@ -27,9 +29,9 @@ const cargarCursoConProgreso = async () => {
     try {
       console.log("Intentando cargar curso desde la base de datos...");
       
-      // Obtener el usuario logueado
-      const usuario = JSON.parse(localStorage.getItem('usuario'));
-      const idUsuario = usuario?.idUsuario;
+
+      // Obtener el usuario desde el contexto
+      const idUsuario = user?.idUsuario || user?.id;
 
       // Cargar el curso
       const resCurso = await fetch(`http://localhost:3000/cursoDetalle/${idCurso}`);
@@ -52,7 +54,6 @@ const cargarCursoConProgreso = async () => {
           if (resProgreso.ok) {
             const responseProgreso = await resProgreso.json();
             if (responseProgreso.success) {
-              // Convertir array de progreso a objeto para búsqueda rápida
               responseProgreso.progreso.forEach(p => {
                 progresoUsuario[p.numeroLec] = p.completado;
               });
@@ -107,8 +108,8 @@ const cargarCursoConProgreso = async () => {
     }
   };
 
-  cargarCursoConProgreso();
-}, [idCurso]);
+    cargarCursoConProgreso();
+  }, [idCurso, user]); // Agregar user como dependencia
 
   const manejarClick = (clase) => {
     setClaseClicked(clase);
@@ -116,9 +117,8 @@ const cargarCursoConProgreso = async () => {
 
 const completarClase = async () => {
   try {
-    // Obtener ID del usuario logueado
-    const usuario = JSON.parse(localStorage.getItem('usuario')); // O como tengas guardado el usuario
-    const idUsuario = usuario?.idUsuario;
+    // Obtener ID del usuario desde el contexto
+    const idUsuario = user?.idUsuario || user?.id;
 
     if (!idUsuario) {
       alert('Debes estar logueado para marcar el progreso');
@@ -133,7 +133,7 @@ const completarClase = async () => {
       },
       body: JSON.stringify({
         completado: !claseClicked.completado,
-        idUsuario: idUsuario // Agregar el ID del usuario
+        idUsuario: idUsuario  
       })
     });
 

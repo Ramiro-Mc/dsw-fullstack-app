@@ -1,9 +1,11 @@
 import { AlumnoLeccion } from "../models/AlumnoLeccion.js";
+import { Leccion } from "../models/Leccion.js";
+import { Modulo } from "../models/Modulo.js";
 
 export const completarLeccion = async (req, res) => {
   try {
     const { numeroLec } = req.params;
-    const { completado, idUsuario } = req.body; // Agregar idUsuario
+    const { completado, idUsuario } = req.body;
 
     if (!idUsuario) {
       return res.status(400).json({ 
@@ -50,7 +52,7 @@ export const obtenerProgresoUsuario = async (req, res) => {
   try {
     const { idUsuario, idCurso } = req.params;
 
-    // Obtener todas las lecciones del curso con el progreso del usuario
+    // Obtener el progreso del usuario para las lecciones de este curso
     const progreso = await AlumnoLeccion.findAll({
       where: { idUsuario },
       include: [{
@@ -66,7 +68,11 @@ export const obtenerProgresoUsuario = async (req, res) => {
 
     res.json({
       success: true,
-      progreso: progreso
+      progreso: progreso.map(p => ({
+        numeroLec: p.numeroLec,
+        completado: p.completado,
+        fechaCompletado: p.fechaCompletado
+      }))
     });
 
   } catch (error) {
