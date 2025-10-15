@@ -2,6 +2,7 @@
   background-color: #f5f5f5;
   min-height: calc(100vh - 80px);
   padding: 20px;
+  
 }
 
 .container {
@@ -106,7 +107,7 @@
 
 /* Header de la tarjeta */
 .card-header {
-  padding: 20px;
+  padding: 25px 30px; /* ← AQUÍ ESTÁ EL CAMBIO */
   border-bottom: 1px solid #eee;
   display: flex;
   justify-content: space-between;
@@ -141,7 +142,7 @@
 
 /* Body de la tarjeta */
 .card-body {
-  padding: 20px;
+  padding: 25px 30px; /* ← AQUÍ ESTÁ EL CAMBIO */
 }
 
 .curso-descripcion {
@@ -190,7 +191,7 @@
 
 /* Acciones de la tarjeta */
 .card-actions {
-  padding: 20px;
+  padding: 25px 30px; /* ← AQUÍ ESTÁ EL CAMBIO */
   border-top: 1px solid #eee;
   background-color: #f8f9fa;
   display: flex;
@@ -246,12 +247,6 @@
     gap: 15px;
   }
   
-  .card-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  
   .card-actions {
     flex-direction: column;
     gap: 10px;
@@ -272,11 +267,9 @@
     font-size: 1.6rem;
   }
   
-  .card-body {
-    padding: 15px;
-  }
-  
+  .card-header,
+  .card-body,
   .card-actions {
-    padding: 15px;
+    padding: 20px 25px; /* Menos padding en móviles */
   }
 }

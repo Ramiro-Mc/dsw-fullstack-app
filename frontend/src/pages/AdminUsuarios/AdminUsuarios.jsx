@@ -11,52 +11,51 @@ const AdminUsuarios = () => {
     fetchUsuarios();
   }, []);
 
-  const fetchUsuarios = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/usuarios');
-      const data = await response.json();
-      
-      if (data.success) {
-        setUsuarios(data.contenido);
-      } else {
-        setError('Error al cargar los usuarios');
-      }
-    } catch (err) {
-      console.error('Error:', err);
-      setError('Error de conexión');
-    } finally {
-      setLoading(false);
+ const fetchUsuarios = async () => {
+  try {
+    setLoading(true);
+    const response = await fetch('/api/admin/usuarios'); // ← CAMBIO AQUÍ
+    const data = await response.json();
+    
+    if (data.success) {
+      setUsuarios(data.usuarios); // ← CAMBIO: 'contenido' por 'usuarios'
+    } else {
+      setError('Error al cargar los usuarios');
     }
-  };
+  } catch (err) {
+    console.error('Error:', err);
+    setError('Error de conexión');
+  } finally {
+    setLoading(false);
+  }
+};
 
-  const handleEliminarUsuario = async (idUsuario, nombreUsuario) => {
-    if (!window.confirm(`¿Estás seguro de ELIMINAR PERMANENTEMENTE al usuario "${nombreUsuario}"?\n\nEsta acción NO se puede deshacer.`)) {
-      return;
+const handleEliminarUsuario = async (idUsuario, nombreUsuario) => {
+  if (!window.confirm(`¿Estás seguro de ELIMINAR PERMANENTEMENTE al usuario "${nombreUsuario}"?\n\nEsta acción NO se puede deshacer.`)) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/admin/usuarios/${idUsuario}`, { // ← CAMBIO AQUÍ
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      setUsuarios(usuarios.filter(usuario => usuario.idUsuario !== idUsuario));
+      alert('Usuario eliminado correctamente');
+    } else {
+      alert(data.message || 'Error al eliminar el usuario'); // ← CAMBIO: 'msg' por 'message'
     }
-
-    try {
-      const response = await fetch(`/api/usuarios/${idUsuario}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        // Remover el usuario de la lista
-        setUsuarios(usuarios.filter(usuario => usuario.idUsuario !== idUsuario));
-        alert('Usuario eliminado correctamente');
-      } else {
-        alert(data.msg || 'Error al eliminar el usuario');
-      }
-    } catch (err) {
-      console.error('Error:', err);
-      alert('Error de conexión al eliminar');
-    }
-  };
+  } catch (err) {
+    console.error('Error:', err);
+    alert('Error de conexión al eliminar');
+  }
+};
 
   if (loading) {
     return (

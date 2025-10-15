@@ -78,7 +78,7 @@
 
 /* Header de la tarjeta */
 .card-header {
-  padding: 20px;
+  padding: 25px 30px; /* ← CAMBIO: De 20px a 25px 30px */
   border-bottom: 1px solid #eee;
   display: flex;
   justify-content: space-between;
@@ -93,16 +93,18 @@
   margin: 0;
   flex: 1;
   line-height: 1.4;
+  padding: 10px;
 }
 
 /* Badge de estado */
 .estado-badge {
-  padding: 4px 12px;
+  padding: 6px 14px; /* ← CAMBIO: De 4px 12px a 6px 14px */
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 500;
   text-transform: capitalize;
   white-space: nowrap;
+  margin: 10px;
 }
 
 .estado-badge.success {
@@ -125,15 +127,14 @@
 
 /* Body de la tarjeta */
 .card-body {
-  padding: 20px;
+  padding: 25px 30px; /* ← CAMBIO: De 20px a 25px 30px */
 }
 
 .curso-descripcion {
   color: #6c757d;
-  margin: 0 0 15px 0;
-  line-height: 1.5;
+  margin: 20px; /* ← CAMBIO: De 15px a 20px */
+  line-height: 1.6; /* ← CAMBIO: De 1.5 a 1.6 */
   display: -webkit-box;
-  /* -webkit-line-clamp: 3; */
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -142,12 +143,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 15px;
+  margin-top: 20px; /* ← CAMBIO: De 15px a 20px */
+  padding-top: 15px; /* ← NUEVO: Separación visual */
+  border-top: 1px solid #f8f9fa; /* ← NUEVO: Línea separadora */
 }
 
 .precio {
   color: #fd7e14;
   font-size: 1.2rem;
+  font-weight: 600; /* ← NUEVO: Más peso */
 }
 
 .fechas {
@@ -157,19 +161,20 @@
 
 /* Acciones de la tarjeta */
 .card-actions {
-  padding: 20px;
+  padding: 25px 30px; /* ← CAMBIO: De 20px a 25px 30px */
   border-top: 1px solid #eee;
   background-color: #f8f9fa;
 }
 
 .btn-eliminar {
   width: 100%;
-  padding: 10px 15px;
+  padding: 12px 20px; /* ← CAMBIO: De 10px 15px a 12px 20px */
   border: none;
   border-radius: 6px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 0.95rem; /* ← NUEVO: Tamaño de fuente */
 }
 
 .btn-eliminar:not(:disabled) {
@@ -180,6 +185,7 @@
 .btn-eliminar:not(:disabled):hover {
   background-color: #c82333;
   transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3); /* ← NUEVO: Sombra al hover */
 }
 
 .btn-eliminar:disabled {
@@ -211,4 +217,19 @@
     align-items: flex-start;
     gap: 5px;
   }
+}
+
+@media (max-width: 480px) {
+  .card-header,
+  .card-body,
+  .card-actions {
+    padding: 20px 25px; /* Menos padding en móviles */
+  }
+}
+
+/* Sobreescribir estilos del componente AdmCursoCard si es necesario */
+.todos-cursos .adm-curso-card .card-header,
+.todos-cursos .adm-curso-card .card-body,
+.todos-cursos .adm-curso-card .card-actions {
+  padding: 25px 30px !important;
 }

@@ -1,7 +1,9 @@
 import React from 'react';
 import './AdmUsuariosCard.css';
 
-const UsuarioCard = ({ usuario, onEliminar }) => {
+
+
+const AdmUsuariosCard = ({ usuario, onEliminar }) => {
   const getTipoColor = (tipo) => {
     switch (tipo) {
       case 'administrador': return 'admin';
@@ -58,4 +60,4 @@ const UsuarioCard = ({ usuario, onEliminar }) => {
   );
 };
 
-export default UsuarioCard;
+export default AdmUsuariosCard;

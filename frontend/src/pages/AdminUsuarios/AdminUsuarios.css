@@ -137,6 +137,106 @@
   opacity: 0.6;
 }
 
+.admin-usuarios {
+  background-color: #f5f5f5;
+  min-height: calc(100vh - 80px);
+  padding: 20px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  text-align: center;
+  border-left: 5px solid #6f42c1;
+}
+
+.header h1 {
+  color: #212529;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+}
+
+.subtitle {
+  color: #6c757d;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.loading, .error {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.retry-btn {
+  background-color: #6f42c1;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.retry-btn:hover {
+  background-color: #5a2d91;
+}
+
+.empty-state {
+  background: white;
+  padding: 60px 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #6c757d;
+}
+
+/* Grid de usuarios */
+.usuarios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 25px; /* ← AUMENTADO: De 20px a 25px */
+  margin-top: 20px;
+}
+
+/* Sobreescribir estilos del componente para más espaciado */
+.admin-usuarios .usuario-card .card-header,
+.admin-usuarios .usuario-card .card-body,
+.admin-usuarios .usuario-card .card-actions {
+  padding: 25px 30px !important; /* ← MÁS ESPACIADO */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-usuarios {
+    padding: 15px;
+  }
+  
+  .usuarios-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-usuarios .usuario-card .card-header,
+  .admin-usuarios .usuario-card .card-body,
+  .admin-usuarios .usuario-card .card-actions {
+    padding: 20px 25px !important; /* Menos padding en móviles */
+  }
+}
+
 @media (max-width: 768px) {
   .card-header {
     flex-direction: column;

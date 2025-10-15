@@ -7,6 +7,32 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.adm-curso-card .card-header,
+.adm-curso-card .card-body,
+.adm-curso-card .card-actions {
+  padding: 20px 20px !important; /* Forzar el cambio */
+}
+
+.solicitudes-pendientes .adm-curso-card .card-header,
+.solicitudes-pendientes .adm-curso-card .card-body,
+.solicitudes-pendientes .adm-curso-card .card-actions {
+  padding: 20px 20px !important;
+}
+
+/* Si las clases son diferentes, prueba con: */
+.solicitudes-pendientes .card-header,
+.solicitudes-pendientes .card-body,
+.solicitudes-pendientes .card-actions {
+  padding: 20px 20px !important;
+}
+
+/* O si usa otras clases: */
+.solicitudes-grid > * .card-header,
+.solicitudes-grid > * .card-body,
+.solicitudes-grid > * .card-actions {
+  padding: 20px 20px !important;
+}
+
 .curso-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);

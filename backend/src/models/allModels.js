@@ -130,4 +130,5 @@ const db = {
   AlumnoLeccion
 };
 
+
 export default db;
