@@ -6,13 +6,15 @@ import { useEffect, useState } from "react";
 function Landing() {
   const [cursos, setCursos] = useState([]);
   const [tipos, setTipos] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingCursos, setLoadingCursos] = useState(true); // ← Loading separado para cursos
+  const [loadingTipos, setLoadingTipos] = useState(true); // ← Loading separado para tipos
   const [error, setError] = useState("");
 
   // Busco los cursos cuando el componente se monta
   useEffect(() => {
     const fetchCursos = async () => {
       try {
+        setLoadingCursos(true); // ← Usar loading específico
         const response = await fetch("http://localhost:3000/api/cursos", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -29,11 +31,12 @@ function Landing() {
         console.error("Error al cargar cursos:", error);
         setError("Error de conexión. Intenta de nuevo.");
       } finally {
-        setLoading(false);
+        setLoadingCursos(false); // ← Usar loading específico
       }
     };
     const fetchTipos = async () => {
       try {
+        setLoadingTipos(true); // ← Usar loading específico
         const response = await fetch("http://localhost:3000/tipoCursos", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -42,7 +45,7 @@ function Landing() {
         const data = await response.json();
 
         if (data.success) {
-          setTipos(data.contenido); 
+          setTipos(data.contenido);
         } else {
           setError(data.msg || "Error al cargar tipos");
         }
@@ -50,7 +53,7 @@ function Landing() {
         console.error("Error al cargar tipos:", error);
         setError("Error de conexión. Intenta de nuevo.");
       } finally {
-        setLoading(false);
+        setLoadingTipos(false); // ← Usar loading específico
       }
     };
 
@@ -58,16 +61,13 @@ function Landing() {
     fetchTipos();
   }, []);
 
-  const handleSubmit = async (categoria) =>{
-
-    setLoading(true);
+  const handleSubmit = async (idTipo) => {
+    setLoadingCursos(true); // ← Solo loading de cursos
     setError("");
+    setCursos([]); // ← LIMPIAR cursos antes de filtrar
 
     try {
-
-      const url = categoria && categoria !== 'Todos' 
-      ? `http://localhost:3000/api/cursos?categoria=${categoria}`
-      : "http://localhost:3000/api/cursos";
+      const url = idTipo && idTipo !== 0 ? `http://localhost:3000/api/cursos?idTipo=${idTipo}` : "http://localhost:3000/api/cursos";
 
       const response = await fetch(url, {
         method: "GET",
@@ -75,10 +75,10 @@ function Landing() {
       });
 
       const data = await response.json();
-    console.log('Respuesta del servidor:', data); // ← Para debug
+      console.log("Respuesta del servidor:", data); // ← Para debug
 
       if (data.success) {
-        setCursos(data.contenido); // El backend devuelve { success: true, contenido: [...] }
+        setCursos(data.contenido); // ← Reemplazar completamente
       } else {
         setError(data.msg || "Error al cargar cursos");
       }
@@ -86,9 +86,9 @@ function Landing() {
       console.error("Error al cargar cursos:", error);
       setError("Error de conexión. Intenta de nuevo.");
     } finally {
-      setLoading(false);
+      setLoadingCursos(false); // ← Solo loading de cursos
     }
-  }
+  };
 
   return (
     <main>
@@ -131,14 +131,9 @@ function Landing() {
         </div>
 
         <div className="container categoria-botones text-center">
-          
-          <TipoCursoBadge
-            handleSubmit={handleSubmit}
-            tipo="Todos"
-            icono=""
-          />
-          
-          {loading ? (
+          <TipoCursoBadge key={0} handleSubmit={handleSubmit} idTipo={0} tipo="Todos" icono="" />
+
+          {loadingTipos ? ( // ← Usar loading específico
             <div className="text-center">
               <p>Cargando tipos...</p>
             </div>
@@ -147,43 +142,32 @@ function Landing() {
               <p className="text-danger">{error}</p>
             </div>
           ) : tipos.length > 0 ? (
-            tipos.map((tipo) => 
-            <TipoCursoBadge 
-              key={tipo.idTipo}
-              handleSubmit={handleSubmit}
-              tipo={tipo.nombreTipo}
-              icono={tipo.icono}
-            />)
+            tipos.map((tipo) => <TipoCursoBadge key={tipo.idTipo} idTipo={tipo.idTipo} handleSubmit={handleSubmit} tipo={tipo.nombreTipo} icono={tipo.icono} />)
           ) : (
             <div className="text-center">
               <p>No hay tipos disponibles</p>
             </div>
           )}
-         
         </div>
 
         <div className="container contenedor-tarjetas">
           <div className="row">
-            {loading ? (
+            {loadingCursos ? ( // ← Usar loading específico
               <div className="text-center">
-                <p>Cargando cursos...</p>
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Cargando cursos...</span>
+                </div>
+                <p className="mt-2">Cargando cursos...</p>
               </div>
             ) : error ? (
               <div className="text-center">
                 <p className="text-danger">{error}</p>
               </div>
             ) : cursos.length > 0 ? (
-              cursos.map((curso) => 
-              <CursoCard 
-                key={curso.idCurso} 
-                titulo={curso.titulo} 
-                descripcion={curso.descripcion} 
-                precio={curso.precio}
-                imagen={curso.imagen || "/principal1.jpeg"} 
-              />)
+              cursos.map((curso) => <CursoCard key={curso.idCurso} idCurso={curso.idCurso} titulo={curso.titulo} descripcion={curso.descripcion} precio={curso.precio} imagen={curso.imagen || "/principal1.jpeg"} />)
             ) : (
               <div className="text-center">
-                <p>No hay cursos disponibles</p>
+                <p>No hay cursos disponibles para esta categoría</p>
               </div>
             )}
           </div>

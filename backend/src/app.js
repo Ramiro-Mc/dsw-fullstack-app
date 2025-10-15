@@ -48,7 +48,7 @@ app.use(modulosRoutes);
 app.use(leccionRoutes);
 app.use(nuevosCursosRoutes);
 app.use(alumnoLeccionRoutes);
-app.use(nuevosCursos);
+//app.use(nuevosCursos);
 app.use('/api', routerPagos);
 app.use("/api/admin", adminRoutes); 
 

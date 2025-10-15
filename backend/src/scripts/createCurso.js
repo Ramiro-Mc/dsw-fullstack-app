@@ -10,33 +10,16 @@ const createCursosData = async () => {
     await sequelize.authenticate();
     console.log("Conectado a la base de datos");
 
-    // Crear tipos de curso si no existen
-    const tiposPorDefecto = [
-      'Programación',
-      'Diseño',
-      'Marketing',
-      'Data Science',
-      'Business'
-    ];
-
-    for (const tipo of tiposPorDefecto) {
-      const [tipoCreado, created] = await TipoCurso.findOrCreate({
-        where: { nombreTipo: tipo }, // Cambié 'nombre' por 'nombreTipo'
-        defaults: { 
-          nombreTipo: tipo, // Cambié 'nombre' por 'nombreTipo'
-          descripcion: `Cursos relacionados con ${tipo}`,
-          icono: "📚" // Agregué valores por defecto
-        }
-      });
-      
-      if (created) {
-        console.log(`Tipo de curso creado: ${tipo}`);
-      }
+    // Verificar que existan tipos de curso
+    const tiposCount = await TipoCurso.count();
+    if (tiposCount === 0) {
+      console.log("❌ Error: Primero ejecuta seedTipoCurso.js para crear los tipos de curso");
+      return;
     }
 
     // Crear profesor si no existe
     const hashedPassword = await bcrypt.hash("profesor123", 10);
-    
+
     const [profesor, profesorCreated] = await Usuario.findOrCreate({
       where: { email: "profesor@utndemy.com" },
       defaults: {
@@ -44,117 +27,187 @@ const createCursosData = async () => {
         email: "profesor@utndemy.com",
         contrasena: hashedPassword,
         tipoUsuario: "creador",
-        fotoDePerfil: "/Default"
-      }
+        fotoDePerfil: "/Default",
+      },
     });
 
     if (profesorCreated) {
       console.log("Profesor creado:", profesor.email);
     }
 
-    // Obtener tipos de curso creados (usando nombreTipo)
-    const tipoProgramacion = await TipoCurso.findOne({ where: { nombreTipo: 'Programación' } });
-    const tipoDiseno = await TipoCurso.findOne({ where: { nombreTipo: 'Diseño' } });
-    const tipoMarketing = await TipoCurso.findOne({ where: { nombreTipo: 'Marketing' } });
-    const tipoDataScience = await TipoCurso.findOne({ where: { nombreTipo: 'Data Science' } });
+    // Obtener tipos de curso existentes usando los nombres del seedTipoCurso.js
+    const tipoJavaScript = await TipoCurso.findOne({ where: { nombreTipo: "JavaScript" } });
+    const tipoReact = await TipoCurso.findOne({ where: { nombreTipo: "React" } });
+    const tipoNodeJS = await TipoCurso.findOne({ where: { nombreTipo: "Node.js" } });
+    const tipoCoaching = await TipoCurso.findOne({ where: { nombreTipo: "Coaching" } });
+    const tipoFotografia = await TipoCurso.findOne({ where: { nombreTipo: "Fotografía" } });
+    const tipoGastronomia = await TipoCurso.findOne({ where: { nombreTipo: "Gastronomía" } });
+    const tipoIA = await TipoCurso.findOne({ where: { nombreTipo: "IA" } });
+    const tipoInnovacion = await TipoCurso.findOne({ where: { nombreTipo: "Innovación" } });
+    const tipoDiseno = await TipoCurso.findOne({ where: { nombreTipo: "Diseño" } });
+    const tipoMarketing = await TipoCurso.findOne({ where: { nombreTipo: "Marketing" } });
 
-    // Crear cursos de prueba
+    // Crear cursos de prueba adaptados a los tipos existentes
     const cursosData = [
+      // JavaScript
       {
         idProfesor: profesor.idUsuario,
-        idTipo: tipoProgramacion.idTipo,
-        titulo: "React JS desde Cero",
-        descripcion: "Aprende React desde los fundamentos hasta proyectos avanzados. Incluye hooks, context, y mejores prácticas.",
+        idTipo: tipoJavaScript.idTipo,
+        titulo: "JavaScript desde Cero",
+        descripcion: "Aprende JavaScript desde los fundamentos hasta conceptos avanzados. Variables, funciones, DOM y más.",
         precio: 15999,
         estado: "aprobado",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
       },
       {
         idProfesor: profesor.idUsuario,
-        idTipo: tipoProgramacion.idTipo,
+        idTipo: tipoJavaScript.idTipo,
+        titulo: "JavaScript Avanzado",
+        descripcion: "Conceptos avanzados: closures, prototipos, async/await, ES6+ y patrones de diseño.",
+        precio: 19999,
+        estado: "aprobado",
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
+      },
+
+      // React
+      {
+        idProfesor: profesor.idUsuario,
+        idTipo: tipoReact.idTipo,
+        titulo: "React JS desde Cero",
+        descripcion: "Aprende React desde los fundamentos hasta proyectos avanzados. Incluye hooks, context, y mejores prácticas.",
+        precio: 22999,
+        estado: "aprobado",
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
+      },
+      {
+        idProfesor: profesor.idUsuario,
+        idTipo: tipoReact.idTipo,
+        titulo: "React Avanzado + Redux",
+        descripcion: "Gestión de estado avanzada, optimización de rendimiento y patrones profesionales en React.",
+        precio: 25999,
+        estado: "pendiente",
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
+      },
+
+      // Node.js
+      {
+        idProfesor: profesor.idUsuario,
+        idTipo: tipoNodeJS.idTipo,
         titulo: "Node.js y Express",
         descripcion: "Desarrollo backend completo con Node.js, Express y MongoDB. APIs RESTful desde cero.",
-        precio: 18999,
+        precio: 24999,
         estado: "aprobado",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
       },
+
+      // Coaching
       {
         idProfesor: profesor.idUsuario,
-        idTipo: tipoProgramacion.idTipo,
-        titulo: "JavaScript Avanzado",
-        descripcion: "Conceptos avanzados de JavaScript: closures, prototipos, async/await y más.",
-        precio: 12999,
-        estado: "pendiente",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
+        idTipo: tipoCoaching.idTipo,
+        titulo: "Coaching Personal y Profesional",
+        descripcion: "Desarrolla habilidades de liderazgo, comunicación efectiva y crecimiento personal.",
+        precio: 18999,
+        estado: "aprobado",
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
       },
+
+      // Fotografía
+      {
+        idProfesor: profesor.idUsuario,
+        idTipo: tipoFotografia.idTipo,
+        titulo: "Fotografía Digital Avanzada",
+        descripcion: "Técnicas profesionales de fotografía, composición y edición con Lightroom y Photoshop.",
+        precio: 16999,
+        estado: "aprobado",
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
+      },
+
+      // Gastronomía
+      {
+        idProfesor: profesor.idUsuario,
+        idTipo: tipoGastronomia.idTipo,
+        titulo: "Gastronomía Internacional",
+        descripcion: "Cocina platos exquisitos de diferentes culturas. Técnicas culinarias y presentación profesional.",
+        precio: 14999,
+        estado: "aprobado",
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
+      },
+
+      // IA
+      {
+        idProfesor: profesor.idUsuario,
+        idTipo: tipoIA.idTipo,
+        titulo: "Inteligencia Artificial con Python",
+        descripcion: "Introducción al Machine Learning, Deep Learning y procesamiento de datos con Python.",
+        precio: 29999,
+        estado: "pendiente",
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
+      },
+
+      // Innovación
+      {
+        idProfesor: profesor.idUsuario,
+        idTipo: tipoInnovacion.idTipo,
+        titulo: "Innovación y Emprendimiento",
+        descripcion: "Desarrolla tu idea de negocio desde cero. Design thinking, lean startup y pitch deck.",
+        precio: 21999,
+        estado: "aprobado",
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
+      },
+
+      // Diseño
       {
         idProfesor: profesor.idUsuario,
         idTipo: tipoDiseno.idTipo,
         titulo: "Diseño UI/UX Completo",
-        descripcion: "Principios de diseño de interfaces y experiencia de usuario. De wireframes a prototipos.",
-        precio: 14999,
+        descripcion: "Principios de diseño de interfaces y experiencia de usuario. De wireframes a prototipos en Figma.",
+        precio: 20999,
         estado: "aprobado",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
       },
       {
         idProfesor: profesor.idUsuario,
         idTipo: tipoDiseno.idTipo,
         titulo: "Figma Masterclass",
-        descripcion: "Domina Figma para crear diseños profesionales y sistemas de diseño.",
-        precio: 9999,
+        descripcion: "Domina Figma para crear diseños profesionales y sistemas de diseño escalables.",
+        precio: 12999,
         estado: "rechazado",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
       },
+
+      // Marketing
       {
         idProfesor: profesor.idUsuario,
         idTipo: tipoMarketing.idTipo,
         titulo: "Marketing Digital 2024",
-        descripcion: "Estrategias de marketing digital para empresas: SEO, SEM, redes sociales y analytics.",
-        precio: 16999,
+        descripcion: "Estrategias de marketing digital: SEO, SEM, redes sociales, email marketing y analytics.",
+        precio: 17999,
         estado: "aprobado",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
       },
-      {
-        idProfesor: profesor.idUsuario,
-        idTipo: tipoDataScience.idTipo,
-        titulo: "Python Full Stack",
-        descripcion: "Desarrollo completo con Python: Django, APIs, bases de datos y deployment.",
-        precio: 22999,
-        estado: "pendiente",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
-      },
-      {
-        idProfesor: profesor.idUsuario,
-        idTipo: tipoProgramacion.idTipo,
-        titulo: "TypeScript Profesional",
-        descripcion: "JavaScript tipado para proyectos enterprise. Tipos avanzados y mejores prácticas.",
-        precio: 19999,
-        estado: "aprobado",
-        imagen: "https://drive.google.com/uc?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv" // <--- Agregar imagen
-      }
     ];
 
     // Insertar cursos
     for (const cursoData of cursosData) {
       const [curso, created] = await Curso.findOrCreate({
         where: { titulo: cursoData.titulo },
-        defaults: cursoData
+        defaults: cursoData,
       });
 
       if (created) {
-        console.log(`Curso creado: ${curso.titulo} - $${curso.precio}`);
+        console.log(`✅ Curso creado: ${curso.titulo} - $${curso.precio}`);
       } else {
-        console.log(`Curso ya existe: ${curso.titulo}`);
+        console.log(`ℹ️ Curso ya existe: ${curso.titulo}`);
       }
     }
 
-    console.log("\n=== DATOS CREADOS EXITOSAMENTE ===");
-    console.log("Credenciales del profesor:");
-    console.log("Email: profesor@utndemy.com");
-    console.log("Contraseña: profesor123");
-
+    console.log("\n🎉 === DATOS CREADOS EXITOSAMENTE ===");
+    console.log("📧 Credenciales del profesor:");
+    console.log("   Email: profesor@utndemy.com");
+    console.log("   Contraseña: profesor123");
+    console.log(`📚 Total de cursos: ${cursosData.length}`);
   } catch (error) {
-    console.error("Error al crear datos:", error);
+    console.error("❌ Error al crear datos:", error);
   } finally {
     await sequelize.close();
     process.exit(0);

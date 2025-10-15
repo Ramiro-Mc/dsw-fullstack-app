@@ -1,8 +1,8 @@
-function TipoCursoBadge ({ handleSubmit, tipo, icono }) {
+function TipoCursoBadge ({ idTipo, handleSubmit, tipo, icono }) {
   return(
     <>
-      <button onClick={() => handleSubmit({tipo})} className="btn btn-outline-info">
-        {icono} {tipo}
+      <button onClick={() => handleSubmit(idTipo)} className="btn btn-outline-info">
+        <i className={icono}></i> {tipo}
       </button>
     </>
   )
