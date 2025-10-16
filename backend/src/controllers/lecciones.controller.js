@@ -9,7 +9,7 @@ export const leccionController = {
         include: [
           {
             model: Modulo,
-            as: 'modulo',
+            as: 'ModuloDeLeccion',
             attributes: ['idModulo', 'titulo']
           }
         ]
@@ -47,7 +47,7 @@ export const leccionController = {
         include: [
           {
             model: Modulo,
-            as: 'modulo',
+            as: 'ModuloDeLeccion',
             attributes: ['idModulo', 'titulo']
           }
         ]
@@ -84,8 +84,7 @@ export const leccionController = {
       const { 
         idModulo, 
         tituloLec, 
-        descripcionLec, 
-        estadoLec, 
+        descripcionLec,  
         horasLec, 
         videoUrl, 
         contenidoTexto, 
@@ -96,8 +95,7 @@ export const leccionController = {
       const newLeccion = await Leccion.create({ 
         idModulo, 
         tituloLec, 
-        descripcionLec, 
-        estadoLec, 
+        descripcionLec,    
         horasLec, 
         videoUrl, 
         contenidoTexto, 
@@ -142,7 +140,7 @@ export const leccionController = {
         include: [
           {
             model: Modulo,
-            as: 'modulo',
+            as: 'ModuloDeLeccion',
             attributes: ['idModulo', 'titulo']
           }
         ]
@@ -205,7 +203,7 @@ export const leccionController = {
         include: [
           {
             model: Modulo,
-            as: 'modulo',
+            as: 'ModuloDeLeccion',
             attributes: ['idModulo', 'titulo']
           }
         ],

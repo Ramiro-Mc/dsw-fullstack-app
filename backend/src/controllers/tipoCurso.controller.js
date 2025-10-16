@@ -67,7 +67,7 @@ export const tipoCursoController = {
 
       await TipoCurso.update(camposAActualizar, { where: { idTipo } });
 
-      const tipoCursoActualizado = await Curso.findByPk(idTipo);
+      const tipoCursoActualizado = await TipoCurso.findByPk(idTipo);
 
 
       res.status(200).json({
