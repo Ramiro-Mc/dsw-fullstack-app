@@ -31,6 +31,7 @@ const routerPagos = Router();
 
 routerPagos.get("/checkout/curso/:idCurso", pagoController.getCursoCheckout);
 routerPagos.post("/pagos/crear-preferencia", pagoController.crearPreferencia);
+routerPagos.post("/pagos/confirmar-transferencia", pagoController.confirmarTransferencia);
 // routerPagos.post("/pagos/webhook", pagoController.webhook);
 
 export default routerPagos;

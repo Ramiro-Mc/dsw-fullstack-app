@@ -3,7 +3,7 @@ import { Usuario } from '../models/Usuario.js';
 import { sequelize } from '../database/sequelize.js';
 
 export const adminController = {
-  // Obtener estadísticas del dashboard
+
   getStats: async (req, res) => {
     try {
       const totalCursos = await Curso.count();
@@ -18,6 +18,7 @@ export const adminController = {
       });
 
       const totalCreadores = result[0].totalCreadores;
+      
       const ventasTotales = "Proximamente";
 
       res.json({
@@ -38,7 +39,6 @@ export const adminController = {
     }
   },
 
-  // AGREGAR ESTA FUNCIÓN:
   getUsuarios: async (req, res) => {
     try {
       const usuarios = await Usuario.findAll({
@@ -59,7 +59,7 @@ export const adminController = {
     }
   },
 
-  // AGREGAR ESTA FUNCIÓN:
+
   eliminarUsuario: async (req, res) => {
     try {
       const { idUsuario } = req.params;

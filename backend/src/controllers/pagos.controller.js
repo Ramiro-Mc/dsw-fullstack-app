@@ -162,5 +162,84 @@ export const pagoController = {
       success: true, 
       msg: "Verificación pendiente" 
     });
+  },
+
+
+
+  confirmarTransferencia: async (req, res) => {
+  try {
+    const { idCurso, idUsuario } = req.body;
+    
+    console.log('=== CONFIRMAR TRANSFERENCIA ===');
+    console.log('Body:', req.body);
+
+    if (!idUsuario || !idCurso) {
+      return res.status(400).json({
+        success: false,
+        msg: "ID de usuario e ID de curso requeridos"
+      });
+    }
+
+    // Obtener datos del curso
+    const curso = await Curso.findOne({
+      where: { 
+        idCurso: parseInt(idCurso),
+        estado: 'aprobado' 
+      }
+    });
+
+    if (!curso) {
+      return res.status(404).json({
+        success: false,
+        msg: "Curso no encontrado"
+      });
+    }
+
+    // Verificar si ya está inscrito
+    const inscripcionExistente = await AlumnoCurso.findOne({
+      where: { 
+        idUsuario: parseInt(idUsuario),
+        idCurso: parseInt(idCurso)
+      }
+    });
+
+    if (inscripcionExistente) {
+      return res.status(400).json({
+        success: false,
+        msg: "Ya estás inscrito en este curso"
+      });
+    }
+
+    // Generar transaction ID simulado
+    const transactionId = `TRANSFER_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+    // Crear inscripción
+    const nuevaInscripcion = await AlumnoCurso.create({
+      idUsuario: parseInt(idUsuario),
+      idCurso: parseInt(idCurso),
+      fechaCompra: new Date(),
+      precioCompra: parseFloat(curso.precio),
+      metodoPago: 'transferencia',
+      estadoPago: 'aprobado', 
+      transactionId: transactionId
+    });
+
+    console.log('Inscripción creada:', nuevaInscripcion.toJSON());
+
+    res.status(201).json({
+      success: true,
+      msg: "Inscripción registrada correctamente",
+      transactionId: transactionId,
+      inscripcion: nuevaInscripcion
+    });
+
+  } catch (error) {
+    console.error('Error en confirmarTransferencia:', error);
+    res.status(500).json({
+      success: false,
+      msg: "Error interno del servidor",
+      error: process.env.NODE_ENV === "development" ? error.message : undefined
+    });
   }
+}
 };

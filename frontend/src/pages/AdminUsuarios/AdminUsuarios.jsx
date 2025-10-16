@@ -14,11 +14,11 @@ const AdminUsuarios = () => {
  const fetchUsuarios = async () => {
   try {
     setLoading(true);
-    const response = await fetch('/api/admin/usuarios'); // ← CAMBIO AQUÍ
+    const response = await fetch('/api/admin/usuarios'); 
     const data = await response.json();
     
     if (data.success) {
-      setUsuarios(data.usuarios); // ← CAMBIO: 'contenido' por 'usuarios'
+      setUsuarios(data.usuarios); 
     } else {
       setError('Error al cargar los usuarios');
     }

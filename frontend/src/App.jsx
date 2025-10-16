@@ -21,7 +21,8 @@ import AdminUsuarios from "./pages/AdminUsuarios/AdminUsuarios";
 import SolicitudesPendientes from "./pages/AdminCursos/SolicitudesPendientes/SolicitudesPendientes";
 import TodosLosCursos from "./pages/AdminCursos/TodosLosCursos/TodosLosCursos";
 import CompraCurso from "./pages/CompraCurso/CompraCurso";
-import Checkout from "./pages/Checkout/Checkout"; 
+// import Checkout from "./pages/Checkout/Checkout"; 
+import Checkout2 from "./pages/Checkout/CheckoutV2";
 
 
 const router = createBrowserRouter([
@@ -95,7 +96,7 @@ const router = createBrowserRouter([
         path: "checkout/:idCurso",
         element: (
           <ProtectedRoute>
-            <Checkout />
+            <Checkout2 />
           </ProtectedRoute>
         ),
       },

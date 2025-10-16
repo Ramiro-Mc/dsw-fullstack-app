@@ -51,7 +51,7 @@ export const usuarioController = {
 
   createUsuario: async (req, res) => {
     try {
-      const { nombreUsuario, email, contrasena, tipoUsuario, fotoDePerfil } = req.body;
+      const { nombreUsuario, email, contrasena, tipoUsuario, nombreReferido, fotoDePerfil, banco, cvu, alias } = req.body;
       const hashedPassword = await bcrypt.hash(contrasena, 10);
       const newUsuario = await Usuario.create({ nombreUsuario, email, contrasena: hashedPassword, tipoUsuario, fotoDePerfil });
 
@@ -75,7 +75,7 @@ export const usuarioController = {
   updateUsuario: async (req, res) => {
     try {
       const { idUsuario } = req.params;
-      const { nombreUsuario, email, contrasena, fotoDePerfil } = req.body;
+      const { nombreUsuario, email, contrasena, nombreReferido, fotoDePerfil, banco, cvu, alias } = req.body;
 
       const camposAActualizar = {};
 
@@ -83,6 +83,10 @@ export const usuarioController = {
       if (email) {camposAActualizar.email = email;}
       if (contrasena) {camposAActualizar.contrasena = contrasena;}
       if (fotoDePerfil) {camposAActualizar.fotoDePerfil = fotoDePerfil;}
+      if (nombreReferido) camposAActualizar.nombreReferido = nombreReferido;
+      if (banco) camposAActualizar.banco = banco;
+      if (cvu) camposAActualizar.cvu = cvu;
+      if (alias) camposAActualizar.alias = alias;
 
       await Usuario.update(camposAActualizar, { where: { idUsuario } });
 
