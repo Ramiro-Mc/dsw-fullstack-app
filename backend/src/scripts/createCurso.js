@@ -3,7 +3,7 @@ import { Usuario } from "../models/Usuario.js";
 import { TipoCurso } from "../models/TipoCurso.js";
 import { sequelize } from "../database/sequelize.js";
 import bcrypt from "bcrypt";
-import '../models/allModels.js'; // <--- asegura que se registren todos los modelos y relaciones
+import "../models/allModels.js"; // <--- asegura que se registren todos los modelos y relaciones
 
 const createCursosData = async () => {
   try {
@@ -101,15 +101,15 @@ const createCursosData = async () => {
         imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
       },
 
-      // Coaching
+      // Coaching 
       {
         idProfesor: profesor.idUsuario,
-        idTipo: tipoProgramacion.idTipo,
-        titulo: "JavaScript Avanzado",
-        descripcion: "Conceptos avanzados de JavaScript: closures, prototipos, async/await y más.",
-        precio: 12999,
-        estado: "pendiente",
-        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400 " // <--- Agregar imagen
+        idTipo: tipoCoaching.idTipo, // ← CORREGIDO: era tipoProgramacion
+        titulo: "Coaching Personal y Profesional", // ← CORREGIDO: era "JavaScript Avanzado"
+        descripcion: "Desarrolla habilidades de liderazgo, comunicación efectiva y crecimiento personal.",
+        precio: 18999, // ← CORREGIDO: precio diferente
+        estado: "aprobado", // ← CORREGIDO: era "pendiente"
+        imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400", // ← CORREGIDO: sin espacio al final
       },
 
       // Fotografía
