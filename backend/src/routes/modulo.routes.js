@@ -10,4 +10,6 @@ routerModulo.put("/modulos/:idModulo", moduloValidator.validateUpdate, modulosCo
 routerModulo.delete("/modulos/:idModulo", moduloValidator.validateGetByIdAndDelete, modulosController.deleteModulo);
 routerModulo.get("/modulos/:idModulo", moduloValidator.validateGetByIdAndDelete, modulosController.getModuloById);
 
+routerModulo.get("/cursos/:idCurso/modulos", moduloValidator.validateGetByCurso, modulosController.getModulosByCurso);
+
 export default routerModulo;

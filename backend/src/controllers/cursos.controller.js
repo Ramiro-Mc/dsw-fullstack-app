@@ -14,7 +14,7 @@ export const cursoController = {
 
       const allCursos = await Curso.findAll({
         where: whereClause,
-        include: [{ model: TipoCurso, as: "TipoCurso" }] // Agregar alias
+        include: [{ model: TipoCurso, as: "TipoCurso" }] 
       });
 
       if (allCursos.length === 0) {
@@ -98,7 +98,7 @@ export const cursoController = {
       res.status(200).json({
         success: true,
         msg: "Curso actualizado correctamente",
-        atributo: cursoActualizado,
+        contenido: cursoActualizado,
       });
 
     } catch (error) {

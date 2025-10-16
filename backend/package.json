@@ -32,6 +32,7 @@
     "sequelize": "^6.37.7"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.28.3",
     "jest": "^30.2.0",
     "morgan": "^1.10.1",
     "nodemon": "^3.1.10",

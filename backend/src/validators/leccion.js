@@ -22,7 +22,6 @@ const validateCreate = [
       return true;
     }),
   check('descripcionLec').optional(),
-  check('estadoLec').optional(),
   check('horasLec').optional()
     .isInt({ min: 0 }).withMessage('Las horas deben ser un número entero positivo'),
   check('videoUrl').optional()
@@ -78,7 +77,6 @@ const validateUpdate = [
       return true;
     }),
   check('descripcionLec').optional(),
-  check('estadoLec').optional(),
   check('horasLec').optional()
     .isInt({ min: 0 }).withMessage('Las horas deben ser un número entero positivo'),
   check('videoUrl').optional()
