@@ -36,7 +36,7 @@ function Footer() {
 
         
         <nav className="texto-footer">
-          <h5>{isAdmin ? 'Administración' : 'Mapa del sitio'}</h5>
+          <h5>{isAdmin ? 'Administración' : ''}</h5>
           {isAdmin ? (
             //  LINKS PARA ADMINISTRADOR
             <>

@@ -5,11 +5,14 @@ import { TipoCurso } from "../models/TipoCurso.js";
 export const cursoController = {
   getAllCursos: async (req, res) => {
     try {
-      const { idTipo } = req.query;
+      const { idTipo, idProfesor } = req.query;
       let whereClause = {};
 
       if(idTipo && idTipo !== 0){
         whereClause.idTipo = idTipo;
+      }
+      if(idProfesor && idProfesor !== 0){
+        whereClause.idProfesor = idProfesor
       }
 
       const allCursos = await Curso.findAll({

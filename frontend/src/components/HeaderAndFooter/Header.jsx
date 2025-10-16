@@ -58,12 +58,27 @@ function Header() {
                   <ul className="dropdown-menu dropdown-menu-end">
                     <li>
                       <Link className="dropdown-item" to="/MiPerfil">
-                        Mi perfil
+                        <i className="bi bi-person"></i> Mi perfil
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/MiPerfil/misCursos">
-                        Mis Cursos
+                      <Link className="dropdown-item" to="/MiPerfil/informacionDePago">
+                        <i className="bi bi-wallet2"></i> Informacion de cobro
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/MiPerfil/misCursosComprados">
+                        <i class="bi bi-pencil-fill"></i> Cursos Comprados
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/MiPerfil/misCursosCreados">
+                        <i class="bi bi-person-video3"></i> Cursos Creados
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/MiPerfil/reportes">
+                        <i className="bi bi-newspaper"></i> Reportes
                       </Link>
                     </li>
 
@@ -85,7 +100,7 @@ function Header() {
                     </li>
                     <li>
                       <button className="dropdown-item" onClick={handleLogout}>
-                        Cerrar sesión
+                        <i class="bi bi-door-open"></i> Cerrar sesión
                       </button>
                     </li>
                   </ul>

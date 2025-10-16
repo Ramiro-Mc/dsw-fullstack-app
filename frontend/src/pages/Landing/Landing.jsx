@@ -53,7 +53,7 @@ function Landing() {
         console.error("Error al cargar tipos:", error);
         setError("Error de conexión. Intenta de nuevo.");
       } finally {
-        setLoadingTipos(false); // ← Usar loading específico
+        setLoadingTipos(false);
       }
     };
 
@@ -62,9 +62,9 @@ function Landing() {
   }, []);
 
   const handleSubmit = async (idTipo) => {
-    setLoadingCursos(true); // ← Solo loading de cursos
+    setLoadingCursos(true);
     setError("");
-    setCursos([]); // ← LIMPIAR cursos antes de filtrar
+    setCursos([]);
 
     try {
       const url = idTipo && idTipo !== 0 ? `http://localhost:3000/api/cursos?idTipo=${idTipo}` : "http://localhost:3000/api/cursos";
