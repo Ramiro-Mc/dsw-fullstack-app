@@ -1,8 +1,6 @@
 import { beforeAll, afterAll, beforeEach, jest } from '@jest/globals';
 import dotenv from 'dotenv';
-
-// Importar modelos con asociaciones para tests
-import db from '../models/allModels.js';
+import { sequelize } from '../database/sequelize.js';
 
 // Cargar variables de entorno
 dotenv.config();
@@ -20,10 +18,25 @@ beforeAll(async () => {
   console.log('JWT_SECRET está definido:', !!process.env.JWT_SECRET);
   console.log('DB_HOST:', process.env.DB_HOST);
   console.log('DB_NAME:', process.env.DB_NAME);
-  console.log('Modelos cargados correctamente');
+  
+  try {
+    // Sincronizar base de datos para tests
+    await sequelize.sync({ force: true });
+    console.log('Base de datos sincronizada para tests');
+  } catch (error) {
+    console.error('Error al sincronizar BD:', error);
+  }
 });
 
 afterAll(async () => {
+  // Cerrar conexión de BD
+  try {
+    await sequelize.close();
+    console.log('Conexión a BD cerrada');
+  } catch (error) {
+    console.error('Error al cerrar BD:', error);
+  }
+  
   // Restaurar console.log original si fue mockeado
   if (originalConsoleLog && console.log !== originalConsoleLog) {
     console.log = originalConsoleLog;
