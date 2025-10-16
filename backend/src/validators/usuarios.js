@@ -22,7 +22,6 @@ const validateCreate = [
     } ),
   check('contrasena').exists().notEmpty(),
   check('tipoUsuario').exists().notEmpty(),
-  check('fotoDePerfil').exists().notEmpty(),
   validateResult
 ];
 

@@ -14,23 +14,26 @@ function Profesores() {
   }, []);
 
   useEffect(() => {
-    // trae todos los profesores con sus cursos creados
     fetch(
-      "http://localhost:3000/usuarios?tipoUsuario=profesor&includeCursos=true"
+      "http://localhost:3000/usuarios?tipoUsuario=usuario&includeCursos=true"
     )
       .then((res) => res.json())
       .then((data) => {
-        let profesores = data.contenido || []; //guarda la lista de profesores o un arreglo vacio si no hay lista
+        let profesores = data.contenido || [];
         console.log("Profesores recibidos:", profesores);
-        // si hay filtro, solo deja los profesores que tengan al menos un curso del tipo seleccionado
         if (filtroTipo) {
           profesores = profesores.filter(
             (profesor) =>
-              profesor.cursos &&
-              profesor.cursos.some(
-                //some hace que si el profesor tiene al menos un tipo que sea igual al filtro, lo guarda y sino lo descarta
+              profesor.CursosCreados &&
+              profesor.CursosCreados.some(
                 (curso) => String(curso.idTipo) === String(filtroTipo)
               )
+          );
+        } else {
+          // Mostrar todos los usuarios con al menos un curso creado
+          profesores = profesores.filter(
+            (profesor) =>
+              profesor.CursosCreados && profesor.CursosCreados.length > 0
           );
         }
         setProfesores(profesores);

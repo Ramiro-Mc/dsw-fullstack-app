@@ -13,13 +13,23 @@ function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setFotoDePerfil("/Default.jpg")
+    setFotoDePerfil("/Default.jpg");
 
     try {
       const res = await fetch("http://localhost:3000/usuarios", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nombreUsuario, email, contrasena, tipoUsuario, fotoDePerfil }),
+        body: JSON.stringify({
+          nombreUsuario,
+          email,
+          contrasena,
+          tipoUsuario: "usuario",
+          fotoDePerfil: null,
+          nombreReferido: null,
+          banco: null,
+          cvu: null,
+          alias: null,
+        }),
       });
 
       const data = await res.json();
@@ -92,36 +102,6 @@ function RegisterPage() {
               onChange={(e) => setContrasena(e.target.value)}
               required
             />
-          </div>
-          <p style={{ textAlign: "center" }} className="mb-2">
-            Tipo de usuario
-          </p>
-          <div className="d-flex justify-content-center gap-3 mb-3">
-            <input
-              type="radio"
-              className="btn-check"
-              name="tipoUsuario"
-              id="alumno"
-              value="alumno"
-              checked={tipoUsuario === "alumno"}
-              onChange={() => setTipoUsuario("alumno")}
-              required
-            />
-            <label className="btn-radio" htmlFor="alumno">
-              Alumno
-            </label>
-            <input
-              type="radio"
-              className="btn-check"
-              name="tipoUsuario"
-              id="profesor"
-              value="profesor"
-              checked={tipoUsuario === "profesor"}
-              onChange={() => setTipoUsuario("profesor")}
-            />
-            <label className="btn-radio" htmlFor="profesor">
-              Profesor
-            </label>
           </div>
           <div className="d-grid gap-2 mb-2">
             <button

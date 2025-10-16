@@ -23,7 +23,13 @@ export const usuarioController = {
       });
     }
 
-    const allUsuarios = await Usuario.findAll({ where, include });
+    const allUsuarios = await Usuario.findAll({
+  where,
+  include: [{
+    model: Curso,
+    as: "CursosCreados" 
+  }]
+});
 
     if (allUsuarios.length === 0) {
       return res.status(404).json({
