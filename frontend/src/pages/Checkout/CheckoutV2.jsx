@@ -14,35 +14,41 @@ const Checkout = () => {
   const [error, setError] = useState(null);
   const [pagoConfirmado, setPagoConfirmado] = useState(false);
 
-  // Datos ficticios del instructor para transferencia
-  const datosTransferencia = {
-    nombre: "Juan Carlos Pérez",
-    banco: "Banco Santander",
-    cvu: "0000003100010000000001",
-    alias: "profesor.tech.mp"
-  };
+
+const [datosTransferencia, setDatosTransferencia] = useState({
+  nombre: "Cargando...",
+  banco: "Cargando...",
+  cvu: "Cargando...",
+  alias: "Cargando..."
+});
 
   const fetchCurso = useCallback(async () => {
-    try {
-      console.log('Buscando curso con ID:', idCurso);
-      const response = await fetch(`/api/checkout/curso/${idCurso}`);
-      console.log('Response status:', response.status);
+  try {
+    const response = await fetch(`/api/checkout/curso/${idCurso}`);
+    const data = await response.json();
+    
+    if (data.success) {
+      setCurso(data.contenido);
       
-      const data = await response.json();
-      console.log('Data recibida:', data);
-      
-      if (data.success) {
-        setCurso(data.contenido);
-      } else {
-        setError('Curso no encontrado');
+
+      if (data.contenido.Profesor) {
+        setDatosTransferencia({
+          nombre: data.contenido.Profesor.nombreReferido || data.contenido.Profesor.nombreUsuario,
+          banco: data.contenido.Profesor.banco || "Banco no especificado",
+          cvu: data.contenido.Profesor.cvu || "CVU no especificado", 
+          alias: data.contenido.Profesor.alias || "Alias no especificado"
+        });
       }
-    } catch (err) { 
-      console.error('Error al cargar curso:', err);
-      setError('Error al cargar el curso');
-    } finally {
-      setLoading(false);
+    } else {
+      setError('Curso no encontrado');
     }
-  }, [idCurso]);
+  } catch (err) { 
+    console.error('Error al cargar curso:', err);
+    setError('Error al cargar el curso');
+  } finally {
+    setLoading(false);
+  }
+}, [idCurso]);
 
   useEffect(() => {
     if (!user) {
@@ -84,9 +90,9 @@ const Checkout = () => {
         console.log('Pago confirmado, redirecting...');
         setPagoConfirmado(true);
         
-        // Esperar un momento para mostrar el mensaje de éxito
+     
         setTimeout(() => {
-          navigate('/'); // Redirigir al index
+          navigate('/'); 
         }, 8000);
       } else {
         alert(data.msg || 'Error al confirmar el pago');
@@ -100,7 +106,7 @@ const Checkout = () => {
     }
   };
 
-  // ← AGREGASTE ESTAS CONDICIONES QUE FALTABAN:
+
   if (loading) return <div className="loading">Cargando...</div>;
   if (error) return <div className="error">{error}</div>;
   if (!curso) return <div className="error">Curso no encontrado</div>;

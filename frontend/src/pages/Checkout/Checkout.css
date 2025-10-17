@@ -206,7 +206,7 @@
 }
 
 .terms-text a {
-  color: #fd7e14; /* Naranja en lugar de violeta */
+  color: #fd7e14; 
   text-decoration: none;
 }
 
@@ -216,7 +216,7 @@
 
 .pay-button {
   width: 100%;
-  background: #fd7e14; /* Naranja en lugar de violeta */
+  background: #fd7e14; 
   color: white;
   border: none;
   padding: 15px 20px;
@@ -318,9 +318,7 @@
 
 /* Estilos checkoutV2 */
 
-/* Reemplazar los estilos de transferencia en Checkout.css */
 
-/* Corregir el estilo del botón de transferencia para que sea como el original */
 .transfer-option {
   padding: 15px;
   border-bottom: 1px solid #d1d7dc;
@@ -355,7 +353,7 @@
   font-size: 1rem;
 }
 
-/* Mantener el resto de estilos de transfer-details igual */
+
 .transfer-details {
   background: #f8f9fa;
   padding: 25px;
