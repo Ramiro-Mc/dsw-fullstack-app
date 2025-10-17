@@ -135,7 +135,6 @@ return (
 
         {solicitudes.length === 0 ? (
           <div className="empty-state">
-            <div className="empty-icon">📋</div>
             <h3>¡Todo al día!</h3>
             <p>No hay solicitudes de cursos pendientes de revisión</p>
           </div>
