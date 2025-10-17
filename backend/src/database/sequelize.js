@@ -11,6 +11,3 @@ export const sequelize = new Sequelize(
     dialect: process.env.DB_DIALECT,
   }
 );
-
-// module.exports = sequelize;
-//Este archivo configura la conexión a la base de datos utilizando Sequelize.

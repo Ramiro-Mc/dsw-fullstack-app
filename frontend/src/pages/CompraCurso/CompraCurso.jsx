@@ -62,13 +62,16 @@ const CompraCurso = () => {
       <aside className="curso-detalles">
         <div className="curso-precio-card curso-precio-card-fisica">
           <div className="precio-container">
-            <h2 className="precio">US$ {curso.precio ?? "0"}</h2>
-          </div>
+            <h2 className="precio">
+              ${Number(curso.precio ?? 0).toLocaleString()}
+            </h2>
 
-          <div className="botones-compra">
-            <button className="btn-comprar-ahora" onClick={handleComprarAhora}>
-              Comprar ahora
-            </button>
+            {/* mover los botones dentro de precio-container para que queden a la derecha */}
+            <div className="botones-compra">
+              <button className="btn-comprar-ahora" onClick={handleComprarAhora}>
+                Comprar ahora
+              </button>
+            </div>
           </div>
 
           <div className="curso-incluye">
