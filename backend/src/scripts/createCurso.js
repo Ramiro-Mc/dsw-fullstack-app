@@ -1,9 +1,10 @@
 import { Curso } from "../models/Curso.js";
 import { Usuario } from "../models/Usuario.js";
 import { TipoCurso } from "../models/TipoCurso.js";
+import { AlumnoCurso } from "../models/Alumnos_Cursos.js"; // ← CAMBIAR por AlumnoCurso
 import { sequelize } from "../database/sequelize.js";
 import bcrypt from "bcrypt";
-import "../models/allModels.js"; // <--- asegura que se registren todos los modelos y relaciones
+import "../models/allModels.js";
 
 const createCursosData = async () => {
   try {
@@ -101,7 +102,7 @@ const createCursosData = async () => {
         imagen: "https://drive.google.com/thumbnail?id=1ISBlJjaj9egb-T-qn3qXQoCXkb7vTKtv&sz=w400",
       },
 
-      // Coaching 
+      // Coaching
       {
         idProfesor: profesor.idUsuario,
         idTipo: tipoCoaching.idTipo, // ← CORREGIDO: era tipoProgramacion
@@ -189,6 +190,7 @@ const createCursosData = async () => {
     ];
 
     // Insertar cursos
+    const cursosCreados = [];
     for (const cursoData of cursosData) {
       const [curso, created] = await Curso.findOrCreate({
         where: { titulo: cursoData.titulo },
@@ -197,8 +199,42 @@ const createCursosData = async () => {
 
       if (created) {
         console.log(`✅ Curso creado: ${curso.titulo} - $${curso.precio}`);
+        cursosCreados.push(curso); // ← Guardar curso creado
       } else {
         console.log(`ℹ️ Curso ya existe: ${curso.titulo}`);
+      }
+    }
+
+    // Inscribir/Comprar cursos para el alumno
+    const cursosParaComprar = [
+      cursosCreados[0], // JavaScript desde Cero - $15999
+      cursosCreados[2], // React JS desde Cero - $22999
+      cursosCreados[4], // Node.js y Express - $24999
+    ].filter((curso) => curso && curso.estado === "aprobado");
+
+    console.log("\n💳 Creando compras de cursos para el alumno...");
+
+    for (const curso of cursosParaComprar) {
+      const [compra, compraCreated] = await AlumnoCurso.findOrCreate({
+        where: {
+          idUsuario: alumno.idUsuario,
+          idCurso: curso.idCurso,
+        },
+        defaults: {
+          idUsuario: alumno.idUsuario,
+          idCurso: curso.idCurso,
+          fechaCompra: new Date(),
+          precioCompra: curso.precio, // ← Precio al momento de la compra
+          metodoPago: "mercadopago",
+          estadoPago: "aprobado", // ← Compra exitosa
+          transactionId: `MP_${Date.now()}_${curso.idCurso}`, // ← ID ficticio de MercadoPago
+        },
+      });
+
+      if (compraCreated) {
+        console.log(`✅ Compra creada: ${alumno.nombreUsuario} -> ${curso.titulo} ($${curso.precio})`);
+      } else {
+        console.log(`ℹ️ Compra ya existe: ${alumno.nombreUsuario} -> ${curso.titulo}`);
       }
     }
 
@@ -206,7 +242,12 @@ const createCursosData = async () => {
     console.log("📧 Credenciales del profesor:");
     console.log("   Email: profesor@utndemy.com");
     console.log("   Contraseña: profesor123");
+    console.log("\n👨‍🎓 Credenciales del alumno:");
+    console.log("   Email: alumno@utndemy.com");
+    console.log("   Contraseña: alumno123");
     console.log(`📚 Total de cursos: ${cursosData.length}`);
+    console.log(`🛒 Total de compras: ${cursosParaComprar.length}`);
+    console.log(`💰 Total gastado: $${cursosParaComprar.reduce((total, curso) => total + curso.precio, 0)}`);
   } catch (error) {
     console.error("❌ Error al crear datos:", error);
   } finally {

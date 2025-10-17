@@ -21,25 +21,30 @@ Aplicación fullstack para plataforma de cursos online tipo Udemy, desarrollada 
 ## 📦 Instalación
 
 ### 1. Clonar el repositorio
+
 ```bash
 git clone <url-del-repositorio>
 cd dsw-fullstack-app
 ```
 
 ### 2. Instalar dependencias del backend
+
 ```bash
 cd backend
 npm install
 ```
 
 ### 3. Instalar dependencias del frontend
+
 ```bash
 cd ../frontend
 npm install
 ```
 
 ### 4. Configurar variables de entorno
+
 Crear archivo `.env` en la carpeta `backend/` con:
+
 ```env
 DB_HOST=localhost
 DB_USER=tu_usuario_mysql
@@ -55,23 +60,29 @@ NODE_ENV=development
 ### Ejecutar en orden:
 
 #### 1. Crear tipos de curso
+
 ```bash
 cd backend
 node src/scripts/seedTipoCurso.js
 ```
+
 **Qué hace:** Crea 10 tipos de curso (JavaScript, React, Node.js, Coaching, Fotografía, etc.)
 
 #### 2. Crear cursos de ejemplo
+
 ```bash
 node src/scripts/createCurso.js
 ```
-**Qué hace:** 
+
+**Qué hace:**
+
 - Crea un usuario profesor con credenciales:
   - Email: `profesor@utndemy.com`
   - Contraseña: `profesor123`
 - Crea 13 cursos de ejemplo distribuidos en las categorías
 
 #### 3. (Opcional) Ejecutar todos los seeds
+
 ```bash
 npm run seed:all
 ```
@@ -79,12 +90,14 @@ npm run seed:all
 ## 🚀 Ejecución
 
 ### Backend (Puerto 3000)
+
 ```bash
 cd backend
 npm run dev
 ```
 
 ### Frontend (Puerto 3001)
+
 ```bash
 cd frontend
 npm start
@@ -116,18 +129,21 @@ dsw-fullstack-app/
 ## ✨ Funcionalidades
 
 ### 🎓 Cursos
+
 - ✅ Listado de cursos por categorías
 - ✅ Filtrado por tipo de curso
 - ✅ Vista detallada de curso
 - ✅ Sistema de compra
 
 ### 👤 Usuarios
+
 - ✅ Registro e inicio de sesión
 - ✅ Perfiles de usuario (alumno/profesor)
 - ✅ Información de pago
 - ✅ Gestión de cursos
 
 ### 📚 Categorías
+
 - JavaScript
 - React
 - Node.js
@@ -142,6 +158,7 @@ dsw-fullstack-app/
 ## 🔧 Comandos Útiles
 
 ### Backend
+
 ```bash
 # Modo desarrollo
 npm run dev
@@ -157,6 +174,7 @@ npx sequelize-cli db:migrate:undo
 ```
 
 ### Frontend
+
 ```bash
 # Iniciar desarrollo
 npm start
@@ -177,12 +195,80 @@ npm test
 ## 👥 Credenciales de Prueba
 
 ### Profesor
+
 - **Email:** profesor@utndemy.com
 - **Contraseña:** profesor123
+- **Funcionalidades:**
+  - ✅ Crear y gestionar cursos
+  - ✅ Ver estadísticas de ventas
+  - ✅ Editar información de cursos
+  - ✅ Ver reportes de ingresos
+
+### Alumno
+
+- **Email:** alumno@utndemy.com
+- **Contraseña:** alumno123
+- **Funcionalidades:**
+  - ✅ Comprar cursos
+  - ✅ Ver cursos adquiridos
+  - ✅ Acceder al contenido de cursos comprados
+  - ✅ Ver historial de compras
+
+### Datos de Prueba Creados
+
+#### 📚 Cursos Disponibles (13 total):
+
+- **JavaScript:** Desde Cero ($15,999) + Avanzado ($19,999)
+- **React:** Desde Cero ($22,999) + Avanzado + Redux ($25,999)
+- **Node.js:** y Express ($24,999)
+- **Coaching:** Personal y Profesional ($18,999)
+- **Fotografía:** Digital Avanzada ($16,999)
+- **Gastronomía:** Internacional ($14,999)
+- **IA:** con Python ($29,999)
+- **Innovación:** y Emprendimiento ($21,999)
+- **Diseño:** UI/UX Completo ($20,999) + Figma Masterclass ($12,999)
+- **Marketing:** Digital 2024 ($17,999)
+
+#### 🛒 Compras del Alumno (3 cursos):
+
+- ✅ **JavaScript desde Cero** - $15,999
+- ✅ **React JS desde Cero** - $22,999
+- ✅ **Node.js y Express** - $24,999
+- **💰 Total invertido:** $63,997
+
+#### 📊 Estados de Cursos:
+
+- **Aprobados:** 10 cursos (visibles en landing)
+- **Pendientes:** 2 cursos (esperando aprobación admin)
+- **Rechazados:** 1 curso (no visible)
+
+## 🔧 Testing Recomendado
+
+### Como Profesor:
+
+1. **Login** con credenciales de profesor
+2. **Ir a "Mis Enseñanzas"** para ver cursos creados
+3. **Editar cursos** usando el botón "Editar"
+4. **Ver reportes** de ventas e ingresos
+
+### Como Alumno:
+
+1. **Login** con credenciales de alumno
+2. **Ir a "Mis Aprendizajes"** para ver cursos comprados
+3. **Navegar por categorías** en el landing
+4. **Intentar comprar** un nuevo curso
+
+### Como Visitante:
+
+1. **Explorar landing** sin login
+2. **Filtrar por categorías** usando los botones
+3. **Ver detalles** de cursos (click en tarjetas)
+4. **Registrarse** como nuevo usuario
 
 ## 🐛 Solución de Problemas
 
 ### Error de conexión a la base de datos
+
 ```bash
 # Verificar que MySQL esté ejecutándose
 sudo service mysql start
@@ -192,12 +278,14 @@ cat backend/.env
 ```
 
 ### Puerto ocupado
+
 ```bash
 # Cambiar puerto en backend/src/app.js
 # Cambiar puerto en frontend/package.json (proxy)
 ```
 
 ### Dependencias faltantes
+
 ```bash
 # Reinstalar dependencias
 rm -rf node_modules package-lock.json
