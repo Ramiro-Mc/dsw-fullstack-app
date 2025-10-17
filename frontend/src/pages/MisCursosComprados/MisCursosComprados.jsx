@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 import "./MisCursosComprados.css";
 
 function MisCursosComprados() {
@@ -125,10 +126,10 @@ function MisCursosComprados() {
                   </div>
 
                   <div className="curso-acciones">
-                    <button className="btn-continuar" onClick={() => (window.location.href = `/curso/${compra.idCurso}`)}>
+                    <Link to={`/course/${compra.idCurso}`} className="btn-continuar">
                       <i className="bi bi-play-circle"></i>
                       Continuar curso
-                    </button>
+                    </Link>
 
                     <button className="btn-detalles" title="Ver detalles">
                       <i className="bi bi-info-circle"></i>
