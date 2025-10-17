@@ -1,7 +1,6 @@
-import { AlumnoCurso } from "../models/AlumnoCurso.js";
+import { AlumnoCurso, Usuario, Curso } from "../models/allModels.js"; // ← AGREGAR Curso aquí
 
 export const alumnoCursoController = {
-
   getAllAlumnosCursos: async (req, res) => {
     try {
       const all = await AlumnoCurso.findAll();
@@ -20,9 +19,7 @@ export const alumnoCursoController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development"
-          ? error.message
-          : "Error interno del servidor",
+        msg: process.env.NODE_ENV === "development" ? error.message : "Error interno del servidor",
       });
     }
   },
@@ -40,9 +37,7 @@ export const alumnoCursoController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development"
-          ? error.message
-          : "Error interno del servidor",
+        msg: process.env.NODE_ENV === "development" ? error.message : "Error interno del servidor",
       });
     }
   },
@@ -59,9 +54,7 @@ export const alumnoCursoController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development"
-          ? error.message
-          : "Error interno del servidor",
+        msg: process.env.NODE_ENV === "development" ? error.message : "Error interno del servidor",
       });
     }
   },
@@ -79,9 +72,44 @@ export const alumnoCursoController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development"
-          ? error.message
-          : "Error interno del servidor",
+        msg: process.env.NODE_ENV === "development" ? error.message : "Error interno del servidor",
+      });
+    }
+  },
+
+  getCursosByUsuario: async (req, res) => {
+    try {
+      const { idUsuario } = req.params;
+
+      const cursosComprados = await AlumnoCurso.findAll({
+        where: { idUsuario },
+        include: [
+          {
+            model: Curso,
+            as: "Curso",
+            attributes: ["idCurso", "titulo", "descripcion", "precio", "imagen", "estado"],
+            include: [
+              {
+                model: Usuario,
+                as: "Creador",
+                attributes: ["nombreUsuario", "fotoDePerfil"],
+              },
+            ],
+          },
+        ],
+        order: [["fechaCompra", "DESC"]],
+      });
+
+      res.status(200).json({
+        success: true,
+        msg: "Cursos comprados obtenidos",
+        contenido: cursosComprados,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" ? error.message : "Error interno del servidor",
       });
     }
   },

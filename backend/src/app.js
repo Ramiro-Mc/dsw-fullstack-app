@@ -1,8 +1,9 @@
 import express from "express";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 import session from "express-session";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import cors from "cors";
 import tipoCursoRoutes from "./routes/tipoCurso.routes.js";
 import cursosRoutes from "./routes/cursos.routes.js";
 import descuentosRoutes from "./routes/descuento.routes.js";
@@ -10,14 +11,14 @@ import usuarioRoutes from "./routes/usuario.routes.js";
 import comunidadRoutes from "./routes/comunidad.routes.js";
 import publicacionRoutes from "./routes/publicacion.routes.js";
 import cursoDetalleRoutes from "./routes/cursoDetalle.routes.js";
-import modulosRoutes from "./routes/modulo.routes.js"
-import leccionRoutes from "./routes/leccion.routes.js"
+import modulosRoutes from "./routes/modulo.routes.js";
+import leccionRoutes from "./routes/leccion.routes.js";
 import loginRoutes from "./routes/login.routes.js";
-import adminRoutes from './routes/admin.routes.js';
-import nuevosCursosRoutes from './routes/nuevosCursos.routes.js';
-import alumnoLeccionRoutes from './routes/alumnoLeccion.routes.js';
-import cors from "cors";
-import routerPagos from './routes/pagos.routes.js';
+import adminRoutes from "./routes/admin.routes.js";
+import nuevosCursosRoutes from "./routes/nuevosCursos.routes.js";
+import alumnoLeccionRoutes from "./routes/alumnoLeccion.routes.js";
+import alumnoCursoRoutes from "./routes/alumnos_cursos.routes.js"; // ← AGREGAR
+import routerPagos from "./routes/pagos.routes.js";
 
 // Importar modelos con asociaciones
 import db from "./models/allModels.js";
@@ -31,13 +32,22 @@ passport.deserializeUser((obj, done) => {
 
 const app = express();
 
+// Configurar CORS ANTES de las rutas
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "http://127.0.0.1:5173"], // URLs del frontend
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 // Middlewares
 app.use(express.json());
-app.use(cors());
 
 // IMPORTANTE: Rutas específicas PRIMERO
 app.use("/api", cursosRoutes);
-app.use('/api', routerPagos);  // ← MOVER ESTO AL PRINCIPIO
+app.use("/api", routerPagos); // ← MOVER ESTO AL PRINCIPIO
 
 app.use("/api/admin", adminRoutes);
 
@@ -55,10 +65,8 @@ app.use(modulosRoutes);
 app.use(leccionRoutes);
 app.use(nuevosCursosRoutes);
 app.use(alumnoLeccionRoutes);
+app.use(alumnoCursoRoutes); // ← AGREGAR
 
-//app.use(nuevosCursos);
-
-app.use("/api/admin", adminRoutes); 
-
+app.use("/api/admin", adminRoutes);
 
 export default app;

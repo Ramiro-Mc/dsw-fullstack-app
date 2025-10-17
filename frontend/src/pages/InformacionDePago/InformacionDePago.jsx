@@ -133,7 +133,7 @@ function InformacionDePago() {
             <i className="bi bi-check2 me-2"></i>
             Guardar cambios
           </button>
-          <button type="button" className="btn btn-secondary" onClick={handleSave}>
+          <button type="button" className="btn btn-secondary" onClick={handleCancel}>
             <i className="bi bi-x me-2"></i>
             Cancelar
           </button>

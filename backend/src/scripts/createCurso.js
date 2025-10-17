@@ -1,7 +1,7 @@
 import { Curso } from "../models/Curso.js";
 import { Usuario } from "../models/Usuario.js";
 import { TipoCurso } from "../models/TipoCurso.js";
-import { AlumnoCurso } from "../models/Alumnos_Cursos.js"; // ← CAMBIAR por AlumnoCurso
+import { AlumnoCurso } from "../models/AlumnoCurso.js"; // ← CAMBIAR por AlumnoCurso
 import { sequelize } from "../database/sequelize.js";
 import bcrypt from "bcrypt";
 import "../models/allModels.js";
@@ -35,6 +35,24 @@ const createCursosData = async () => {
 
     if (profesorCreated) {
       console.log("Profesor creado:", profesor.email);
+    }
+
+    // Crear alumno si no existe
+    const hashedPasswordAlumno = await bcrypt.hash("alumno123", 10);
+
+    const [alumno, alumnoCreated] = await Usuario.findOrCreate({
+      where: { email: "alumno@utndemy.com" },
+      defaults: {
+        nombreUsuario: "Estudiante Test",
+        email: "alumno@utndemy.com",
+        contrasena: hashedPasswordAlumno,
+        tipoUsuario: "consumidor",
+        fotoDePerfil: "/Default",
+      },
+    });
+
+    if (alumnoCreated) {
+      console.log("Alumno creado:", alumno.email);
     }
 
     // Obtener tipos de curso existentes usando los nombres del seedTipoCurso.js
@@ -224,10 +242,10 @@ const createCursosData = async () => {
           idUsuario: alumno.idUsuario,
           idCurso: curso.idCurso,
           fechaCompra: new Date(),
-          precioCompra: curso.precio, // ← Precio al momento de la compra
+          precioCompra: curso.precio,
           metodoPago: "mercadopago",
-          estadoPago: "aprobado", // ← Compra exitosa
-          transactionId: `MP_${Date.now()}_${curso.idCurso}`, // ← ID ficticio de MercadoPago
+          estadoPago: "aprobado",
+          transactionId: `MP_${Date.now()}_${curso.idCurso}`,
         },
       });
 
