@@ -36,7 +36,7 @@ const handleEliminarUsuario = async (idUsuario, nombreUsuario) => {
   }
 
   try {
-    const response = await fetch(`/api/admin/usuarios/${idUsuario}`, { // ← CAMBIO AQUÍ
+    const response = await fetch(`/api/admin/usuarios/${idUsuario}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ const handleEliminarUsuario = async (idUsuario, nombreUsuario) => {
       setUsuarios(usuarios.filter(usuario => usuario.idUsuario !== idUsuario));
       alert('Usuario eliminado correctamente');
     } else {
-      alert(data.message || 'Error al eliminar el usuario'); // ← CAMBIO: 'msg' por 'message'
+      alert(data.message || 'Error al eliminar el usuario'); 
     }
   } catch (err) {
     console.error('Error:', err);
