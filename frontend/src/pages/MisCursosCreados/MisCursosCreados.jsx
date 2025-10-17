@@ -61,7 +61,18 @@ function MisCursosCreados() {
             <p className="text-danger">{error}</p>
           </div>
         ) : cursos.length > 0 ? (
-          cursos.map((curso) => <CursoCardPerfil key={curso.idCurso} idCurso={curso.idCurso} titulo={curso.titulo} descripcion={curso.descripcion} precio={curso.precio} imagen={curso.imagen || "/principal1.jpeg"} />)
+          <>
+            {cursos.map((curso) => (
+              <CursoCardPerfil key={curso.idCurso} idCurso={curso.idCurso} titulo={curso.titulo} descripcion={curso.descripcion} precio={curso.precio} imagen={curso.imagen || "/principal1.jpeg"} />
+            ))}
+            {/* Botón para crear más cursos cuando ya tiene cursos */}
+            <div className="text-center mt-4">
+              <Link to="/crearCurso" className="btn btn-primary">
+                <i className="bi bi-plus-circle me-2"></i>
+                Crear nuevo curso
+              </Link>
+            </div>
+          </>
         ) : (
           <div className="text-center">
             <div className="no-cursos-icon" style={{ fontSize: "4rem", marginBottom: "1rem" }}>
