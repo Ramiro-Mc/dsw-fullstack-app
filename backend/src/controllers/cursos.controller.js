@@ -311,9 +311,19 @@ export const cursoController = {
 
   getAllCursosAprobados: async (req, res) => {
     try {
+
+      const { idTipo } = req.query;
+      let whereClause = {};
+
+      if(idTipo && idTipo !== 0){
+        whereClause.idTipo = idTipo;
+      }
+
+      whereClause.estado = 'aprobado';
+
       const cursosAprobados = await Curso.findAll({
-        where: { estado: 'aprobado' },
-        include: [{ model: TipoCurso, as: "TipoCurso" }] // Agregar alias
+        where: whereClause,
+        include: [{ model: TipoCurso, as: "TipoCurso" }] 
       });
 
       res.status(200).json({

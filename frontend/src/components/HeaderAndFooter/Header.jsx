@@ -62,7 +62,7 @@ function Header() {
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/MiPerfil/informacionDePago">
+                      <Link className="dropdown-item" to="/MiPerfil/informacionDeCobro">
                         <i className="bi bi-wallet2"></i> Informacion de cobro
                       </Link>
                     </li>

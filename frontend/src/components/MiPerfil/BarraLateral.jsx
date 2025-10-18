@@ -23,8 +23,8 @@ function BarraLateral() {
           <i className="bi bi-person"></i> Informacion Personal
         </Link>
 
-        <Link to="/MiPerfil/InformacionDePago" className={`seccion ${isActive("/MiPerfil/InformacionDePago") ? "activo" : "no_activo"}`}>
-          <i className="bi bi-wallet2"></i> Informacion de Pago
+        <Link to="/MiPerfil/InformacionDeCobro" className={`seccion ${isActive("/MiPerfil/InformacionDeCobro") ? "activo" : "no_activo"}`}>
+          <i className="bi bi-wallet2"></i> Informacion de Cobro
         </Link>
 
         {/* Acordeón manual */}
@@ -38,10 +38,10 @@ function BarraLateral() {
           {isAccordionOpen && (
             <div className="accordion-content">
               <Link to="/MiPerfil/MisCursosComprados" className={`subseccion ${isActive("/MiPerfil/MisCursosComprados") ? "activo" : "no_activo"}`}>
-                <i class="bi bi-pencil-fill"></i> MisCursosComprados
+                <i class="bi bi-pencil-fill"></i> Mis Cursos Comprados
               </Link>
               <Link to="/MiPerfil/MisCursosCreados" className={`subseccion ${isActive("/MiPerfil/MisCursosCreados") ? "activo" : "no_activo"}`}>
-                <i class="bi bi-person-video3"></i> MisCursosCreados
+                <i class="bi bi-person-video3"></i> Mis Cursos Creados
               </Link>
             </div>
           )}

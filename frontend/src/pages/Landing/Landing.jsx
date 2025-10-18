@@ -15,7 +15,7 @@ function Landing() {
     const fetchCursos = async () => {
       try {
         setLoadingCursos(true); // ← Usar loading específico
-        const response = await fetch("http://localhost:3000/api/cursos", {
+        const response = await fetch("http://localhost:3000/api/cursos/aprobados", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
         });
@@ -67,7 +67,7 @@ function Landing() {
     setCursos([]);
 
     try {
-      const url = idTipo && idTipo !== 0 ? `http://localhost:3000/api/cursos?idTipo=${idTipo}` : "http://localhost:3000/api/cursos";
+      const url = idTipo && idTipo !== 0 ? `http://localhost:3000/api/cursos/aprobados?idTipo=${idTipo}` : "http://localhost:3000/api/cursos";
 
       const response = await fetch(url, {
         method: "GET",
