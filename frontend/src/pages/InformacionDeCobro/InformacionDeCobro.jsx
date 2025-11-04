@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "./InformacionDePago.css";
+import "./InformacionDeCobro.css";
 import { useAuth } from "../../context/AuthContext";
 
 function InformacionDePago() {
   const [isEditing, setIsEditing] = useState(false);
+  const [nombreBanco, setNombreBanco] = useState("");
   const [alias, setAlias] = useState("");
   const [cvu, setcvu] = useState("");
   const [nombre, setNombre] = useState("");
@@ -29,6 +30,7 @@ function InformacionDePago() {
 
         if (data.success) {
           setUsuario(data.informacion);
+          setNombreBanco(data.informacion.banco || "");
           setAlias(data.informacion.alias || "");
           setcvu(data.informacion.cvu || "");
           setNombre(data.informacion.nombreReferido || "");
@@ -60,6 +62,7 @@ function InformacionDePago() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          banco: nombreBanco,
           alias: alias,
           cvu: cvu,
           nombreReferido: nombre,
@@ -101,6 +104,10 @@ function InformacionDePago() {
   const handleNombreChange = (e) => {
     setNombre(e.target.value);
   };
+  
+  const handleNombreBancoChange = (e) => {
+    setNombreBanco(e.target.value);
+  };
 
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -109,6 +116,10 @@ function InformacionDePago() {
     <div className="contenedor-info-de-pago">
       <h3>Tu informacion de cobro</h3>
 
+      <label>
+        <strong>Nombre del Banco</strong>
+      </label>
+      <input type="text" value={nombreBanco} disabled={!isEditing} onChange={handleNombreBancoChange} />
       <label>
         <strong>ALIAS</strong>
       </label>

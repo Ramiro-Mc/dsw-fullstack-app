@@ -71,9 +71,9 @@ function MisCursosComprados() {
           <div className="no-cursos-icon">📚</div>
           <h3>Aún no has comprado ningún curso</h3>
           <p>Explora nuestro catálogo y encuentra el curso perfecto para ti</p>
-          <button className="btn-explorar" onClick={() => (window.location.href = "/cursos")}>
+          <Link to="/" className="btn-explorar">
             Explorar Cursos
-          </button>
+          </Link>
         </div>
       ) : (
         <div className="cursos-container">

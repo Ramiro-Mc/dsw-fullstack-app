@@ -8,7 +8,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import UsuariosPage from "./pages/UsuariosPage/UsuariosPage";
 import LayoutMiPerfil from "./components/MiPerfil/LayoutMiPerfil";
-import InformacionDePago from "./pages/InformacionDePago/InformacionDePago";
+import InformacionDeCobro from "./pages/InformacionDeCobro/InformacionDeCobro";
 import Reportes from "./pages/Reportes/Reportes";
 import MisCursosCreados from "./pages/MisCursosCreados/MisCursosCreados";
 import MisCursosComprados from "./pages/MisCursosComprados/MisCursosComprados";
@@ -63,8 +63,8 @@ const router = createBrowserRouter([
             element: <MisCursosComprados />,
           },
           {
-            path: "informacionDePago",
-            element: <InformacionDePago />,
+            path: "informacionDeCobro",
+            element: <InformacionDeCobro />,
           },
           {
             path: "reportes",

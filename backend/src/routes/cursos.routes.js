@@ -6,6 +6,7 @@ const routerCursos = Router();
 
 // Rutas principales bajo /api/cursos
 routerCursos.get("/cursos", cursoController.getAllCursos);                    // GET /api/cursos
+routerCursos.get("/cursos/aprobados", cursoController.getAllCursosAprobados);  
 routerCursos.post("/cursos", cursoValidator.validateCreate, cursoController.createCurso);  // POST /api/cursos - FALTABA ESTA RUTA
 routerCursos.put("/cursos/:idCurso", cursoValidator.validateUpdate, cursoController.updateCurso);  // PUT /api/cursos/:id
 routerCursos.get("/cursos/:idCurso", cursoValidator.validateGetByIdAndDelete, cursoController.getCursoById);  // GET /api/cursos/:id
