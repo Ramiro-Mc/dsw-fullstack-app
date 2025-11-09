@@ -19,7 +19,7 @@ export const usuarioController = {
     if (req.query.includeCursos === "true") {
       include.push({
         model: Curso,
-        as: "cursos", // Usa el alias que pusiste en la asociación en allModels.js
+        as: "CursosCreados",
       });
     }
 

@@ -8,7 +8,7 @@ export const modulosController = {
         include: [
           {
             model: Curso,
-            as: 'curso',
+            as: 'CursoDelModulo',
             attributes: ['idCurso', 'titulo']
           }
         ]
@@ -84,7 +84,7 @@ export const modulosController = {
         include: [
           {
             model: Curso,
-            as: 'curso',
+            as: 'CursoDelModulo',
             attributes: ['idCurso', 'titulo']
           }
         ]
@@ -115,7 +115,7 @@ export const modulosController = {
         include: [
           {
             model: Curso,
-            as: 'curso',
+            as: 'CursoDelModulo',
             attributes: ['idCurso', 'titulo']
           }
         ]
@@ -185,7 +185,7 @@ export const modulosController = {
         include: [
           {
             model: Curso,
-            as: 'curso',
+            as: 'CursoDelModulo',
             attributes: ['idCurso', 'titulo']
           }
         ],

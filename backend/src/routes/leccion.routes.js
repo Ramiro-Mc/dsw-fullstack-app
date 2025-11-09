@@ -10,4 +10,6 @@ routerLeccion.put("/lecciones/:numeroLec", leccionValidator.validateUpdate, lecc
 routerLeccion.delete("/lecciones/:numeroLec", leccionValidator.validateGetByIdAndDelete, leccionController.deleteLeccion);
 routerLeccion.get("/lecciones/:numeroLec", leccionValidator.validateGetByIdAndDelete, leccionController.getLeccionById);
 
+routerLeccion.get("/modulos/:idModulo/lecciones", leccionValidator.validateGetByModulo, leccionController.getLeccionesByModulo);
+
 export default routerLeccion;

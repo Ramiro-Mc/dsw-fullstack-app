@@ -14,6 +14,7 @@ export const obtenerTiposCurso = async (req, res) => {
   }
 };
 
+
 // Crear curso completo con módulos y lecciones
 export const crearCursoCompleto = async (req, res) => {
   const transaction = await sequelize.transaction();

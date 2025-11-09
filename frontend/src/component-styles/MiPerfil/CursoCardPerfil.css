@@ -1,0 +1,74 @@
+.curso-creado {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+  min-height: 150px;
+}
+
+.curso-creado:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.curso-creado .rounded-start {
+  border-radius: 12px 0 0 12px !important;
+}
+
+.curso-creado .sector-precio {
+  border-left: 2px solid #e9ecef !important;
+  background-color: #f8f9fa;
+}
+
+.TituloCurso {
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.card-text {
+  color: #6c757d;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.precio {
+  color: #28a745 !important;
+  font-weight: 700;
+  margin: 0;
+}
+
+.vr {
+  background-color: #dee2e6;
+  width: 1px;
+}
+
+@media (max-width: 768px) {
+  .curso-creado .row {
+    flex-direction: column;
+  }
+
+  .curso-creado .rounded-start {
+    border-radius: 12px 12px 0 0 !important;
+  }
+
+  .curso-creado .sector-precio {
+    border-left: none !important;
+    border-top: 2px solid #e9ecef !important;
+    background-color: #f8f9fa;
+  }
+
+  .curso-creado {
+    min-height: auto;
+  }
+
+  .vr {
+    display: none;
+  }
+}

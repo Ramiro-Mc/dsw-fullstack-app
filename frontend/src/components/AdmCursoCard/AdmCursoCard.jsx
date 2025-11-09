@@ -43,7 +43,7 @@ const AdmCursoCard = ({
         </p>
         
         {variant === 'pendiente' ? (
-          // Layout para solicitudes pendientes
+          
           <div className="curso-details">
             <div className="detail-item">
               <span className="label">Precio:</span>
@@ -59,7 +59,7 @@ const AdmCursoCard = ({
             </div>
           </div>
         ) : (
-          // Layout para todos los cursos
+          
           <div className="curso-info">
             <div className="precio">
               <strong>${curso.precio?.toLocaleString()}</strong>

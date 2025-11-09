@@ -70,8 +70,6 @@ function Landing() {
     setCursos([]);
 
     try {
-      // Siempre llamamos al endpoint de cursos aprobados.
-      // Si idTipo está presente, lo pasamos como query para filtrar por tipo.
       const isAll =
         idTipo === 0 || idTipo === "0" || idTipo === "" || idTipo == null;
       const url = isAll

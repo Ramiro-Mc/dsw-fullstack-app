@@ -24,7 +24,7 @@ function RegisterPage() {
           email,
           contrasena,
           tipoUsuario: "usuario",
-          fotoDePerfil: null,
+          fotoDePerfil: "/Default.jpg",
           nombreReferido: null,
           banco: null,
           cvu: null,

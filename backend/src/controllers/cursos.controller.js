@@ -5,16 +5,19 @@ import { TipoCurso } from "../models/TipoCurso.js";
 export const cursoController = {
   getAllCursos: async (req, res) => {
     try {
-      const { idTipo } = req.query;
+      const { idTipo, idProfesor } = req.query;
       let whereClause = {};
 
       if(idTipo && idTipo !== 0){
         whereClause.idTipo = idTipo;
       }
+      if(idProfesor && idProfesor !== 0){
+        whereClause.idProfesor = idProfesor
+      }
 
       const allCursos = await Curso.findAll({
         where: whereClause,
-        include: [{ model: TipoCurso, as: "TipoCurso" }] // Agregar alias
+        include: [{ model: TipoCurso, as: "TipoCurso" }] 
       });
 
       if (allCursos.length === 0) {
@@ -98,7 +101,7 @@ export const cursoController = {
       res.status(200).json({
         success: true,
         msg: "Curso actualizado correctamente",
-        atributo: cursoActualizado,
+        contenido: cursoActualizado,
       });
 
     } catch (error) {
