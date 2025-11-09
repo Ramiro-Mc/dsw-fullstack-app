@@ -15,10 +15,13 @@ function Landing() {
     const fetchCursos = async () => {
       try {
         setLoadingCursos(true); // ← Usar loading específico
-        const response = await fetch("http://localhost:3000/api/cursos", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
+        const response = await fetch(
+          "http://localhost:3000/api/cursos/aprobados",
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
 
         const data = await response.json();
 
@@ -53,7 +56,7 @@ function Landing() {
         console.error("Error al cargar tipos:", error);
         setError("Error de conexión. Intenta de nuevo.");
       } finally {
-        setLoadingTipos(false); // ← Usar loading específico
+        setLoadingTipos(false);
       }
     };
 
@@ -62,12 +65,18 @@ function Landing() {
   }, []);
 
   const handleSubmit = async (idTipo) => {
-    setLoadingCursos(true); // ← Solo loading de cursos
+    setLoadingCursos(true);
     setError("");
-    setCursos([]); // ← LIMPIAR cursos antes de filtrar
+    setCursos([]);
 
     try {
-      const url = idTipo && idTipo !== 0 ? `http://localhost:3000/api/cursos?idTipo=${idTipo}` : "http://localhost:3000/api/cursos";
+      // Siempre llamamos al endpoint de cursos aprobados.
+      // Si idTipo está presente, lo pasamos como query para filtrar por tipo.
+      const isAll =
+        idTipo === 0 || idTipo === "0" || idTipo === "" || idTipo == null;
+      const url = isAll
+        ? "http://localhost:3000/api/cursos/aprobados"
+        : `http://localhost:3000/api/cursos/aprobados?idTipo=${idTipo}`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -75,10 +84,10 @@ function Landing() {
       });
 
       const data = await response.json();
-      console.log("Respuesta del servidor:", data); // ← Para debug
+      console.log("Respuesta del servidor:", data);
 
       if (data.success) {
-        setCursos(data.contenido); // ← Reemplazar completamente
+        setCursos(data.contenido);
       } else {
         setError(data.msg || "Error al cargar cursos");
       }
@@ -86,7 +95,7 @@ function Landing() {
       console.error("Error al cargar cursos:", error);
       setError("Error de conexión. Intenta de nuevo.");
     } finally {
-      setLoadingCursos(false); // ← Solo loading de cursos
+      setLoadingCursos(false);
     }
   };
 
@@ -94,11 +103,31 @@ function Landing() {
     <main>
       {/* Seccion presentacion */}
       <section className="presentacion">
-        <div id="carouselExampleIndicators" className="presentacion-carousel carousel slide">
+        <div
+          id="carouselExampleIndicators"
+          className="presentacion-carousel carousel slide"
+        >
           <div className="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide-to="0"
+              className="active"
+              aria-current="true"
+              aria-label="Slide 1"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide-to="1"
+              aria-label="Slide 2"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide-to="2"
+              aria-label="Slide 3"
+            ></button>
           </div>
           <div className="carousel-inner">
             <div className="carousel-item active carousel-item-presentacion">
@@ -111,12 +140,28 @@ function Landing() {
               <img src="/placeholder.jpg" className="d-block w-100" alt="..." />
             </div>
           </div>
-          <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+          <button
+            className="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev"
+          >
+            <span
+              className="carousel-control-prev-icon"
+              aria-hidden="true"
+            ></span>
             <span className="visually-hidden">Previous</span>
           </button>
-          <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+          <button
+            className="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next"
+          >
+            <span
+              className="carousel-control-next-icon"
+              aria-hidden="true"
+            ></span>
             <span className="visually-hidden">Next</span>
           </button>
         </div>
@@ -131,7 +176,13 @@ function Landing() {
         </div>
 
         <div className="container categoria-botones text-center">
-          <TipoCursoBadge key={0} handleSubmit={handleSubmit} idTipo={0} tipo="Todos" icono="" />
+          <TipoCursoBadge
+            key={0}
+            handleSubmit={handleSubmit}
+            idTipo={0}
+            tipo="Todos"
+            icono=""
+          />
 
           {loadingTipos ? ( // ← Usar loading específico
             <div className="text-center">
@@ -142,7 +193,15 @@ function Landing() {
               <p className="text-danger">{error}</p>
             </div>
           ) : tipos.length > 0 ? (
-            tipos.map((tipo) => <TipoCursoBadge key={tipo.idTipo} idTipo={tipo.idTipo} handleSubmit={handleSubmit} tipo={tipo.nombreTipo} icono={tipo.icono} />)
+            tipos.map((tipo) => (
+              <TipoCursoBadge
+                key={tipo.idTipo}
+                idTipo={tipo.idTipo}
+                handleSubmit={handleSubmit}
+                tipo={tipo.nombreTipo}
+                icono={tipo.icono}
+              />
+            ))
           ) : (
             <div className="text-center">
               <p>No hay tipos disponibles</p>
@@ -164,7 +223,16 @@ function Landing() {
                 <p className="text-danger">{error}</p>
               </div>
             ) : cursos.length > 0 ? (
-              cursos.map((curso) => <CursoCard key={curso.idCurso} idCurso={curso.idCurso} titulo={curso.titulo} descripcion={curso.descripcion} precio={curso.precio} imagen={curso.imagen || "/principal1.jpeg"} />)
+              cursos.map((curso) => (
+                <CursoCard
+                  key={curso.idCurso}
+                  idCurso={curso.idCurso}
+                  titulo={curso.titulo}
+                  descripcion={curso.descripcion}
+                  precio={curso.precio}
+                  imagen={curso.imagen || "/principal1.jpeg"}
+                />
+              ))
             ) : (
               <div className="text-center">
                 <p>No hay cursos disponibles para esta categoría</p>

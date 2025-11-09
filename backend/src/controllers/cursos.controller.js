@@ -306,11 +306,21 @@ export const cursoController = {
     }
   },
 
-  getAllCursosAprobados: async (req, res) => {
+    getAllCursosAprobados: async (req, res) => {
     try {
+      const { idTipo } = req.query;
+      const where = { estado: "aprobado" };
+
+      if (idTipo !== undefined && idTipo !== null && String(idTipo).trim() !== "") {
+        const idNum = Number(idTipo);
+        where.idTipo = Number.isNaN(idNum) ? idTipo : idNum;
+      }
+
+      //console.log("getAllCursosAprobados - where:", where);
+
       const cursosAprobados = await Curso.findAll({
-        where: { estado: 'aprobado' },
-        include: [{ model: TipoCurso, as: "TipoCurso" }] // Agregar alias
+        where,
+        include: [{ model: TipoCurso, as: "TipoCurso" }],
       });
 
       res.status(200).json({
@@ -318,14 +328,14 @@ export const cursoController = {
         msg: "Cursos aprobados enviados",
         contenido: cursosAprobados,
       });
-
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" 
-          ? error.message 
-          : "Error interno del servidor",
+        msg:
+          process.env.NODE_ENV === "development"
+            ? error.message
+            : "Error interno del servidor",
       });
     }
   },
