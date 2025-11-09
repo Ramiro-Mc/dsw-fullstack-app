@@ -70,10 +70,11 @@ function Landing() {
     setCursos([]);
 
     try {
-      const url =
-        idTipo && idTipo !== 0
-          ? `http://localhost:3000/api/cursos/aprobados?idTipo=${idTipo}`
-          : "http://localhost:3000/api/cursos";
+      const isAll =
+        idTipo === 0 || idTipo === "0" || idTipo === "" || idTipo == null;
+      const url = isAll
+        ? "http://localhost:3000/api/cursos/aprobados"
+        : `http://localhost:3000/api/cursos/aprobados?idTipo=${idTipo}`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -81,10 +82,10 @@ function Landing() {
       });
 
       const data = await response.json();
-      console.log("Respuesta del servidor:", data); // ← Para debug
+      console.log("Respuesta del servidor:", data);
 
       if (data.success) {
-        setCursos(data.contenido); // ← Reemplazar completamente
+        setCursos(data.contenido);
       } else {
         setError(data.msg || "Error al cargar cursos");
       }
@@ -92,7 +93,7 @@ function Landing() {
       console.error("Error al cargar cursos:", error);
       setError("Error de conexión. Intenta de nuevo.");
     } finally {
-      setLoadingCursos(false); // ← Solo loading de cursos
+      setLoadingCursos(false);
     }
   };
 
