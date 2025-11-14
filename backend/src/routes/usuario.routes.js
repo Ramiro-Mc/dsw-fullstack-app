@@ -9,5 +9,5 @@ routerUsuario.post("/usuarios", usuarioValidator.validateCreate,  usuarioControl
 routerUsuario.put("/usuarios/:idUsuario", usuarioValidator.validateUpdate, usuarioController.updateUsuario);
 routerUsuario.delete("/usuarios/:idUsuario", usuarioValidator.validateGetByIdAndDelete, usuarioController.deleteUsuario);
 routerUsuario.get("/usuarios/:idUsuario", usuarioValidator.validateGetByIdAndDelete, usuarioController.getUsuarioById);
-routerUsuario.post("/login", usuarioController.loginUsuario); 
+// routerUsuario.post("/login", usuarioController.loginUsuario); 
 export default routerUsuario;

@@ -17,7 +17,7 @@ import loginRoutes from "./routes/login.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import nuevosCursosRoutes from "./routes/nuevosCursos.routes.js";
 import alumnoLeccionRoutes from "./routes/alumnoLeccion.routes.js";
-import alumnoCursoRoutes from "./routes/alumnos_cursos.routes.js"; // ← AGREGAR
+import alumnoCursoRoutes from "./routes/alumnos_cursos.routes.js"; 
 import routerPagos from "./routes/pagos.routes.js";
 
 // Importar modelos con asociaciones
@@ -65,7 +65,7 @@ app.use(modulosRoutes);
 app.use(leccionRoutes);
 app.use(nuevosCursosRoutes);
 app.use(alumnoLeccionRoutes);
-app.use(alumnoCursoRoutes); // ← AGREGAR
+app.use(alumnoCursoRoutes); 
 
 app.use("/api/admin", adminRoutes);
 

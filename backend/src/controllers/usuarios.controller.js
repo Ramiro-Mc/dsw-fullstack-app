@@ -180,37 +180,37 @@ export const usuarioController = {
 
 
   //Para conectar el frontend con el backend
-  loginUsuario: async (req, res) => {
-    try {
-      const { email, contrasena } = req.body;
-      const usuario = await Usuario.findOne({ where: { email } });
+  // loginUsuario: async (req, res) => {
+  //   try {
+  //     const { email, contrasena } = req.body;
+  //     const usuario = await Usuario.findOne({ where: { email } });
 
-      if (!usuario || usuario.contrasena !== contrasena) {
-        return res.status(401).json({
-          success: false,
-          msg: "Credenciales inválidas",
-        });
-      }
+  //     if (!usuario || usuario.contrasena !== contrasena) {
+  //       return res.status(401).json({
+  //         success: false,
+  //         msg: "Credenciales inválidas",
+  //       });
+  //     }
 
-      // Generar un token JWT al iniciar sesión
-      const token = jwt.sign({ id: usuario.idUsuario }, process.env.JWT_SECRET, {
-        expiresIn: "7d",
-      });
-      res.status(200).json({
-        success: true,
-        msg: "Login exitoso",
-        usuario: usuario,
-        token: token,
-      });
+  //     // Generar un token JWT al iniciar sesión
+  //     const token = jwt.sign({ id: usuario.idUsuario }, process.env.JWT_SECRET, {
+  //       expiresIn: "7d",
+  //     });
+  //     res.status(200).json({
+  //       success: true,
+  //       msg: "Login exitoso",
+  //       usuario: usuario,
+  //       token: token,
+  //     });
 
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
-          ? error.message 
-          : "Error interno del servidor",
-      });
-    }
-  }
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).json({
+  //       success: false,
+  //       msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+  //         ? error.message 
+  //         : "Error interno del servidor",
+  //     });
+  //   }
+  // }
 };
