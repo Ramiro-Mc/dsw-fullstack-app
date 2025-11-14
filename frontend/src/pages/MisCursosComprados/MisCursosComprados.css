@@ -171,6 +171,9 @@
 
 .curso-info {
   padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .curso-titulo {
@@ -201,7 +204,7 @@
 }
 
 .curso-detalles i {
-  color: #3498db;
+  color: orange;
   width: 16px;
 }
 
@@ -217,10 +220,11 @@
 
 .btn-continuar {
   flex: 1;
-  background: #3498db;
+  width: 100%;
+  background: orange;
   color: white;
   border: none;
-  padding: 12px 16px;
+  padding: 6px 8px;
   border-radius: 8px;
   font-weight: 500;
   cursor: pointer;
@@ -232,7 +236,7 @@
 }
 
 .btn-continuar:hover {
-  background: #2980b9;
+  background: #ff7300;
 }
 
 .btn-detalles {

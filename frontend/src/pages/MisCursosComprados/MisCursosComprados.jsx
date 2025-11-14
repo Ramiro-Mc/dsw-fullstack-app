@@ -132,7 +132,9 @@ function MisCursosComprados() {
                     </Link>
 
                     <button className="btn-detalles" title="Ver detalles">
-                      <i className="bi bi-info-circle"></i>
+                     <Link to= {`/compraCurso/${compra.idCurso}`} >
+                     <i className="bi bi-info-circle"></i>
+                     </Link> 
                     </button>
                   </div>
                 </div>
