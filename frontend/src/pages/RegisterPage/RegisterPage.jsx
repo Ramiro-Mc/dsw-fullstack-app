@@ -34,17 +34,17 @@ function RegisterPage() {
 
       const data = await res.json();
 
-      // Si es exitoso
+ 
       if (data.success) {
         alert("Usuario creado exitosamente");
         window.location.href = "/loginPage";
       }
-      // Si hay errores de validación (formato: {errors: [{msg: "..."}]})
+ 
       else if (data.errors && Array.isArray(data.errors)) {
         const errorMessages = data.errors.map((error) => error.msg).join(", ");
         alert("Errores de validación: " + errorMessages);
       }
-      // Si hay otros errores (formato: {success: false, msg: "..."})
+ 
       else {
         alert(data.msg || "Error desconocido al crear usuario");
       }

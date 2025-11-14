@@ -13,7 +13,7 @@ function MisCursosComprados() {
     const fetchCursosComprados = async () => {
       try {
         if (!user?.id) {
-          setLoading(false); // ← CAMBIO: No mostrar error, solo parar el loading
+          setLoading(false); 
           return;
         }
 

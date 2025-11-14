@@ -13,7 +13,7 @@ export const cursoDetalleController = {
         include: [
           {
             model: TipoCurso,
-            as: 'TipoCurso' // AGREGAR este alias
+            as: 'TipoCurso' 
           },
           {
             model: Modulo,
@@ -21,7 +21,7 @@ export const cursoDetalleController = {
             include: [
               {
                 model: Leccion,
-                as: 'Lecciones' // CAMBIAR de sin alias a 'Lecciones'
+                as: 'Lecciones' 
               }
             ]
           }

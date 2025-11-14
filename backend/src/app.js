@@ -32,7 +32,7 @@ passport.deserializeUser((obj, done) => {
 
 const app = express();
 
-// Configurar CORS ANTES de las rutas
+
 app.use(
   cors({
     origin: ["http://localhost:5173", "http://127.0.0.1:5173"], // URLs del frontend
@@ -45,9 +45,9 @@ app.use(
 // Middlewares
 app.use(express.json());
 
-// IMPORTANTE: Rutas específicas PRIMERO
+
 app.use("/api", cursosRoutes);
-app.use("/api", routerPagos); // ← MOVER ESTO AL PRINCIPIO
+app.use("/api", routerPagos); 
 
 app.use("/api/admin", adminRoutes);
 

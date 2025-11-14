@@ -10,7 +10,7 @@ function Landing() {
   const [loadingTipos, setLoadingTipos] = useState(true); // ← Loading separado para tipos
   const [error, setError] = useState("");
 
-  // Busco los cursos cuando el componente se monta
+
   useEffect(() => {
     const fetchCursos = async () => {
       try {

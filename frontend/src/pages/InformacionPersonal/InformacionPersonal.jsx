@@ -45,17 +45,17 @@ function InformacionPersonal() {
     fileInputRef.current.click();
   };
 
-  // Función para manejar cambio de archivo
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      // Aquí puedes procesar el archivo
+
       console.log('Archivo seleccionado:', file);
       
-      // Preview de la imagen
+
       const reader = new FileReader();
       reader.onload = (e) => {
-        // Actualizar la imagen del usuario
+
         setUsuario(prev => ({
           ...prev,
           fotoDePerfil: e.target.result
@@ -65,7 +65,7 @@ function InformacionPersonal() {
     }
   };
 
-  // Mostrar loading
+
   if (authLoading || loading) {
     return (
       <div className="container text-center">
@@ -74,7 +74,7 @@ function InformacionPersonal() {
     );
   }
 
-  // Mostrar error
+
   if (error) {
     return (
       <div className="container text-center">

@@ -16,7 +16,6 @@ const CompraCurso = () => {
     fetch(`${base}/api/cursos/${idCurso}`, { signal: controller.signal })
       .then((res) => res.json())
       .then((data) => {
-        // Acepta varias formas de respuesta (informacion || contenido)
         setCurso(data.informacion || data.contenido || data);
         setLoading(false);
       })
@@ -41,7 +40,7 @@ const CompraCurso = () => {
       <div className="curso-preview">
         <img
           src={
-            // Si la imagen viene como ruta de Drive convertida, úsala; si no, fallback
+            
             curso.imagen?.includes("drive.google.com")
               ? curso.imagen.replace("/file/d/", "/uc?id=").replace("/view?usp=sharing", "")
               : curso.imagen || "https://img-c.udemycdn.com/course/480x270/placeholder.jpg"
