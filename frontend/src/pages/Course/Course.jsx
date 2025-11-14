@@ -59,8 +59,8 @@ const cargarCursoConProgreso = async () => {
               });
             }
           }
-        } catch (error) {
-          console.log("No se pudo cargar el progreso del usuario, continuando sin progreso");
+        } catch (err) {
+          console.error("Error al cargar progreso del usuario:", err);
         }
       }
 

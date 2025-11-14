@@ -129,7 +129,7 @@ function Landing() {
           </div>
           <div className="carousel-inner">
             <div className="carousel-item active carousel-item-presentacion">
-              <img src="/ImagenCarrusel01.jpg" className="d-block w-100" alt="..." />
+              <img src="/placeholder.jpg" className="d-block w-100" alt="..." />
             </div>
             <div className="carousel-item carousel-item-presentacion">
               <img src="/ImagenCarrusel02.jpg" className="d-block w-100" alt="..." />
