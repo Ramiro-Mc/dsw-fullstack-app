@@ -19,7 +19,6 @@
   margin: 5px 0;
 }
 
-/* ✅ AGREGAR position: relative */
 .profile-image-container {
   position: relative;
   display: inline-block;
@@ -40,8 +39,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 8px; /* Ajuste fino para centrar el icono */
-  z-index: 10; /* ← Agregar para que esté encima */
+  padding-bottom: 8px; 
+  z-index: 10;
 }
 
 .profile-image-clickable {

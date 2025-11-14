@@ -1,8 +1,40 @@
-
-
 .tarjetas {
-    border-color: orange!important;
-    border-width: 2px!important;
-    margin-left: 10px;
+  border-color: orange !important;
+  border-width: 2px !important;
+  margin-left: 10px;
 }
 
+.prof {
+  display: flex;
+  gap: 24px;
+}
+
+.notificacion {
+  margin-left: 10px;
+  margin-top: 20px;
+  padding: 16px 24px;
+  background-color: orange;
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 8px rgba(255, 140, 0, 0.15);
+  display: inline-block;
+  text-align: center;
+}
+
+.notificacion i {
+  margin-right: 8px;
+  font-size: 1.3rem;
+  vertical-align: middle;
+}
+
+.contenedor-profesores {
+  min-height: 400px;
+}
+
+.tarjetas img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+}

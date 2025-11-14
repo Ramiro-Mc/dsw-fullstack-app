@@ -87,13 +87,13 @@ function InformacionPersonal() {
     <div className="container informacion-personal">
       <div className="row">
         <div className="col-3">
-          <input 
+          {/* <input 
             type="file" 
             ref={fileInputRef}
             onChange={handleFileChange}
             accept="image/*"
             style={{ display: 'none' }} 
-          />
+          /> */}
           <div className="profile-image-container">
             <img src={usuario.fotoDePerfil || "/image.png"} alt="Foto de perfil" className="img-fluid rounded-circle profile-image-clickable" onClick={handleImageClick}/>
           </div>
