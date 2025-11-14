@@ -6,15 +6,15 @@ import { useEffect, useState } from "react";
 function Landing() {
   const [cursos, setCursos] = useState([]);
   const [tipos, setTipos] = useState([]);
-  const [loadingCursos, setLoadingCursos] = useState(true); // ← Loading separado para cursos
-  const [loadingTipos, setLoadingTipos] = useState(true); // ← Loading separado para tipos
+  const [loadingCursos, setLoadingCursos] = useState(true); // Loading separado para cursos
+  const [loadingTipos, setLoadingTipos] = useState(true); // Loading separado para tipos
   const [error, setError] = useState("");
 
 
   useEffect(() => {
     const fetchCursos = async () => {
       try {
-        setLoadingCursos(true); // ← Usar loading específico
+        setLoadingCursos(true);
         const response = await fetch(
           "http://localhost:3000/api/cursos/aprobados",
           {
@@ -34,12 +34,12 @@ function Landing() {
         console.error("Error al cargar cursos:", error);
         setError("Error de conexión. Intenta de nuevo.");
       } finally {
-        setLoadingCursos(false); // ← Usar loading específico
+        setLoadingCursos(false);
       }
     };
     const fetchTipos = async () => {
       try {
-        setLoadingTipos(true); // ← Usar loading específico
+        setLoadingTipos(true); 
         const response = await fetch("http://localhost:3000/tipoCursos", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -129,13 +129,13 @@ function Landing() {
           </div>
           <div className="carousel-inner">
             <div className="carousel-item active carousel-item-presentacion">
-              <img src="/placeholder.jpg" className="d-block w-100" alt="..." />
+              <img src="/ImagenCarrusel01.jpg" className="d-block w-100" alt="..." />
             </div>
             <div className="carousel-item carousel-item-presentacion">
-              <img src="/placeholder.jpg" className="d-block w-100" alt="..." />
+              <img src="/ImagenCarrusel02.jpg" className="d-block w-100" alt="..." />
             </div>
             <div className="carousel-item carousel-item-presentacion">
-              <img src="/placeholder.jpg" className="d-block w-100" alt="..." />
+              <img src="/ImagenCarrusel03.jpg" className="d-block w-100" alt="..." />
             </div>
           </div>
           <button

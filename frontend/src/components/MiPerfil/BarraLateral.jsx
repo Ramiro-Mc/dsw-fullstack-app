@@ -10,8 +10,7 @@ function BarraLateral() {
   const isActive = (path) => {
     return location.pathname === path;
   };
-
-  // Función para toggle del acordeón
+  
   const toggleAccordion = () => {
     setIsAccordionOpen(!isAccordionOpen);
   };

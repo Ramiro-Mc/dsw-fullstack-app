@@ -113,7 +113,7 @@ function InformacionDePago() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="contenedor-info-de-pago">
+    <div className={isEditing? "contenedor-info-de-pago": "contenedor-info-de-pago no-editando"}>
       <h3>Tu informacion de cobro</h3>
 
       <label>

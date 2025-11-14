@@ -37,3 +37,7 @@
   display: block;
   margin-top: 10px;
 }
+
+.no-editando input{
+  background-color: #bbb; 
+}
