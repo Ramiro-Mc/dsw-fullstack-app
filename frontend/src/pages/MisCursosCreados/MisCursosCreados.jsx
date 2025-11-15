@@ -9,6 +9,72 @@ function MisCursosCreados() {
   const [error, setError] = useState("");
   const [cursos, setCursos] = useState([]);
 
+  const [cursoEditandoDesc, setCursoEditandoDesc] = useState(null);
+  const [descuento, setDescuento] = useState(0);
+
+  const editar = (idCurso, valorDescuento) => {
+    setCursoEditandoDesc(idCurso);
+    setDescuento(valorDescuento);
+  };
+
+  const handleDescuentoChange = (e) => {
+    setDescuento(e.target.value);
+  };
+
+  const eliminarDesc = async (idCurso) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/cursos/${idCurso}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          descuento: 0,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setCursos(cursos.map((c) => (c.idCurso === idCurso ? { ...c, descuento: 0 } : c)));
+        setCursoEditandoDesc(null);
+        alert("Descuento eliminado correctamente");
+      } else {
+        alert("Error al eliminar el descuento: " + (data.msg || "Error desconocido"));
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error al conectar con el servidor");
+    }
+  };
+
+  const handleGuardar = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/cursos/${cursoEditandoDesc}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          descuento: descuento,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setCursos(cursos.map((c) => (c.idCurso === cursoEditandoDesc ? { ...c, descuento: descuento } : c)));
+        setCursoEditandoDesc(null);
+        alert("Información actualizada correctamente");
+      } else {
+        alert("Error al actualizar la información: " + data.msg);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error al conectar con el servidor");
+    }
+  };
+
   const { user, loading: authLoading } = useAuth();
 
   useEffect(() => {
@@ -63,7 +129,19 @@ function MisCursosCreados() {
         ) : cursos.length > 0 ? (
           <>
             {cursos.map((curso) => (
-              <CursoCardPerfil key={curso.idCurso} idCurso={curso.idCurso} titulo={curso.titulo} descripcion={curso.descripcion} precio={curso.precio} imagen={curso.imagen || "/principal1.jpeg"} />
+              <CursoCardPerfil 
+                key={curso.idCurso} 
+                idCurso={curso.idCurso} 
+                titulo={curso.titulo} 
+                descripcion={curso.descripcion} 
+                precio={curso.precio} 
+                imagen={curso.imagen || "/principal1.jpeg"} 
+                descuento={curso.descuento} 
+                editar={() => editar(curso.idCurso, curso.descuento)} 
+                agregandoDesc={cursoEditandoDesc === curso.idCurso} 
+                handleDescuentoChange={handleDescuentoChange} 
+                handleGuardar={handleGuardar} 
+                eliminarDesc={() => eliminarDesc(curso.idCurso)} />
             ))}
             {/* Botón para crear más cursos cuando ya tiene cursos */}
             <div className="text-center mt-4">

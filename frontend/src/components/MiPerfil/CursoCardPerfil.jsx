@@ -2,7 +2,7 @@ import React from "react";
 import "../../component-styles/MiPerfil/CursoCardPerfil.css";
 import { Link } from "react-router-dom";
 
-function CursoCardPerfil({ idCurso, titulo, descripcion, imagen, precio }) {
+function CursoCardPerfil({ idCurso, titulo, descripcion, imagen, precio, descuento, editar, agregandoDesc, handleDescuentoChange, handleGuardar, eliminarDesc}) {
   return (
     <div className="card mb-3 curso-creado">
       <div className="row g-0 h-100">
@@ -20,6 +20,29 @@ function CursoCardPerfil({ idCurso, titulo, descripcion, imagen, precio }) {
           <Link to={`/editarCurso/${idCurso}`} className="btn btn-outline-warning btn-sm px-3">
             Editar
           </Link>
+
+          {!agregandoDesc ? (
+            descuento !== 0 ? (
+              <div className="descuento-contenedor">
+                <input type="text" disabled="true" value={descuento}/>
+                <button type="button" className="btn btn-danger" onClick={eliminarDesc}>
+                  <i className="bi bi-x-lg"></i>
+                </button>
+              </div>
+            ) : (
+              <button type="button" className="btn btn-warning" onClick={editar}>
+                Agregar <br />
+                descuento
+              </button>
+            )
+          ) : (
+            <div className="descuento-contenedor">
+              <input type="text" onChange={handleDescuentoChange}/>
+              <button type="button" className="btn btn-success" onClick={handleGuardar}>
+                <i className="bi bi-check2"></i>
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

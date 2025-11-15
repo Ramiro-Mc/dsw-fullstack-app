@@ -7,6 +7,30 @@
   min-height: 150px;
 }
 
+.descuento-contenedor input{
+  max-width: 40px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+}
+
+.descuento-contenedor button{
+  max-width: 80px;
+  height: 30px;
+  padding: 15px 6px;
+  display: flex;
+  align-items: center;
+}
+
+.descuento-contenedor{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: auto;
+  box-sizing: content-box;
+  border: solid 1px #ced4da; 
+}
+
 .curso-creado:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);

@@ -80,6 +80,7 @@ const createCursosData = async () => {
         precio: 15999,
         estado: "aprobado",
         imagen: "https://github.com/Ramiro-Mc/dsw-fullstack-app/blob/main/frontend/public/placeholder.jpg?raw=true",
+        descuento: 0,
       },
       {
         idProfesor: profesor.idUsuario,
@@ -89,6 +90,7 @@ const createCursosData = async () => {
         precio: 19999,
         estado: "aprobado",
         imagen: "https://github.com/Ramiro-Mc/dsw-fullstack-app/blob/main/frontend/public/placeholder.jpg?raw=true",
+        descuento: 0,
       },
 
       // React
@@ -100,6 +102,7 @@ const createCursosData = async () => {
         precio: 22999,
         estado: "aprobado",
         imagen: "https://github.com/Ramiro-Mc/dsw-fullstack-app/blob/main/frontend/public/placeholder.jpg?raw=true",
+        descuento: 0,
       },
       {
         idProfesor: profesor.idUsuario,
@@ -109,6 +112,7 @@ const createCursosData = async () => {
         precio: 25999,
         estado: "pendiente",
         imagen: "https://github.com/Ramiro-Mc/dsw-fullstack-app/blob/main/frontend/public/placeholder.jpg?raw=true",
+        descuento: 0,
       },
 
       // Node.js
@@ -120,6 +124,7 @@ const createCursosData = async () => {
         precio: 24999,
         estado: "aprobado",
         imagen: "https://github.com/Ramiro-Mc/dsw-fullstack-app/blob/main/frontend/public/placeholder.jpg?raw=true",
+        descuento: 0,
       },
 
       // Coaching
@@ -131,6 +136,7 @@ const createCursosData = async () => {
         precio: 18999,
         estado: "aprobado",
         imagen: "https://github.com/Ramiro-Mc/dsw-fullstack-app/blob/main/frontend/public/placeholder.jpg?raw=true",
+        descuento: 0,
       },
 
       // Fotografía
@@ -142,6 +148,7 @@ const createCursosData = async () => {
         precio: 16999,
         estado: "aprobado",
         imagen: "https://github.com/Ramiro-Mc/dsw-fullstack-app/blob/main/frontend/public/placeholder.jpg?raw=true",
+        descuento: 0,
       },
 
       // Gastronomía
@@ -153,6 +160,7 @@ const createCursosData = async () => {
         precio: 14999,
         estado: "aprobado",
         imagen: "https://github.com/Ramiro-Mc/dsw-fullstack-app/blob/main/frontend/public/placeholder.jpg?raw=true",
+        descuento: 0,
       },
 
       // IA
@@ -164,6 +172,7 @@ const createCursosData = async () => {
         precio: 29999,
         estado: "pendiente",
         imagen: "https://github.com/Ramiro-Mc/dsw-fullstack-app/blob/main/frontend/public/placeholder.jpg?raw=true",
+        descuento: 0,
       },
 
       // Innovación
@@ -175,6 +184,7 @@ const createCursosData = async () => {
         precio: 21999,
         estado: "aprobado",
         imagen: "https://github.com/Ramiro-Mc/dsw-fullstack-app/blob/main/frontend/public/placeholder.jpg?raw=true",
+        descuento: 0,
       },
 
       // Diseño
@@ -186,6 +196,7 @@ const createCursosData = async () => {
         precio: 20999,
         estado: "aprobado",
         imagen: "https://github.com/Ramiro-Mc/dsw-fullstack-app/blob/main/frontend/public/placeholder.jpg?raw=true",
+        descuento: 0,
       },
       {
         idProfesor: profesor.idUsuario,
@@ -195,6 +206,7 @@ const createCursosData = async () => {
         precio: 12999,
         estado: "rechazado",
         imagen: "https://github.com/Ramiro-Mc/dsw-fullstack-app/blob/main/frontend/public/placeholder.jpg?raw=true",
+        descuento: 0,
       },
 
       // Marketing
@@ -206,6 +218,7 @@ const createCursosData = async () => {
         precio: 17999,
         estado: "aprobado",
         imagen: "https://github.com/Ramiro-Mc/dsw-fullstack-app/blob/main/frontend/public/placeholder.jpg?raw=true",
+        descuento: 0,
       },
     ];
 

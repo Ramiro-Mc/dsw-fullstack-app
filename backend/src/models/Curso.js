@@ -30,7 +30,9 @@ export const Curso = sequelize.define("Curso", {
     allowNull: false,
     defaultValue: 'pendiente'
   },
-  imagen: { type: DataTypes.STRING }, 
+  imagen: { type: DataTypes.STRING },
+  descuento: { type: DataTypes.INTEGER, allowNull: false,
+  defaultValue: 0 },
 }, {
   tableName: 'Cursos',
   timestamps: true

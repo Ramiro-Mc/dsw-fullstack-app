@@ -43,6 +43,7 @@ const validateUpdate = [
   } ),   
   check('descripcion').optional().notEmpty(),
   check('precio').optional().notEmpty().isNumeric(),
+  check('descuento').optional().isNumeric(),
   check('idTipo').optional().notEmpty(),
   validateResult
 ]
@@ -59,6 +60,9 @@ const validateGetByIdAndDelete = [
   validateResult
 ]
 
+// Fuera de uso
+
+/*
 const validateAgregarQuitarDescuento = [
   check('idCurso').exists().notEmpty()
   .custom( async (idCurso) => {
@@ -79,5 +83,6 @@ const validateAgregarQuitarDescuento = [
   validateResult
 ]
 
-
 export default { validateCreate, validateUpdate, validateGetByIdAndDelete, validateAgregarQuitarDescuento };
+*/
+export default { validateCreate, validateUpdate, validateGetByIdAndDelete };

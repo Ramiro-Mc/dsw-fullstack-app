@@ -46,7 +46,7 @@ export const cursoController = {
 
   createCurso: async (req, res) => {
     try {
-      const { titulo, descripcion, precio, idTipo, idProfesor, imagen } = req.body; // <--- Agregar imagen
+      const { titulo, descripcion, precio, idTipo, idProfesor, imagen } = req.body; 
 
       // Validar que idProfesor esté presente
       if (!idProfesor) {
@@ -56,13 +56,16 @@ export const cursoController = {
         });
       }
 
+      var descuento = 0;
+
       const newCurso = await Curso.create({ 
         titulo, 
         descripcion, 
         precio, 
         idTipo, 
         idProfesor, 
-        imagen // <--- Incluir imagen en la creación
+        imagen,
+        descuento
       });
 
       res.status(201).json({
@@ -85,7 +88,7 @@ export const cursoController = {
   updateCurso: async (req, res) => {
     try {
       const { idCurso } = req.params;
-      const { titulo, descripcion, precio, idTipo } = req.body;
+      const { titulo, descripcion, precio, idTipo, descuento } = req.body;
 
       const camposAActualizar = {};
 
@@ -93,6 +96,7 @@ export const cursoController = {
       if (descripcion) {camposAActualizar.descripcion = descripcion;}
       if (precio) {camposAActualizar.precio = precio;}
       if (idTipo) {camposAActualizar.idTipo = idTipo;}
+      if (descuento !== undefined) {camposAActualizar.descuento = descuento;}
 
       await Curso.update(camposAActualizar, { where: { idCurso } });
 
@@ -140,6 +144,7 @@ export const cursoController = {
     }
   },
 
+  /*
   agregarDescuento: async(req, res) => {
     try{
       const {idCurso} = req.params;
@@ -230,6 +235,8 @@ export const cursoController = {
       });
     };
   },
+
+  */
 
   getCursosPendientes: async (req, res) => {
     try {
