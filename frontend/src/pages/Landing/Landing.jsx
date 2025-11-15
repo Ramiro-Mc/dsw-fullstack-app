@@ -2,6 +2,7 @@ import CursoCard from "../../components/LandingPage/CursoCard";
 import TipoCursoBadge from "../../components/LandingPage/TipoCursoBarge";
 import "./Landing.css";
 import { useEffect, useState } from "react";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 function Landing() {
   const [cursos, setCursos] = useState([]);
@@ -9,7 +10,19 @@ function Landing() {
   const [loadingCursos, setLoadingCursos] = useState(true); // Loading separado para cursos
   const [loadingTipos, setLoadingTipos] = useState(true); // Loading separado para tipos
   const [error, setError] = useState("");
+  const { user } = useAuth();
 
+  const filtrarCursosPropios = (courseList) => {
+    if (!user || !user.id) {
+      return courseList;
+    }
+
+    const filtrados = courseList.filter((curso) => {
+      return curso.idProfesor !== user.id;
+    });
+
+    return filtrados;
+  };
 
   useEffect(() => {
     const fetchCursos = async () => {
@@ -26,7 +39,7 @@ function Landing() {
         const data = await response.json();
 
         if (data.success) {
-          setCursos(data.contenido); // El backend devuelve { success: true, contenido: [...] }
+          setCursos(filtrarCursosPropios(data.contenido)); // El backend devuelve { success: true, contenido: [...] }
         } else {
           setError(data.msg || "Error al cargar cursos");
         }
@@ -39,7 +52,7 @@ function Landing() {
     };
     const fetchTipos = async () => {
       try {
-        setLoadingTipos(true); 
+        setLoadingTipos(true);
         const response = await fetch("http://localhost:3000/tipoCursos", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -62,7 +75,7 @@ function Landing() {
 
     fetchCursos();
     fetchTipos();
-  }, []);
+  }, [user]); // Se ejecuta cuando cambia el usuario
 
   const handleSubmit = async (idTipo) => {
     setLoadingCursos(true);
@@ -85,7 +98,7 @@ function Landing() {
       console.log("Respuesta del servidor:", data);
 
       if (data.success) {
-        setCursos(data.contenido);
+        setCursos(filtrarCursosPropios(data.contenido));
       } else {
         setError(data.msg || "Error al cargar cursos");
       }
@@ -132,10 +145,18 @@ function Landing() {
               <img src="/placeholder.jpg" className="d-block w-100" alt="..." />
             </div>
             <div className="carousel-item carousel-item-presentacion">
-              <img src="/ImagenCarrusel02.jpg" className="d-block w-100" alt="..." />
+              <img
+                src="/ImagenCarrusel02.jpg"
+                className="d-block w-100"
+                alt="..."
+              />
             </div>
             <div className="carousel-item carousel-item-presentacion">
-              <img src="/ImagenCarrusel03.jpg" className="d-block w-100" alt="..." />
+              <img
+                src="/ImagenCarrusel03.jpg"
+                className="d-block w-100"
+                alt="..."
+              />
             </div>
           </div>
           <button
