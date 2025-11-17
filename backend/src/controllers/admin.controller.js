@@ -19,7 +19,14 @@ export const adminController = {
 
       const totalCreadores = result[0].totalCreadores;
       
-      const ventasTotales = "Proximamente";
+      const result2 = await sequelize.query(`
+        SELECT SUM(precioCompra) as ventasTotales
+        FROM alumnoscursos
+      `, {
+        type: sequelize.QueryTypes.SELECT
+      });
+      
+      const ventasTotales = result2[0].ventasTotales || 0;
 
       res.json({
         success: true,
