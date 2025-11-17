@@ -9,9 +9,15 @@ function RegisterPage() {
   const [tipoUsuario, setTipoUsuario] = useState("");
   const [fotoDePerfil, setFotoDePerfil] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorContrasena, setErrorContrasena] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (contrasena.length < 8) {
+      alert("La contraseña debe tener al menos 8 caracteres");
+      return;
+    }
     setLoading(true);
     setFotoDePerfil("/Default.jpg");
 
@@ -34,18 +40,13 @@ function RegisterPage() {
 
       const data = await res.json();
 
- 
       if (data.success) {
         alert("Usuario creado exitosamente");
         window.location.href = "/loginPage";
-      }
- 
-      else if (data.errors && Array.isArray(data.errors)) {
+      } else if (data.errors && Array.isArray(data.errors)) {
         const errorMessages = data.errors.map((error) => error.msg).join(", ");
         alert("Errores de validación: " + errorMessages);
-      }
- 
-      else {
+      } else {
         alert(data.msg || "Error desconocido al crear usuario");
       }
     } catch (error) {
@@ -96,12 +97,24 @@ function RegisterPage() {
             <label className="form-label">Contraseña</label>
             <input
               type="password"
-              className="form-control"
+              className={`form-control ${errorContrasena ? "is-invalid" : ""}`}
               placeholder="Contraseña"
               value={contrasena}
-              onChange={(e) => setContrasena(e.target.value)}
+              onChange={(e) => {
+                setContrasena(e.target.value);
+                if (e.target.value.length > 0 && e.target.value.length < 8) {
+                  setErrorContrasena(
+                    "La contraseña debe tener al menos 8 caracteres"
+                  );
+                } else {
+                  setErrorContrasena("");
+                }
+              }}
               required
             />
+            {errorContrasena && (
+              <div className="invalid-feedback d-block">{errorContrasena}</div>
+            )}
           </div>
           <div className="d-grid gap-2 mb-2">
             <button

@@ -20,7 +20,7 @@ const validateCreate = [
       }
       return true;
     } ),
-  check('contrasena').exists().notEmpty(),
+  check('contrasena').exists().notEmpty().isLength({ min: 8 }),
   check('tipoUsuario').exists().notEmpty(),
   validateResult
 ];
