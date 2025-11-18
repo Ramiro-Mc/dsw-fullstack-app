@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../../../public/logo.png";
+// import logo from "../../../public/logo.png";
 import "../../component-styles/Header.css";
 import { useAuth } from "../../context/AuthContext.jsx";
 
@@ -12,6 +12,8 @@ function Header() {
     logout();
     navigate("/loginPage");
   };
+
+    const logo = "/logo.png";
 
   return (
     <header className="contenedor-header">

@@ -21,11 +21,10 @@ import AdminUsuarios from "./pages/AdminUsuarios/AdminUsuarios";
 import SolicitudesPendientes from "./pages/AdminCursos/SolicitudesPendientes/SolicitudesPendientes";
 import TodosLosCursos from "./pages/AdminCursos/TodosLosCursos/TodosLosCursos";
 import CompraCurso from "./pages/CompraCurso/CompraCurso";
-// import Checkout from "./pages/Checkout/Checkout"; 
-import Checkout2 from "./pages/Checkout/CheckoutV2";
 import SobreNosotros from "./pages/SobreNosotros/SobreNosotros";
 import Contacto from "./pages/Contacto/Contacto";
-
+import Checkout from "./pages/Checkout/Checkout";
+import CheckoutSuccess from './pages/Checkout/CheckoutSuccess';
 
 const router = createBrowserRouter([
   {
@@ -94,24 +93,27 @@ const router = createBrowserRouter([
         path: "profesores",
         element: <Profesores />,
       },
-
-      {path: "compraCurso/:idCurso",
-       element: <CompraCurso />
+      {
+        path: "compraCurso/:idCurso",
+        element: <CompraCurso />
       },
-
-
-
-          {
-
+      {
         path: "checkout/:idCurso",
         element: (
           <ProtectedRoute>
-            <Checkout2 />
+            <Checkout />
           </ProtectedRoute>
         ),
       },
-
-    {      
+      {
+        path: "checkout/success", 
+        element: (
+          <ProtectedRoute>
+            <CheckoutSuccess />
+          </ProtectedRoute>
+        ),
+      },
+      {      
         path: "admin",
         element: (
           <ProtectedRoute requiredRole="administrador">

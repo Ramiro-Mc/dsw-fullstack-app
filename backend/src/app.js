@@ -32,7 +32,6 @@ passport.deserializeUser((obj, done) => {
 
 const app = express();
 
-
 app.use(
   cors({
     origin: ["http://localhost:5173", "http://127.0.0.1:5173"], // URLs del frontend
@@ -42,13 +41,27 @@ app.use(
   })
 );
 
-// Middlewares
+// ⚠️ IMPORTANTE: Webhook de Stripe DEBE ir ANTES de express.json()
+app.post(
+  "/api/pagos/webhook",
+  express.raw({ type: "application/json" }),
+  async (req, res) => {
+    try {
+      const { pagoController } = await import("./controllers/pagos.controller.js");
+      await pagoController.webhook(req, res);
+    } catch (error) {
+      console.error("Error en webhook:", error);
+      res.status(500).send("Webhook error");
+    }
+  }
+);
+
+// Middlewares (DESPUÉS del webhook)
 app.use(express.json());
 
-
+// Rutas con /api
 app.use("/api", cursosRoutes);
 app.use("/api", routerPagos); 
-
 app.use("/api/admin", adminRoutes);
 
 // Rutas de autenticación
@@ -65,8 +78,6 @@ app.use(modulosRoutes);
 app.use(leccionRoutes);
 app.use(nuevosCursosRoutes);
 app.use(alumnoLeccionRoutes);
-app.use(alumnoCursoRoutes); 
-
-app.use("/api/admin", adminRoutes);
+app.use(alumnoCursoRoutes);
 
 export default app;
