@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import './Checkout.css';
@@ -12,66 +12,137 @@ const Checkout = () => {
   const [loading, setLoading] = useState(true);
   const [procesandoPago, setProcesandoPago] = useState(false);
   const [error, setError] = useState(null);
+  const [metodoPago, setMetodoPago] = useState('stripe'); // 'stripe' o 'transferencia'
 
-useEffect(() => {
-  if (!user) {
-    navigate('/login');
-    return;
-  }
-  fetchCurso();
-}, [idCurso, user, navigate]);
+  const [datosTransferencia, setDatosTransferencia] = useState({
+    nombre: "Cargando...",
+    banco: "Cargando...",
+    cvu: "Cargando...",
+    alias: "Cargando..."
+  });
 
- const fetchCurso = async () => {
-  try {
-    console.log('Buscando curso con ID:', idCurso); // Debug
-    const response = await fetch(`/api/checkout/curso/${idCurso}`);
-    console.log('Response status:', response.status); // Debug
-    
-    const data = await response.json();
-    console.log('Data recibida:', data); // Debug
-    
-    if (data.success) {
-      setCurso(data.contenido);
-    } else {
-      setError('Curso no encontrado');
+  const fetchCurso = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/checkout/curso/${idCurso}`);
+      const data = await response.json();
+      
+      if (data.success) {
+        setCurso(data.contenido);
+        
+        // Cargar datos de transferencia del profesor
+        if (data.contenido.Profesor) {
+          setDatosTransferencia({
+            nombre: data.contenido.Profesor.nombreReferido || data.contenido.Profesor.nombreUsuario,
+            banco: data.contenido.Profesor.banco || "Banco no especificado",
+            cvu: data.contenido.Profesor.cvu || "CVU no especificado", 
+            alias: data.contenido.Profesor.alias || "Alias no especificado"
+          });
+        }
+      } else {
+        setError('Curso no encontrado');
+      }
+    } catch (err) { 
+      console.error('Error al cargar curso:', err);
+      setError('Error al cargar el curso');
+    } finally {
+      setLoading(false);
     }
-  } catch (error) { 
-    console.error('Error al cargar curso:', error);
-    setError('Error al cargar el curso');
-  } finally {
-    setLoading(false);
-  }
-};
+  }, [idCurso]);
 
-const handlePagar = async () => {
-  setProcesandoPago(true);
-  
-  try {
-    const response = await fetch('/api/pagos/crear-preferencia', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        idCurso: parseInt(idCurso),
-        idUsuario: user.id
-      })
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-      window.location.href = data.initPoint;
-    } else {
-      alert(data.msg || 'Error al procesar el pago');
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+      return;
     }
-  } catch (error) {
-    console.error('Error al procesar pago:', error);
-    alert('Error de conexión');
-  } finally {
-    setProcesandoPago(false);
-  }
-};
+    fetchCurso();
+  }, [user, navigate, fetchCurso]);
+
+  const handlePagarStripe = async () => {
+    if (!user || !user.id) {
+      navigate('/login');
+      return;
+    }
+
+    setProcesandoPago(true);
+    
+    try {
+      const response = await fetch('/api/pagos/crear-sesion-stripe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          idCurso: parseInt(idCurso),
+          idUsuario: user.id
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Redirigir a Stripe Checkout
+        window.location.href = data.url;
+      } else {
+        alert(data.msg || 'Error al procesar el pago');
+      }
+    } catch (error) {
+      console.error('Error al procesar pago:', error);
+      alert('Error de conexión');
+    } finally {
+      setProcesandoPago(false);
+    }
+  };
+
+  const handlePagarTransferencia = async () => {
+    if (!user || !user.id) {
+      navigate('/login');
+      return;
+    }
+
+    setProcesandoPago(true);
+    
+    try {
+      console.log('Confirmando transferencia...');
+      console.log('Usuario ID:', user.id);
+      console.log('Curso ID:', idCurso);
+
+      const response = await fetch('/api/pagos/confirmar-transferencia', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          idCurso: parseInt(idCurso),
+          idUsuario: user.id
+        })
+      });
+
+      console.log('Response status:', response.status);
+      const data = await response.json();
+      console.log('Response data:', data);
+
+      if (data.success) {
+        console.log('Pago confirmado, redirecting...');
+        // ✅ Redirigir a la misma página de éxito que Stripe
+        navigate(`/checkout/success?method=transfer&transactionId=${data.transactionId}`);
+      } else {
+        alert(data.msg || 'Error al confirmar el pago');
+      }
+    } catch (err) {
+      console.error('Error al confirmar pago:', err);
+      alert('Error de conexión: ' + err.message);
+    } finally {
+      setProcesandoPago(false);
+    }
+  };
+
+  const handlePagar = () => {
+    if (metodoPago === 'stripe') {
+      handlePagarStripe();
+    } else {
+      handlePagarTransferencia();
+    }
+  };
 
   if (loading) return <div className="loading">Cargando...</div>;
   if (error) return <div className="error">{error}</div>;
@@ -83,29 +154,92 @@ const handlePagar = async () => {
         <div className="checkout-left">
           <h1>Checkout</h1>
           
-          <div className="billing-section">
-            <h2>Información de facturación</h2>
-          </div>
-
           <div className="payment-section">
             <h2>Método de pago</h2>
+            
             <div className="payment-method">
-              <div className="mercadopago-option">
-                <input type="radio" id="mercadopago" name="payment" defaultChecked />
-                <label htmlFor="mercadopago">
-                    <div className="payment-label">
-                        <img 
-                        src="/mercadopagologo.png" 
-                        alt="MercadoPago" 
-                        className="mercadopago-logo"
-                        />
-                    </div>
-                    </label>
+              {/* Opción Stripe */}
+              <div className="payment-option">
+                <input 
+                  type="radio" 
+                  id="stripe" 
+                  name="payment" 
+                  value="stripe"
+                  checked={metodoPago === 'stripe'}
+                  onChange={(e) => setMetodoPago(e.target.value)}
+                />
+                <label htmlFor="stripe">
+                  <div className="payment-label">
+                    💳 Tarjeta de crédito/débito (Stripe)
+                  </div>
+                </label>
+              </div>
+
+              {/* Opción Transferencia */}
+              <div className="payment-option">
+                <input 
+                  type="radio" 
+                  id="transferencia" 
+                  name="payment" 
+                  value="transferencia"
+                  checked={metodoPago === 'transferencia'}
+                  onChange={(e) => setMetodoPago(e.target.value)}
+                />
+                <label htmlFor="transferencia">
+                  <div className="payment-label">
+                    🏦 Transferencia bancaria
+                  </div>
+                </label>
               </div>
             </div>
+
+            {/* Mostrar datos de transferencia si está seleccionada */}
+            {metodoPago === 'transferencia' && (
+              <div className="transfer-details">
+                <h3>Datos para transferencia</h3>
+                <div className="transfer-info">
+                  <div className="info-row">
+                    <label>Titular:</label>
+                    <div className="info-value">
+                      <span>{datosTransferencia.nombre}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="info-row">
+                    <label>Banco:</label>
+                    <div className="info-value">
+                      <span>{datosTransferencia.banco}</span> 
+                    </div>
+                  </div>
+                  
+                  <div className="info-row">
+                    <label>CVU:</label>
+                    <div className="info-value">
+                      <span>{datosTransferencia.cvu}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="info-row">
+                    <label>Alias:</label>
+                    <div className="info-value">
+                      <span>{datosTransferencia.alias}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="payment-instructions">
+                  <h4>Instrucciones:</h4>
+                  <ol>
+                    <li>Realiza la transferencia por el monto exacto</li>
+                    <li>Haz clic en "Confirmar Pago"</li>
+                    <li>Recibirás acceso al curso en 24-48 horas</li>
+                  </ol>
+                </div>
+              </div>
+            )}
             
             <div className="secure-notice">
-              🔒 Pago seguro y encriptado
+              🔒 {metodoPago === 'stripe' ? 'Pago seguro y encriptado' : 'Transferencia segura y verificada'}
             </div>
           </div>
 
@@ -151,17 +285,17 @@ const handlePagar = async () => {
               onClick={handlePagar}
               disabled={procesandoPago}
             >
-              {procesandoPago ? 'Procesando...' : ` Pagar $${curso.precio}`}
+              {procesandoPago 
+                ? 'Procesando...' 
+                : metodoPago === 'stripe' 
+                  ? `Pagar con Stripe $${curso.precio}` 
+                  : `Confirmar Pago $${curso.precio}`
+              }
             </button>
 
             <div className="guarantee">
               <h3>Garantía de devolución de 30 días</h3>
-              <p>¿No estás satisfecho? Obtén un reembolso completo en 30 días. Simple y directo.</p>
-            </div>
-
-            <div className="success-tip">
-              🎯 <strong>Aprovecha el éxito ahora</strong>
-              <p>2 personas se inscribieron recientemente en este curso en las últimas 24 horas.</p>
+              <p>¿No estás satisfecho? Obtén un reembolso completo en 30 días.</p>
             </div>
           </div>
         </div>

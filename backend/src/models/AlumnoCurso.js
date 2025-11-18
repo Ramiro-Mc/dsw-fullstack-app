@@ -24,7 +24,7 @@ export const AlumnoCurso = sequelize.define("AlumnoCurso", {
   metodoPago: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: 'mercadopago'
+    defaultValue: 'stripe'
   },
   estadoPago: {
     type: DataTypes.ENUM('pendiente', 'aprobado', 'rechazado'),

@@ -35,7 +35,8 @@
     "passport-local": "^1.0.0",
     "pg": "^8.16.3",
     "promise-mysql": "^5.2.0",
-    "sequelize": "^6.37.7"
+    "sequelize": "^6.37.7",
+    "stripe": "^19.3.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.28.3",

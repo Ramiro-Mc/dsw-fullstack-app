@@ -311,7 +311,7 @@ const createCursosData = async () => {
           idCurso: curso.idCurso,
           fechaCompra: new Date(),
           precioCompra: curso.precio,
-          metodoPago: "mercadopago",
+          metodoPago: "stripe",
           estadoPago: "aprobado",
           transactionId: `MP_${Date.now()}_${curso.idCurso}`,
         },
