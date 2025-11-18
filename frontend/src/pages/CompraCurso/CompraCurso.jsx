@@ -7,6 +7,7 @@ const CompraCurso = () => {
   const navigate = useNavigate();
   const [curso, setCurso] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [prof, setProfesor] = useState({});
 
   useEffect(() => {
     const controller = new AbortController();
@@ -16,8 +17,26 @@ const CompraCurso = () => {
     fetch(`${base}/api/cursos/${idCurso}`, { signal: controller.signal })
       .then((res) => res.json())
       .then((data) => {
+        
         setCurso(data.informacion || data.contenido || data);
         setLoading(false);
+
+        // Cargar el profesor después de obtener el curso
+        const idProfesor = data.informacion.idProfesor; 
+        if (idProfesor) {
+          fetch(`http://localhost:3000/usuarios/${idProfesor}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          })
+          .then((res) => res.json())
+          .then((profData) => {
+            
+            if (profData.success) {
+              setProfesor(profData.informacion);
+            }
+          })
+          .catch((error) => console.error("Error al cargar usuario:", error));
+        }
       })
       .catch((err) => {
         if (err.name !== "AbortError") console.error(err);
@@ -38,21 +57,12 @@ const CompraCurso = () => {
   return (
     <div className="compra-curso-container">
       <div className="curso-preview">
-        <img
-          src={
-            
-            curso.imagen?.includes("drive.google.com")
-              ? curso.imagen.replace("/file/d/", "/uc?id=").replace("/view?usp=sharing", "")
-              : curso.imagen || "https://img-c.udemycdn.com/course/480x270/placeholder.jpg"
-          }
-          alt={`Vista previa - ${curso.titulo || "Curso"}`}
-          className="curso-imagen-preview"
-        />
+        <img src={curso.imagen?.includes("drive.google.com") ? curso.imagen.replace("/file/d/", "/uc?id=").replace("/view?usp=sharing", "") : curso.imagen || "https://img-c.udemycdn.com/course/480x270/placeholder.jpg"} alt={`Vista previa - ${curso.titulo || "Curso"}`} className="curso-imagen-preview" />
         <div className="curso-header">
           <h1>{curso.titulo}</h1>
           <p className="curso-descripcion">{curso.descripcion}</p>
           <div className="curso-metadata">
-            <span>Creado por {curso.Profesor?.nombreUsuario || curso.creador || "Profesor"}</span>
+            <span>Creado por {prof.nombreUsuario || "Desconocido"}</span>
             {curso.updatedAt && <span> • Última actualización: {new Date(curso.updatedAt).toLocaleDateString()}</span>}
           </div>
         </div>
