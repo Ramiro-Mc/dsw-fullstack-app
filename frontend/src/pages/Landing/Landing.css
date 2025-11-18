@@ -188,6 +188,13 @@ main {
 }
 
 
+.seccion-cursos .precio-conjunto{
+  display: flex;
+  justify-content: end;
+  margin: 0 1rem;
+}
+
+
 .seccion-cursos .precio{
   display: flex;
   justify-content: end;

@@ -2,3 +2,25 @@
   font-size: 1.5rem;
   font-weight: bold;
 }
+
+.precio-tachado {
+  position: relative;
+  display: inline-block;
+  color: #6c757d !important;
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 5px 4px;
+}
+
+.precio-tachado::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px; /* grosor de la barra */
+  background-color: #dc3545; /* rojo suave tipo Bootstrap */
+  transform: rotate(-15deg); /* inclinación diagonal */
+  transform-origin: center;
+  opacity: 0.9;
+}

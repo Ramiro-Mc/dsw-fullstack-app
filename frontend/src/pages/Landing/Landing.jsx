@@ -1,5 +1,5 @@
 import CursoCard from "../../components/LandingPage/CursoCard";
-import TipoCursoBadge from "../../components/LandingPage/TipoCursoBarge";
+import TipoCursoBadge from "../../components/LandingPage/TipoCursoBadge";
 import "./Landing.css";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
@@ -250,6 +250,7 @@ function Landing() {
                   descripcion={curso.descripcion}
                   precio={curso.precio}
                   imagen={curso.imagen || "/principal1.jpeg"}
+                  descuento={curso.descuento}
                 />
               ))
             ) : (

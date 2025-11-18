@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../../component-styles/MiPerfil/BarraLateral.css";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 function BarraLateral() {
   const location = useLocation();
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
+  const { logout } = useAuth();
 
   // Función para determinar si un link está activo
   const isActive = (path) => {
@@ -13,6 +15,10 @@ function BarraLateral() {
   
   const toggleAccordion = () => {
     setIsAccordionOpen(!isAccordionOpen);
+  };
+  
+  const handleLogout = () => {
+    logout();
   };
 
   return (
@@ -49,6 +55,12 @@ function BarraLateral() {
         <Link to="/MiPerfil/Reportes" className={`seccion ${isActive("/MiPerfil/Reportes") ? "activo" : "no_activo"}`}>
           <i className="bi bi-newspaper"></i> Reportes
         </Link>
+
+        <Link to="/loginPage" onClick={handleLogout} className={`seccion cerrarSesion`}>
+          <i class="bi bi-door-open"></i> Cerrar sesión
+        </Link>
+        
+                    
       </div>
       <div className="relleno"></div>
     </>

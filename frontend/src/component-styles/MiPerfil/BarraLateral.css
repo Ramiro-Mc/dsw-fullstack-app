@@ -1,3 +1,5 @@
+
+
 .seccion {
   height: 100px;
   border-bottom: 1px solid #ccc;
@@ -24,7 +26,6 @@
   animation: slideDown 0.1s ease-out;
   transform-origin: top;
 }
-
 
 @keyframes slideDown {
   from {
@@ -53,20 +54,34 @@
   color: inherit;
 }
 
-.activo{
+.activo {
   box-shadow: inset 3px 0 0 #007bff;
 }
 
-
-
-.opciones button{
+.opciones button {
   background-color: transparent;
   width: 100%;
 }
 
-.Contenedor-barra{
+.Contenedor-barra {
   box-sizing: border-box;
   border: solid 1px #ddd;
   height: 700px;
   background: #fff;
+}
+
+
+.cerrarSesion {
+  height: 80px;
+  background-color: #fff;
+  color: #dc3545;
+  border-top: 2px solid #dc354580;
+  border-bottom: 2.5px solid #dc354580;
+  transition: background 0.2s, color 0.2s;
+}
+
+.cerrarSesion:hover {
+  background-color: #dc3545;
+  color: #fff;
+  filter: brightness(1.05);
 }

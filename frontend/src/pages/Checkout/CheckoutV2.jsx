@@ -209,10 +209,14 @@ const [datosTransferencia, setDatosTransferencia] = useState({
               <span>Precio original:</span>
               <span>${curso.precio}</span>
             </div>
+            <div className="price-line">
+              <span>Descuento:</span>
+              <span>{curso.descuento}%</span>
+            </div>
             
             <div className="total-line">
               <span><strong>Total:</strong></span>
-              <span><strong>${curso.precio}</strong></span>
+              <span><strong>${(curso.precio - (curso.precio * curso.descuento) / 100).toFixed(0)}</strong></span>
             </div>
 
             <div className="terms-text">
@@ -225,7 +229,7 @@ const [datosTransferencia, setDatosTransferencia] = useState({
               onClick={handleConfirmarPago}
               disabled={procesandoPago}
             >
-              {procesandoPago ? 'Procesando...' : `Confirmar Pago $${curso.precio}`}
+              {procesandoPago ? 'Procesando...' : `Confirmar Pago $${(curso.precio - (curso.precio * curso.descuento) / 100).toFixed(0)}`}
             </button>
 
             <div className="payment-instructions">

@@ -61,9 +61,14 @@ const CompraCurso = () => {
       <aside className="curso-detalles">
         <div className="curso-precio-card curso-precio-card-fisica">
           <div className="precio-container">
-            <h2 className="precio">
-              ${Number(curso.precio ?? 0).toLocaleString()}
-            </h2>
+            {curso.descuento === 0 ? (
+              <p className="precio fw-bold text-success mb-2 fs-4">${curso.precio}</p>
+            ) : (
+              <div className="d-flex">
+                <p className="precio-tachado mb-2 ">${curso.precio}</p>
+                <p className="precio fw-bold text-success mb-2 fs-4">${(curso.precio - (curso.precio * curso.descuento) / 100).toFixed(0)}</p>
+              </div>
+            )}
             <div className="botones-compra">
               <button className="btn-comprar-ahora" onClick={handleComprarAhora}>
                 Comprar ahora

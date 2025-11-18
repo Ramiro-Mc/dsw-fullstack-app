@@ -7,28 +7,33 @@
   min-height: 150px;
 }
 
-.descuento-contenedor input{
-  max-width: 40px;
-  height: 30px;
+.descuento-contenedor input {
+  width: 32px;
+  height: 32px;
   background-color: transparent;
   border: none;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 1.1rem;
 }
 
-.descuento-contenedor button{
-  max-width: 80px;
-  height: 30px;
-  padding: 15px 6px;
+.descuento-contenedor .eliminar {
+  width: 32px;
+  height: 32px;
+  padding: 0;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
-.descuento-contenedor{
+.descuento-contenedor {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin: auto;
-  box-sizing: content-box;
-  border: solid 1px #ced4da; 
+  margin: 8px auto;
+  border: solid 1px #ced4da;
+  border-radius: 8px;
+  background: #fff;
 }
 
 .curso-creado:hover {
@@ -61,11 +66,20 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.separador {
+  margin-top: 10px;
+  border-top: solid 1px #bbb;
+  width: 90%;
+}
 
-.precio {
-  color: #28a745 !important;
-  font-weight: 700;
+.separador p {
+  font-size: 1.2rem;
   margin: 0;
+  text-align: center;
+  background-color: white;
+  display: inline-block;
+  padding: 0 8px;
+  color: #6c757d;
 }
 
 .vr {
@@ -95,4 +109,32 @@
   .vr {
     display: none;
   }
+}
+
+.precio {
+  color: #28a745 !important;
+  font-weight: 700;
+  margin: 0;
+}
+
+.precio-tachado {
+  position: relative;
+  display: inline-block;
+  color: #6c757d !important;
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 5px 4px;
+}
+
+.precio-tachado::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px; /* grosor de la barra */
+  background-color: #dc3545; /* rojo suave tipo Bootstrap */
+  transform: rotate(-15deg); /* inclinación diagonal */
+  transform-origin: center;
+  opacity: 0.9;
 }

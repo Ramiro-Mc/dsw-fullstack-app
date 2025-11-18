@@ -62,7 +62,6 @@ NODE_ENV=development
 #### 1. Crear tipos de curso
 
 ```bash
-cd backend
 node src/scripts/seedTipoCurso.js
 ```
 
@@ -81,11 +80,17 @@ node src/scripts/createCurso.js
   - Contraseña: `profesor123`
 - Crea 13 cursos de ejemplo distribuidos en las categorías
 
-#### 3. (Opcional) Ejecutar todos los seeds
+#### 3. Crear administrador
 
 ```bash
-npm run seed:all
+node src/scripts/createAdmin.js
 ```
+
+**Qué hace:** Crea un usuario administrador con las siguientes credenciales:
+
+- **Email:** `admin@utndemy.com`
+- **Contraseña:** `admin123`
+
 
 ## 🚀 Ejecución
 
