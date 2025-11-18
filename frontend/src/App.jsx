@@ -23,6 +23,8 @@ import TodosLosCursos from "./pages/AdminCursos/TodosLosCursos/TodosLosCursos";
 import CompraCurso from "./pages/CompraCurso/CompraCurso";
 // import Checkout from "./pages/Checkout/Checkout"; 
 import Checkout2 from "./pages/Checkout/CheckoutV2";
+import SobreNosotros from "./pages/SobreNosotros/SobreNosotros";
+import Contacto from "./pages/Contacto/Contacto";
 
 
 const router = createBrowserRouter([
@@ -45,6 +47,14 @@ const router = createBrowserRouter([
       {
         path: "registerPage",
         element: <RegisterPage />,
+      },
+      {
+        path: "sobreNosotros",
+        element: <SobreNosotros/>,
+      },
+      {
+        path: "contacto",
+        element: <Contacto/>,
       },
       {
         path: "MiPerfil",

@@ -3,6 +3,7 @@ import "./MisCursosCreados.css";
 import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import CursoCardPerfil from "../../components/MiPerfil/CursoCardPerfil";
+import LoadingError from "../../components/LoadingError/LoadingError";
 
 function MisCursosCreados() {
   const [loading, setLoading] = useState(true);
@@ -112,22 +113,16 @@ function MisCursosCreados() {
 
   return (
     <div className="contenedor-mis-cursos">
-      <h3>Administra tus cursos</h3>
-
       <div className="container">
-        {loading ? (
-          <div className="text-center">
-            <div className="spinner-border" role="status">
-              <span className="visually-hidden">Cargando cursos...</span>
-            </div>
-            <p className="mt-2">Cargando cursos...</p>
-          </div>
-        ) : error ? (
-          <div className="text-center">
-            <p className="text-danger">{error}</p>
-          </div>
+        {loading || error? (
+          <LoadingError
+            loading={loading}
+            error={error}
+            retry={() => window.location.reload()}
+          />
         ) : cursos.length > 0 ? (
           <>
+            <h3>Administra tus cursos</h3>
             {cursos.map((curso) => (
               <CursoCardPerfil 
                 key={curso.idCurso} 

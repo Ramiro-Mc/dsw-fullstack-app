@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import "./MisCursosComprados.css";
+import LoadingError from "../../components/LoadingError/LoadingError";
 
 function MisCursosComprados() {
   const [cursosComprados, setCursosComprados] = useState([]);
@@ -13,7 +14,7 @@ function MisCursosComprados() {
     const fetchCursosComprados = async () => {
       try {
         if (!user?.id) {
-          setLoading(false); 
+          setLoading(false);
           return;
         }
 
@@ -42,22 +43,9 @@ function MisCursosComprados() {
     }
   }, [user]);
 
-  if (loading)
-    return (
-      <div className="loading-container">
-        <div className="spinner"></div>
-        <p>Cargando tus cursos...</p>
-      </div>
-    );
-
-  if (error)
-    return (
-      <div className="error-container">
-        <h3>Error</h3>
-        <p>{error}</p>
-        <button onClick={() => window.location.reload()}>Reintentar</button>
-      </div>
-    );
+  if (loading || error) {
+    return <LoadingError loading={loading} error={error} retry={() => window.location.reload()} />;
+  }
 
   return (
     <div className="mis-cursos-comprados">
@@ -88,7 +76,7 @@ function MisCursosComprados() {
               <div key={compra.idCurso} className="curso-card">
                 <div className="curso-imagen">
                   <img
-                    src={compra.Curso.imagen || "/default-course.jpg"}
+                    src={compra.Curso.imagen}
                     alt={compra.Curso.titulo}
                     onError={(e) => {
                       e.target.src = "/default-course.jpg";
@@ -132,9 +120,9 @@ function MisCursosComprados() {
                     </Link>
 
                     <button className="btn-detalles" title="Ver detalles">
-                     <Link to= {`/compraCurso/${compra.idCurso}`} >
-                     <i className="bi bi-info-circle"></i>
-                     </Link> 
+                      <Link to={`/compraCurso/${compra.idCurso}`}>
+                        <i className="bi bi-info-circle"></i>
+                      </Link>
                     </button>
                   </div>
                 </div>

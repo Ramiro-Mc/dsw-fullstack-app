@@ -249,7 +249,7 @@ function Landing() {
                   titulo={curso.titulo}
                   descripcion={curso.descripcion}
                   precio={curso.precio}
-                  imagen={curso.imagen || "/principal1.jpeg"}
+                  imagen={curso.imagen}
                   descuento={curso.descuento}
                 />
               ))

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./InformacionDeCobro.css";
 import { useAuth } from "../../context/AuthContext";
+import LoadingError from "../../components/LoadingError/LoadingError";
 
 function InformacionDePago() {
   const [isEditing, setIsEditing] = useState(false);
@@ -104,16 +105,17 @@ function InformacionDePago() {
   const handleNombreChange = (e) => {
     setNombre(e.target.value);
   };
-  
+
   const handleNombreBancoChange = (e) => {
     setNombreBanco(e.target.value);
   };
 
-  if (loading) return <div>Cargando...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading || error) {
+    return <LoadingError loading={loading} error={error} retry={() => window.location.reload()} />;
+  }
 
   return (
-    <div className={isEditing? "contenedor-info-de-pago": "contenedor-info-de-pago no-editando"}>
+    <div className={isEditing ? "contenedor-info-de-pago" : "contenedor-info-de-pago no-editando"}>
       <h3>Tu informacion de cobro</h3>
 
       <label>

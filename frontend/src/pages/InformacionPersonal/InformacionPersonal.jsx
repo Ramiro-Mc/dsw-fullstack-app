@@ -1,7 +1,8 @@
 import React from "react";
 import { useEffect, useState, useRef } from "react";
 import "./informacionPersonal.css";
-import { useAuth } from "../../context/AuthContext"
+import { useAuth } from "../../context/AuthContext";
+import LoadingError from "../../components/LoadingError/LoadingError";
 
 function InformacionPersonal() {
   const [loading, setLoading] = useState(true);
@@ -9,7 +10,7 @@ function InformacionPersonal() {
   const [usuario, setUsuario] = useState({});
   const fileInputRef = useRef(null);
 
-  const {user, loading: authLoading} = useAuth();
+  const { user, loading: authLoading } = useAuth();
 
   useEffect(() => {
     const fetchUsuario = async () => {
@@ -36,8 +37,8 @@ function InformacionPersonal() {
       }
     };
 
-    if(!authLoading && user){
-    fetchUsuario();
+    if (!authLoading && user) {
+      fetchUsuario();
     }
   }, [user, authLoading]);
 
@@ -45,42 +46,24 @@ function InformacionPersonal() {
     fileInputRef.current.click();
   };
 
-
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-
-      console.log('Archivo seleccionado:', file);
-      
+      console.log("Archivo seleccionado:", file);
 
       const reader = new FileReader();
       reader.onload = (e) => {
-
-        setUsuario(prev => ({
+        setUsuario((prev) => ({
           ...prev,
-          fotoDePerfil: e.target.result
+          fotoDePerfil: e.target.result,
         }));
       };
       reader.readAsDataURL(file);
     }
   };
 
-
-  if (authLoading || loading) {
-    return (
-      <div className="container text-center">
-        <p>Cargando información del usuario...</p>
-      </div>
-    );
-  }
-
-
-  if (error) {
-    return (
-      <div className="container text-center">
-        <p className="text-danger">{error}</p>
-      </div>
-    );
+  if (authLoading || loading || error) {
+    return <LoadingError loading={authLoading || loading} error={error} retry={() => window.location.reload()} />;
   }
 
   return (
@@ -95,9 +78,8 @@ function InformacionPersonal() {
             style={{ display: 'none' }} 
           /> */}
           <div className="profile-image-container">
-            <img src={usuario.fotoDePerfil || "/image.png"} alt="Foto de perfil" className="img-fluid rounded-circle profile-image-clickable" onClick={handleImageClick}/>
+            <img src={usuario.fotoDePerfil || "/image.png"} alt="Foto de perfil" className="img-fluid rounded-circle profile-image-clickable" onClick={handleImageClick} />
           </div>
-
         </div>
         <div className="col-9">
           <h2>{usuario.nombreUsuario}</h2>

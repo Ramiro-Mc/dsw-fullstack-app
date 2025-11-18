@@ -46,6 +46,16 @@ function Header() {
                   Profesores
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="boton nav-link fw-bold" to="/contacto">
+                  Contacto
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="boton nav-link fw-bold" to="/sobreNosotros">
+                  Sobre Nosotros
+                </Link>
+              </li>
               {user ? (
                 <li className="nav-item dropdown">
                   <Link

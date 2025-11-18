@@ -1,0 +1,83 @@
+.fondo-contacto{
+  padding: 3rem 0;
+  background-image: url("./fondoContacto.jpg");
+  height: 100%;
+  width: 100%;
+}
+
+.contacto-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contacto-container h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.contacto-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contacto-form label {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  font-size: 1rem;
+  color: #333;
+}
+
+.contacto-form input,
+.contacto-form textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #fff;
+}
+
+.contacto-form input:focus,
+.contacto-form textarea:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.contacto-form button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.contacto-form button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.contacto-form button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.success-message {
+  color: green;
+  margin-top: 10px;
+  font-size: 1rem;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-size: 1rem;
+}
