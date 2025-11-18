@@ -81,7 +81,7 @@ export const usuarioController = {
   updateUsuario: async (req, res) => {
     try {
       const { idUsuario } = req.params;
-      const { nombreUsuario, email, contrasena, nombreReferido, fotoDePerfil, banco, cvu, alias } = req.body;
+      const { nombreUsuario, email, contrasena, nombreReferido, fotoDePerfil, banco, cvu, alias, descripcion, fraseDescriptiva, educacion } = req.body;
 
       const camposAActualizar = {};
 
@@ -93,6 +93,9 @@ export const usuarioController = {
       if (banco) camposAActualizar.banco = banco;
       if (cvu) camposAActualizar.cvu = cvu;
       if (alias) camposAActualizar.alias = alias;
+      if (descripcion) camposAActualizar.descripcion = descripcion;
+      if (fraseDescriptiva) camposAActualizar.fraseDescriptiva = fraseDescriptiva;
+      if (educacion) camposAActualizar.educacion = educacion;
 
       await Usuario.update(camposAActualizar, { where: { idUsuario } });
 

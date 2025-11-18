@@ -6,8 +6,6 @@ function RegisterPage() {
   const [nombreUsuario, setNombreUsuario] = useState("");
   const [email, setEmail] = useState("");
   const [contrasena, setContrasena] = useState("");
-  const [tipoUsuario, setTipoUsuario] = useState("");
-  const [fotoDePerfil, setFotoDePerfil] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorContrasena, setErrorContrasena] = useState("");
 
@@ -19,7 +17,6 @@ function RegisterPage() {
       return;
     }
     setLoading(true);
-    setFotoDePerfil("/Default.jpg");
 
     try {
       const res = await fetch("http://localhost:3000/usuarios", {
@@ -35,6 +32,9 @@ function RegisterPage() {
           banco: null,
           cvu: null,
           alias: null,
+          descripcion: null,
+          fraseDescriptiva: null,
+          educacion: null,
         }),
       });
 

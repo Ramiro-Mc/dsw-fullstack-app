@@ -7,11 +7,20 @@ export const Usuario = sequelize.define("Usuario", {
   email: { type: DataTypes.STRING, allowNull: false },
   contrasena: { type: DataTypes.STRING, allowNull: false },
   tipoUsuario: { type: DataTypes.STRING, allowNull: false }, 
-  nombreReferido: { type: DataTypes.STRING, allowNull: true }, 
   fotoDePerfil: { type: DataTypes.STRING, allowNull: true },
+
+  // Datos de banco
+
+  nombreReferido: { type: DataTypes.STRING, allowNull: true }, 
   banco: { type: DataTypes.STRING, allowNull: true }, 
   cvu: { type: DataTypes.INTEGER, allowNull: true }, 
   alias: { type: DataTypes.STRING, allowNull: true }, 
+
+  // Datos de profesor
+
+  descripcion: { type: DataTypes.STRING, allowNull: true }, 
+  fraseDescriptiva: { type: DataTypes.STRING, allowNull: true }, 
+  educacion: { type: DataTypes.STRING, allowNull: true }, 
 }, {
   tableName: 'Usuarios',
   timestamps: true
