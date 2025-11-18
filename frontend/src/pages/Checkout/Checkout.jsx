@@ -255,7 +255,14 @@ const Checkout = () => {
                 <p>{curso.TipoCurso?.nombreTipo || 'Curso'}</p> 
               </div>
               <div className="course-price">
-                ${curso.precio}
+                {curso.descuento === 0 ? (
+                  <p className="precio fw-bold text-success mb-2 fs-4">${curso.precio}</p>
+                ) : (
+                  <div className="d-flex">
+                    <p className="precio-tachado mb-2 ">${curso.precio}</p>
+                    <p className="precio fw-bold text-success mb-2 fs-4">${(curso.precio - (curso.precio * curso.descuento) / 100).toFixed(0)}</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -269,10 +276,21 @@ const Checkout = () => {
               <span>Precio original:</span>
               <span>${curso.precio}</span>
             </div>
+
+             <div className="price-line">
+              <span>Descuento:</span>
+              {curso.descuento === 0 ? (
+                  <p>Sin Descuento</p>
+                ):
+                (
+                  <span>{curso.descuento}%</span>
+                )}
+            </div>
             
             <div className="total-line">
               <span><strong>Total:</strong></span>
-              <span><strong>${curso.precio}</strong></span>
+              
+              <span><strong>${(curso.precio - (curso.precio * curso.descuento) / 100).toFixed(0)}</strong></span>
             </div>
 
             <div className="terms-text">
