@@ -141,46 +141,75 @@ export const usuarioController = {
     }
   },
 
- deleteUsuario: async (req, res) => {
-  try {
-    const { idUsuario } = req.params;
+  deleteUsuario: async (req, res) => {
+    try {
+      const { idUsuario } = req.params;
 
-    // Verificar que el usuario existe
-    const usuario = await Usuario.findByPk(idUsuario);
-    if (!usuario) {
-      return res.status(404).json({
+      // Verificar que el usuario existe
+      const usuario = await Usuario.findByPk(idUsuario);
+      if (!usuario) {
+        return res.status(404).json({
+          success: false,
+          msg: "Usuario no encontrado",
+        });
+      }
+
+      // Verificar que no sea un administrador
+      if (usuario.tipoUsuario === 'administrador') {
+        return res.status(403).json({
+          success: false,
+          msg: "No se puede eliminar un administrador",
+        });
+      }
+
+      // Eliminar físicamente el usuario
+      await Usuario.destroy({ where: { idUsuario: idUsuario } });
+
+      res.status(200).json({
+        success: true,
+        msg: "Usuario eliminado correctamente",
+      });
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
         success: false,
-        msg: "Usuario no encontrado",
+        msg: process.env.NODE_ENV === "development" 
+          ? error.message 
+          : "Error interno del servidor",
       });
     }
+  },
 
-    // Verificar que no sea un administrador
-    if (usuario.tipoUsuario === 'administrador') {
-      return res.status(403).json({
-        success: false,
-        msg: "No se puede eliminar un administrador",
-      });
+  //Foto de perfil con cloudinary
+
+  updateFotoDePerfil: async (req, res) => {
+    try {
+      const { idUsuario } = req.params;
+      const fotoDePerfil = req.file?.path; // URL pública de Cloudinary
+      
+      //esto habria que hacerlo en el validator
+      if (!fotoDePerfil) {
+        return res.status(400).json({ success: false, msg: "No se proporcionó una imagen válida." });
+      }
+
+      const usuario = await Usuario.findByPk(idUsuario);
+
+      //esto habria que hacerlo en el validator
+      if (!usuario) {
+        return res.status(404).json({ success: false, msg: "Usuario no encontrado." });
+      }
+
+      // Actualizar la foto de perfil en la base de datos
+      usuario.fotoDePerfil = fotoDePerfil;
+      await usuario.save();
+
+      res.json({ success: true, msg: "Foto de perfil actualizada.", fotoDePerfil });
+    } catch (error) {
+      console.error("Error al actualizar la foto de perfil:", error);
+      res.status(500).json({ success: false, msg: "Error interno del servidor." });
     }
-
-    // Eliminar físicamente el usuario
-    await Usuario.destroy({ where: { idUsuario: idUsuario } });
-
-    res.status(200).json({
-      success: true,
-      msg: "Usuario eliminado correctamente",
-    });
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      msg: process.env.NODE_ENV === "development" 
-        ? error.message 
-        : "Error interno del servidor",
-    });
-  }
-},
-
+  },
 
   //Para conectar el frontend con el backend
   // loginUsuario: async (req, res) => {

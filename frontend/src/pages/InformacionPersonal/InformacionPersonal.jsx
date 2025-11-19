@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import "./informacionPersonal.css";
 import { useAuth } from "../../context/AuthContext";
 import LoadingError from "../../components/LoadingError/LoadingError";
+import ModalProfesor from "../../components/ModalProfesor";
 
 function InformacionPersonal() {
   const [loading, setLoading] = useState(true);
@@ -13,21 +14,31 @@ function InformacionPersonal() {
   const { user, loading: authLoading } = useAuth();
 
   // Perfil de profesor
-  
+
   const [educacion, setEducacion] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [frase, setFrase] = useState("");
+  const [editando, setEditando] = useState(false);
+  const [mostrarModal, setMostrarModal] = useState(false);
+
+  const editar = () => {
+    setEditando(!editando);
+  };
 
   const handleEducacionChange = (e) => {
     setEducacion(e.target.value);
   };
-  
+
   const handleDescripcionChange = (e) => {
     setDescripcion(e.target.value);
   };
-  
+
   const handleFraseChange = (e) => {
     setFrase(e.target.value);
+  };
+
+  const modal = () => {
+    setMostrarModal(true); // Mostrar el modal
   };
 
   useEffect(() => {
@@ -64,19 +75,37 @@ function InformacionPersonal() {
     fileInputRef.current.click();
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      console.log("Archivo seleccionado:", file);
+      const formData = new FormData();
+      formData.append("fotoDePerfil", file);
 
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setUsuario((prev) => ({
-          ...prev,
-          fotoDePerfil: e.target.result,
-        }));
-      };
-      reader.readAsDataURL(file);
+      try {
+        const userId = user.id; // ID del usuario actual
+
+        const response = await fetch(`http://localhost:3000/usuarios/${userId}/foto`, {
+          method: "PUT",
+          body: formData,
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Actualizar la foto de perfil en el estado
+          setUsuario((prev) => ({
+            ...prev,
+            fotoDePerfil: data.fotoDePerfil, // URL pública de Cloudinary
+          }));
+
+          alert("Foto de perfil actualizada correctamente.");
+        } else {
+          alert("Error al actualizar la foto de perfil: " + data.msg);
+        }
+      } catch (error) {
+        console.error("Error al actualizar la foto de perfil:", error);
+        alert("Error de conexión. Intenta nuevamente.");
+      }
     }
   };
 
@@ -84,7 +113,9 @@ function InformacionPersonal() {
     return <LoadingError loading={authLoading || loading} error={error} retry={() => window.location.reload()} />;
   }
 
-    const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevenir la recarga de la página
+
     try {
       const userId = user.id;
 
@@ -96,16 +127,16 @@ function InformacionPersonal() {
         body: JSON.stringify({
           educacion: educacion,
           descripcion: descripcion,
-          fraseDescriptiva: frase
+          fraseDescriptiva: frase,
         }),
       });
 
       const data = await response.json();
 
       if (data.success) {
-        /*setIsEditing(false);*/
-        setUsuario(data.informacion);
+        setUsuario(data.atributo);
         alert("Información actualizada correctamente");
+        editar();
       } else {
         alert("Error al actualizar la información: " + data.msg);
       }
@@ -117,23 +148,18 @@ function InformacionPersonal() {
 
   return (
     <div className="container informacion-personal">
+      {mostrarModal && <ModalProfesor nombre={usuario.nombreUsuario} foto={usuario.fotoDePerfil} desc={usuario.descripcion} frase={usuario.fraseDescriptiva} educ={usuario.educacion} fecha={usuario.createdAt} mostrar={setMostrarModal} correo={usuario.email} />}
       <div className="row">
         <div className="col-3">
-           <input 
-            type="file" 
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            accept="image/*"
-            style={{ display: 'none' }} 
-          /> 
+          <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" style={{ display: "none" }} />
           <div className="profile-image-container">
-            <img src={usuario.fotoDePerfil || "/image.png"} alt="Foto de perfil" className="img-fluid rounded-circle profile-image-clickable" onClick={handleImageClick} />
+            <img src={usuario?.fotoDePerfil || "/Default.jpg"} alt="Foto de perfil" className="img-fluid rounded-circle profile-image-clickable" onClick={handleImageClick} />
           </div>
         </div>
         <div className="col-7">
-          <h2>{usuario.nombreUsuario}</h2>
+          <h2>{usuario?.nombreUsuario}</h2>
           <p>
-            <strong>Email:</strong> {usuario.email}
+            <strong>Email:</strong> {usuario?.email}
           </p>
           <p>
             <strong>Inscripto a :</strong> N cursos
@@ -141,6 +167,7 @@ function InformacionPersonal() {
           <p>
             <strong>Contribuidor de:</strong> N cursos
           </p>
+          <p className="fecha-creacion-cuenta">Se unió el {usuario?.createdAt ? new Intl.DateTimeFormat("es-AR", { dateStyle: "medium" }).format(new Date(usuario?.createdAt)) : "Fecha no disponible"}</p>
         </div>
         <div className="col-2">
           <button type="button" className="boton-camb-cont btn btn-secondary">
@@ -149,24 +176,63 @@ function InformacionPersonal() {
         </div>
       </div>
       <hr />
-      <div className="perfil-profesor">
-        <h3>Perfil de Profesor</h3>
+      <h3 className="perfil-profesor-titulo">Perfil de Profesor</h3>
+      {!editando ? (
+        usuario.descripcion ? (
+          <>
+            <button type="button" className="boton-editar" onClick={editar}>
+              <i class="bi bi-pencil-square"></i>
+            </button>
 
-        <label htmlFor="">Descripcion</label>
-        <textarea name="" id="" onChange={handleDescripcionChange}></textarea>
+            <div className="pre-view container" onClick={modal}>
+              <div className="row">
+                <div className="col-11">
+                  <strong>Frase</strong>
+                  <div className="informacion-prof">{usuario.fraseDescriptiva}</div>
+                  <strong>Descripcion</strong>
+                  <div className="informacion-prof">{usuario.descripcion}</div>
+                  <strong>Educacion:</strong>
+                  <div className="informacion-prof">{usuario.educacion}</div>
+                </div>
+                <div className="col-1 d-flex justify-content-end align-items-end">
+                  <p className="clic">Vista previa</p>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <button type="button" className="boton-camb-cont btn btn-secondary" onClick={editar}>
+            Agregar informacion de profesor
+          </button>
+        )
+      ) : (
+        <div className="perfil-profesor">
+          <div className="form-group">
+            <label htmlFor="frase" className="form-label">
+              Una frase que te identifique
+            </label>
+            <input type="text" id="frase" className="form-control" placeholder="Escribe una frase que te represente..." onChange={handleFraseChange} value={frase} />
+          </div>
 
-        <label htmlFor="">Educacion</label>
-        <textarea name="" id="" onChange={handleEducacionChange}></textarea>
+          <div className="form-group">
+            <label htmlFor="descripcion" className="form-label">
+              Descripción
+            </label>
+            <textarea id="descripcion" className="form-control" placeholder="Escribe una breve descripción sobre ti..." onChange={handleDescripcionChange} value={descripcion}></textarea>
+          </div>
 
-        <label htmlFor="">Una frase que te identifique</label>
-        <input type="text" onChange={handleFraseChange}/>
+          <div className="form-group">
+            <label htmlFor="educacion" className="form-label">
+              Educación
+            </label>
+            <textarea id="educacion" className="form-control" placeholder="Escribe tu formación académica..." onChange={handleEducacionChange} value={educacion}></textarea>
+          </div>
 
-
-        <button type="button" className="boton-camb-cont btn btn-secondary" onClick={handleSubmit}>
-          Guardar
-        </button>
-      </div>
-
+          <button type="button" className="btn btn-primary boton-guardar" onClick={handleSubmit}>
+            Guardar
+          </button>
+        </div>
+      )}
     </div>
   );
 }

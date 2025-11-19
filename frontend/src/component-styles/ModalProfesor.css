@@ -1,0 +1,43 @@
+.foto-preview{
+  height: 90px !important;
+  width: 90px !important;
+}
+
+.modal-body .informacion-prof{
+  margin: 20px auto;
+  text-align: justify;
+  width: 95%;
+  height: auto;
+  background-color: aqua;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.contenedor-modal{
+  min-width: 50%;
+}
+
+.fecha-preview{
+  padding: 0 20px 10px 20px;
+}
+
+.nombre{
+  padding-top: 6px;
+  font-weight: bold;
+  font-size: 1.5em !important;
+}
+
+.frase{
+  font-style: italic;
+  font-size: 1rem !important;
+  color: gray;
+}
+
+.contenedor-modal a{
+  font-weight: lighter;
+  font-size: 1.15rem !important;
+}
+
+.boton-cerrar{
+  font-size: 1.4rem;
+}

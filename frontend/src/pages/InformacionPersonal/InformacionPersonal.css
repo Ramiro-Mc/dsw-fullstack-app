@@ -39,7 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 8px; 
+  padding-bottom: 8px;
   z-index: 10;
 }
 
@@ -52,9 +52,123 @@
   transform: scale(1.01);
 }
 
-.boton-camb-cont{
+.boton-camb-cont {
   margin-top: 20px;
   margin-right: 20px;
   background-color: blueviolet !important;
   border-color: blue !important;
+}
+
+.fecha-creacion-cuenta {
+  color: gray;
+  font-size: 14px;
+}
+
+.perfil-profesor {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.perfil-profesor-titulo {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.boton-guardar {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.boton-guardar:hover {
+  background-color: #0056b3;
+}
+
+.boton-editar {
+  position: absolute;
+  top: 408px;
+  right: 18px; 
+  width: 50px;
+  height: 50px;
+  padding: 10px;
+  background-color: transparent;
+  color: grey;
+  border: none;
+  border-radius: 100%;
+  font-size: 1.3rem;
+  cursor: pointer;
+  z-index: 10; 
+}
+
+.boton-editar:hover {
+  cursor: pointer;
+  opacity: 0.8;
+  background-color: #007bff60;
+}
+
+.pre-view {
+  width: 90%;
+  height: auto;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  position: relative;
+  border-radius: 15px;
+}
+
+.pre-view:hover {
+  cursor: pointer;
+  opacity: 0.8;
+  background-color: #007bff50;
+}
+
+.clic{
+  color: #F7F8FA;
+  padding-right: 10px;
+}
+
+.informacion-prof{
+  margin: 20px auto;
+  text-align: justify;
+  width: 95%;
+  height: auto;
+  background-color: lightgrey;
+  padding: 20px;
+  border-radius: 10px;
 }
