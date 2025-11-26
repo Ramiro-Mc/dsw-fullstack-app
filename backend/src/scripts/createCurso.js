@@ -2,8 +2,9 @@ import { sequelize } from "../database/sequelize.js";
 import { Usuario } from "../models/Usuario.js";
 import { Curso } from "../models/Curso.js";
 import { TipoCurso } from "../models/TipoCurso.js";
-import { AlumnoCurso } from "../models/AlumnoCurso.js"; // ← CAMBIAR por AlumnoCurso
-import { sequelize } from "../database/sequelize.js";
+import { AlumnoCurso } from "../models/AlumnoCurso.js";
+import { Modulo } from "../models/Modulo.js";
+import { Leccion } from "../models/Leccion.js";
 import bcrypt from "bcrypt";
 import "../models/allModels.js";
 
