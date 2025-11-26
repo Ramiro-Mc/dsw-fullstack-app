@@ -1,9 +1,8 @@
-import { Curso } from "../models/Curso.js";
+import { sequelize } from "../database/sequelize.js";
 import { Usuario } from "../models/Usuario.js";
+import { Curso } from "../models/Curso.js";
 import { TipoCurso } from "../models/TipoCurso.js";
-import { AlumnoCurso } from "../models/AlumnoCurso.js";
-import { Modulo } from "../models/Modulo.js"; // ← AGREGAR
-import { Leccion } from "../models/Leccion.js"; // ← AGREGAR
+import { AlumnoCurso } from "../models/AlumnoCurso.js"; // ← CAMBIAR por AlumnoCurso
 import { sequelize } from "../database/sequelize.js";
 import bcrypt from "bcrypt";
 import "../models/allModels.js";
@@ -13,6 +12,10 @@ const createCursosData = async () => {
     // Conectar a la base de datos
     await sequelize.authenticate();
     console.log("Conectado a la base de datos");
+
+    // Crear tablas si no existen
+    await sequelize.sync({ alter: true });
+    console.log("Tablas sincronizadas");
 
     // Verificar que existan tipos de curso
     const tiposCount = await TipoCurso.count();
@@ -339,7 +342,6 @@ const createCursosData = async () => {
     console.error("❌ Error al crear datos:", error);
   } finally {
     await sequelize.close();
-    process.exit(0);
   }
 };
 
