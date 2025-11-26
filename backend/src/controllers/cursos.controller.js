@@ -1,12 +1,13 @@
 import { Curso } from "../models/Curso.js";
 import { Descuento } from "../models/Descuento.js";
 import { TipoCurso } from "../models/TipoCurso.js";
+import { Op } from "sequelize";
 
 export const cursoController = {
   getAllCursos: async (req, res) => {
     try {
       const { idTipo, idProfesor } = req.query;
-      let whereClause = {};
+      let whereClause = { estado: { [Op.ne]: 'eliminado' } };
 
       if(idTipo && idTipo !== 0){
         whereClause.idTipo = idTipo;
@@ -123,14 +124,59 @@ export const cursoController = {
     try {
       const { idCurso } = req.params;
 
-      const curso = await Curso.findByPk(idCurso, {
-        include: [{ model: TipoCurso, as: "TipoCurso" }] // Agregar alias
+      const curso = await Curso.findOne({
+        where: {
+          idCurso,
+          estado: { [Op.ne]: 'eliminado' }
+        },
+        include: [{ model: TipoCurso, as: "TipoCurso" }]
       });
+
+      if (!curso) {
+        return res.status(404).json({
+          success: false,
+          msg: "Curso no encontrado",
+        });
+      }
 
       res.status(200).json({
         success: true,
         msg: "Curso encontrado",
         informacion: curso,
+      });
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" 
+          ? error.message 
+          : "Error interno del servidor",
+      });
+    }
+  },
+
+  deleteCurso: async (req, res) => {
+    try {
+      const { idCurso } = req.params;
+
+      const curso = await Curso.findByPk(idCurso);
+      
+      if (curso.estado === 'eliminado') {
+        return res.status(400).json({
+          success: false,
+          msg: "El curso ya está eliminado"
+        });
+      }
+
+      await Curso.update(
+        { estado: 'eliminado' }, 
+        { where: { idCurso } }
+      );
+
+      res.status(200).json({
+        success: true,
+        msg: "Curso eliminado correctamente",
       });
 
     } catch (error) {
@@ -242,7 +288,7 @@ export const cursoController = {
     try {
       const cursosPendientes = await Curso.findAll({
         where: { estado: 'pendiente' },
-        include: [{ model: TipoCurso, as: "TipoCurso" }] // Agregar alias
+        include: [{ model: TipoCurso, as: "TipoCurso" }]
       });
 
       res.status(200).json({
@@ -316,7 +362,7 @@ export const cursoController = {
     }
   },
 
-    getAllCursosAprobados: async (req, res) => {
+  getAllCursosAprobados: async (req, res) => {
     try {
       const { idTipo } = req.query;
       const where = { estado: "aprobado" };
@@ -325,8 +371,6 @@ export const cursoController = {
         const idNum = Number(idTipo);
         where.idTipo = Number.isNaN(idNum) ? idTipo : idNum;
       }
-
-      //console.log("getAllCursosAprobados - where:", where);
 
       const cursosAprobados = await Curso.findAll({
         where,
@@ -346,6 +390,67 @@ export const cursoController = {
           process.env.NODE_ENV === "development"
             ? error.message
             : "Error interno del servidor",
+      });
+    }
+  },
+
+  restaurarCurso: async (req, res) => {
+    try {
+      const { idCurso } = req.params;
+
+      const curso = await Curso.findByPk(idCurso);
+      
+      if (curso.estado !== 'eliminado') {
+        return res.status(400).json({
+          success: false,
+          msg: "El curso no está eliminado"
+        });
+      }
+
+      await Curso.update(
+        { estado: 'pendiente' }, 
+        { where: { idCurso } }
+      );
+
+      const cursoRestaurado = await Curso.findByPk(idCurso);
+
+      res.status(200).json({
+        success: true,
+        msg: "Curso restaurado correctamente",
+        contenido: cursoRestaurado,
+      });
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" 
+          ? error.message 
+          : "Error interno del servidor",
+      });
+    }
+  },
+
+  getCursosEliminados: async (req, res) => {
+    try {
+      const cursosEliminados = await Curso.findAll({
+        where: { estado: 'eliminado' },
+        include: [{ model: TipoCurso, as: "TipoCurso" }]
+      });
+
+      res.status(200).json({
+        success: true,
+        msg: "Cursos eliminados encontrados",
+        informacion: cursosEliminados
+      });
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" 
+          ? error.message 
+          : "Error interno del servidor",
       });
     }
   },
