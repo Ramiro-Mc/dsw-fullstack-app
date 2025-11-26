@@ -26,7 +26,7 @@ export const Curso = sequelize.define("Curso", {
   descripcion: { type: DataTypes.STRING },
   precio: { type: DataTypes.FLOAT, allowNull: false },
   estado: { 
-    type: DataTypes.ENUM('pendiente', 'aprobado', 'rechazado'), 
+    type: DataTypes.ENUM('pendiente', 'aprobado', 'rechazado', 'eliminado'), 
     allowNull: false,
     defaultValue: 'pendiente'
   },

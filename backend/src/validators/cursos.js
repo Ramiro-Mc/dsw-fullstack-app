@@ -7,7 +7,12 @@ import { Op } from "sequelize";
 const validateCreate = [
   check('titulo').exists().notEmpty()
     .custom( async (titulo) => {
-      const cursoEnc = await Curso.findOne({ where: {titulo} });
+      const cursoEnc = await Curso.findOne({ 
+        where: {
+          titulo,
+          estado: { [Op.ne]: 'eliminado' }
+        } 
+      });
       if (cursoEnc){
         throw new Error("El titulo ya está en uso");
       }
@@ -22,7 +27,12 @@ const validateCreate = [
 const validateUpdate = [
   check('idCurso').exists().notEmpty()
   .custom( async (idCurso) => {
-    const cursoEnc = await Curso.findByPk(idCurso);
+    const cursoEnc = await Curso.findOne({
+      where: {
+        idCurso,
+        estado: { [Op.ne]: 'eliminado' }
+      }
+    });
     if(!cursoEnc){
       throw new Error("Curso no encontrado");
     }
@@ -33,7 +43,8 @@ const validateUpdate = [
     const cursoEnc = await Curso.findOne({
       where: {
         titulo,
-        idCurso: { [Op.ne]: req.params.idCurso }
+        idCurso: { [Op.ne]: req.params.idCurso },
+        estado: { [Op.ne]: 'eliminado' }
       }
     });
     if (cursoEnc){
@@ -60,29 +71,4 @@ const validateGetByIdAndDelete = [
   validateResult
 ]
 
-// Fuera de uso
-
-/*
-const validateAgregarQuitarDescuento = [
-  check('idCurso').exists().notEmpty()
-  .custom( async (idCurso) => {
-    const cursoEnc = await Curso.findByPk(idCurso);
-    if(!cursoEnc){
-      throw new Error("Curso no encontrado");
-    }
-    return true;
-  } ),
-  check('idDescuento').exists().notEmpty()
-  .custom( async (idDescuento) => {
-    const descuentoEnc = await Descuento.findByPk(idDescuento);
-    if(!descuentoEnc){
-      throw new Error("Descuento no encontrado");
-    }
-    return true;
-  } ),
-  validateResult
-]
-
-export default { validateCreate, validateUpdate, validateGetByIdAndDelete, validateAgregarQuitarDescuento };
-*/
 export default { validateCreate, validateUpdate, validateGetByIdAndDelete };
