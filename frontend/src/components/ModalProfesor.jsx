@@ -34,9 +34,9 @@ function ModalProfesor({ nombre, foto, desc, frase, educ, fecha, mostrar, correo
           <div className="modal-content">
             <div className="modal-header">
               <div className="d-flex">
-                <div className="profile-image-container">
-                  <img src={foto || "/Default.jpg"} alt="Foto de perfil" className="img-fluid rounded-circle profile-image-clickable foto-preview" />
-                </div>
+               
+                <img src={foto || "/Default.jpg"} alt="Foto de perfil" className="img-fluid rounded-circle foto-preview" />
+                
                 <div className="ms-3">
                   <p className="nombre">
                     {nombre} <a href={`mailto:${correo}`}>{correo}</a>

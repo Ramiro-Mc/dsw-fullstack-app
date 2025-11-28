@@ -186,15 +186,15 @@ function InformacionPersonal() {
 
             <div className="pre-view container" onClick={modal}>
               <div className="row">
-                <div className="col-11">
+                <div className="col-12">
                   <strong>Frase</strong>
                   <div className="informacion-prof">{usuario.fraseDescriptiva}</div>
                   <strong>Descripcion</strong>
                   <div className="informacion-prof">{usuario.descripcion}</div>
-                  <strong>Educacion:</strong>
+                  <strong>Educacion</strong>
                   <div className="informacion-prof">{usuario.educacion}</div>
                 </div>
-                <div className="col-1 d-flex justify-content-end align-items-end">
+                <div className=" d-flex justify-content-end align-items-end">
                   <p className="clic">Vista previa</p>
                 </div>
               </div>

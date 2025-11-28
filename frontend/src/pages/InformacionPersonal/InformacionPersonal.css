@@ -1,3 +1,7 @@
+.informacion-personal {
+  padding-bottom: 20px; 
+}
+
 .informacion-personal .col-3 {
   margin-top: 20px;
   text-align: center;
@@ -67,7 +71,7 @@
 .perfil-profesor {
   margin-top: 20px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #e3f2fd; /* Azul claro */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -75,7 +79,6 @@
 .perfil-profesor-titulo {
   font-size: 1.8rem;
   margin-bottom: 20px;
-  color: #333;
   text-align: center;
 }
 
@@ -86,7 +89,7 @@
 .form-label {
   font-size: 1rem;
   font-weight: bold;
-  color: #555;
+  color: #0d47a1;
   margin-bottom: 5px;
   display: block;
 }
@@ -94,14 +97,15 @@
 .form-control {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #90caf9;
   border-radius: 5px;
   font-size: 1rem;
-  color: #333;
+  color: #0d47a1;
+  background-color: #f1f8ff;
 }
 
 .form-control:focus {
-  border-color: #007bff;
+  border-color: #42a5f5;
   outline: none;
 }
 
@@ -109,7 +113,7 @@
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #42a5f5;
   color: white;
   border: none;
   border-radius: 5px;
@@ -118,57 +122,64 @@
 }
 
 .boton-guardar:hover {
-  background-color: #0056b3;
+  background-color: #1e88e5;
 }
 
 .boton-editar {
   position: absolute;
   top: 408px;
-  right: 18px; 
+  right: 18px;
   width: 50px;
   height: 50px;
   padding: 10px;
   background-color: transparent;
-  color: grey;
+  color: #0d47a1;
   border: none;
   border-radius: 100%;
   font-size: 1.3rem;
   cursor: pointer;
-  z-index: 10; 
+  z-index: 10;
 }
 
 .boton-editar:hover {
   cursor: pointer;
   opacity: 0.8;
-  background-color: #007bff60;
+  background-color: #90caf9; /* Azul claro */
 }
 
 .pre-view {
   width: 90%;
   height: auto;
-  border: 1px solid #ccc;
+  border: 1px solid #90caf9; /* Azul claro */
   padding: 1rem;
   position: relative;
   border-radius: 15px;
+  background-color: #e3f2fd; /* Azul claro */
 }
 
 .pre-view:hover {
   cursor: pointer;
   opacity: 0.8;
-  background-color: #007bff50;
+  background-color: #bbdefb; /* Azul más oscuro */
 }
 
-.clic{
-  color: #F7F8FA;
+.pre-view strong {
+  margin-left: 1rem;
+  margin-top: 1rem;
+}
+
+.clic {
+  color: #0d47a1; /* Azul oscuro */
   padding-right: 10px;
 }
 
-.informacion-prof{
+.informacion-prof {
   margin: 20px auto;
   text-align: justify;
   width: 95%;
   height: auto;
-  background-color: lightgrey;
+  background-color: #f1f8ff; /* Fondo gris azulado */
   padding: 20px;
   border-radius: 10px;
+  border: 1px solid #90caf9; /* Azul claro para el borde */
 }
