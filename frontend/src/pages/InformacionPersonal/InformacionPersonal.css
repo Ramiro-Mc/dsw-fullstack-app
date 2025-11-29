@@ -7,6 +7,10 @@
   text-align: center;
 }
 
+.informacion-personal .col-2{
+  margin-top: 15px;
+}
+
 .informacion-personal img {
   width: 200px;
   height: 200px;
@@ -15,7 +19,8 @@
 }
 
 .informacion-personal h2 {
-  margin-top: 40px;
+  margin-top: 30px;
+  font-weight: bold;
 }
 
 .informacion-personal p {

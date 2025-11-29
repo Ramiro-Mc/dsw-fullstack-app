@@ -9,10 +9,10 @@
   text-align: justify;
   width: 95%;
   height: auto;
-  background-color: #f1f8ff; /* Fondo gris azulado */
+  background-color: #f1f8ff; 
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid #90caf9; /* Azul claro para el borde */
+  border: 1px solid #90caf9; 
 }
 
 
@@ -22,14 +22,13 @@
 
 .fecha-preview {
   padding: 0 20px 10px 20px;
-  color: #0d47a1; /* Azul oscuro */
 }
 
 .nombre {
   padding-top: 6px;
   font-weight: bold;
   font-size: 1.5em !important;
-  color: #0d47a1; /* Azul oscuro */
+  color: #0d47a1; 
 }
 
 .frase {

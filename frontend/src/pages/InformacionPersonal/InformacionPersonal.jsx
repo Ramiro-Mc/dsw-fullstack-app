@@ -10,6 +10,8 @@ function InformacionPersonal() {
   const [error, setError] = useState("");
   const [usuario, setUsuario] = useState({});
   const fileInputRef = useRef(null);
+  const [cursosInscipto, setCursosInscipto] = useState(0);
+  const [cursosContribuidor, setCursosContribuidor] = useState(0);
 
   const { user, loading: authLoading } = useAuth();
 
@@ -56,6 +58,30 @@ function InformacionPersonal() {
         if (data.success) {
           setUsuario(data.informacion);
         } else {
+          setError(data.msg || "Error al cargar los cursos a los que esta inscripto el usuario");
+        }
+      } catch (error) {
+        console.error("Error al cargar cursos a los que esta inscripto el usuario:", error);
+        setError("Error de conexión. Intenta de nuevo.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchCantCursosInsc = async () => {
+      try {
+        const userId = user.id;
+
+        const response = await fetch(`http://localhost:3000/alumnos_cursos/usuario/${userId}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          setCursosInscipto(data.contenido.length);
+        } else {
           setError(data.msg || "Error al cargar usuario");
         }
       } catch (error) {
@@ -65,9 +91,35 @@ function InformacionPersonal() {
         setLoading(false);
       }
     };
+    const fetchCursosUsuario = async (userId) => {
+      try {
+        const response = await fetch(`http://localhost:3000/api/cursos?idProfesor=${userId}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          setCursosContribuidor(data.contenido.length);
+        } else if (data.msg === "No hay cursos") {
+          // Si no hay cursos, no es un error, solo dejamos el array vacío
+          setCursosContribuidor(0);
+        } else {
+          setError(data.msg || "Error al cargar cursos");
+        }
+      } catch (error) {
+        console.error("Error al cargar curso:", error);
+        setError("Error de conexión. Intenta de nuevo.");
+      } finally {
+        setLoading(false);
+      }
+    };
 
     if (!authLoading && user) {
       fetchUsuario();
+      fetchCantCursosInsc();
+      fetchCursosUsuario(user.id);
     }
   }, [user, authLoading]);
 
@@ -162,10 +214,10 @@ function InformacionPersonal() {
             <strong>Email:</strong> {usuario?.email}
           </p>
           <p>
-            <strong>Inscripto a :</strong> N cursos
+            <strong>Inscripto a:</strong> {cursosInscipto} curso{cursosInscipto !== 1 ? "s" : ""}
           </p>
           <p>
-            <strong>Contribuidor de:</strong> N cursos
+            <strong>Contribuidor de:</strong> {cursosContribuidor} curso{cursosContribuidor !== 1 ? "s" : ""}
           </p>
           <p className="fecha-creacion-cuenta">Se unió el {usuario?.createdAt ? new Intl.DateTimeFormat("es-AR", { dateStyle: "medium" }).format(new Date(usuario?.createdAt)) : "Fecha no disponible"}</p>
         </div>
