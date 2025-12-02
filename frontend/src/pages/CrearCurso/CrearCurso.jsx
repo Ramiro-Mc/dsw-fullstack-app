@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
+import CustomAlert from "../../components/CustomAlert/CustomAlert";
 import FormularioCurso from "../../components/crearCurso/FormularioCurso";
 import ListaModulos from "../../components/crearCurso/ListaModulos";
 import FormularioModulo from "../../components/crearCurso/FormularioModulo";
@@ -12,6 +13,7 @@ function CrearCursoPage() {
   const [mostrarFormularioModulo, setMostrarFormularioModulo] = useState(false);
   const [mostrarFormularioLecciones, setMostrarFormularioLecciones] =
     useState(false);
+  const [alert, setAlert] = useState(null);
 
   // Estados para el curso
   const [nombreCurso, setNombreCurso] = useState("");
@@ -81,7 +83,11 @@ function CrearCursoPage() {
 
   const handleGuardarModulo = (nombreModulo) => {
     if (!nombreModulo.trim()) {
-      alert("El nombre del módulo es requerido");
+      setAlert({
+        message: "El nombre del módulo es requerido",
+        type: "error",
+        onClose: () => setAlert(null),
+      });
       return;
     }
 
@@ -97,6 +103,19 @@ function CrearCursoPage() {
     setNombreModulo("");
   };
 
+  const confirmarEliminarModulo = (moduloId) => {
+    setAlert({
+      message: "¿Está seguro de que desea eliminar este módulo?",
+      type: "info",
+      onClose: () => {
+        setModulosGuardados((prev) =>
+          prev.filter((modulo) => modulo.id !== moduloId)
+        );
+        setAlert(null);
+      },
+    });
+  };
+
   const handleEditarModulo = (modulo) => {
     setEditandoModulo(modulo);
     setModuloActual(modulo);
@@ -105,11 +124,7 @@ function CrearCursoPage() {
   };
 
   const handleEliminarModulo = (moduloId) => {
-    if (window.confirm("¿Está seguro de que desea eliminar este módulo?")) {
-      setModulosGuardados((prev) =>
-        prev.filter((modulo) => modulo.id !== moduloId)
-      );
-    }
+    confirmarEliminarModulo(moduloId);
   };
 
   const handleFinalizarModulo = (moduloCompleto) => {
@@ -119,13 +134,19 @@ function CrearCursoPage() {
           modulo.id === editandoModulo.id ? moduloCompleto : modulo
         )
       );
-      alert(`Módulo "${moduloCompleto.nombre}" actualizado`);
+      setAlert({
+        message: `Módulo "${moduloCompleto.nombre}" actualizado`,
+        type: "success",
+        onClose: () => setAlert(null),
+      });
       setEditandoModulo(null);
     } else {
       setModulosGuardados((prev) => [...prev, moduloCompleto]);
-      alert(
-        `Módulo "${moduloCompleto.nombre}" guardado con ${moduloCompleto.lecciones.length} lección(es)`
-      );
+      setAlert({
+        message: `Módulo "${moduloCompleto.nombre}" guardado con ${moduloCompleto.lecciones.length} lección(es)`,
+        type: "success",
+        onClose: () => setAlert(null),
+      });
     }
 
     setMostrarFormularioLecciones(false);
@@ -147,34 +168,36 @@ function CrearCursoPage() {
       !precioCurso.trim() ||
       !moduloSeleccionado
     ) {
-      alert("Por favor complete todos los campos del curso");
+      setAlert({
+        message: "Por favor complete todos los campos del curso",
+        type: "error",
+        onClose: () => setAlert(null),
+      });
       return;
     }
 
     if (modulosGuardados.length === 0) {
-      alert("Debe agregar al menos un módulo al curso");
+      setAlert({
+        message: "Debe agregar al menos un módulo al curso",
+        type: "error",
+        onClose: () => setAlert(null),
+      });
       return;
     }
 
-    // Debug: verificar la estructura del usuario
-    console.log("Usuario completo:", user);
-    console.log("ID Usuario:", user?.idUsuario);
-
-    // Obtener el ID del usuario logueado - probar ambas propiedades
     const idProfesor = user?.idUsuario || user?.id;
 
     if (!idProfesor) {
-      alert(
-        "Error: No se pudo identificar al profesor. Por favor inicie sesión nuevamente."
-      );
-      console.log("Usuario del contexto:", user); // Para debug
+      setAlert({
+        message:
+          "Error: No se pudo identificar al profesor. Por favor inicie sesión nuevamente.",
+        type: "error",
+        onClose: () => setAlert(null),
+      });
+
       return;
     }
 
-    console.log("ID Profesor a usar:", idProfesor); // Para confirmar que se obtiene correctamente
-
-    // Debug: verificar la estructura completa de los módulos
-    console.log("=== DEBUG: Módulos guardados ===");
     modulosGuardados.forEach((modulo, index) => {
       console.log(`Módulo ${index + 1}:`, modulo);
       console.log(`Lecciones del módulo ${index + 1}:`, modulo.lecciones);
@@ -208,8 +231,11 @@ function CrearCursoPage() {
 
     try {
       await crearCursoCompleto(cursoCompleto);
-      alert("¡Curso creado exitosamente!");
-
+      setAlert({
+        message: "¡Curso creado exitosamente!",
+        type: "success",
+        onClose: () => setAlert(null),
+      });
       // Limpiar formulario
       setNombreCurso("");
       setDescripcionCurso("");
@@ -218,7 +244,11 @@ function CrearCursoPage() {
       setModulosGuardados([]);
     } catch (error) {
       console.error("Error al crear curso:", error);
-      alert("Error al crear el curso. Por favor intente nuevamente.");
+      setAlert({
+        message: "Error al crear el curso. Por favor intente nuevamente.",
+        type: "error",
+        onClose: () => setAlert(null),
+      });
     }
   };
 
@@ -294,6 +324,16 @@ function CrearCursoPage() {
           </form>
         </div>
       </section>
+      {alert && (
+        <CustomAlert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => {
+            setAlert(null);
+            if (alert.onClose) alert.onClose();
+          }}
+        />
+      )}
     </main>
   );
 }

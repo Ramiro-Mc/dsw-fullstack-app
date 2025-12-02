@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./MisCursosCreados.css";
 import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
+import CustomAlert from "../../components/CustomAlert/CustomAlert";
 import CursoCardPerfil from "../../components/MiPerfil/CursoCardPerfil";
 import LoadingError from "../../components/LoadingError/LoadingError";
 
@@ -12,6 +13,7 @@ function MisCursosCreados() {
 
   const [cursoEditandoDesc, setCursoEditandoDesc] = useState(null);
   const [descuento, setDescuento] = useState(0);
+  const [alert, setAlert] = useState(null);
 
   const editar = (idCurso, valorDescuento) => {
     setCursoEditandoDesc(idCurso);
@@ -24,55 +26,95 @@ function MisCursosCreados() {
 
   const eliminarDesc = async (idCurso) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/cursos/${idCurso}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          descuento: 0,
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/cursos/${idCurso}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            descuento: 0,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (data.success) {
-        setCursos(cursos.map((c) => (c.idCurso === idCurso ? { ...c, descuento: 0 } : c)));
+        setCursos(
+          cursos.map((c) =>
+            c.idCurso === idCurso ? { ...c, descuento: 0 } : c
+          )
+        );
         setCursoEditandoDesc(null);
-        alert("Descuento eliminado correctamente");
+        setAlert({
+          message: "Descuento eliminado correctamente",
+          type: "success",
+          onClose: () => setAlert(null),
+        });
       } else {
-        alert("Error al eliminar el descuento: " + (data.msg || "Error desconocido"));
+        setAlert({
+          message:
+            "Error al eliminar el descuento: " +
+            (data.msg || "Error desconocido"),
+          type: "error",
+          onClose: () => setAlert(null),
+        });
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Error al conectar con el servidor");
+      setAlert({
+        message: "Error al conectar con el servidor",
+        type: "error",
+        onClose: () => setAlert(null),
+      });
     }
   };
 
   const handleGuardar = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/cursos/${cursoEditandoDesc}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          descuento: descuento,
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:3000/api/cursos/${cursoEditandoDesc}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            descuento: descuento,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (data.success) {
-        setCursos(cursos.map((c) => (c.idCurso === cursoEditandoDesc ? { ...c, descuento: descuento } : c)));
+        setCursos(
+          cursos.map((c) =>
+            c.idCurso === cursoEditandoDesc ? { ...c, descuento: descuento } : c
+          )
+        );
         setCursoEditandoDesc(null);
-        alert("Información actualizada correctamente");
+        setAlert({
+          message: "Información actualizada correctamente",
+          type: "success",
+          onClose: () => setAlert(null),
+        });
       } else {
-        alert("Error al actualizar la información: " + data.msg);
+        setAlert({
+          message: "Error al actualizar la información: " + data.msg,
+          type: "error",
+          onClose: () => setAlert(null),
+        });
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Error al conectar con el servidor");
+      setAlert({
+        message: "Error al conectar con el servidor",
+        type: "error",
+        onClose: () => setAlert(null),
+      });
     }
   };
 
@@ -81,10 +123,13 @@ function MisCursosCreados() {
   useEffect(() => {
     const fetchCursosUsuario = async (userId) => {
       try {
-        const response = await fetch(`http://localhost:3000/api/cursos?idProfesor=${userId}`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
+        const response = await fetch(
+          `http://localhost:3000/api/cursos?idProfesor=${userId}`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
 
         const data = await response.json();
 
@@ -114,7 +159,7 @@ function MisCursosCreados() {
   return (
     <div className="contenedor-mis-cursos">
       <div className="container">
-        {loading || error? (
+        {loading || error ? (
           <LoadingError
             loading={loading}
             error={error}
@@ -124,19 +169,20 @@ function MisCursosCreados() {
           <>
             <h3>Administra tus cursos</h3>
             {cursos.map((curso) => (
-              <CursoCardPerfil 
-                key={curso.idCurso} 
-                idCurso={curso.idCurso} 
-                titulo={curso.titulo} 
-                descripcion={curso.descripcion} 
-                precio={curso.precio} 
-                imagen={curso.imagen || "/principal1.jpeg"} 
-                descuento={curso.descuento} 
-                editar={() => editar(curso.idCurso, curso.descuento)} 
-                agregandoDesc={cursoEditandoDesc === curso.idCurso} 
-                handleDescuentoChange={handleDescuentoChange} 
-                handleGuardar={handleGuardar} 
-                eliminarDesc={() => eliminarDesc(curso.idCurso)} />
+              <CursoCardPerfil
+                key={curso.idCurso}
+                idCurso={curso.idCurso}
+                titulo={curso.titulo}
+                descripcion={curso.descripcion}
+                precio={curso.precio}
+                imagen={curso.imagen || "/principal1.jpeg"}
+                descuento={curso.descuento}
+                editar={() => editar(curso.idCurso, curso.descuento)}
+                agregandoDesc={cursoEditandoDesc === curso.idCurso}
+                handleDescuentoChange={handleDescuentoChange}
+                handleGuardar={handleGuardar}
+                eliminarDesc={() => eliminarDesc(curso.idCurso)}
+              />
             ))}
             {/* Botón para crear más cursos cuando ya tiene cursos */}
             <div className="text-center mt-4">
@@ -148,11 +194,16 @@ function MisCursosCreados() {
           </>
         ) : (
           <div className="text-center">
-            <div className="no-cursos-icon" style={{ fontSize: "4rem", marginBottom: "1rem" }}>
+            <div
+              className="no-cursos-icon"
+              style={{ fontSize: "4rem", marginBottom: "1rem" }}
+            >
               📚
             </div>
             <h4>Aún no has creado ningún curso</h4>
-            <p className="mb-3">¡Comienza a compartir tu conocimiento y crea tu primer curso!</p>
+            <p className="mb-3">
+              ¡Comienza a compartir tu conocimiento y crea tu primer curso!
+            </p>
             <Link to="/crearCurso" className="btn btn-primary">
               <i className="bi bi-plus-circle me-2"></i>
               Crear mi primer curso
@@ -160,6 +211,16 @@ function MisCursosCreados() {
           </div>
         )}
       </div>
+      {alert && (
+        <CustomAlert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => {
+            setAlert(null);
+            if (alert.onClose) alert.onClose();
+          }}
+        />
+      )}
     </div>
   );
 }
