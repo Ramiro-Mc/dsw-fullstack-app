@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import CustomAlert from "../CustomAlert/CustomAlert";
 
 function FormularioLeccion({ leccionEditando, moduloId, onGuardarLeccion, onCancelarEdicion }) {
   const [tituloLeccion, setTituloLeccion] = useState("");
@@ -9,6 +10,7 @@ function FormularioLeccion({ leccionEditando, moduloId, onGuardarLeccion, onCanc
   const [contenidoTexto, setContenidoTexto] = useState("");
   const [imagenUrl, setImagenUrl] = useState("");
   const [archivoUrl, setArchivoUrl] = useState("");
+  const [alert, setAlert] = useState(null);
 
   useEffect(() => {
     if (leccionEditando) {
@@ -36,7 +38,11 @@ function FormularioLeccion({ leccionEditando, moduloId, onGuardarLeccion, onCanc
 
   const handleGuardarLeccion = () => {
     if (!tituloLeccion.trim()) {
-      alert("El título de la lección es requerido");
+      setAlert({
+        message: "El título de la lección es requerido",
+        type: "error",
+        onClose: () => setAlert(null)
+      });
       return;
     }
 
@@ -161,6 +167,16 @@ function FormularioLeccion({ leccionEditando, moduloId, onGuardarLeccion, onCanc
           </button>
         )}
       </div>
+      {alert && (
+        <CustomAlert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => {
+            setAlert(null);
+            if (alert.onClose) alert.onClose();
+          }}
+        />
+      )}
     </div>
   );
 }

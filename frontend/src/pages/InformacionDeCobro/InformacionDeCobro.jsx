@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./InformacionDeCobro.css";
 import { useAuth } from "../../context/AuthContext";
+import CustomAlert from "../../components/CustomAlert/CustomAlert";
 import LoadingError from "../../components/LoadingError/LoadingError";
 
 function InformacionDePago() {
@@ -12,6 +13,7 @@ function InformacionDePago() {
   const [usuario, setUsuario] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [alert, setAlert] = useState(null);
 
   const { user, loading: authLoading } = useAuth();
 
@@ -22,10 +24,13 @@ function InformacionDePago() {
   useEffect(() => {
     const fetchUsuario = async (userId) => {
       try {
-        const response = await fetch(`http://localhost:3000/usuarios/${userId}`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
+        const response = await fetch(
+          `http://localhost:3000/usuarios/${userId}`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
 
         const data = await response.json();
 
@@ -75,13 +80,25 @@ function InformacionDePago() {
       if (data.success) {
         setIsEditing(false);
         setUsuario(data.informacion);
-        alert("Información actualizada correctamente");
+        setAlert({
+          message: "Información actualizada correctamente",
+          type: "success",
+          onClose: () => setAlert(null),
+        });
       } else {
-        alert("Error al actualizar la información: " + data.msg);
+        setAlert({
+          message: "Error al actualizar la información: " + data.msg,
+          type: "error",
+          onClose: () => setAlert(null),
+        });
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Error al conectar con el servidor");
+      setAlert({
+        message: "Error al conectar con el servidor",
+        type: "error",
+        onClose: () => setAlert(null),
+      });
     }
   };
 
@@ -111,46 +128,100 @@ function InformacionDePago() {
   };
 
   if (loading || error) {
-    return <LoadingError loading={loading} error={error} retry={() => window.location.reload()} />;
+    return (
+      <LoadingError
+        loading={loading}
+        error={error}
+        retry={() => window.location.reload()}
+      />
+    );
   }
 
   return (
-    <div className={isEditing ? "contenedor-info-de-pago" : "contenedor-info-de-pago no-editando"}>
+    <div
+      className={
+        isEditing
+          ? "contenedor-info-de-pago"
+          : "contenedor-info-de-pago no-editando"
+      }
+    >
       <h3>Tu informacion de cobro</h3>
 
       <label>
         <strong>Nombre del Banco</strong>
       </label>
-      <input type="text" value={nombreBanco} disabled={!isEditing} onChange={handleNombreBancoChange} />
+      <input
+        type="text"
+        value={nombreBanco}
+        disabled={!isEditing}
+        onChange={handleNombreBancoChange}
+      />
       <label>
         <strong>ALIAS</strong>
       </label>
-      <input type="text" value={alias} disabled={!isEditing} onChange={handleAliasChange} />
+      <input
+        type="text"
+        value={alias}
+        disabled={!isEditing}
+        onChange={handleAliasChange}
+      />
       <label>
         <strong>CVU</strong>
       </label>
-      <input type="text" value={cvu} disabled={!isEditing} onChange={handleCvuChange} />
+      <input
+        type="text"
+        value={cvu}
+        disabled={!isEditing}
+        onChange={handleCvuChange}
+      />
       <label>
         <strong>Nombre asociado</strong>
       </label>
-      <input type="text" value={nombre} disabled={!isEditing} onChange={handleNombreChange} />
+      <input
+        type="text"
+        value={nombre}
+        disabled={!isEditing}
+        onChange={handleNombreChange}
+      />
 
       {!isEditing ? (
-        <button type="button" className="btn btn-primary" onClick={handleToggleEdit}>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleToggleEdit}
+        >
           <i className="bi bi-pencil me-2"></i>
           Modificar mi información de cobro
         </button>
       ) : (
         <div className="botones-edicion">
-          <button type="button" className="btn btn-success" onClick={handleSave}>
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={handleSave}
+          >
             <i className="bi bi-check2 me-2"></i>
             Guardar cambios
           </button>
-          <button type="button" className="btn btn-secondary" onClick={handleCancel}>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={handleCancel}
+          >
             <i className="bi bi-x me-2"></i>
             Cancelar
           </button>
         </div>
+      )}
+      {alert && (
+        <CustomAlert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => {
+            setAlert(null);
+            if (alert.onClose) alert.onClose();
+          }}
+        />
       )}
     </div>
   );

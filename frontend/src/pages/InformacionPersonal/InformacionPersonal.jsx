@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState, useRef } from "react";
 import "./informacionPersonal.css";
 import { useAuth } from "../../context/AuthContext";
+import CustomAlert from "../../components/CustomAlert/CustomAlert";
 import LoadingError from "../../components/LoadingError/LoadingError";
 import ModalProfesor from "../../components/ModalProfesor";
 
@@ -22,6 +23,7 @@ function InformacionPersonal() {
   const [frase, setFrase] = useState("");
   const [editando, setEditando] = useState(false);
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [alert, setAlert] = useState(null);
 
   const editar = () => {
     setEditando(!editando);
@@ -168,13 +170,25 @@ function InformacionPersonal() {
             fotoDePerfil: data.fotoDePerfil, // URL pública de Cloudinary
           }));
 
-          alert("Foto de perfil actualizada correctamente.");
+          setAlert({
+            message: "Foto de perfil actualizada correctamente.",
+            type: "success",
+            onClose: () => setAlert(null),
+          });
         } else {
-          alert("Error al actualizar la foto de perfil: " + data.msg);
+          setAlert({
+            message: "Error al actualizar la foto de perfil: " + data.msg,
+            type: "error",
+            onClose: () => setAlert(null),
+          });
         }
       } catch (error) {
         console.error("Error al actualizar la foto de perfil:", error);
-        alert("Error de conexión. Intenta nuevamente.");
+        setAlert({
+          message: "Error de conexión. Intenta nuevamente.",
+          type: "error",
+          onClose: () => setAlert(null),
+        });
       }
     }
   };
@@ -211,14 +225,26 @@ function InformacionPersonal() {
 
       if (data.success) {
         setUsuario(data.atributo);
-        alert("Información actualizada correctamente");
+        setAlert({
+          message: "Información actualizada correctamente",
+          type: "success",
+          onClose: () => setAlert(null),
+        });
         editar();
       } else {
-        alert("Error al actualizar la información: " + data.msg);
+        setAlert({
+          message: "Error al actualizar la información: " + data.msg,
+          type: "error",
+          onClose: () => setAlert(null),
+        });
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Error al conectar con el servidor");
+      setAlert({
+        message: "Error al conectar con el servidor",
+        type: "error",
+        onClose: () => setAlert(null),
+      });
     }
   };
 
@@ -368,6 +394,16 @@ function InformacionPersonal() {
             Guardar
           </button>
         </div>
+      )}
+      {alert && (
+        <CustomAlert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => {
+            setAlert(null);
+            if (alert.onClose) alert.onClose();
+          }}
+        />
       )}
     </div>
   );

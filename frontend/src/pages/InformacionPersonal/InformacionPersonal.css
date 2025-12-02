@@ -95,7 +95,7 @@
 .form-label {
   font-size: 1rem;
   font-weight: bold;
-  color: #0d47a1;
+  color: orange!important;
   margin-bottom: 5px;
   display: block;
 }
@@ -103,15 +103,15 @@
 .form-control {
   width: 100%;
   padding: 10px;
-  border: 1px solid #90caf9;
+  border: 1px solid orange!important;
   border-radius: 5px;
   font-size: 1rem;
-  color: #0d47a1;
+  color: orange!important;
   background-color: #f1f8ff;
 }
 
 .form-control:focus {
-  border-color: #42a5f5;
+  border-color: rgb(255, 193, 77);
   outline: none;
 }
 
@@ -119,7 +119,7 @@
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: #42a5f5;
+  background-color: orange!important;
   color: white;
   border: none;
   border-radius: 5px;
@@ -128,7 +128,7 @@
 }
 
 .boton-guardar:hover {
-  background-color: #1e88e5;
+  background-color: orange!important;
 }
 
 .boton-editar {
@@ -139,7 +139,7 @@
   height: 50px;
   padding: 10px;
   background-color: transparent;
-  color: #0d47a1;
+  color: orange!important;
   border: none;
   border-radius: 100%;
   font-size: 1.3rem;
@@ -150,23 +150,24 @@
 .boton-editar:hover {
   cursor: pointer;
   opacity: 0.8;
-  background-color: #90caf9; /* Azul claro */
+  background-color: orange!important;
 }
 
 .pre-view {
   width: 90%;
   height: auto;
-  border: 1px solid #90caf9; /* Azul claro */
+  border: 1px solid orange!important; /* Azul claro */
   padding: 1rem;
   position: relative;
   border-radius: 15px;
-  background-color: #e3f2fd; /* Azul claro */
+  background-color: rgb(238, 156, 3)!important; /* Azul claro */
+  transition: all 0.3s ease !important;
 }
 
 .pre-view:hover {
   cursor: pointer;
   opacity: 0.8;
-  background-color: #bbdefb; /* Azul más oscuro */
+  background-color:orange!important; /* Azul más oscuro */
 }
 
 .pre-view strong {
@@ -175,7 +176,7 @@
 }
 
 .clic {
-  color: #0d47a1; /* Azul oscuro */
+  color: orange; /* Azul oscuro */
   padding-right: 10px;
 }
 
