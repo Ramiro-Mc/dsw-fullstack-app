@@ -8,7 +8,8 @@ function FormularioLecciones({
   setNombreModulo, 
   editandoModulo, 
   onFinalizarModulo, 
-  onCancelar 
+  onCancelar,
+  onEliminarLeccion // ✅ NUEVA PROP
 }) {
   const [leccionesDelModulo, setLeccionesDelModulo] = useState(modulo.lecciones || []);
   const [editandoLeccion, setEditandoLeccion] = useState(null);
@@ -55,9 +56,21 @@ function FormularioLecciones({
     }, 100);
   };
 
-  const handleEliminarLeccion = (leccionId) => {
-    if (window.confirm("¿Está seguro de que desea eliminar esta lección?")) {
-      setLeccionesDelModulo(prev => prev.filter(leccion => leccion.id !== leccionId));
+  // ✅ FUNCIÓN ACTUALIZADA para manejar eliminación
+  const handleEliminarLeccion = async (leccionId) => {
+    const leccion = leccionesDelModulo.find(l => l.id === leccionId);
+    
+    // Si hay función de eliminación personalizada (para EditarCurso)
+    if (onEliminarLeccion) {
+      const puedeEliminar = await onEliminarLeccion(leccionId, leccion?.esExistente);
+      if (puedeEliminar) {
+        setLeccionesDelModulo(prev => prev.filter(leccion => leccion.id !== leccionId));
+      }
+    } else {
+      // Comportamiento original (para CrearCurso)
+      if (window.confirm("¿Está seguro de que desea eliminar esta lección?")) {
+        setLeccionesDelModulo(prev => prev.filter(leccion => leccion.id !== leccionId));
+      }
     }
   };
 
