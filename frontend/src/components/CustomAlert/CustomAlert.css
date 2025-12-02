@@ -1,0 +1,113 @@
+.custom-alert-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.custom-alert-box {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90%;
+  overflow: hidden;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.custom-alert-header {
+  padding: 20px;
+  text-align: center;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.custom-alert-header.success {
+  color: #ffffff !important; 
+}
+
+.custom-alert-header.error {
+  color: #ffffff !important;  
+}
+
+.custom-alert-header.info {
+  color: #ffffff !important;  
+}
+
+.custom-alert-header.success {
+  background: linear-gradient(135deg, #40ff27 0%, #00d10e 100%);
+}
+
+.custom-alert-header.error {
+  background: linear-gradient(135deg, #cf0707 0%, #f5576c 100%);
+}
+
+.custom-alert-header.info {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.custom-alert-body {
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.custom-alert-body p {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.custom-alert-footer {
+  padding: 15px 20px 20px;
+  text-align: center;
+}
+
+.custom-alert-btn {
+  background: linear-gradient(135deg, #ff6600 0%, #ffb81f 100%);
+  color: white;
+  border: none;
+  padding: 12px 40px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.custom-alert-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.custom-alert-btn:active {
+  transform: translateY(0);
+}
