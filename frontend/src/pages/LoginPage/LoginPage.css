@@ -132,6 +132,10 @@ input::placeholder {
   transform: translateY(-3px) scale(1.02);
 }
 
+.form-label {
+  color: #000000 !important;
+}
+
 /* Media queries específicas para LoginPage */
 @media screen and (max-width: 1000px) {
   .loginRegister-box {

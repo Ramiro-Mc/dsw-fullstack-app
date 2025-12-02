@@ -64,8 +64,9 @@
 .boton-camb-cont {
   margin-top: 20px;
   margin-right: 20px;
-  background-color: blueviolet !important;
-  border-color: blue !important;
+  background-color: orange!important;
+  border-color: white !important;
+  transition: all 0.3s ease!important;
 }
 
 .fecha-creacion-cuenta {

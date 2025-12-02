@@ -9,6 +9,7 @@
   padding: 20px;
   text-align: center;
   background-color: #f9f9f9;
+  border: 2px solid orange;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -16,13 +17,13 @@
 .sobre-nosotros-container h1 {
   font-size: 2.5rem;
   margin-bottom: 20px;
-  color: #333;
+  color: black;
 }
 
 .sobre-nosotros-container h2 {
   font-size: 2rem;
   margin-top: 20px;
-  color: #007bff;
+  color: black;
 }
 
 .sobre-nosotros-container p {
