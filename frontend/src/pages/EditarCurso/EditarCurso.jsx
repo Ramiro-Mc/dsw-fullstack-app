@@ -15,8 +15,6 @@ function EditarCursoPage() {
   
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  // Eliminar esta línea ya que no la usamos
-  // const [cursoOriginal, setCursoOriginal] = useState(null);
 
   // Estados del formulario
   const [nombreCurso, setNombreCurso] = useState("");
@@ -37,7 +35,6 @@ function EditarCursoPage() {
   useEffect(() => {
     const cargarDatos = async () => {
       try {
-        // Usar el endpoint de cursoDetalle que ya existe
         const responseCurso = await fetch(`http://localhost:3000/cursoDetalle/${idCurso}`);
         const dataCurso = await responseCurso.json();
 
@@ -54,25 +51,27 @@ function EditarCursoPage() {
           return;
         }
 
-        // Eliminar esta línea también
-        // setCursoOriginal(curso);
         setNombreCurso(curso.titulo);
         setDescripcionCurso(curso.descripcion);
         setPrecioCurso(curso.precio.toString());
         setModuloSeleccionado(curso.idTipo.toString());
 
-        // Convertir módulos al formato esperado
+        // Convertir módulos al formato esperado con marcadores de existencia
         const modulosFormateados = curso.Modulos?.map(modulo => ({
           id: modulo.idModulo,
           nombre: modulo.titulo,
+          esExistente: true, // Marcar como existente en BD
           lecciones: modulo.Lecciones?.map(leccion => ({
+            id: leccion.numeroLec,
             tituloLec: leccion.tituloLec,
             descripcion: leccion.descripcionLec,
+            descripcionLec: leccion.descripcionLec, // Agregar ambos campos
             horas: leccion.horasLec?.toString() || "",
             videoUrl: leccion.videoUrl || "",
             contenidoTexto: leccion.contenidoTexto || "",
             imagenUrl: leccion.imagenUrl || "",
-            archivoUrl: leccion.archivoUrl || ""
+            archivoUrl: leccion.archivoUrl || "",
+            esExistente: true // Marcar como existente en BD
           })) || []
         })) || [];
 
@@ -96,8 +95,129 @@ function EditarCursoPage() {
     }
   }, [idCurso, user]);
 
+  // Función para crear módulo en la BD
+  const crearModuloEnBD = async (nombreModulo) => {
+    try {
+      const response = await fetch("http://localhost:3000/modulos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          titulo: nombreModulo,
+          idCurso: parseInt(idCurso),
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response:", errorText);
+        throw new Error(`Error al crear módulo: ${response.status}`);
+      }
+
+      const resultado = await response.json();
+      return resultado.contenido;
+    } catch (error) {
+      console.error("Error creando módulo:", error);
+      throw error;
+    }
+  };
+
+  // Función para crear lección en la BD
+  const crearLeccionEnBD = async (leccion, idModulo) => {
+    try {
+      const datosLeccion = {
+        tituloLec: leccion.tituloLec,
+        descripcionLec: leccion.descripcionLec || leccion.descripcion || "Sin descripción", 
+        horasLec: leccion.horas ? parseInt(leccion.horas) : 1, 
+        idModulo: idModulo,
+      };
+
+      // Solo agregar URLs si tienen contenido válido
+      if (leccion.videoUrl && leccion.videoUrl.trim()) {
+        datosLeccion.videoUrl = leccion.videoUrl.trim();
+      }
+      
+      if (leccion.contenidoTexto && leccion.contenidoTexto.trim()) {
+        datosLeccion.contenidoTexto = leccion.contenidoTexto.trim();
+      }
+      
+      if (leccion.imagenUrl && leccion.imagenUrl.trim()) {
+        datosLeccion.imagenUrl = leccion.imagenUrl.trim();
+      }
+      
+      if (leccion.archivoUrl && leccion.archivoUrl.trim()) {
+        datosLeccion.archivoUrl = leccion.archivoUrl.trim();
+      }
+
+      const response = await fetch("http://localhost:3000/lecciones", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(datosLeccion),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response:", errorText);
+        throw new Error(`Error al crear lección: ${response.status}`);
+      }
+
+      const resultado = await response.json();
+      return resultado.contenido;
+    } catch (error) {
+      console.error("Error creando lección:", error);
+      throw error;
+    }
+  };
+
+  // Eliminar lección de la BD
+  const eliminarLeccionDeBD = async (numeroLec) => {
+    try {
+      
+      const response = await fetch(`http://localhost:3000/lecciones/${numeroLec}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response:", errorText);
+        throw new Error(`Error al eliminar lección: ${response.status}`);
+      }
+
+      console.log("Lección eliminada de la BD");
+      return true;
+    } catch (error) {
+      console.error("Error eliminando lección:", error);
+      throw error;
+    }
+  };
+
+  // Función para eliminar módulo de la BD
+  const eliminarModuloDeBD = async (idModulo) => {
+    try {
+    
+      const response = await fetch(`http://localhost:3000/modulos/${idModulo}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response:", errorText);
+        throw new Error(`Error al eliminar módulo: ${response.status}`);
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Error eliminando módulo:", error);
+      throw error;
+    }
+  };
+
   const actualizarCursoCompleto = async (datoCurso) => {
     try {
+     
       const response = await fetch(`http://localhost:3000/api/cursos/${idCurso}`, {
         method: "PUT",
         headers: {
@@ -144,7 +264,7 @@ function EditarCursoPage() {
     try {
       await actualizarCursoCompleto(datosActualizados);
       alert("¡Curso actualizado exitosamente!");
-      navigate("/MiPerfil/misCursosCreados"); // Corregir la ruta
+      navigate("/MiPerfil/misCursosCreados");
     } catch (error) {
       console.error("Error al actualizar curso:", error);
       alert("Error al actualizar el curso. Por favor intente nuevamente.");
@@ -161,22 +281,33 @@ function EditarCursoPage() {
     setNombreModulo("");
   };
 
-  const handleGuardarModulo = (nombreModulo) => {
+  const handleGuardarModulo = async (nombreModulo) => {
     if (!nombreModulo.trim()) {
       alert("El nombre del módulo es requerido");
       return;
     }
 
-    const nuevoModulo = {
-      id: Date.now(),
-      nombre: nombreModulo,
-      lecciones: [],
-    };
+    try {
+      // Crear el módulo en la base de datos
+      const moduloCreado = await crearModuloEnBD(nombreModulo);
+      
+      const nuevoModulo = {
+        id: moduloCreado.idModulo,
+        nombre: moduloCreado.titulo,
+        esExistente: true,
+        lecciones: [],
+      };
 
-    setModuloActual(nuevoModulo);
-    setMostrarFormularioModulo(false);
-    setMostrarFormularioLecciones(true);
-    setNombreModulo("");
+      setModuloActual(nuevoModulo);
+      setMostrarFormularioModulo(false);
+      setMostrarFormularioLecciones(true);
+      setNombreModulo("");
+      
+      console.log("Módulo creado en BD:", moduloCreado);
+    } catch (error) {
+      console.error("Error al crear módulo:", error);
+      alert("Error al crear el módulo. Por favor intente nuevamente.");
+    }
   };
 
   const handleEditarModulo = (modulo) => {
@@ -186,31 +317,108 @@ function EditarCursoPage() {
     setMostrarFormularioLecciones(true);
   };
 
-  const handleEliminarModulo = (moduloId) => {
+  const handleEliminarModulo = async (moduloId) => {
     if (window.confirm("¿Está seguro de que desea eliminar este módulo?")) {
+      const modulo = modulosGuardados.find(m => m.id === moduloId);
+      
+      if (modulo?.esExistente) {
+        try {
+          // Eliminar de la BD si existe
+          await eliminarModuloDeBD(moduloId);
+          console.log(" Módulo eliminado de la BD");
+        } catch (error) {
+          console.error("Error eliminando módulo:", error);
+          alert("Error al eliminar el módulo. Por favor intente nuevamente.");
+          return;
+        }
+      }
+      
       setModulosGuardados((prev) =>
         prev.filter((modulo) => modulo.id !== moduloId)
       );
     }
   };
 
-  const handleFinalizarModulo = (moduloCompleto) => {
-    if (editandoModulo) {
-      setModulosGuardados((prev) =>
-        prev.map((modulo) =>
-          modulo.id === editandoModulo.id ? moduloCompleto : modulo
-        )
-      );
-      alert(`Módulo "${moduloCompleto.nombre}" actualizado`);
-      setEditandoModulo(null);
-    } else {
-      setModulosGuardados((prev) => [...prev, moduloCompleto]);
-      alert(`Módulo "${moduloCompleto.nombre}" guardado con ${moduloCompleto.lecciones.length} lección(es)`);
+  //  Manejar eliminación de lecciones
+  const handleEliminarLeccion = async (leccionId, esExistente) => {
+    if (window.confirm("¿Está seguro de que desea eliminar esta lección?")) {
+      if (esExistente) {
+        try {
+          // Eliminar de la BD si existe
+          await eliminarLeccionDeBD(leccionId);
+          console.log("Lección eliminada de la BD");
+        } catch (error) {
+          console.error("Error eliminando lección:", error);
+          alert("Error al eliminar la lección. Por favor intente nuevamente.");
+          return false; // Indicar que falló
+        }
+      }
+      return true; // Indicar que se puede eliminar del estado local
     }
+    return false; // Usuario canceló
+  };
 
-    setMostrarFormularioLecciones(false);
-    setModuloActual(null);
-    setNombreModulo("");
+  const handleFinalizarModulo = async (moduloCompleto) => {
+    try {
+      if (editandoModulo) {
+        // Actualizar módulo existente - solo crear las nuevas lecciones
+        const leccionesNuevas = moduloCompleto.lecciones.filter(leccion => !leccion.esExistente);
+        
+        // Crear las nuevas lecciones en la BD
+        const leccionesCreadas = [];
+        for (const leccion of leccionesNuevas) {
+          const leccionCreada = await crearLeccionEnBD(leccion, moduloCompleto.id);
+          leccionesCreadas.push({
+            ...leccion,
+            id: leccionCreada.numeroLec,
+            esExistente: true
+          });
+        }
+        
+        // Actualizar el estado con todas las lecciones (existentes + nuevas)
+        const leccionesExistentes = moduloCompleto.lecciones.filter(leccion => leccion.esExistente);
+        const todasLasLecciones = [...leccionesExistentes, ...leccionesCreadas];
+        
+        setModulosGuardados((prev) =>
+          prev.map((modulo) =>
+            modulo.id === editandoModulo.id ? {
+              ...moduloCompleto,
+              lecciones: todasLasLecciones
+            } : modulo
+          )
+        );
+        
+        alert(`Módulo "${moduloCompleto.nombre}" actualizado con ${leccionesNuevas.length} nueva(s) lección(es)`);
+        setEditandoModulo(null);
+      } else {
+        // Crear todas las lecciones del nuevo módulo en la BD
+        
+        const leccionesCreadas = [];
+        for (const leccion of moduloCompleto.lecciones) {
+          const leccionCreada = await crearLeccionEnBD(leccion, moduloCompleto.id);
+          leccionesCreadas.push({
+            ...leccion,
+            id: leccionCreada.numeroLec,
+            esExistente: true
+          });
+        }
+        
+        const moduloConLeccionesReales = {
+          ...moduloCompleto,
+          lecciones: leccionesCreadas
+        };
+        
+        setModulosGuardados((prev) => [...prev, moduloConLeccionesReales]);
+        alert(`Módulo "${moduloCompleto.nombre}" guardado con ${moduloCompleto.lecciones.length} lección(es)`);
+      }
+
+      setMostrarFormularioLecciones(false);
+      setModuloActual(null);
+      setNombreModulo("");
+    } catch (error) {
+      console.error("Error al finalizar módulo:", error);
+      alert("Error al guardar las lecciones. Por favor intente nuevamente.");
+    }
   };
 
   const handleCancelarLecciones = () => {
@@ -239,7 +447,7 @@ function EditarCursoPage() {
             <button 
               type="button" 
               className="btn btn-outline-secondary"
-              onClick={() => navigate("/MiPerfil/misCursosCreados")} // Corregir la ruta
+              onClick={() => navigate("/MiPerfil/misCursosCreados")}
             >
               <i className="bi bi-arrow-left me-1"></i>
               Volver
@@ -298,6 +506,7 @@ function EditarCursoPage() {
                 editandoModulo={editandoModulo}
                 onFinalizarModulo={handleFinalizarModulo}
                 onCancelar={handleCancelarLecciones}
+                onEliminarLeccion={handleEliminarLeccion}
               />
             )}
           </form>
