@@ -14,6 +14,7 @@ import MisCursosCreados from "./pages/MisCursosCreados/MisCursosCreados";
 import MisCursosComprados from "./pages/MisCursosComprados/MisCursosComprados";
 import InformacionPersonal from "./pages/InformacionPersonal/InformacionPersonal";
 import CrearCursoPage from "./pages/CrearCurso/CrearCurso";
+import EditarCursoPage from "./pages/EditarCurso/EditarCurso"; 
 import Profesores from "./pages/Profesores/profesores";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import AdminCursos from "./pages/AdminCursos/AdminCursos";
@@ -88,6 +89,14 @@ const router = createBrowserRouter([
       {
         path: "crearCurso",
         element: <CrearCursoPage />,
+      },
+      {
+        path: "editarCurso/:idCurso", 
+        element: (
+          <ProtectedRoute>
+            <EditarCursoPage />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "profesores",

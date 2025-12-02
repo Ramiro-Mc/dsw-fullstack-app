@@ -2,7 +2,7 @@ import React from "react";
 import "../../component-styles/MiPerfil/CursoCardPerfil.css";
 import { Link } from "react-router-dom";
 
-function CursoCardPerfil({  titulo, descripcion, imagen, precio, descuento, editar, agregandoDesc, handleDescuentoChange, handleGuardar, eliminarDesc }) {
+function CursoCardPerfil({ idCurso, titulo, descripcion, imagen, precio, descuento, editar, agregandoDesc, handleDescuentoChange, handleGuardar, eliminarDesc }) {
   return (
     <div className="card mb-3 curso-creado">
       <div className="row g-0 h-100">
@@ -13,6 +13,17 @@ function CursoCardPerfil({  titulo, descripcion, imagen, precio, descuento, edit
           <div className="card-body h-100 d-flex flex-column justify-content-center">
             <h5 className="card-title TituloCurso mb-2">{titulo}</h5>
             <p className="card-text text-muted">{descripcion}</p>
+            
+            {/* Botón de editar curso */}
+            <div className="mt-2">
+              <Link 
+                to={`/editarCurso/${idCurso}`} 
+                className="btn btn-outline-primary btn-sm"
+              >
+                <i className="bi bi-pencil-square me-1"></i>
+                Editar curso
+              </Link>
+            </div>
           </div>
         </div>
         <div className="col-md-2 d-flex flex-column align-items-center justify-content-center sector-precio">
@@ -24,10 +35,6 @@ function CursoCardPerfil({  titulo, descripcion, imagen, precio, descuento, edit
               <p className="precio fw-bold text-success mb-2 fs-4">${(precio - (precio * descuento) / 100).toFixed(0)}</p>
             </div>
           )}
-
-          {/* <Link to={`/editarCurso/${idCurso}`} className="btn btn-outline-warning btn-sm px-3">
-            Editar
-          </Link> */}
 
           <div className="separador">
             <p>Descuento</p>
