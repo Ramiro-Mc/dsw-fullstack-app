@@ -1,4 +1,7 @@
 import { AlumnoCurso } from "../models/AlumnoCurso.js";
+import { AlumnoLeccion } from "../models/AlumnoLeccion.js";
+import { Leccion } from "../models/Leccion.js"; 
+import { Modulo } from "../models/Modulo.js"; 
 import { Curso } from "../models/Curso.js";
 import { Usuario } from "../models/Usuario.js";
 import { TipoCurso } from "../models/TipoCurso.js";
@@ -8,6 +11,57 @@ import Stripe from "stripe";
 const stripe = process.env.STRIPE_SECRET_KEY 
   ? new Stripe(process.env.STRIPE_SECRET_KEY) 
   : null;
+
+// Función auxiliar para crear relaciones AlumnoLeccion
+const crearRelacionesAlumnoLeccion = async (idUsuario, idCurso) => {
+  try {
+    console.log(`📚 Creando relaciones AlumnoLeccion para usuario ${idUsuario} y curso ${idCurso}`);
+    
+    // Obtener todas las lecciones del curso
+    const lecciones = await Leccion.findAll({
+      include: [{
+        model: Modulo,
+        as: "ModuloDeLeccion",
+        where: { idCurso: parseInt(idCurso) }
+      }]
+    });
+
+    console.log(`📚 Encontradas ${lecciones.length} lecciones para el curso ${idCurso}`);
+
+    if (lecciones.length === 0) {
+      console.log('⚠️ No se encontraron lecciones para este curso');
+      return 0;
+    }
+
+    // Crear una relación AlumnoLeccion por cada lección
+    const relacionesCreadas = [];
+    for (const leccion of lecciones) {
+      try {
+        const nuevaRelacion = await AlumnoLeccion.create({
+          idUsuario: parseInt(idUsuario),
+          numeroLec: leccion.numeroLec,
+          completado: false,
+          fechaCompletado: null
+        });
+        relacionesCreadas.push(nuevaRelacion);
+        console.log(`✅ Relación creada: Usuario ${idUsuario} - Lección ${leccion.numeroLec}`);
+      } catch (error) {
+        // Si ya existe la relación, no es un error crítico
+        if (error.name === 'SequelizeUniqueConstraintError') {
+          console.log(`⚠️ Relación ya existe: Usuario ${idUsuario} - Lección ${leccion.numeroLec}`);
+        } else {
+          throw error;
+        }
+      }
+    }
+
+    console.log(`✅ Proceso completado: ${relacionesCreadas.length} relaciones AlumnoLeccion creadas`);
+    return relacionesCreadas.length;
+  } catch (error) {
+    console.error('❌ Error creando relaciones AlumnoLeccion:', error);
+    throw error;
+  }
+};
 
 export const pagoController = {
   
@@ -190,8 +244,8 @@ export const pagoController = {
         const curso = await Curso.findByPk(parseInt(idCurso));
 
         if (curso) {
-          //  AQUÍ SE GUARDA metodoPago: 'stripe'
-          await AlumnoCurso.create({
+          // 1. Crear relación AlumnoCurso
+          const nuevaInscripcion = await AlumnoCurso.create({
             idUsuario: parseInt(idUsuario),
             idCurso: parseInt(idCurso),
             fechaCompra: new Date(),
@@ -201,7 +255,12 @@ export const pagoController = {
             transactionId: session.payment_intent || session.id,
           });
 
-          console.log('✅ Inscripción registrada automáticamente');
+          console.log('✅ Relación AlumnoCurso creada:', nuevaInscripcion.toJSON());
+
+          // 2. Crear relaciones AlumnoLeccion
+          const leccionesCreadas = await crearRelacionesAlumnoLeccion(idUsuario, idCurso);
+
+          console.log(`✅ Inscripción completa registrada - ${leccionesCreadas} lecciones vinculadas`);
         }
       } catch (error) {
         console.error('❌ Error registrando inscripción:', error);
@@ -288,27 +347,33 @@ export const pagoController = {
       // Generar ID de transacción único
       const transactionId = `TRANSFER_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-      //  AQUÍ SE GUARDA metodoPago: 'transferencia'
+      // 1. Crear relación AlumnoCurso
       const nuevaInscripcion = await AlumnoCurso.create({
         idUsuario: parseInt(idUsuario),
         idCurso: parseInt(idCurso),
         fechaCompra: new Date(),
         precioCompra: parseFloat(curso.precio),
-        metodoPago: "transferencia", // ← Método de pago: Transferencia
+        metodoPago: "transferencia",
         estadoPago: "aprobado",
         transactionId: transactionId,
       });
 
-      console.log(' Inscripción por transferencia registrada');
+      console.log('✅ Relación AlumnoCurso creada:', nuevaInscripcion.toJSON());
+
+      // 2. Crear relaciones AlumnoLeccion
+      const leccionesCreadas = await crearRelacionesAlumnoLeccion(idUsuario, idCurso);
+
+      console.log(`✅ Inscripción por transferencia completa - ${leccionesCreadas} lecciones vinculadas`);
 
       res.status(201).json({
         success: true,
         msg: "Inscripción registrada correctamente",
         transactionId: transactionId,
+        leccionesCreadas: leccionesCreadas,
         inscripcion: nuevaInscripcion,
       });
     } catch (error) {
-      console.error(" Error en confirmarTransferencia:", error);
+      console.error("❌ Error en confirmarTransferencia:", error);
       res.status(500).json({
         success: false,
         msg: "Error interno del servidor",
