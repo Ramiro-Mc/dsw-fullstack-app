@@ -10,11 +10,16 @@ export const usuarioController = {
   try {
     const where = {};
 
+    // Filtrar por tipo de usuario si se proporciona
     if (req.query.tipoUsuario) {
       where.tipoUsuario = req.query.tipoUsuario;
     }
 
-    // Si el frontend pide includeCursos, incluye los cursos creados por el usuario
+    // Por defecto solo mostrar usuarios activos, a menos que se pida mostrar todos
+    if (req.query.includeInactivos !== "true") {
+      where.activo = true;
+    }
+
     const include = [];
     if (req.query.includeCursos === "true") {
       include.push({
@@ -24,12 +29,12 @@ export const usuarioController = {
     }
 
     const allUsuarios = await Usuario.findAll({
-  where,
-  include: [{
-    model: Curso,
-    as: "CursosCreados" 
-  }]
-});
+      where,
+      include: [{
+        model: Curso,
+        as: "CursosCreados" 
+      }]
+    });
 
     if (allUsuarios.length === 0) {
       return res.status(404).json({
@@ -55,11 +60,18 @@ export const usuarioController = {
   }
 },
 
-  createUsuario: async (req, res) => {
+ createUsuario: async (req, res) => {
     try {
       const { nombreUsuario, email, contrasena, tipoUsuario, nombreReferido, fotoDePerfil, banco, cvu, alias } = req.body;
       const hashedPassword = await bcrypt.hash(contrasena, 10);
-      const newUsuario = await Usuario.create({ nombreUsuario, email, contrasena: hashedPassword, tipoUsuario, fotoDePerfil });
+      const newUsuario = await Usuario.create({ 
+        nombreUsuario, 
+        email, 
+        contrasena: hashedPassword, 
+        tipoUsuario, 
+        fotoDePerfil,
+        activo: true 
+      });
 
       res.status(201).json({
         success: true,
@@ -71,7 +83,7 @@ export const usuarioController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development"
           ? error.message 
           : "Error interno del servidor",
       });
@@ -141,7 +153,7 @@ export const usuarioController = {
     }
   },
 
-  deleteUsuario: async (req, res) => {
+   deleteUsuario: async (req, res) => {
     try {
       const { idUsuario } = req.params;
 
@@ -162,12 +174,20 @@ export const usuarioController = {
         });
       }
 
-      // Eliminar físicamente el usuario
-      await Usuario.destroy({ where: { idUsuario: idUsuario } });
+      // Verificar si ya está inactivo
+      if (!usuario.activo) {
+        return res.status(400).json({
+          success: false,
+          msg: "El usuario ya está inactivo",
+        });
+      }
+
+      // Baja lógica: cambiar activo a false
+      await Usuario.update({ activo: false }, { where: { idUsuario } });
 
       res.status(200).json({
         success: true,
-        msg: "Usuario eliminado correctamente",
+        msg: "Usuario desactivado correctamente",
       });
 
     } catch (error) {
@@ -180,6 +200,44 @@ export const usuarioController = {
       });
     }
   },
+
+ reactivateUsuario: async (req, res) => {
+    try {
+      const { idUsuario } = req.params;
+
+      const usuario = await Usuario.findByPk(idUsuario);
+      if (!usuario) {
+        return res.status(404).json({
+          success: false,
+          msg: "Usuario no encontrado",
+        });
+      }
+
+      if (usuario.activo) {
+        return res.status(400).json({
+          success: false,
+          msg: "El usuario ya está activo",
+        });
+      }
+
+      await Usuario.update({ activo: true }, { where: { idUsuario } });
+
+      res.status(200).json({
+        success: true,
+        msg: "Usuario reactivado correctamente",
+      });
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        msg: process.env.NODE_ENV === "development" 
+          ? error.message 
+          : "Error interno del servidor",
+      });
+    }
+  },
+
 
   //Foto de perfil con cloudinary
 
@@ -211,38 +269,6 @@ export const usuarioController = {
     }
   },
 
-  //Para conectar el frontend con el backend
-  // loginUsuario: async (req, res) => {
-  //   try {
-  //     const { email, contrasena } = req.body;
-  //     const usuario = await Usuario.findOne({ where: { email } });
 
-  //     if (!usuario || usuario.contrasena !== contrasena) {
-  //       return res.status(401).json({
-  //         success: false,
-  //         msg: "Credenciales inválidas",
-  //       });
-  //     }
-
-  //     // Generar un token JWT al iniciar sesión
-  //     const token = jwt.sign({ id: usuario.idUsuario }, process.env.JWT_SECRET, {
-  //       expiresIn: "7d",
-  //     });
-  //     res.status(200).json({
-  //       success: true,
-  //       msg: "Login exitoso",
-  //       usuario: usuario,
-  //       token: token,
-  //     });
-
-  //   } catch (error) {
-  //     console.error(error);
-  //     res.status(500).json({
-  //       success: false,
-  //       msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
-  //         ? error.message 
-  //         : "Error interno del servidor",
-  //     });
-  //   }
-  // }
+  
 };

@@ -13,6 +13,13 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Estilo para usuarios inactivos */
+.usuario-card.usuario-inactivo {
+  opacity: 0.7;
+  border-left: 4px solid #dc3545;
+  background-color: #f8f9fa;
+}
+
 /* Header de la tarjeta */
 .card-header {
   padding: 20px;
@@ -33,6 +40,21 @@
   font-weight: 600;
   margin: 0 0 5px 0;
   line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Badge de inactivo */
+.badge-inactivo {
+  background-color: #dc3545;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
 .usuario-email {
@@ -118,6 +140,17 @@
   font-weight: 600;
 }
 
+/* Estados activo/inactivo */
+.value.estado-activo {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.value.estado-inactivo {
+  color: #dc3545;
+  font-weight: bold;
+}
+
 /* Acciones de la tarjeta */
 .card-actions {
   padding: 20px;
@@ -127,7 +160,7 @@
   gap: 10px;
 }
 
-/* Botón eliminar */
+/* Botón eliminar/desactivar */
 .btn-eliminar {
   width: 100%;
   padding: 12px 15px;
@@ -161,6 +194,30 @@
   opacity: 0.6;
 }
 
+/* Botón reactivar */
+.btn-reactivar {
+  width: 100%;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-reactivar:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .card-header {
@@ -179,7 +236,8 @@
     gap: 10px;
   }
   
-  .btn-eliminar {
+  .btn-eliminar,
+  .btn-reactivar {
     width: 100%;
   }
 }
