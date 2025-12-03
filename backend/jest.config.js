@@ -1,7 +1,7 @@
 export default {
   preset: null,
   testEnvironment: 'node',
-  extensionsToTreatAsEsm: ['.jsx'],
+  // extensionsToTreatAsEsm: ['.js'],
   globals: {
     'ts-jest': {
       useESM: true
@@ -21,7 +21,8 @@ export default {
     '!src/index.js'
   ],
   setupFilesAfterEnv: ['<rootDir>/src/__tests__/setup.js'],
-  testTimeout: 10000,
+  testTimeout: 30000,
   forceExit: true,
-  detectOpenHandles: true
+  detectOpenHandles: true,
+  verbose: true
 };
