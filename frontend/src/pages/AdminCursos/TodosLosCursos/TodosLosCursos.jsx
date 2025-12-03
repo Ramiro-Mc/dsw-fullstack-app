@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import AdmCursoCard from '../../../components/AdmCursoCard/AdmCursoCard';
-import './TodosLosCursos.css';
+import React, { useState, useEffect } from "react";
+import AdmCursoCard from "../../../components/AdmCursoCard/AdmCursoCard";
+import CustomAlert from "../../../components/CustomAlert/CustomAlert";
+import "./TodosLosCursos.css";
 
 const TodosLosCursos = () => {
   const [cursos, setCursos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [alert, setAlert] = useState(null);
 
- 
   useEffect(() => {
     fetchCursos();
   }, []);
@@ -15,51 +16,66 @@ const TodosLosCursos = () => {
   const fetchCursos = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/cursos');
+      const response = await fetch("/api/cursos");
       const data = await response.json();
-      
+
       if (data.success) {
         setCursos(data.contenido);
       } else {
-        setError('Error al cargar los cursos');
+        setError("Error al cargar los cursos");
       }
     } catch (err) {
-      console.error('Error:', err);
-      setError('Error de conexión');
+      console.error("Error:", err);
+      setError("Error de conexión");
     } finally {
       setLoading(false);
     }
   };
 
- 
   const handleEliminarCurso = async (idCurso, titulo) => {
-    if (!window.confirm(`¿Estás seguro de eliminar el curso "${titulo}"?`)) {
-      return;
-    }
+    setAlert({
+      message: `¿Estás seguro de eliminar el curso "${titulo}"?`,
+      type: "info",
+      onClose: async () => {
+        setAlert(null);
+        try {
+          const response = await fetch(
+            `/api/admin/cursos/${idCurso}/rechazar`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
 
-    try {
-      const response = await fetch(`/api/admin/cursos/${idCurso}/rechazar`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+          const data = await response.json();
 
-      const data = await response.json();
-
-      if (data.success) {
-     
-        setCursos(cursos.filter(curso => curso.idCurso !== idCurso));
-        alert('Curso eliminado correctamente');
-      } else {
-        alert('Error al eliminar el curso');
-      }
-    } catch (err) {
-      console.error('Error:', err);
-      alert('Error de conexión al eliminar');
-    }
+          if (data.success) {
+            setCursos(cursos.filter((curso) => curso.idCurso !== idCurso));
+            setAlert({
+              message: "Curso eliminado correctamente",
+              type: "success",
+              onClose: () => setAlert(null),
+            });
+          } else {
+            setAlert({
+              message: "Error al eliminar el curso",
+              type: "error",
+              onClose: () => setAlert(null),
+            });
+          }
+        } catch (err) {
+          console.error("Error:", err);
+          setAlert({
+            message: "Error de conexión al eliminar",
+            type: "error",
+            onClose: () => setAlert(null),
+          });
+        }
+      },
+    });
   };
-
 
   if (loading) {
     return (
@@ -111,17 +127,31 @@ const TodosLosCursos = () => {
                 variant="admin"
                 actions={[
                   {
-                    label: curso.estado === 'rechazado' ? 'Ya eliminado' : 'Eliminar',
-                    className: 'btn-eliminar',
-                    onClick: () => handleEliminarCurso(curso.idCurso, curso.titulo),
-                    disabled: curso.estado === 'rechazado'
-                  }
+                    label:
+                      curso.estado === "rechazado"
+                        ? "Ya eliminado"
+                        : "Eliminar",
+                    className: "btn-eliminar",
+                    onClick: () =>
+                      handleEliminarCurso(curso.idCurso, curso.titulo),
+                    disabled: curso.estado === "rechazado",
+                  },
                 ]}
               />
             ))}
           </div>
         )}
       </div>
+      {alert && (
+        <CustomAlert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => {
+            setAlert(null);
+            if (alert.onClose) alert.onClose();
+          }}
+        />
+      )}
     </div>
   );
 };

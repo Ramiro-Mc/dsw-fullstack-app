@@ -176,7 +176,7 @@
 }
 
 .clic {
-  color: orange; /* Azul oscuro */
+  color: orange;
   padding-right: 10px;
 }
 
@@ -185,8 +185,8 @@
   text-align: justify;
   width: 95%;
   height: auto;
-  background-color: #f1f8ff; /* Fondo gris azulado */
+  background-color: #f1f8ff; 
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid #90caf9; /* Azul claro para el borde */
+  border: 1px solid orange!important;  
 }
