@@ -19,6 +19,7 @@ import nuevosCursosRoutes from "./routes/nuevosCursos.routes.js";
 import alumnoLeccionRoutes from "./routes/alumnoLeccion.routes.js";
 import alumnoCursoRoutes from "./routes/alumnos_cursos.routes.js"; 
 import routerPagos from "./routes/pagos.routes.js";
+import { pagoController } from "./controllers/pagos.controller.js";
 
 // Importar modelos con asociaciones
 import db from "./models/allModels.js";
@@ -41,19 +42,11 @@ app.use(
   })
 );
 
-// ⚠️ IMPORTANTE: Webhook de Stripe DEBE ir ANTES de express.json()
+
 app.post(
-  "/api/pagos/webhook",
+  "/pagos/webhook",
   express.raw({ type: "application/json" }),
-  async (req, res) => {
-    try {
-      const { pagoController } = await import("./controllers/pagos.controller.js");
-      await pagoController.webhook(req, res);
-    } catch (error) {
-      console.error("Error en webhook:", error);
-      res.status(500).send("Webhook error");
-    }
-  }
+  pagoController.webhook
 );
 
 // Middlewares (DESPUÉS del webhook)
