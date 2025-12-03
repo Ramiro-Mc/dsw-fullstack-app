@@ -232,3 +232,113 @@ main {
     padding: 0.25rem 0.5rem;
   }
 }
+
+/* ============================================
+   FILTRO DE PRECIO
+   ============================================ */
+
+.filtro-precio-card {
+  background: #f3f3f3;
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  margin-bottom: 1.5rem;
+  min-width: 220px;
+  max-width: 320px;
+}
+
+.filtro-precio-card h5 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.filtro-precio-card input[type="number"] {
+  font-size: 1rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-right: 0.2rem;
+}
+
+.filtro-precio-card .btn {
+  font-size: 1.2rem;
+  background: #e2e2e2;
+  border: none;
+  color: #444;
+}
+
+.filtro-precio-card .btn:hover {
+  background: #d1d1d1;
+}
+
+.filtro-precio-card .btn-link {
+  color: #888;
+  text-decoration: underline;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+  padding: 0;
+}
+
+.filtro-precio-card-inline .btn-link {
+  color: #ffaa00 !important;
+  text-decoration: underline;
+  font-size: 0.95rem;
+  margin-top: 0.5rem;
+  padding: 0;
+}
+
+/* Nuevo layout para título y filtro en la misma fila */
+.seccion-titulo-filtro {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+  width: 100%;
+  position: relative;
+}
+
+.titulo-cursos {
+  flex: 1 1 0;
+  text-align: center;
+  min-width: 300px;
+}
+
+.filtro-precio-card-inline {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+/* Botón de aplicar filtro (lupa) */
+.filtro-precio-card-inline .btn-filtrar {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e2e2e2;
+  border: none;
+  color: #ffaa00;
+  transition: background 0.2s;
+  font-size: 1.5rem;
+  padding: 0;
+}
+
+.filtro-precio-card-inline .btn-filtrar:hover {
+  background: #d1d1d1;
+}
+
+/* SVG lupa dentro del botón */
+.filtro-precio-card-inline .btn-filtrar svg {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+/* Inputs de precio */
+.filtro-precio-card-inline input[type="number"] {
+  max-width: 100px;
+}
