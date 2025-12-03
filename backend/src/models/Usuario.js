@@ -13,7 +13,7 @@ export const Usuario = sequelize.define("Usuario", {
   // Datos de banco
   nombreReferido: { type: DataTypes.STRING, allowNull: true }, 
   banco: { type: DataTypes.STRING, allowNull: true }, 
-  cvu: { type: DataTypes.INTEGER, allowNull: true }, 
+  cvu: { type: DataTypes.STRING, allowNull: true }, 
   alias: { type: DataTypes.STRING, allowNull: true }, 
 
   // Datos de profesor

@@ -101,10 +101,11 @@ export const usuarioController = {
       if (email) {camposAActualizar.email = email;}
       if (contrasena) {camposAActualizar.contrasena = contrasena;}
       if (fotoDePerfil) {camposAActualizar.fotoDePerfil = fotoDePerfil;}
-      if (nombreReferido) camposAActualizar.nombreReferido = nombreReferido;
-      if (banco) camposAActualizar.banco = banco;
-      if (cvu) camposAActualizar.cvu = cvu;
-      if (alias) camposAActualizar.alias = alias;
+// Encriptar datos bancarios
+      if (nombreReferido) camposAActualizar.nombreReferido = encrypt(nombreReferido);
+      if (banco) camposAActualizar.banco = encrypt(banco);
+      if (cvu) camposAActualizar.cvu = encrypt(cvu);
+      if (alias) camposAActualizar.alias = encrypt(alias);
       if (descripcion) camposAActualizar.descripcion = descripcion;
       if (fraseDescriptiva) camposAActualizar.fraseDescriptiva = fraseDescriptiva;
       if (educacion) camposAActualizar.educacion = educacion;
@@ -130,23 +131,39 @@ export const usuarioController = {
     }
   },
 
-  getUsuarioById: async (req, res) => {
+ getUsuarioById: async (req, res) => {
     try {
       const { idUsuario } = req.params;
 
       const usuario = await Usuario.findByPk(idUsuario);
 
+      if (!usuario) {
+        return res.status(404).json({
+          success: false,
+          msg: "Usuario no encontrado",
+        });
+      }
+
+      // Desencriptar datos bancarios antes de enviar
+      const usuarioDesencriptado = {
+        ...usuario.toJSON(),
+        nombreReferido: usuario.nombreReferido ? decrypt(usuario.nombreReferido) : null,
+        banco: usuario.banco ? decrypt(usuario.banco) : null,
+        cvu: usuario.cvu ? decrypt(usuario.cvu) : null,
+        alias: usuario.alias ? decrypt(usuario.alias) : null,
+      };
+
       res.status(200).json({
         success: true,
         msg: "usuario encontrado",
-        informacion: usuario,
+        informacion: usuarioDesencriptado,
       });
 
     } catch (error) {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development"
           ? error.message 
           : "Error interno del servidor",
       });
