@@ -33,9 +33,9 @@ export const publicacionController = {
   createPublicacion: async (req, res) => {
     try {
 
-      const {titulo, contenido, comentarios, fechaPublicacion } = req.body;
+      const {titulo, contenido, fechaPublicacion } = req.body;
 
-      const newPublicacion = await Publicacion.create({titulo, contenido, comentarios, fechaPublicacion});
+      const newPublicacion = await Publicacion.create({titulo, contenido, fechaPublicacion});
 
       res.status(201).json({
         success: true,
@@ -57,14 +57,13 @@ export const publicacionController = {
   updatePublicacion: async (req, res) => {
     try {
       const { idPublicacion } = req.params;
-      const { titulo, contenido, comentarios, fechaPublicacion } = req.body;
+      const { titulo, contenido, fechaPublicacion } = req.body;
 
 
       const camposAActualizar = {};
 
       if (titulo) {camposAActualizar.titulo = titulo;}
       if (contenido) {camposAActualizar.contenido = contenido;}
-      if (comentarios) {camposAActualizar.comentarios = comentarios;}
       if (fechaPublicacion) {camposAActualizar.fechaPublicacion = fechaPublicacion;}
 
       await Publicacion.update(camposAActualizar, { where: { idPublicacion } });

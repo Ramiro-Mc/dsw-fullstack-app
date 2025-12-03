@@ -6,7 +6,6 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import cors from "cors";
 import tipoCursoRoutes from "./routes/tipoCurso.routes.js";
 import cursosRoutes from "./routes/cursos.routes.js";
-import descuentosRoutes from "./routes/descuento.routes.js";
 import usuarioRoutes from "./routes/usuario.routes.js";
 import comunidadRoutes from "./routes/comunidad.routes.js";
 import publicacionRoutes from "./routes/publicacion.routes.js";
@@ -63,7 +62,6 @@ app.use("/", loginRoutes);
 // Otras rutas (sin /api)
 app.use(tipoCursoRoutes);
 app.use(comunidadRoutes);
-app.use(descuentosRoutes);
 app.use(usuarioRoutes);
 app.use(publicacionRoutes);
 app.use(cursoDetalleRoutes);
