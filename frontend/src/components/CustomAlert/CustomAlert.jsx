@@ -8,7 +8,7 @@ const CustomAlert = ({ message, type = "info", onClose }) => {
         <div className={`custom-alert-header ${type}`}>
           {type === "success" && "✓"}
           {type === "error" && "✕"}
-          {type === "info" && "ℹ"}
+          {type === "info" && "i"}
         </div>
         <div className="custom-alert-body">
           <p>{message}</p>

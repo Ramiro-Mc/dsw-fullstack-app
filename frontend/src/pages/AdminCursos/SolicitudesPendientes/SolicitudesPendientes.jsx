@@ -8,6 +8,9 @@ const SolicitudesPendientes = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [alert, setAlert] = useState(null);
+  const [motivoRechazo, setMotivoRechazo] = useState("");
+  const [mostrarInputMotivo, setMostrarInputMotivo] = useState(false);
+  const [cursoParaRechazar, setCursoParaRechazar] = useState(null);
 
   useEffect(() => {
     fetchSolicitudes();
@@ -77,11 +80,14 @@ const SolicitudesPendientes = () => {
   };
 
   const handleRechazarCurso = async (idCurso, titulo) => {
-    const motivo = window.prompt(
-      `¿Por qué rechazar "${titulo}"?\n(Opcional - motivo del rechazo):`
-    );
+    setCursoParaRechazar({ idCurso, titulo });
+    setMostrarInputMotivo(true);
+  };
 
-    if (motivo === null) return;
+  const confirmarRechazo = async () => {
+    if (!cursoParaRechazar) return;
+
+    const { idCurso, titulo } = cursoParaRechazar;
 
     try {
       const response = await fetch(`/api/admin/cursos/${idCurso}/rechazar`, {
@@ -89,7 +95,9 @@ const SolicitudesPendientes = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ motivo: motivo || "Sin motivo especificado" }),
+        body: JSON.stringify({
+          motivo: motivoRechazo || "Sin motivo especificado",
+        }),
       });
 
       const data = await response.json();
@@ -117,6 +125,10 @@ const SolicitudesPendientes = () => {
         type: "error",
         onClose: () => setAlert(null),
       });
+    } finally {
+      setMostrarInputMotivo(false);
+      setMotivoRechazo("");
+      setCursoParaRechazar(null);
     }
   };
 
@@ -203,6 +215,50 @@ const SolicitudesPendientes = () => {
             if (alert.onClose) alert.onClose();
           }}
         />
+      )}
+      {mostrarInputMotivo && (
+        <div
+          className="custom-alert-overlay"
+          onClick={() => setMostrarInputMotivo(false)}
+        >
+          <div
+            className="custom-alert-box"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="custom-alert-header info">!</div>
+            <div className="custom-alert-body">
+              <p>¿Por qué rechazar "{cursoParaRechazar?.titulo}"?</p>
+              <textarea
+                value={motivoRechazo}
+                onChange={(e) => setMotivoRechazo(e.target.value)}
+                placeholder="Motivo del rechazo (opcional)"
+                style={{
+                  width: "100%",
+                  minHeight: "80px",
+                  padding: "10px",
+                  marginTop: "10px",
+                  borderRadius: "5px",
+                  border: "1px solid #ccc",
+                  fontFamily: "inherit",
+                  fontSize: "14px",
+                  resize: "vertical",
+                }}
+              />
+            </div>
+            <div className="custom-alert-footer">
+              <button
+                className="custom-alert-btn"
+                onClick={() => setMostrarInputMotivo(false)}
+                style={{ marginRight: "10px", background: "#6c757d" }}
+              >
+                Cancelar
+              </button>
+              <button className="custom-alert-btn" onClick={confirmarRechazo}>
+                Rechazar
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
