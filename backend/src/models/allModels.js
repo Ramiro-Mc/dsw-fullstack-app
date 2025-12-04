@@ -10,6 +10,7 @@ import { Usuario } from "./Usuario.js";
 import { Modulo } from "./Modulo.js";
 import { AlumnoCurso } from "./AlumnoCurso.js";
 import { AlumnoLeccion } from "./AlumnoLeccion.js";
+import { Publicacion } from "./Publicacion.js";
 
 // Relaciones
 
@@ -71,17 +72,29 @@ Comunidad.belongsTo(Curso, {
   as: "CursoDeComunidad",
 });
 
-// Relación Curso -> Descuento
-// Curso.belongsToMany(Descuento, {
-//   through: "CursoDescuento",
-//   foreignKey: "idCurso",
-//   as: "DescuentosDelCurso",
-// });
-// Descuento.belongsToMany(Curso, {
-//   through: "CursoDescuento",
-//   foreignKey: "idDescuento",
-//   as: "CursosConDescuento",
-// });
+// Relación Comunidad -> Publicacion
+Comunidad.hasMany(Publicacion, {
+  foreignKey: "idComunidad",
+  sourceKey: "idComunidad",
+  as: "PublicacionesDeComunidad",
+});
+Publicacion.belongsTo(Comunidad, {
+  foreignKey: "idComunidad",
+  targetKey: "idComunidad",
+  as: "ComunidadDePublicacion",
+});
+
+// Relación Usuario -> Publicacion
+Usuario.hasMany(Publicacion, {
+  foreignKey: "idUsuario",
+  sourceKey: "idUsuario",
+  as: "PublicacionesDelUsuario",
+});
+Publicacion.belongsTo(Usuario, {
+  foreignKey: "idUsuario",
+  targetKey: "idUsuario",
+  as: "UsuarioDePublicacion",
+});
 
 Usuario.belongsToMany(Leccion, {
   through: AlumnoLeccion,
@@ -130,8 +143,9 @@ const db = {
   Modulo,
   AlumnoCurso,
   AlumnoLeccion,
+  Publicacion
 };
 
 export default db;
 
-export { sequelize, Sequelize, TipoCurso, Comunidad, Curso, Leccion, Usuario, Modulo, AlumnoCurso, AlumnoLeccion };
+export { sequelize, Sequelize, TipoCurso, Comunidad, Curso, Leccion, Usuario, Modulo, AlumnoCurso, AlumnoLeccion, Publicacion };
