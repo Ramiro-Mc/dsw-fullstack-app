@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { cursoDetalleController } from '../controllers/cursoDetalle.controller.js';
+import { completarLeccion } from '../controllers/alumnoLeccion.controller.js';
 import cursoDetalleValidators from '../validators/cursoDetalle.js';
 
 const routercursoDetalle = Router();
@@ -12,8 +13,7 @@ routercursoDetalle.get('/cursoDetalle/:idCurso',
 
 // Completar/descompletar una lección
 routercursoDetalle.put('/lecciones/:numeroLec/completar', 
-  cursoDetalleValidators.validateCompletarLeccion,
-  cursoDetalleController.completarLeccion
+  completarLeccion 
 );
 
 // Obtener lecciones de un módulo específico

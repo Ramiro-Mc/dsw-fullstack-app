@@ -2,6 +2,7 @@ import { Curso } from '../models/Curso.js';
 import { Modulo } from '../models/Modulo.js';
 import { Leccion } from '../models/Leccion.js';
 import { TipoCurso } from '../models/TipoCurso.js';
+import { Comunidad } from '../models/Comunidad.js'; // ✅ AGREGAR: Import de Comunidad
 import { sequelize } from '../database/sequelize.js';
 
 // Obtener todos los tipos de curso
@@ -14,6 +15,22 @@ export const obtenerTiposCurso = async (req, res) => {
   }
 };
 
+// Crear comunidad para un curso
+const crearComunidadDelCurso = async (curso) => {
+  try {
+    const comunidad = await Comunidad.create({
+      titulo: `Comunidad de ${curso.titulo}`, 
+      idCurso: curso.idCurso
+    });
+    
+    console.log(`✅ Comunidad creada para curso "${curso.titulo}": ${comunidad.titulo}`);
+    return comunidad;
+  } catch (error) {
+    console.error(`⚠️ Error al crear comunidad para curso "${curso.titulo}":`, error.message);
+    // permitir que el curso se cree sin comunidad
+    return null;
+  }
+};
 
 // Crear curso completo con módulos y lecciones
 export const crearCursoCompleto = async (req, res) => {
@@ -49,6 +66,8 @@ export const crearCursoCompleto = async (req, res) => {
       idProfesor
     }, { transaction });
 
+  
+
     // Crear los módulos y sus lecciones
     for (const moduloData of modulos) {
       const nuevoModulo = await Modulo.create({
@@ -75,25 +94,56 @@ export const crearCursoCompleto = async (req, res) => {
       }
     }
 
+    // COMMIT de la transacción principal ANTES de crear la comunidad
     await transaction.commit();
+
+    // CREAR COMUNIDAD DESPUÉS del commit (fuera de la transacción)
+    // Si falla, no afecta la creación del curso
+    let comunidadCreada = null;
+    try {
+      comunidadCreada = await crearComunidadDelCurso(nuevoCurso);
+    } catch (comunidadError) {
+      console.error('Error al crear comunidad, pero curso fue creado exitosamente:', comunidadError.message);
+    }
 
     // Obtener el curso completo creado
     const cursoCompleto = await Curso.findByPk(nuevoCurso.idCurso, {
       include: [
         {
-          model: Modulo, as: "Modulos",
+          model: Modulo, 
+          as: "Modulos",
           include: [ { model: Leccion, as: "Lecciones" } ]
         },
         {
-          model: TipoCurso, as: "TipoCurso"
+          model: TipoCurso, 
+          as: "TipoCurso"
+        },
+        {
+          model: Comunidad, // INCLUIR la comunidad si existe
+          as: "ComunidadDelCurso"
         }
       ]
     });
 
-    res.status(201).json(cursoCompleto);
+    // RESPUESTA con información de comunidad
+    const response = {
+      ...cursoCompleto.toJSON(),
+      comunidadInfo: {
+        creada: comunidadCreada !== null,
+        titulo: comunidadCreada ? comunidadCreada.titulo : null,
+        mensaje: comunidadCreada 
+          ? "Comunidad creada exitosamente" 
+          : "Curso creado, pero no se pudo crear la comunidad"
+      }
+    };
+
+    res.status(201).json(response);
 
   } catch (error) {
-    await transaction.rollback();
+    // Solo hacer rollback si la transacción no fue commiteada
+    if (!transaction.finished) {
+      await transaction.rollback();
+    }
     console.error('Error al crear curso:', error);
     res.status(500).json({ error: error.message });
   }
