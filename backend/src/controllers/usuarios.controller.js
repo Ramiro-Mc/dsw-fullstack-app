@@ -3,6 +3,7 @@ import { Op } from "sequelize";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { Curso } from "../models/Curso.js";
+import { encrypt, decrypt } from "../helpers/encrypt.js";
 
 export const usuarioController = {
 
