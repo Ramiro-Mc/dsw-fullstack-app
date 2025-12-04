@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import "./UsuariosPage.css";
+import CustomAlert from "../../components/CustomAlert/CustomAlert";
 
 function UsuariosPage() {
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [modal, setModal] = useState(null); // {idUsuario, nombreUsuario, email, contrasena} o null
+  const [modal, setModal] = useState(null);
+  const [alert, setAlert] = useState(null); // {idUsuario, nombreUsuario, email, contrasena} o null
 
   // Cargar usuarios al montar
   useEffect(() => {
     fetch("http://localhost:3000/usuarios")
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         if (data.success) setUsuarios(data.contenido);
         setLoading(false);
       });
@@ -18,18 +20,31 @@ function UsuariosPage() {
 
   // Eliminar usuario
   const eliminarUsuario = async (idUsuario) => {
-    if (window.confirm("¿Seguro que quieres eliminar este usuario?")) {
-      const res = await fetch(`http://localhost:3000/usuarios/${idUsuario}`, {
-        method: "DELETE"
-      });
-      const data = await res.json();
-      if (data.success) {
-        alert("Usuario eliminado");
-        setUsuarios(usuarios.filter(u => u.idUsuario !== idUsuario));
-      } else {
-        alert(data.msg);
-      }
-    }
+    setAlert({
+      message: "¿Seguro que quieres eliminar este usuario?",
+      type: "info",
+      onClose: async () => {
+        setAlert(null);
+        const res = await fetch(`http://localhost:3000/usuarios/${idUsuario}`, {
+          method: "DELETE",
+        });
+        const data = await res.json();
+        if (data.success) {
+          setAlert({
+            message: "Usuario eliminado",
+            type: "success",
+            onClose: () => setAlert(null),
+          });
+          setUsuarios(usuarios.filter((u) => u.idUsuario !== idUsuario));
+        } else {
+          setAlert({
+            message: data.msg,
+            type: "error",
+            onClose: () => setAlert(null),
+          });
+        }
+      },
+    });
   };
 
   // Abrir modal de edición
@@ -41,10 +56,14 @@ function UsuariosPage() {
         idUsuario: data.informacion.idUsuario,
         nombreUsuario: data.informacion.nombreUsuario,
         email: data.informacion.email,
-        contrasena: data.informacion.contrasena
+        contrasena: data.informacion.contrasena,
       });
     } else {
-      alert("No se pudo cargar el usuario");
+      setAlert({
+        message: "No se pudo cargar el usuario",
+        type: "error",
+        onClose: () => setAlert(null),
+      });
     }
   };
 
@@ -59,13 +78,25 @@ function UsuariosPage() {
     });
     const data = await res.json();
     if (data.success) {
-      alert("Usuario actualizado");
-      setUsuarios(usuarios.map(u =>
-        u.idUsuario === idUsuario ? { ...u, nombreUsuario, email, contrasena } : u
-      ));
+      setAlert({
+        message: "Usuario actualizado",
+        type: "success",
+        onClose: () => setAlert(null),
+      });
+      setUsuarios(
+        usuarios.map((u) =>
+          u.idUsuario === idUsuario
+            ? { ...u, nombreUsuario, email, contrasena }
+            : u
+        )
+      );
       setModal(null);
     } else {
-      alert(data.msg);
+      setAlert({
+        message: data.msg,
+        type: "error",
+        onClose: () => setAlert(null),
+      });
     }
   };
 
@@ -77,8 +108,11 @@ function UsuariosPage() {
       ) : usuarios.length === 0 ? (
         <p>No se pudieron cargar los usuarios.</p>
       ) : (
-        usuarios.map(usuario => (
-          <div className="usuario-item mb-2 p-2 border rounded" key={usuario.idUsuario}>
+        usuarios.map((usuario) => (
+          <div
+            className="usuario-item mb-2 p-2 border rounded"
+            key={usuario.idUsuario}
+          >
             <strong>{usuario.nombreUsuario}</strong> ({usuario.email})
             <button
               className="btn btn-sm btn-warning mx-2"
@@ -100,11 +134,26 @@ function UsuariosPage() {
       {modal && (
         <div
           style={{
-            position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh",
-            background: "rgba(0,0,0,0.5)", display: "flex", justifyContent: "center", alignItems: "center", zIndex: 9999
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            background: "rgba(0,0,0,0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 9999,
           }}
         >
-          <div style={{ background: "#fff", padding: 20, borderRadius: 8, minWidth: 300 }}>
+          <div
+            style={{
+              background: "#fff",
+              padding: 20,
+              borderRadius: 8,
+              minWidth: 300,
+            }}
+          >
             <h2>Editar Usuario</h2>
             <form onSubmit={handleModalSubmit}>
               <div className="mb-2">
@@ -113,7 +162,9 @@ function UsuariosPage() {
                   type="text"
                   className="form-control"
                   value={modal.nombreUsuario}
-                  onChange={e => setModal({ ...modal, nombreUsuario: e.target.value })}
+                  onChange={(e) =>
+                    setModal({ ...modal, nombreUsuario: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -123,7 +174,9 @@ function UsuariosPage() {
                   type="email"
                   className="form-control"
                   value={modal.email}
-                  onChange={e => setModal({ ...modal, email: e.target.value })}
+                  onChange={(e) =>
+                    setModal({ ...modal, email: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -133,15 +186,35 @@ function UsuariosPage() {
                   type="password"
                   className="form-control"
                   value={modal.contrasena}
-                  onChange={e => setModal({ ...modal, contrasena: e.target.value })}
+                  onChange={(e) =>
+                    setModal({ ...modal, contrasena: e.target.value })
+                  }
                   required
                 />
               </div>
-              <button type="submit" className="btn btn-primary me-2">Guardar</button>
-              <button type="button" className="btn btn-secondary" onClick={() => setModal(null)}>Cancelar</button>
+              <button type="submit" className="btn btn-primary me-2">
+                Guardar
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setModal(null)}
+              >
+                Cancelar
+              </button>
             </form>
           </div>
         </div>
+      )}
+      {alert && (
+        <CustomAlert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => {
+            setAlert(null);
+            if (alert.onClose) alert.onClose();
+          }}
+        />
       )}
     </div>
   );

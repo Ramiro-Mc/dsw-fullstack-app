@@ -36,6 +36,7 @@ function RegisterPage() {
           contrasena,
           tipoUsuario: "usuario",
           fotoDePerfil: "/Default.jpg",
+          activo: true, // Asegurar que se cree como activo
           nombreReferido: null,
           banco: null,
           cvu: null,
@@ -70,8 +71,14 @@ function RegisterPage() {
             });
 
             setTimeout(() => navigate("/"), 1500);
+          } else if (loginRes.status === 403) {
+            // Cuenta desactivada
+            setAlert({
+              message: loginData.msg || "Tu cuenta ha sido desactivada. Contacta al administrador.",
+              type: "error",
+            });
           } else {
-            // Si falla el login automático, ir al login
+
             setAlert({
               message: "Usuario creado. Por favor inicia sesión.",
               type: "success",
@@ -79,6 +86,7 @@ function RegisterPage() {
             });
           }
         } catch (loginError) {
+          console.error("Error en login automático:", loginError);
           setAlert({
             message: "Usuario creado. Por favor inicia sesión.",
             type: "success",

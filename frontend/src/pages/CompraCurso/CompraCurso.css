@@ -166,3 +166,16 @@
     min-height: auto;
   }
 }
+
+.curso-imagen-preview {
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  max-height: 320px;
+  min-height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  background: #f3f3f3;
+}

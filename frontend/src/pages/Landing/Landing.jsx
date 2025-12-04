@@ -4,6 +4,7 @@ import "./Landing.css";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 
+
 function Landing() {
   const [cursos, setCursos] = useState([]);
   const [tipos, setTipos] = useState([]);
@@ -11,6 +12,9 @@ function Landing() {
   const [loadingTipos, setLoadingTipos] = useState(true); // Loading separado para tipos
   const [error, setError] = useState("");
   const { user } = useAuth();
+  const [minPrecio, setMinPrecio] = useState("");
+  const [maxPrecio, setMaxPrecio] = useState("");
+  const [precioFiltrado, setPrecioFiltrado] = useState(false);
 
   const filtrarCursosPropios = (courseList) => {
     if (!user || !user.id) {
@@ -110,6 +114,25 @@ function Landing() {
     }
   };
 
+  const cursosFiltradosPorPrecio = cursos.filter((curso) => {
+    if (!precioFiltrado) return true;
+    const precio = Number(curso.precio);
+    const min = minPrecio === "" ? 0 : Number(minPrecio);
+    const max = maxPrecio === "" ? Infinity : Number(maxPrecio);
+    return precio >= min && precio <= max;
+  });
+
+  const handlePrecioSubmit = (e) => {
+    e.preventDefault();
+    setPrecioFiltrado(true);
+  };
+
+  const handleResetPrecio = () => {
+    setMinPrecio("");
+    setMaxPrecio("");
+    setPrecioFiltrado(false);
+  };
+
   return (
     <main>
       {/* Seccion presentacion */}
@@ -186,12 +209,58 @@ function Landing() {
         </div>
       </section>
 
-      {/* Seccion cursos */}
-
-      <section className="seccion-cursos ">
-        <div className="container seccion-titulo">
-          <h2>Descubre los mejores cursos</h2>
-          <p>¡Aprende algo nuevo!</p>
+      <section className="seccion-cursos">
+        <div className="container seccion-titulo-filtro">
+          <div className="titulo-cursos">
+            <h2>Descubre los mejores cursos</h2>
+            <p>¡Aprende algo nuevo!</p>
+          </div>
+          <form
+            className="filtro-precio-card-inline"
+            onSubmit={handlePrecioSubmit}
+          >
+            <h5 style={{ fontWeight: 600, marginBottom: "1rem" }}>Precio</h5>
+            <div className="d-flex align-items-center mb-2">
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Mínimo"
+                value={minPrecio}
+                onChange={(e) => setMinPrecio(e.target.value)}
+                min={0}
+                style={{ maxWidth: "100px" }}
+              />
+              <span className="mx-2">–</span>
+              <input
+                type="number"
+                className="form-control"
+                placeholder="Máximo"
+                value={maxPrecio}
+                onChange={(e) => setMaxPrecio(e.target.value)}
+                min={0}
+                style={{ maxWidth: "100px" }}
+              />
+              <button
+                type="submit"
+                className="btn-filtrar ms-2"
+                title="Filtrar"
+              >
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="7" stroke="#ffaa00" strokeWidth="2"/>
+                  <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="#ffaa00" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </button>
+            </div>
+            {precioFiltrado && (
+              <button
+                type="button"
+                className="btn btn-link btn-sm"
+                onClick={handleResetPrecio}
+              >
+                Quitar filtro
+              </button>
+            )}
+          </form>
         </div>
 
         <div className="container categoria-botones text-center">
@@ -203,7 +272,7 @@ function Landing() {
             icono=""
           />
 
-          {loadingTipos ? ( // ← Usar loading específico
+          {loadingTipos ? (
             <div className="text-center">
               <p>Cargando tipos...</p>
             </div>
@@ -227,10 +296,9 @@ function Landing() {
             </div>
           )}
         </div>
-
-        <div className="container contenedor-tarjetas">
-          <div className="row">
-            {loadingCursos ? ( // ← Usar loading específico
+        <div className="container contenedor-tarjetas-centradas">
+          <div className="row justify-content-center">
+            {loadingCursos ? (
               <div className="text-center">
                 <div className="spinner-border" role="status">
                   <span className="visually-hidden">Cargando cursos...</span>
@@ -241,8 +309,8 @@ function Landing() {
               <div className="text-center">
                 <p className="text-danger">{error}</p>
               </div>
-            ) : cursos.length > 0 ? (
-              cursos.map((curso) => (
+            ) : cursosFiltradosPorPrecio.length > 0 ? (
+              cursosFiltradosPorPrecio.map((curso) => (
                 <CursoCard
                   key={curso.idCurso}
                   idCurso={curso.idCurso}
@@ -255,7 +323,7 @@ function Landing() {
               ))
             ) : (
               <div className="text-center">
-                <p>No hay cursos disponibles para esta categoría</p>
+                <p>No hay cursos disponibles para este filtro</p>
               </div>
             )}
           </div>

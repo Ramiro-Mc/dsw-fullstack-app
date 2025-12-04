@@ -57,7 +57,7 @@ const CompraCurso = () => {
   return (
     <div className="compra-curso-container">
       <div className="curso-preview">
-        <img src={curso.imagen?.includes("drive.google.com") ? curso.imagen.replace("/file/d/", "/uc?id=").replace("/view?usp=sharing", "") : curso.imagen || "https://img-c.udemycdn.com/course/480x270/placeholder.jpg"} alt={`Vista previa - ${curso.titulo || "Curso"}`} className="curso-imagen-preview" />
+        <img src={curso.imagen} alt={`Vista previa - ${curso.titulo || "Curso"}`} className="curso-imagen-preview" />
         <div className="curso-header">
           <h1>{curso.titulo}</h1>
           <p className="curso-descripcion">{curso.descripcion}</p>

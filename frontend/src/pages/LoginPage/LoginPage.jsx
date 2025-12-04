@@ -92,10 +92,10 @@ function LoginPage() {
               className="btn btn-primary"
               disabled={loading}
             >
-              {loading ? "Iniciando..." : "Login"}
+              {loading ? "Iniciando..." : "Iniciar Sesión"}
             </button>
             <Link to="/registerPage" className="btn btn-primary">
-              Register
+              Registrate
             </Link>
           </div>
           <div className="text-center">

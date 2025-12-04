@@ -15,6 +15,13 @@ const createAdmin = async () => {
 
     if (existingAdmin) {
       console.log("Ya existe un administrador:", existingAdmin.email);
+      
+      // Si el admin existe pero está inactivo, reactivarlo
+      if (!existingAdmin.activo) {
+        await existingAdmin.update({ activo: true });
+        console.log("Administrador reactivado exitosamente");
+      }
+      
       return;
     }
 
@@ -28,6 +35,7 @@ const createAdmin = async () => {
       contrasena: hashedPassword,
       tipoUsuario: "administrador",
       fotoDePerfil: "/Default",
+      activo: true,
     });
 
     console.log("Administrador creado exitosamente:");

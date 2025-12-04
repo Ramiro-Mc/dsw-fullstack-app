@@ -1,5 +1,4 @@
 import { Curso } from "../models/Curso.js";
-import { Descuento } from "../models/Descuento.js";
 import { TipoCurso } from "../models/TipoCurso.js";
 import { Op } from "sequelize";
 

@@ -12,6 +12,7 @@ routerUsuario.post("/usuarios", usuarioValidator.validateCreate,  usuarioControl
 routerUsuario.put("/usuarios/:idUsuario", usuarioValidator.validateUpdate, usuarioController.updateUsuario);
 routerUsuario.delete("/usuarios/:idUsuario", usuarioValidator.validateGetByIdAndDelete, usuarioController.deleteUsuario);
 routerUsuario.get("/usuarios/:idUsuario", usuarioValidator.validateGetByIdAndDelete, usuarioController.getUsuarioById);
+routerUsuario.put("/usuarios/:idUsuario/reactivar", usuarioValidator.validateGetByIdAndDelete, usuarioController.reactivateUsuario);
 // routerUsuario.post("/login", usuarioController.loginUsuario); 
 
 // Manejo de foto de perfil con Cloudinary

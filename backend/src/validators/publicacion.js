@@ -5,7 +5,6 @@ import { Publicacion } from "../models/Publicacion.js";
 const validateCreate = [
   check('titulo').exists().notEmpty(),
   check('contenido').exists().notEmpty(),
-  check('comentarios').exists().notEmpty(),
   check('fechaPublicacion').exists().isDate(),
   validateResult
 ];
@@ -21,7 +20,6 @@ const validateUpdate = [
   } ),
   check('titulo').optional().notEmpty(),
   check('contenido').optional().notEmpty(),
-  check('comentarios').optional().notEmpty(),
   check('fechaPublicacion').optional().isDate(),
   validateResult
 ]

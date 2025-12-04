@@ -26,6 +26,7 @@ import SobreNosotros from "./pages/SobreNosotros/SobreNosotros";
 import Contacto from "./pages/Contacto/Contacto";
 import Checkout from "./pages/Checkout/Checkout";
 import CheckoutSuccess from './pages/Checkout/CheckoutSuccess';
+import Foro from "./pages/Foro/Foro";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,12 @@ const router = createBrowserRouter([
       {
         path: "contacto",
         element: <Contacto/>,
+      },
+      {
+        path: "foro/:idCurso",
+        element: (
+            <Foro />
+        ),
       },
       {
         path: "MiPerfil",
