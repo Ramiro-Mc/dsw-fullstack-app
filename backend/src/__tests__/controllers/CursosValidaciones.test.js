@@ -44,9 +44,9 @@ describe('Cursos API - Tests Simples', () => {
         }
       });
       
-      console.log('✅ Datos de prueba creados');
+      console.log('Datos de prueba creados');
     } catch (error) {
-      console.error('❌ Error creando datos:', error.message);
+      console.error('Error creando datos:', error.message);
     }
   };
 
@@ -55,7 +55,7 @@ describe('Cursos API - Tests Simples', () => {
     try {
       await db.Curso.destroy({ where: {}, force: true });
     } catch (error) {
-      console.log('⚠️ Error limpiando cursos:', error.message);
+      console.log('Error limpiando cursos:', error.message);
     }
   });
 
