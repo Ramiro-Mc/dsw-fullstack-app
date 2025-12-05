@@ -34,7 +34,7 @@ const createCursosData = async () => {
         nombreUsuario: "Profesor Tech",
         email: "profesor@utndemy.com",
         contrasena: hashedPassword,
-        tipoUsuario: "creador",
+        tipoUsuario: "usuario",
         fotoDePerfil: "/Default",
       },
     });
@@ -52,7 +52,7 @@ const createCursosData = async () => {
         nombreUsuario: "Estudiante Test",
         email: "alumno@utndemy.com",
         contrasena: hashedPasswordAlumno,
-        tipoUsuario: "consumidor",
+        tipoUsuario: "usuario",
         fotoDePerfil: "/Default",
       },
     });
