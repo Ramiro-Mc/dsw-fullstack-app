@@ -1,7 +1,6 @@
 .foro-container {
-  min-height: calc(100vh - 200px);
+  min-height: 100vh;
   background-color: #f0f2f5;
-  padding-bottom: 2rem;
 }
 
 .foro-header {
@@ -9,101 +8,95 @@
   color: white;
   padding: 2rem 0;
   margin-bottom: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .foro-header h1 {
   font-size: 2rem;
-  font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
 .foro-header h2 {
-  font-size: 1.5rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  opacity: 0.9;
-}
-
-.foro-header p {
-  font-size: 1rem;
-  opacity: 0.8;
-  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 300;
 }
 
 .foro-content {
   max-width: 800px;
   margin: 0 auto;
+  padding-bottom: 2rem;
 }
 
-/* Card para crear publicación */
 .crear-publicacion-card {
   background: white;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .publicacion-usuario-info {
   display: flex;
   align-items: center;
-  gap: 12px;
   margin-bottom: 1rem;
 }
 
 .usuario-avatar {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
+  margin-right: 0.75rem;
   object-fit: cover;
-  border: 2px solid black;
+}
+
+.usuario-avatar-small {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  object-fit: cover;
 }
 
 .usuario-nombre {
   font-weight: 600;
   color: #1c1e21;
-  font-size: 1rem;
+}
+
+.usuario-nombre-small {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
 }
 
 .publicacion-textarea {
-  border: 1px solid #e4e6eb;
-  border-radius: 8px;
-  padding: 12px;
+  border: none;
+  resize: none;
+  padding: 0.75rem;
   font-size: 1rem;
-  resize: vertical;
-  min-height: 100px;
-  margin-bottom: 1rem;
 }
 
 .publicacion-textarea:focus {
-  border-color: orange;
-  box-shadow: 0 0 0 0.2rem orange;
+  box-shadow: none;
+  outline: none;
 }
 
 .publicacion-acciones {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  margin-top: 1rem;
 }
 
 .btn-publicar {
-  background: linear-gradient(135deg, orange 0%, orange 100%);
+  background-color: #667eea;
   color: white;
   border: none;
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.3s ease;
+  padding: 0.5rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.2s;
 }
 
 .btn-publicar:hover:not(:disabled) {
-  background: linear-gradient(135deg, #bd7108 0%, #bd7108 0%);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px orange;
+  background-color: #5568d3;
 }
 
 .btn-publicar:disabled {
@@ -111,55 +104,22 @@
   cursor: not-allowed;
 }
 
-/* Lista de publicaciones */
 .publicaciones-lista {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
-.sin-publicaciones {
-  background: white;
-  border-radius: 12px;
-  padding: 3rem 2rem;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.sin-publicaciones i {
-  font-size: 4rem;
-  color: orange;
-  margin-bottom: 1rem;
-}
-
-.sin-publicaciones h3 {
-  color: #1c1e21;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.sin-publicaciones p {
-  color: rgb(0, 0, 0);
-  margin: 0;
-}
-
-/* Card de publicación */
 .publicacion-card {
   background: white;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
-}
-
-.publicacion-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .publicacion-header {
   display: flex;
   align-items: center;
-  gap: 12px;
   margin-bottom: 1rem;
 }
 
@@ -167,83 +127,99 @@
   flex: 1;
 }
 
-.publicacion-info .usuario-nombre {
-  display: block;
-  font-size: 1rem;
-  margin-bottom: 2px;
-}
-
 .publicacion-fecha {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   color: #65676b;
 }
 
-.publicacion-contenido {
-  margin-bottom: 1rem;
-  line-height: 1.6;
+.publicacion-fecha-small {
+  font-size: 0.75rem;
+  color: #65676b;
 }
 
 .publicacion-contenido p {
-  color: #1c1e21;
   margin: 0;
-  word-wrap: break-word;
+  color: #1c1e21;
+  line-height: 1.5;
 }
 
 .publicacion-acciones-footer {
   display: flex;
   gap: 1rem;
-  padding-top: 1rem;
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
   border-top: 1px solid #e4e6eb;
 }
 
 .btn-accion {
-  background: transparent;
+  background: none;
   border: none;
   color: #65676b;
-  font-weight: 600;
-  padding: 8px 16px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s;
 }
 
 .btn-accion:hover {
   background-color: #f0f2f5;
-  color: #bd7108;
 }
 
 .btn-accion i {
-  font-size: 1.1rem;
+  margin-right: 0.5rem;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .foro-header h1 {
-    font-size: 1.5rem;
-  }
+.respuestas-container {
+  margin-top: 1rem;
+  padding-left: 1rem;
+  border-left: 2px solid #e4e6eb;
+}
 
-  .foro-header h2 {
-    font-size: 1.2rem;
-  }
+.respuesta-card {
+  background: #f7f8fa;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
 
-  .foro-content {
-    padding: 0 1rem;
-  }
+.respuesta-contenido p {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.95rem;
+  color: #1c1e21;
+}
 
-  .crear-publicacion-card,
-  .publicacion-card {
-    padding: 1rem;
-  }
+.responder-form {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f7f8fa;
+  border-radius: 8px;
+}
 
-  .publicacion-acciones-footer {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+.responder-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
 
-  .btn-accion {
-    justify-content: center;
-  }
+.sin-publicaciones {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #65676b;
+}
+
+.sin-publicaciones i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.sin-publicaciones h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.sin-publicaciones p {
+  margin: 0;
 }

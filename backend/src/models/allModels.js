@@ -96,6 +96,19 @@ Publicacion.belongsTo(Usuario, {
   as: "UsuarioDePublicacion",
 });
 
+// Relación auto-referencial para respuestas
+Publicacion.hasMany(Publicacion, {
+  as: "Respuestas",
+  foreignKey: "idPublicacionPadre",
+  onDelete: "CASCADE"
+});
+
+Publicacion.belongsTo(Publicacion, {
+  as: "PublicacionPadre",
+  foreignKey: "idPublicacionPadre"
+});
+
+
 Usuario.belongsToMany(Leccion, {
   through: AlumnoLeccion,
   foreignKey: "idUsuario",

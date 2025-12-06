@@ -130,7 +130,7 @@ function Course() {
     setClaseClicked(clase);
   };
 
-  const completarClase = async () => {
+const completarClase = async () => {
     try {
       // Obtener ID del usuario desde el contexto
       const idUsuario = user?.idUsuario || user?.id;
@@ -144,7 +144,7 @@ function Course() {
         return;
       }
 
-      // Actualizar en la base de datos - usar numeroLec en lugar de idClase
+      // Actualizar en la base de datos - usar la ruta correcta de alumnoLeccion
       const response = await fetch(
         `http://localhost:3000/lecciones/${claseClicked.idLeccion}/completar`,
         {
