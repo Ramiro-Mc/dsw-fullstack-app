@@ -111,3 +111,8 @@
 .custom-alert-btn:active {
   transform: translateY(0);
 }
+
+
+.boton-accion{
+  margin-bottom: 1rem;
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import "./CustomAlert.css";
 
-const CustomAlert = ({ message, type = "info", onClose }) => {
+const CustomAlert = ({ message, type = "info", onClose, actions = [] }) => {
   return (
     <div className="custom-alert-overlay" onClick={onClose}>
       <div className="custom-alert-box" onClick={(e) => e.stopPropagation()}>
@@ -14,9 +14,19 @@ const CustomAlert = ({ message, type = "info", onClose }) => {
           <p>{message}</p>
         </div>
         <div className="custom-alert-footer">
-          <button className="custom-alert-btn" onClick={onClose}>
-            Aceptar
-          </button>
+          {actions.length > 0 ? (
+            actions.map((action, idx) => (
+              <>
+                <button key={idx} className="custom-alert-btn boton-accion" onClick={action.onClick}>
+                  {action.label}
+                </button>
+              </>
+            ))
+          ) : (
+            <button className="custom-alert-btn" onClick={onClose}>
+              Aceptar
+            </button>
+          )}
         </div>
       </div>
     </div>
