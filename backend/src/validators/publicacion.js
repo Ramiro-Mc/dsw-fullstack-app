@@ -11,7 +11,6 @@ const validateCreate = [
   check('contenido').exists().notEmpty()
     .withMessage('El contenido es obligatorio'),
   
-  //  Validar idComunidad
   check('idComunidad').exists().notEmpty().isNumeric()
     .withMessage('ID de comunidad es obligatorio y debe ser numérico')
     .custom(async (idComunidad) => {
@@ -22,13 +21,25 @@ const validateCreate = [
       return true;
     }),
   
-  //  Validar idUsuario
   check('idUsuario').exists().notEmpty().isNumeric()
     .withMessage('ID de usuario es obligatorio y debe ser numérico')
     .custom(async (idUsuario) => {
       const usuarioExiste = await Usuario.findByPk(idUsuario);
       if (!usuarioExiste) {
         throw new Error("El usuario especificado no existe");
+      }
+      return true;
+    }),
+  
+  // Validar idPublicacionPadre si existe (para respuestas)
+  check('idPublicacionPadre').optional().isNumeric()
+    .withMessage('ID de publicación padre debe ser numérico')
+    .custom(async (idPublicacionPadre) => {
+      if (idPublicacionPadre) {
+        const publicacionPadreExiste = await Publicacion.findByPk(idPublicacionPadre);
+        if (!publicacionPadreExiste) {
+          throw new Error("La publicación padre no existe");
+        }
       }
       return true;
     }),

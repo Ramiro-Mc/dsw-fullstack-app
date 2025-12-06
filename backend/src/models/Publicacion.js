@@ -23,12 +23,20 @@ export const Publicacion = sequelize.define("Publicacion", {
       key: "idUsuario"
     }
   },
+  idPublicacionPadre: {
+    type: DataTypes.INTEGER,
+    allowNull: true, // NULL si es publicación principal, ID si es respuesta
+    references: {
+      model: "Publicaciones",
+      key: "idPublicacion"
+    }
+  },
   titulo: {
     type: DataTypes.STRING, 
     allowNull: false
   },
   contenido: { 
-    type: DataTypes.TEXT, // TEXT para contenido largo
+    type: DataTypes.TEXT,
     allowNull: false 
   },
   fechaPublicacion: { 
