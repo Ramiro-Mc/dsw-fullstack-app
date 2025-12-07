@@ -54,37 +54,24 @@ export const publicacionController = {
     }
   },
 
-    //  publicaciones por comunidad (solo principales, con sus respuestas)
+    //  publicaciones por comunidad
   getPublicacionesByComunidad: async (req, res) => {
     try {
       const { idComunidad } = req.params;
 
       const publicaciones = await Publicacion.findAll({
         where: { 
-          idComunidad,
-          idPublicacionPadre: null // Solo publicaciones principales
+          idComunidad
         },
         include: [
           {
             model: Usuario,
             as: "UsuarioDePublicacion",
             attributes: ["idUsuario", "nombreUsuario", "fotoDePerfil"]
-          },
-          {
-            model: Publicacion,
-            as: "Respuestas",
-            include: [
-              {
-                model: Usuario,
-                as: "UsuarioDePublicacion",
-                attributes: ["idUsuario", "nombreUsuario", "fotoDePerfil"]
-              }
-            ]
           }
         ],
         order: [
-          ["fechaPublicacion", "DESC"],
-          [{ model: Publicacion, as: "Respuestas" }, "fechaPublicacion", "ASC"]
+          ["fechaPublicacion", "DESC"]
         ]
       });
 
@@ -107,7 +94,7 @@ export const publicacionController = {
 
   createPublicacion: async (req, res) => {
     try {
-      const { titulo, contenido, idComunidad, idUsuario, idPublicacionPadre } = req.body;
+      const { titulo, contenido, idComunidad, idUsuario } = req.body;
 
       //  Validar que la comunidad existe
       const comunidadExiste = await Comunidad.findByPk(idComunidad);
@@ -127,23 +114,11 @@ export const publicacionController = {
         });
       }
 
-      // Si es una respuesta, validar que la publicación padre existe
-      if (idPublicacionPadre) {
-        const publicacionPadreExiste = await Publicacion.findByPk(idPublicacionPadre);
-        if (!publicacionPadreExiste) {
-          return res.status(404).json({
-            success: false,
-            msg: "La publicación a la que intentas responder no existe"
-          });
-        }
-      }
-
       const newPublicacion = await Publicacion.create({
         titulo, 
         contenido, 
         idComunidad, 
-        idUsuario,
-        idPublicacionPadre: idPublicacionPadre || null
+        idUsuario
       });
 
       const publicacionCompleta = await Publicacion.findByPk(newPublicacion.idPublicacion, {
@@ -158,7 +133,7 @@ export const publicacionController = {
 
       res.status(201).json({
         success: true,
-        msg: idPublicacionPadre ? "Respuesta creada" : "Nueva publicacion creada",
+        msg: "Nueva publicacion creada",
         contenido: publicacionCompleta,
       });
 
