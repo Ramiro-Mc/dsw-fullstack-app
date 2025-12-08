@@ -1,5 +1,5 @@
 .informacion-personal {
-  padding-bottom: 20px; 
+  padding-bottom: 20px;
 }
 
 .informacion-personal .col-3 {
@@ -7,7 +7,7 @@
   text-align: center;
 }
 
-.informacion-personal .col-2{
+.informacion-personal .col-2 {
   margin-top: 15px;
 }
 
@@ -64,9 +64,9 @@
 .boton-camb-cont {
   margin-top: 20px;
   margin-right: 20px;
-  background-color: orange!important;
+  background-color: orange !important;
   border-color: white !important;
-  transition: all 0.3s ease!important;
+  transition: all 0.3s ease !important;
 }
 
 .fecha-creacion-cuenta {
@@ -95,7 +95,7 @@
 .form-label {
   font-size: 1rem;
   font-weight: bold;
-  color: orange!important;
+  color: orange !important;
   margin-bottom: 5px;
   display: block;
 }
@@ -103,10 +103,10 @@
 .form-control {
   width: 100%;
   padding: 10px;
-  border: 1px solid orange!important;
+  border: 1px solid orange !important;
   border-radius: 5px;
   font-size: 1rem;
-  color: orange!important;
+  color: orange !important;
   background-color: #f1f8ff;
 }
 
@@ -119,7 +119,7 @@
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: orange!important;
+  background-color: orange !important;
   color: white;
   border: none;
   border-radius: 5px;
@@ -128,7 +128,7 @@
 }
 
 .boton-guardar:hover {
-  background-color: orange!important;
+  background-color: orange !important;
 }
 
 .boton-editar {
@@ -139,7 +139,7 @@
   height: 50px;
   padding: 10px;
   background-color: transparent;
-  color: orange!important;
+  color: orange !important;
   border: none;
   border-radius: 100%;
   font-size: 1.3rem;
@@ -150,24 +150,24 @@
 .boton-editar:hover {
   cursor: pointer;
   opacity: 0.8;
-  background-color: orange!important;
+  background-color: orange !important;
 }
 
 .pre-view {
   width: 90%;
   height: auto;
-  border: 1px solid orange!important; /* Azul claro */
+  border: 1px solid orange !important; /* Azul claro */
   padding: 1rem;
   position: relative;
   border-radius: 15px;
-  background-color: rgb(238, 156, 3)!important; /* Azul claro */
+  background-color: rgb(238, 156, 3) !important; /* Azul claro */
   transition: all 0.3s ease !important;
 }
 
 .pre-view:hover {
   cursor: pointer;
   opacity: 0.8;
-  background-color:orange!important; /* Azul más oscuro */
+  background-color: orange !important; /* Azul más oscuro */
 }
 
 .pre-view strong {
@@ -178,15 +178,4 @@
 .clic {
   color: orange;
   padding-right: 10px;
-}
-
-.informacion-prof {
-  margin: 20px auto;
-  text-align: justify;
-  width: 95%;
-  height: auto;
-  background-color: #f1f8ff; 
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid orange!important;  
 }

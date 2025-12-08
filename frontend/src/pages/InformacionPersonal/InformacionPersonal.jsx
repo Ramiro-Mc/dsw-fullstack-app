@@ -42,7 +42,7 @@ function InformacionPersonal() {
   };
 
   const modal = () => {
-    setMostrarModal(true); // Mostrar el modal
+    setMostrarModal(!mostrarModal);
   };
 
   useEffect(() => {
@@ -50,29 +50,20 @@ function InformacionPersonal() {
       try {
         const userId = user.id;
 
-        const response = await fetch(
-          `http://localhost:3000/usuarios/${userId}`,
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }
-        );
+        const response = await fetch(`http://localhost:3000/usuarios/${userId}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
 
         const data = await response.json();
 
         if (data.success) {
           setUsuario(data.informacion);
         } else {
-          setError(
-            data.msg ||
-              "Error al cargar los cursos a los que esta inscripto el usuario"
-          );
+          setError(data.msg || "Error al cargar los cursos a los que esta inscripto el usuario");
         }
       } catch (error) {
-        console.error(
-          "Error al cargar cursos a los que esta inscripto el usuario:",
-          error
-        );
+        console.error("Error al cargar cursos a los que esta inscripto el usuario:", error);
         setError("Error de conexión. Intenta de nuevo.");
       } finally {
         setLoading(false);
@@ -83,13 +74,10 @@ function InformacionPersonal() {
       try {
         const userId = user.id;
 
-        const response = await fetch(
-          `http://localhost:3000/alumnos_cursos/usuario/${userId}`,
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }
-        );
+        const response = await fetch(`http://localhost:3000/alumnos_cursos/usuario/${userId}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
 
         const data = await response.json();
 
@@ -107,13 +95,10 @@ function InformacionPersonal() {
     };
     const fetchCursosUsuario = async (userId) => {
       try {
-        const response = await fetch(
-          `http://localhost:3000/api/cursos?idProfesor=${userId}`,
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }
-        );
+        const response = await fetch(`http://localhost:3000/api/cursos?idProfesor=${userId}`, {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
 
         const data = await response.json();
 
@@ -153,13 +138,10 @@ function InformacionPersonal() {
       try {
         const userId = user.id; // ID del usuario actual
 
-        const response = await fetch(
-          `http://localhost:3000/usuarios/${userId}/foto`,
-          {
-            method: "PUT",
-            body: formData,
-          }
-        );
+        const response = await fetch(`http://localhost:3000/usuarios/${userId}/foto`, {
+          method: "PUT",
+          body: formData,
+        });
 
         const data = await response.json();
 
@@ -194,13 +176,7 @@ function InformacionPersonal() {
   };
 
   if (authLoading || loading || error) {
-    return (
-      <LoadingError
-        loading={authLoading || loading}
-        error={error}
-        retry={() => window.location.reload()}
-      />
-    );
+    return <LoadingError loading={authLoading || loading} error={error} retry={() => window.location.reload()} />;
   }
 
   const handleSubmit = async (e) => {
@@ -250,34 +226,12 @@ function InformacionPersonal() {
 
   return (
     <div className="container informacion-personal">
-      {mostrarModal && (
-        <ModalProfesor
-          nombre={usuario.nombreUsuario}
-          foto={usuario.fotoDePerfil}
-          desc={usuario.descripcion}
-          frase={usuario.fraseDescriptiva}
-          educ={usuario.educacion}
-          fecha={usuario.createdAt}
-          mostrar={setMostrarModal}
-          correo={usuario.email}
-        />
-      )}
+      {mostrarModal && <ModalProfesor nombre={usuario.nombreUsuario} foto={usuario.fotoDePerfil} desc={usuario.descripcion} frase={usuario.fraseDescriptiva} educ={usuario.educacion} fecha={usuario.createdAt} mostrar={modal} correo={usuario.email} />}
       <div className="row">
         <div className="col-3">
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            accept="image/*"
-            style={{ display: "none" }}
-          />
+          <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" style={{ display: "none" }} />
           <div className="profile-image-container">
-            <img
-              src={usuario?.fotoDePerfil || "/Default.jpg"}
-              alt="Foto de perfil"
-              className="img-fluid rounded-circle profile-image-clickable"
-              onClick={handleImageClick}
-            />
+            <img src={usuario?.fotoDePerfil || "/Default.jpg"} alt="Foto de perfil" className="img-fluid rounded-circle profile-image-clickable" onClick={handleImageClick} />
           </div>
         </div>
         <div className="col-7">
@@ -321,9 +275,7 @@ function InformacionPersonal() {
               <div className="row">
                 <div className="col-12">
                   <strong>Frase</strong>
-                  <div className="informacion-prof">
-                    {usuario.fraseDescriptiva}
-                  </div>
+                  <div className="informacion-prof">{usuario.fraseDescriptiva}</div>
                   <strong>Descripcion</strong>
                   <div className="informacion-prof">{usuario.descripcion}</div>
                   <strong>Educacion</strong>
@@ -336,11 +288,7 @@ function InformacionPersonal() {
             </div>
           </>
         ) : (
-          <button
-            type="button"
-            className="boton-camb-cont btn btn-secondary"
-            onClick={editar}
-          >
+          <button type="button" className="boton-camb-cont btn btn-secondary" onClick={editar}>
             Agregar informacion de profesor
           </button>
         )
@@ -350,47 +298,24 @@ function InformacionPersonal() {
             <label htmlFor="frase" className="form-label">
               Una frase que te identifique
             </label>
-            <input
-              type="text"
-              id="frase"
-              className="form-control"
-              placeholder="Escribe una frase que te represente..."
-              onChange={handleFraseChange}
-              value={frase}
-            />
+            <input type="text" id="frase" className="form-control" placeholder="Escribe una frase que te represente..." onChange={handleFraseChange} value={frase} />
           </div>
 
           <div className="form-group">
             <label htmlFor="descripcion" className="form-label">
               Descripción
             </label>
-            <textarea
-              id="descripcion"
-              className="form-control"
-              placeholder="Escribe una breve descripción sobre ti..."
-              onChange={handleDescripcionChange}
-              value={descripcion}
-            ></textarea>
+            <textarea id="descripcion" className="form-control" placeholder="Escribe una breve descripción sobre ti..." onChange={handleDescripcionChange} value={descripcion}></textarea>
           </div>
 
           <div className="form-group">
             <label htmlFor="educacion" className="form-label">
               Educación
             </label>
-            <textarea
-              id="educacion"
-              className="form-control"
-              placeholder="Escribe tu formación académica..."
-              onChange={handleEducacionChange}
-              value={educacion}
-            ></textarea>
+            <textarea id="educacion" className="form-control" placeholder="Escribe tu formación académica..." onChange={handleEducacionChange} value={educacion}></textarea>
           </div>
 
-          <button
-            type="button"
-            className="btn btn-primary boton-guardar"
-            onClick={handleSubmit}
-          >
+          <button type="button" className="btn btn-primary boton-guardar" onClick={handleSubmit}>
             Guardar
           </button>
         </div>
