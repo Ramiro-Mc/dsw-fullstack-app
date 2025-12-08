@@ -5,12 +5,12 @@
 }
 
 .foro-header {
-  background: linear-gradient(135deg, orange 0%, black 100%);
+  background: linear-gradient(135deg, orange 0%, rgb(209, 111, 0) 100%);
   color: white;
   padding: 2rem 0;
   margin-bottom: 2rem;
 }
-
+  
 .foro-header h1 {
   font-size: 2rem;
   margin-bottom: 0.5rem;
