@@ -9,13 +9,12 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import UsuariosPage from "./pages/UsuariosPage/UsuariosPage";
 import LayoutMiPerfil from "./components/MiPerfil/LayoutMiPerfil";
 import InformacionDeCobro from "./pages/InformacionDeCobro/InformacionDeCobro";
-import Reportes from "./pages/Reportes/Reportes";
 import MisCursosCreados from "./pages/MisCursosCreados/MisCursosCreados";
 import MisCursosComprados from "./pages/MisCursosComprados/MisCursosComprados";
 import InformacionPersonal from "./pages/InformacionPersonal/InformacionPersonal";
 import CrearCursoPage from "./pages/CrearCurso/CrearCurso";
-import EditarCursoPage from "./pages/EditarCurso/EditarCurso"; 
-import Profesores from "./pages/Profesores/profesores";
+import EditarCursoPage from "./pages/EditarCurso/EditarCurso";
+import Profesores from "./pages/Profesores/Profesores";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import AdminCursos from "./pages/AdminCursos/AdminCursos";
 import AdminUsuarios from "./pages/AdminUsuarios/AdminUsuarios";
@@ -25,7 +24,7 @@ import CompraCurso from "./pages/CompraCurso/CompraCurso";
 import SobreNosotros from "./pages/SobreNosotros/SobreNosotros";
 import Contacto from "./pages/Contacto/Contacto";
 import Checkout from "./pages/Checkout/Checkout";
-import CheckoutSuccess from './pages/Checkout/CheckoutSuccess';
+import CheckoutSuccess from "./pages/Checkout/CheckoutSuccess";
 import Foro from "./pages/Foro/Foro";
 
 const router = createBrowserRouter([
@@ -51,17 +50,15 @@ const router = createBrowserRouter([
       },
       {
         path: "sobreNosotros",
-        element: <SobreNosotros/>,
+        element: <SobreNosotros />,
       },
       {
         path: "contacto",
-        element: <Contacto/>,
+        element: <Contacto />,
       },
       {
         path: "foro/:idCurso",
-        element: (
-            <Foro />
-        ),
+        element: <Foro />,
       },
       {
         path: "MiPerfil",
@@ -83,10 +80,6 @@ const router = createBrowserRouter([
             path: "informacionDeCobro",
             element: <InformacionDeCobro />,
           },
-          {
-            path: "reportes",
-            element: <Reportes />,
-          },
         ],
       },
       {
@@ -98,7 +91,7 @@ const router = createBrowserRouter([
         element: <CrearCursoPage />,
       },
       {
-        path: "editarCurso/:idCurso", 
+        path: "editarCurso/:idCurso",
         element: (
           <ProtectedRoute>
             <EditarCursoPage />
@@ -111,7 +104,7 @@ const router = createBrowserRouter([
       },
       {
         path: "compraCurso/:idCurso",
-        element: <CompraCurso />
+        element: <CompraCurso />,
       },
       {
         path: "checkout/:idCurso",
@@ -122,14 +115,14 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "checkout/success", 
+        path: "checkout/success",
         element: (
           <ProtectedRoute>
             <CheckoutSuccess />
           </ProtectedRoute>
         ),
       },
-      {      
+      {
         path: "admin",
         element: (
           <ProtectedRoute requiredRole="administrador">
