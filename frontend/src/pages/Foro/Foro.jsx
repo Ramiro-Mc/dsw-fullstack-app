@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import CustomAlert from "../../components/CustomAlert/CustomAlert";
 import "./Foro.css";
 
 function Foro() {
@@ -15,12 +16,13 @@ function Foro() {
   const [error, setError] = useState("");
   const [editandoId, setEditandoId] = useState(null);
   const [editandoContenido, setEditandoContenido] = useState("");
+  const [alert, setAlert] = useState(null);
 
   useEffect(() => {
     const fetchCursoYComunidad = async () => {
       try {
         // Cargar información del curso
-       const responseCurso = await fetch(
+        const responseCurso = await fetch(
           `http://localhost:3000/cursoDetalle/${idCurso}`
         );
         const dataCurso = await responseCurso.json();
@@ -156,7 +158,7 @@ function Foro() {
     }
   };
 
-    const handleEditar = (pub) => {
+  const handleEditar = (pub) => {
     setEditandoId(pub.idPublicacion);
     setEditandoContenido(pub.contenido);
   };
@@ -204,32 +206,47 @@ function Foro() {
   };
 
   const handleEliminar = async (idPublicacion) => {
-    if (!window.confirm("¿Estás seguro de que deseas eliminar esta publicación?")) {
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `http://localhost:3000/publicaciones/${idPublicacion}`,
+    setAlert({
+      message: "¿Estás seguro de que deseas eliminar esta publicación?",
+      type: "info",
+      onClose: () => setAlert(null),
+      actions: [
         {
-          method: "DELETE",
-        }
-      );
+          label: "Cancelar",
+          onClick: () => setAlert(null),
+        },
+        {
+          label: "Eliminar",
+          onClick: async () => {
+            setAlert(null);
+            try {
+              const response = await fetch(
+                `http://localhost:3000/publicaciones/${idPublicacion}`,
+                {
+                  method: "DELETE",
+                }
+              );
 
-      const data = await response.json();
+              const data = await response.json();
 
-      if (data.success) {
-        setPublicaciones(
-          publicaciones.filter((pub) => pub.idPublicacion !== idPublicacion)
-        );
-        setError("");
-      } else {
-        setError(data.msg || "Error al eliminar publicación");
-      }
-    } catch (error) {
-      console.error("Error al eliminar:", error);
-      setError("Error al eliminar la publicación");
-    }
+              if (data.success) {
+                setPublicaciones(
+                  publicaciones.filter(
+                    (pub) => pub.idPublicacion !== idPublicacion
+                  )
+                );
+                setError("");
+              } else {
+                setError(data.msg || "Error al eliminar publicación");
+              }
+            } catch (error) {
+              console.error("Error al eliminar:", error);
+              setError("Error al eliminar la publicación");
+            }
+          },
+        },
+      ],
+    });
   };
 
   const handleCancelarEdicion = () => {
@@ -249,9 +266,16 @@ function Foro() {
     );
   }
 
-
-   return (
+  return (
     <main className="foro-container">
+      {alert && (
+        <CustomAlert
+          message={alert.message}
+          type={alert.type}
+          onClose={alert.onClose}
+          actions={alert.actions}
+        />
+      )}
       <div className="foro-header">
         <div className="container">
           <button
@@ -261,7 +285,7 @@ function Foro() {
             <i className="bi bi-arrow-left"></i> Volver al curso
           </button>
           <h1>Foro de {curso?.titulo || "Cargando..."}</h1>
-          {comunidad && <h2>{comunidad.titulo}</h2>}
+
           <p>Comparte tus dudas, ideas y experiencias con otros estudiantes</p>
         </div>
       </div>
