@@ -2,7 +2,7 @@ import { Curso } from '../models/Curso.js';
 import { Modulo } from '../models/Modulo.js';
 import { Leccion } from '../models/Leccion.js';
 import { TipoCurso } from '../models/TipoCurso.js';
-import { Comunidad } from '../models/Comunidad.js'; // ✅ AGREGAR: Import de Comunidad
+import { Comunidad } from '../models/Comunidad.js';
 import { sequelize } from '../database/sequelize.js';
 
 // Obtener todos los tipos de curso
@@ -15,6 +15,30 @@ export const obtenerTiposCurso = async (req, res) => {
   }
 };
 
+// Subir imagen a Cloudinary
+export const subirImagenCurso = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ 
+        success: false, 
+        msg: "No se proporcionó una imagen válida." 
+      });
+    }
+
+    res.json({ 
+      success: true, 
+      msg: "Imagen subida correctamente.", 
+      imagenUrl: req.file.path 
+    });
+  } catch (error) {
+    console.error("Error al subir la imagen:", error);
+    res.status(500).json({ 
+      success: false, 
+      msg: "Error al subir la imagen." 
+    });
+  }
+};
+
 // Crear comunidad para un curso
 const crearComunidadDelCurso = async (curso) => {
   try {
@@ -23,11 +47,10 @@ const crearComunidadDelCurso = async (curso) => {
       idCurso: curso.idCurso
     });
     
-    console.log(`✅ Comunidad creada para curso "${curso.titulo}": ${comunidad.titulo}`);
+    console.log(`Comunidad creada para curso "${curso.titulo}": ${comunidad.titulo}`);
     return comunidad;
   } catch (error) {
-    console.error(`⚠️ Error al crear comunidad para curso "${curso.titulo}":`, error.message);
-    // permitir que el curso se cree sin comunidad
+    console.error(`Error al crear comunidad para curso "${curso.titulo}":`, error.message);
     return null;
   }
 };
@@ -37,14 +60,14 @@ export const crearCursoCompleto = async (req, res) => {
   const transaction = await sequelize.transaction();
   
   try {
-    const { titulo, descripcion, precio, idTipo, idProfesor, modulos } = req.body;
+    const { titulo, descripcion, precio, idTipo, idProfesor, imagen, modulos } = req.body;
 
     // Validar que idProfesor esté presente
     if (!idProfesor) {
       return res.status(400).json({ error: 'ID del profesor es requerido' });
     }
 
-    // Verificar si ya existe un curso con el mismo título (globalmente)
+    // Verificar si ya existe un curso con el mismo título
     const cursoExistente = await Curso.findOne({
       where: { 
         titulo: titulo
@@ -63,10 +86,9 @@ export const crearCursoCompleto = async (req, res) => {
       descripcion,
       precio,
       idTipo,
-      idProfesor
+      idProfesor,
+      imagen: imagen || '/default-course.jpg' // usa la imagen local por defecto
     }, { transaction });
-
-  
 
     // Crear los módulos y sus lecciones
     for (const moduloData of modulos) {
@@ -98,7 +120,6 @@ export const crearCursoCompleto = async (req, res) => {
     await transaction.commit();
 
     // CREAR COMUNIDAD DESPUÉS del commit (fuera de la transacción)
-    // Si falla, no afecta la creación del curso
     let comunidadCreada = null;
     try {
       comunidadCreada = await crearComunidadDelCurso(nuevoCurso);
@@ -119,13 +140,12 @@ export const crearCursoCompleto = async (req, res) => {
           as: "TipoCurso"
         },
         {
-          model: Comunidad, // INCLUIR la comunidad si existe
+          model: Comunidad,
           as: "ComunidadDelCurso"
         }
       ]
     });
 
-    // RESPUESTA con información de comunidad
     const response = {
       ...cursoCompleto.toJSON(),
       comunidadInfo: {
@@ -140,7 +160,6 @@ export const crearCursoCompleto = async (req, res) => {
     res.status(201).json(response);
 
   } catch (error) {
-    // Solo hacer rollback si la transacción no fue commiteada
     if (!transaction.finished) {
       await transaction.rollback();
     }
