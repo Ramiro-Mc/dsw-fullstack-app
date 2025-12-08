@@ -1,17 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import BarraLateral from "./BarraLateral";
+import "../../component-styles/MiPerfil/LayoutMiPerfil.css";
 
 function LayoutMiPerfil() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <>
-      <div className="container-fluid" style={{ boxShadow: "2px 0 4px rgb(0 0 0 / 15%)" }}>
-        <div className="row">
-          <div className="col-3">
-            <BarraLateral />
+      <div className="layout-miperfil">
+        {/* Botón hamburguesa para móvil */}
+        <button className="btn-sidebar-toggle d-lg-none" onClick={() => setSidebarOpen(!sidebarOpen)}>
+          <i className="bi bi-list"></i>
+        </button>
+
+        {/* Overlay para cerrar sidebar en móvil */}
+        {sidebarOpen && <div className="sidebar-overlay d-lg-none" onClick={() => setSidebarOpen(false)}></div>}
+
+        <div className="row g-0">
+          {/* Sidebar */}
+          <div className={`col-lg-3 sidebar-wrapper ${sidebarOpen ? "open" : ""}`}>
+            <BarraLateral onClose={() => setSidebarOpen(false)} />
           </div>
 
-          <div className="col-9" style={{ backgroundColor: "#F7F8FA" }}>
+          {/* Contenido principal */}
+          <div className="col-lg-9 content-wrapper">
             <Outlet />
           </div>
         </div>

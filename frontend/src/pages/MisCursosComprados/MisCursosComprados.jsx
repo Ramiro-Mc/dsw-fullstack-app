@@ -123,18 +123,10 @@ function MisCursosComprados() {
                       Ver Foro
                     </Link>
 
-                    <div className="acciones-secundarias">
-                      <Link to={`/course/${compra.idCurso}`} className="btn-continuar">
-                        <i className="bi bi-play-circle"></i>
-                        Continuar curso
-                      </Link>
-
-                      <button className="btn-detalles" title="Ver detalles">
-                        <Link to={`/compraCurso/${compra.idCurso}`}>
-                          <i className="bi bi-info-circle"></i>
-                        </Link>
-                      </button>
-                    </div>
+                    <Link to={`/course/${compra.idCurso}`} className="btn-continuar">
+                      <i className="bi bi-play-circle"></i>
+                      Continuar curso
+                    </Link>
                   </div>
                 </div>
               </div>

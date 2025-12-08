@@ -227,27 +227,29 @@ function InformacionPersonal() {
   return (
     <div className="container informacion-personal">
       {mostrarModal && <ModalProfesor nombre={usuario.nombreUsuario} foto={usuario.fotoDePerfil} desc={usuario.descripcion} frase={usuario.fraseDescriptiva} educ={usuario.educacion} fecha={usuario.createdAt} mostrar={modal} correo={usuario.email} />}
-      <div className="row">
-        <div className="col-3">
+
+      <div className="row mb-4">
+        <div className="col-12 col-md-3 text-center text-md-start mb-3 mb-md-0">
           <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" style={{ display: "none" }} />
           <div className="profile-image-container">
             <img src={usuario?.fotoDePerfil || "/Default.jpg"} alt="Foto de perfil" className="img-fluid rounded-circle profile-image-clickable" onClick={handleImageClick} />
           </div>
         </div>
-        <div className="col-7">
-          <h2>{usuario?.nombreUsuario}</h2>
-          <p>
+
+        <div className="col-12 col-md-9">
+          <h2 className="mb-3">{usuario?.nombreUsuario}</h2>
+          <p className="mb-2">
             <strong>Email:</strong> {usuario?.email}
           </p>
-          <p>
+          <p className="mb-2">
             <strong>Inscripto a:</strong> {cursosInscipto} curso
             {cursosInscipto !== 1 ? "s" : ""}
           </p>
-          <p>
+          <p className="mb-2">
             <strong>Contribuidor de:</strong> {cursosContribuidor} curso
             {cursosContribuidor !== 1 ? "s" : ""}
           </p>
-          <p className="fecha-creacion-cuenta">
+          <p className="fecha-creacion-cuenta mb-0">
             Se unió el{" "}
             {usuario?.createdAt
               ? new Intl.DateTimeFormat("es-AR", {
@@ -256,41 +258,37 @@ function InformacionPersonal() {
               : "Fecha no disponible"}
           </p>
         </div>
-        <div className="col-2">
-          <button type="button" className="boton-camb-cont btn btn-secondary">
-            Cambiar Contraseña
-          </button>
-        </div>
       </div>
-      <hr />
-      <h3 className="perfil-profesor-titulo">Perfil de Profesor</h3>
+
+      <hr className="my-4" />
+
+      <h3 className="perfil-profesor-titulo mb-4">Perfil de Profesor</h3>
+
       {!editando ? (
         usuario.descripcion ? (
-          <>
-            <div style={{ position: "relative", marginTop: "20px" }}>
-              <button type="button" className="boton-editar" onClick={editar}>
-                <i className="bi bi-pencil-square"></i>
-              </button>
+          <div style={{ position: "relative", marginTop: "20px" }}>
+            <button type="button" className="boton-editar" onClick={editar}>
+              <i className="bi bi-pencil-square"></i>
+            </button>
 
-              <div className="pre-view container" onClick={modal}>
-                <div className="row">
-                  <div className="col-12">
-                    <strong>Frase</strong>
-                    <div className="informacion-prof">{usuario.fraseDescriptiva}</div>
-                    <strong>Descripcion</strong>
-                    <div className="informacion-prof">{usuario.descripcion}</div>
-                    <strong>Educacion</strong>
-                    <div className="informacion-prof">{usuario.educacion}</div>
-                  </div>
-                  <div className=" d-flex justify-content-end align-items-end">
-                    <p className="clic">Vista previa</p>
-                  </div>
+            <div className="pre-view w-100" onClick={modal}>
+              <div className="row">
+                <div className="col-12">
+                  <strong>Frase</strong>
+                  <div className="informacion-prof">{usuario.fraseDescriptiva}</div>
+                  <strong className="mt-3 d-block">Descripcion</strong>
+                  <div className="informacion-prof">{usuario.descripcion}</div>
+                  <strong className="mt-3 d-block">Educacion</strong>
+                  <div className="informacion-prof">{usuario.educacion}</div>
+                </div>
+                <div className="col-12 d-flex justify-content-end align-items-end mt-3">
+                  <p className="clic mb-0">Vista previa</p>
                 </div>
               </div>
             </div>
-          </>
+          </div>
         ) : (
-          <button type="button" className="boton-camb-cont btn btn-secondary" onClick={editar}>
+          <button type="button" className="boton-camb-cont btn btn-secondary w-100 w-md-auto" onClick={editar}>
             Agregar informacion de profesor
           </button>
         )
@@ -317,16 +315,21 @@ function InformacionPersonal() {
             <textarea id="educacion" className="form-control" placeholder="Escribe tu formación académica..." onChange={handleEducacionChange} value={educacion}></textarea>
           </div>
 
-          <div style={{ display: "flex", gap: "10px", justifyContent: "flex-end" }}>
-            <button type="button" className="btn btn-secondary boton-cancelar-cambios" onClick={editar}>
-              Cancelar
-            </button>
-            <button type="button" className="btn btn-primary boton-guardar" onClick={handleSubmit}>
-              Guardar
-            </button>
+          <div className="row g-2">
+            <div className="col-12 col-sm-6 d-flex gap-2">
+              <button type="button" className="btn btn-secondary flex-grow-1" onClick={editar}>
+                Cancelar
+              </button>
+            </div>
+            <div className="col-12 col-sm-6">
+              <button type="button" className="btn btn-primary w-100" onClick={handleSubmit}>
+                Guardar
+              </button>
+            </div>
           </div>
         </div>
       )}
+
       {alert && (
         <CustomAlert
           message={alert.message}

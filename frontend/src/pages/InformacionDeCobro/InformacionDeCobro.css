@@ -1,161 +1,187 @@
-.contenedor-info-de-pago{
+.contenedor-info-de-pago {
   width: 80%;
-  background-color: lightgray;
-  border: 1px solid gray;
+  background-color: white;
+  border: 1px solid orange;
   margin: 20px auto;
-  padding: 40px 60px;
-  border-radius: 8px;
-}
-
-.contenedor-info-de-pago label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-.contenedor-info-de-pago input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 20px;
-  border-radius: 4px;
-  box-sizing: border-box;
-  background-color: #f0f0f0;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .contenedor-info-de-pago h3 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.contenedor-info-de-pago button {
-  width: 80%;
-  padding: 10px;
-  margin: auto;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-  display: block;
-  margin-top: 10px;
-}
-
-.no-editando input{
-  background-color: #bbb; 
-}
-
-.contenedor-info-de-pago{
-  width: 80%;
-  background-color: lightgray;
-  border: 1px solid gray;
-  margin: 20px auto;
-  padding: 40px 60px;
-  border-radius: 8px;
-}
-
-.contenedor-info-de-pago label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-}
-
-.contenedor-info-de-pago input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 20px;
-  border-radius: 4px;
-  box-sizing: border-box;
-  background-color: #f0f0f0;
-}
-
-.contenedor-info-de-pago h3 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.contenedor-info-de-pago button {
-  width: 80%;
-  padding: 10px;
-  margin: auto;
-  color: white;
-  border-radius: 50px;
-  cursor: pointer;
-  display: block;
-  margin-top: 10px;
-  border: none;
+  font-size: 1.5rem;
   font-weight: 600;
-  font-size: 1rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.contenedor-info-de-pago label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.contenedor-info-de-pago input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 0.95rem;
   transition: all 0.3s ease;
 }
 
-.contenedor-info-de-pago .btn-primary {
-  background-color: #ff9500;
-  box-shadow: 0 4px 6px rgba(255, 149, 0, 0.3);
+.contenedor-info-de-pago input:focus {
+  border-color: #ff9500;
+  box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.1);
+  outline: none;
 }
 
-.contenedor-info-de-pago .btn-primary:hover {
+.contenedor-info-de-pago input:disabled {
+  background-color: #e8e8e8;
+  color: #666;
+  cursor: not-allowed;
+  border-color: #ccc;
+}
+
+.contenedor-info-de-pago input:not(:disabled) {
+  background-color: #ffffff;
+}
+
+.contenedor-info-de-pago button {
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background-color: #ff9500;
+  width: 100%;
+  margin-top: 1rem;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary:hover {
   background-color: #e68600;
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(255, 149, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3);
 }
 
-.contenedor-info-de-pago .btn-primary:active,
-.contenedor-info-de-pago .btn-primary:focus {
+.btn-primary:active {
   background-color: #cc7700;
-  box-shadow: 0 2px 4px rgba(255, 149, 0, 0.5) !important;
-  outline: none;
+  transform: translateY(0);
 }
 
-.contenedor-info-de-pago .btn-primary:focus-visible {
-  box-shadow: 0 0 0 0.25rem rgba(255, 149, 0, 0.5) !important;
-}
-
-.contenedor-info-de-pago .btn-success {
+.btn-success {
   background-color: #28a745;
-  box-shadow: 0 4px 6px rgba(40, 167, 69, 0.3);
 }
 
-.contenedor-info-de-pago .btn-success:hover {
+.btn-success:hover {
   background-color: #218838;
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(40, 167, 69, 0.4);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
 }
 
-.contenedor-info-de-pago .btn-success:active,
-.contenedor-info-de-pago .btn-success:focus {
-  background-color: #1e7e34;
-  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.5) !important;
-  outline: none;
-}
-
-.contenedor-info-de-pago .btn-secondary {
+.btn-secondary {
   background-color: #6c757d;
-  box-shadow: 0 4px 6px rgba(108, 117, 125, 0.3);
 }
 
-.contenedor-info-de-pago .btn-secondary:hover {
+.btn-secondary:hover {
   background-color: #5a6268;
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(108, 117, 125, 0.4);
-}
-
-.contenedor-info-de-pago .btn-secondary:active,
-.contenedor-info-de-pago .btn-secondary:focus {
-  background-color: #545b62;
-  box-shadow: 0 2px 4px rgba(108, 117, 125, 0.5) !important;
-  outline: none;
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
 }
 
 .botones-edicion {
   display: flex;
-  gap: 10px;
+  gap: 1rem;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 2rem;
+  width: 100%;
 }
 
 .botones-edicion button {
-  width: auto;
-  min-width: 150px;
+  flex: 0 1 auto;
+  max-width: 200px;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
-.no-editando input{
-  background-color: #bbb; 
+/* Responsive */
+@media (max-width: 767px) {
+  .contenedor-info-de-pago {
+    width: 90%;
+    padding: 1.5rem 1rem;
+  }
+
+  .contenedor-info-de-pago h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 0.75rem;
+  }
+
+  .botones-edicion {
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .botones-edicion button {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .contenedor-info-de-pago {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .contenedor-info-de-pago label {
+    font-size: 0.9rem;
+  }
+
+  .contenedor-info-de-pago input {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .btn-primary {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .botones-edicion button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
 }
