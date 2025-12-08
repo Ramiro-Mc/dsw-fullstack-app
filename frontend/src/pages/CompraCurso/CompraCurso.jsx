@@ -62,7 +62,7 @@ const CompraCurso = () => {
           <h1>{curso.titulo}</h1>
           <p className="curso-descripcion">{curso.descripcion}</p>
           <div className="curso-metadata">
-            <span>Creado por {prof.nombreUsuario || "Desconocido"}</span>
+            <span>Creado por {prof.nombreUsuario}</span>
             {curso.updatedAt && <span> • Última actualización: {new Date(curso.updatedAt).toLocaleDateString()}</span>}
           </div>
         </div>

@@ -73,6 +73,17 @@ function MisCursosCreados() {
   };
 
   const handleGuardar = async () => {
+    // Validación frontend
+    const valor = Number(descuento);
+    if (isNaN(valor) || valor <= 0 || valor > 100) {
+      setAlert({
+        message: "El descuento debe ser mayor a 0 y menor a 100",
+        type: "error",
+        onClose: () => setAlert(null),
+      });
+      return;
+    }
+
     try {
       const response = await fetch(
         `http://localhost:3000/api/cursos/${cursoEditandoDesc}`,
