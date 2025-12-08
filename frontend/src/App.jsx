@@ -1,6 +1,7 @@
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 import Course from "./pages/Course/Course";
 import Layout from "./components/Layout";
 import Landing from "./pages/Landing/Landing";
@@ -34,11 +35,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Landing />,
+        element: <AdminRoute><Landing /></AdminRoute>,
       },
       {
         path: "course/:idCurso",
-        element: <Course />,
+        element: <AdminRoute><Course /></AdminRoute>,
       },
       {
         path: "loginPage",
@@ -50,19 +51,19 @@ const router = createBrowserRouter([
       },
       {
         path: "sobreNosotros",
-        element: <SobreNosotros />,
+        element: <AdminRoute><SobreNosotros/></AdminRoute>,
       },
       {
         path: "contacto",
-        element: <Contacto />,
+        element: <AdminRoute><Contacto/></AdminRoute>,
       },
       {
         path: "foro/:idCurso",
-        element: <Foro />,
+        element: <AdminRoute><Foro /></AdminRoute>,
       },
       {
         path: "MiPerfil",
-        element: <LayoutMiPerfil />,
+        element: <AdminRoute><LayoutMiPerfil /></AdminRoute>,
         children: [
           {
             index: true,
@@ -84,43 +85,31 @@ const router = createBrowserRouter([
       },
       {
         path: "usuariosPage",
-        element: <UsuariosPage />,
+        element: <AdminRoute><UsuariosPage /></AdminRoute>,
       },
       {
         path: "crearCurso",
-        element: <CrearCursoPage />,
+        element: <AdminRoute><CrearCursoPage /></AdminRoute>,
       },
       {
-        path: "editarCurso/:idCurso",
-        element: (
-          <ProtectedRoute>
-            <EditarCursoPage />
-          </ProtectedRoute>
-        ),
+        path: "editarCurso/:idCurso", 
+        element: <AdminRoute><EditarCursoPage /></AdminRoute>,
       },
       {
         path: "profesores",
-        element: <Profesores />,
+        element: <AdminRoute><Profesores /></AdminRoute>,
       },
       {
         path: "compraCurso/:idCurso",
-        element: <CompraCurso />,
+        element: <AdminRoute><CompraCurso /></AdminRoute>
       },
       {
         path: "checkout/:idCurso",
-        element: (
-          <ProtectedRoute>
-            <Checkout />
-          </ProtectedRoute>
-        ),
+        element: <AdminRoute><Checkout /></AdminRoute>,
       },
       {
-        path: "checkout/success",
-        element: (
-          <ProtectedRoute>
-            <CheckoutSuccess />
-          </ProtectedRoute>
-        ),
+        path: "checkout/success", 
+        element: <AdminRoute><CheckoutSuccess /></AdminRoute>,
       },
       {
         path: "admin",
