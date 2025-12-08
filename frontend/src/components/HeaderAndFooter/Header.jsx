@@ -1,26 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import logo from "../../../public/logo.png";
 import "../../component-styles/Header.css";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 function Header() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate("/loginPage");
+    setIsMenuOpen(false);
   };
 
-    const logo = "/logo.png";
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  const logo = "/logo.png";
 
   return (
     <header className="contenedor-header">
       <nav className="navbar navbar-expand-lg bg-body-tertiary border-bottom">
         <div className="container-fluid top-bar align-items-center d-flex justify-content-between">
           {/* Logo */}
-          <Link className="boton navbar-brand d-flex align-items-center" to="/">
+          <Link className="boton navbar-brand d-flex align-items-center" to="/" onClick={closeMenu}>
             <img className="logo" src={logo} alt="Logo de la página web" />
           </Link>
 
@@ -28,10 +37,9 @@ function Header() {
           <button
             className="navbar-toggler"
             type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
+            onClick={toggleMenu}
             aria-controls="navbarNav"
-            aria-expanded="false"
+            aria-expanded={isMenuOpen}
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
@@ -39,24 +47,24 @@ function Header() {
 
           {/* Menú de navegación */}
           <div
-            className="collapse navbar-collapse justify-content-end"
+            className={`collapse navbar-collapse justify-content-end ${isMenuOpen ? 'show' : ''}`}
             id="navbarNav"
           >
             <ul className="navbar-nav">
               {user?.tipoUsuario !== "administrador" && (
                 <>
                   <li className="nav-item">
-                    <Link className="boton nav-link fw-bold" to="/profesores">
+                    <Link className="boton nav-link fw-bold" to="/profesores" onClick={closeMenu}>
                       Profesores
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="boton nav-link fw-bold" to="/contacto">
+                    <Link className="boton nav-link fw-bold" to="/contacto" onClick={closeMenu}>
                       Contacto
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="boton nav-link fw-bold" to="/sobreNosotros">
+                    <Link className="boton nav-link fw-bold" to="/sobreNosotros" onClick={closeMenu}>
                       Sobre Nosotros
                     </Link>
                   </li>
@@ -68,6 +76,7 @@ function Header() {
                   <Link
                     className="nav-link fw-bold dropdown-toggle"
                     to={user.tipoUsuario === "administrador" ? "/admin" : "/MiPerfil"}
+                    onClick={closeMenu}
                   >
                     <i className="bi bi-person-circle"></i>
                     <span className="ms-1">{user.nombreUsuario}</span>
@@ -76,7 +85,7 @@ function Header() {
                     {user.tipoUsuario === "administrador" ? (
                       <>
                         <li>
-                          <Link className="dropdown-item" to="/admin">
+                          <Link className="dropdown-item" to="/admin" onClick={closeMenu}>
                             <i className="bi bi-shield-check"></i> Panel de Admin
                           </Link>
                         </li>
@@ -92,27 +101,27 @@ function Header() {
                     ) : (
                       <>
                         <li>
-                          <Link className="dropdown-item" to="/MiPerfil">
+                          <Link className="dropdown-item" to="/MiPerfil" onClick={closeMenu}>
                             <i className="bi bi-person"></i> Mi perfil
                           </Link>
                         </li>
                         <li>
-                          <Link className="dropdown-item" to="/MiPerfil/informacionDeCobro">
+                          <Link className="dropdown-item" to="/MiPerfil/informacionDeCobro" onClick={closeMenu}>
                             <i className="bi bi-wallet2"></i> Informacion de cobro
                           </Link>
                         </li>
                         <li>
-                          <Link className="dropdown-item" to="/MiPerfil/misCursosComprados">
+                          <Link className="dropdown-item" to="/MiPerfil/misCursosComprados" onClick={closeMenu}>
                             <i className="bi bi-pencil-fill"></i> Cursos Comprados
                           </Link>
                         </li>
                         <li>
-                          <Link className="dropdown-item" to="/MiPerfil/misCursosCreados">
+                          <Link className="dropdown-item" to="/MiPerfil/misCursosCreados" onClick={closeMenu}>
                             <i className="bi bi-person-video3"></i> Cursos Creados
                           </Link>
                         </li>
                         <li>
-                          <Link className="dropdown-item" to="/MiPerfil/reportes">
+                          <Link className="dropdown-item" to="/MiPerfil/reportes" onClick={closeMenu}>
                             <i className="bi bi-newspaper"></i> Reportes
                           </Link>
                         </li>
@@ -130,7 +139,7 @@ function Header() {
                 </li>
               ) : (
                 <li>
-                  <Link className="nav-link fw-bold" to="/loginPage">
+                  <Link className="nav-link fw-bold" to="/loginPage" onClick={closeMenu}>
                     Iniciar sesión
                   </Link>
                 </li>

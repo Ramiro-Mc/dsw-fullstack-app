@@ -99,3 +99,12 @@ nav a:hover {
 .navbar-nav .dropdown-menu.show {
   transform-origin: top right;
 }
+
+.navbar-collapse {
+  background-color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+.navbar-collapse.show {
+  display: block !important;
+}
