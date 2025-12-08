@@ -13,18 +13,24 @@ function Foro() {
   const [nuevaPublicacion, setNuevaPublicacion] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [editandoId, setEditandoId] = useState(null);
+  const [editandoContenido, setEditandoContenido] = useState("");
 
   useEffect(() => {
     const fetchCursoYComunidad = async () => {
       try {
         // Cargar información del curso
-        const responseCurso = await fetch(
-          `http://localhost:3000/api/cursos/${idCurso}`
+       const responseCurso = await fetch(
+          `http://localhost:3000/cursoDetalle/${idCurso}`
         );
         const dataCurso = await responseCurso.json();
 
         if (dataCurso.success) {
           setCurso(dataCurso.contenido);
+        } else {
+          setError("Error al cargar el curso");
+          setLoading(false);
+          return;
         }
 
         // Cargar comunidad del curso
@@ -150,6 +156,87 @@ function Foro() {
     }
   };
 
+    const handleEditar = (pub) => {
+    setEditandoId(pub.idPublicacion);
+    setEditandoContenido(pub.contenido);
+  };
+
+  const handleGuardarEdicion = async (idPublicacion) => {
+    if (!editandoContenido.trim()) {
+      setError("El contenido no puede estar vacío");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/publicaciones/${idPublicacion}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            contenido: editandoContenido,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        setPublicaciones(
+          publicaciones.map((pub) =>
+            pub.idPublicacion === idPublicacion
+              ? { ...pub, contenido: editandoContenido }
+              : pub
+          )
+        );
+        setEditandoId(null);
+        setEditandoContenido("");
+        setError("");
+      } else {
+        setError(data.msg || "Error al editar publicación");
+      }
+    } catch (error) {
+      console.error("Error al editar:", error);
+      setError("Error al editar la publicación");
+    }
+  };
+
+  const handleEliminar = async (idPublicacion) => {
+    if (!window.confirm("¿Estás seguro de que deseas eliminar esta publicación?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/publicaciones/${idPublicacion}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        setPublicaciones(
+          publicaciones.filter((pub) => pub.idPublicacion !== idPublicacion)
+        );
+        setError("");
+      } else {
+        setError(data.msg || "Error al eliminar publicación");
+      }
+    } catch (error) {
+      console.error("Error al eliminar:", error);
+      setError("Error al eliminar la publicación");
+    }
+  };
+
+  const handleCancelarEdicion = () => {
+    setEditandoId(null);
+    setEditandoContenido("");
+  };
+
   if (loading) {
     return (
       <main className="foro-container">
@@ -162,7 +249,8 @@ function Foro() {
     );
   }
 
-  return (
+
+   return (
     <main className="foro-container">
       <div className="foro-header">
         <div className="container">
@@ -238,7 +326,7 @@ function Foro() {
           ) : (
             publicaciones.map((pub) => (
               <div key={pub.idPublicacion} className="publicacion-card">
-                {/* Publicación principal */}
+                {/* Publicación header */}
                 <div className="publicacion-header">
                   <img
                     src={
@@ -267,11 +355,58 @@ function Foro() {
                       )}
                     </span>
                   </div>
+
+                  {/* Mostrar botones solo si es el dueño - ARRIBA A LA DERECHA */}
+                  {(user?.idUsuario === pub.idUsuario ||
+                    user?.id === pub.idUsuario) && (
+                    <div className="publicacion-opciones-header">
+                      <button
+                        className="btn btn-sm btn-outline-primary"
+                        onClick={() => handleEditar(pub)}
+                        title="Editar publicación"
+                      >
+                        <i className="bi bi-pencil"></i>
+                      </button>
+                      <button
+                        className="btn btn-sm btn-outline-danger"
+                        onClick={() => handleEliminar(pub.idPublicacion)}
+                        title="Eliminar publicación"
+                      >
+                        <i className="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  )}
                 </div>
 
-                <div className="publicacion-contenido">
-                  <p>{pub.contenido}</p>
-                </div>
+                {/* Publicación contenido */}
+                {editandoId === pub.idPublicacion ? (
+                  <div className="publicacion-edicion">
+                    <textarea
+                      className="form-control"
+                      value={editandoContenido}
+                      onChange={(e) => setEditandoContenido(e.target.value)}
+                      rows="3"
+                    />
+                    <div className="publicacion-acciones-edicion mt-2">
+                      <button
+                        className="btn btn-sm guardar"
+                        onClick={() => handleGuardarEdicion(pub.idPublicacion)}
+                      >
+                        <i className="bi bi-check"></i> Guardar
+                      </button>
+                      <button
+                        className="btn btn-sm cancelar"
+                        onClick={handleCancelarEdicion}
+                      >
+                        <i className="bi bi-x"></i> Cancelar
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="publicacion-contenido">
+                    <p>{pub.contenido}</p>
+                  </div>
+                )}
               </div>
             ))
           )}

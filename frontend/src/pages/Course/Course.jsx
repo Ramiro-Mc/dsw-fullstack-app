@@ -48,7 +48,7 @@ function Course() {
         const cursoData = responseCurso.contenido;
 
         // Si hay usuario logueado, cargar su progreso
-        let progresoUsuario = {};
+       let progresoUsuario = {};
         if (idUsuario) {
           try {
             const resProgreso = await fetch(
@@ -56,10 +56,11 @@ function Course() {
             );
             if (resProgreso.ok) {
               const responseProgreso = await resProgreso.json();
-              if (responseProgreso.success) {
-                responseProgreso.progreso.forEach((p) => {
+              if (responseProgreso.success && responseProgreso.contenido) {
+                responseProgreso.contenido.forEach((p) => {
                   progresoUsuario[p.numeroLec] = p.completado;
                 });
+                console.log("Progreso cargado:", progresoUsuario);
               }
             }
           } catch (err) {
@@ -132,7 +133,6 @@ function Course() {
 
 const completarClase = async () => {
     try {
-      // Obtener ID del usuario desde el contexto
       const idUsuario = user?.idUsuario || user?.id;
 
       if (!idUsuario) {
@@ -144,7 +144,9 @@ const completarClase = async () => {
         return;
       }
 
-      // Actualizar en la base de datos - usar la ruta correcta de alumnoLeccion
+      const nuevoEstado = !claseClicked.completado;
+
+      // Actualizar en la base de datos
       const response = await fetch(
         `http://localhost:3000/lecciones/${claseClicked.idLeccion}/completar`,
         {
@@ -153,7 +155,7 @@ const completarClase = async () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            completado: !claseClicked.completado,
+            completado: nuevoEstado,
             idUsuario: idUsuario,
           }),
         }
@@ -169,14 +171,14 @@ const completarClase = async () => {
         throw new Error(result.msg || "Error al actualizar la lección");
       }
 
-      // Actualizar el estado local si la BD se actualizó correctamente
+      // Actualizar estado local después de confirmar en BD
       setCurso((prevCurso) => ({
         ...prevCurso,
         modulos: prevCurso.modulos.map((modulo) => ({
           ...modulo,
           lecciones: modulo.lecciones.map((leccion) =>
             leccion.idLeccion === claseClicked.idLeccion
-              ? { ...leccion, completado: !leccion.completado }
+              ? { ...leccion, completado: nuevoEstado }
               : leccion
           ),
         })),
@@ -184,14 +186,18 @@ const completarClase = async () => {
 
       setClaseClicked({
         ...claseClicked,
-        completado: !claseClicked.completado,
+        completado: nuevoEstado,
       });
 
-      if (!claseClicked.completado) {
-        setCantCompletada(cantCompletada + 1);
-      } else {
-        setCantCompletada(cantCompletada - 1);
-      }
+      // Actualizar contador
+      setCantCompletada(nuevoEstado ? cantCompletada + 1 : cantCompletada - 1);
+
+      setAlert({
+        message: nuevoEstado ? "Lección marcada como completada" : "Lección desmarcada",
+        type: "success",
+        onClose: () => setAlert(null),
+      });
+
     } catch (error) {
       console.error("Error al completar lección:", error);
       setAlert({
