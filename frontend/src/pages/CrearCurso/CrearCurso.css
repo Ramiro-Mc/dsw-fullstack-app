@@ -183,6 +183,26 @@ textarea {
   color: white !important;
 }
 
+
+/* Estilos para los botones de selección de imagen */
+.btn-group .btn-check:checked + .btn-outline-primary {
+  background-color: orange !important;
+  border-color: orange !important;
+  color: white !important;
+}
+
+.btn-group .btn-outline-primary {
+  color: orange !important;
+  border-color: orange !important;
+  background-color: transparent !important;
+}
+
+.btn-group .btn-outline-primary:hover {
+  background-color: rgba(255, 165, 0, 0.1) !important;
+  border-color: orange !important;
+  color: orange !important;
+}
+
 /* RESPONSIVE PARA DISPOSITIVOS PEQUEÑOS */
 
 /* Tablets (768px y menores) */

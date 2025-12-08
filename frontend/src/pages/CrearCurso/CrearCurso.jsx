@@ -5,6 +5,7 @@ import FormularioCurso from "../../components/crearCurso/FormularioCurso";
 import ListaModulos from "../../components/crearCurso/ListaModulos";
 import FormularioModulo from "../../components/crearCurso/FormularioModulo";
 import FormularioLecciones from "../../components/crearCurso/FormularioLecciones";
+import { useNavigate } from "react-router-dom";
 import "./CrearCurso.css";
 
 function CrearCursoPage() {
@@ -14,11 +15,14 @@ function CrearCursoPage() {
   const [mostrarFormularioLecciones, setMostrarFormularioLecciones] =
     useState(false);
   const [alert, setAlert] = useState(null);
+  const navigate = useNavigate();
 
   // Estados para el curso
   const [nombreCurso, setNombreCurso] = useState("");
   const [descripcionCurso, setDescripcionCurso] = useState("");
   const [precioCurso, setPrecioCurso] = useState("");
+  const [imagenCurso, setImagenCurso] = useState("");
+  const [tipoImagen, setTipoImagen] = useState("default");
 
   // Estados para módulo
   const [nombreModulo, setNombreModulo] = useState("");
@@ -213,6 +217,7 @@ function CrearCursoPage() {
       precio: parseFloat(precioCurso),
       idTipo: parseInt(moduloSeleccionado),
       idProfesor: idProfesor,
+      imagen: tipoImagen === 'default' ? null : imagenCurso, // null usará la imagen default en el backend
       modulos: modulosGuardados.map((modulo) => ({
         titulo: modulo.nombre,
         lecciones: modulo.lecciones.map((leccion) => ({
@@ -234,7 +239,10 @@ function CrearCursoPage() {
       setAlert({
         message: "¡Curso creado exitosamente!",
         type: "success",
-        onClose: () => setAlert(null),
+        onClose: () => {
+          setAlert(null);
+          navigate("/MiPerfil/misCursosCreados");
+        },
       });
       // Limpiar formulario
       setNombreCurso("");
@@ -242,6 +250,9 @@ function CrearCursoPage() {
       setPrecioCurso("");
       setModuloSeleccionado("");
       setModulosGuardados([]);
+      setImagenCurso("");
+      setTipoImagen("default");
+      
     } catch (error) {
       console.error("Error al crear curso:", error);
       setAlert({
@@ -263,7 +274,7 @@ function CrearCursoPage() {
           <hr />
           <form onSubmit={handleSubmit}>
             <FormularioCurso
-              nombreCurso={nombreCurso}
+             nombreCurso={nombreCurso}
               setNombreCurso={setNombreCurso}
               descripcionCurso={descripcionCurso}
               setDescripcionCurso={setDescripcionCurso}
@@ -272,7 +283,10 @@ function CrearCursoPage() {
               moduloSeleccionado={moduloSeleccionado}
               setModuloSeleccionado={setModuloSeleccionado}
               modulos={tiposCurso}
-              // cargarTiposCurso={cargarTiposCurso}
+              imagenCurso={imagenCurso}
+              setImagenCurso={setImagenCurso}
+              tipoImagen={tipoImagen}
+              setTipoImagen={setTipoImagen}
             />
 
             <ListaModulos

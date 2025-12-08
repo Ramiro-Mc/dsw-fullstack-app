@@ -148,7 +148,6 @@ function FormularioLecciones({
       <div ref={formularioLeccionRef}>
         <FormularioLeccion
           leccionEditando={editandoLeccion}
-          moduloId={modulo.id}
           onGuardarLeccion={handleGuardarLeccion}
           onCancelarEdicion={handleCancelarEdicion}
         />
