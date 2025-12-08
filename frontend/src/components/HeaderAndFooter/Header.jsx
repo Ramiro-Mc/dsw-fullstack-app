@@ -22,6 +22,7 @@ function Header() {
     setIsMenuOpen(false);
   };
 
+
   const logo = "/logo.png";
 
   return (
@@ -64,19 +65,23 @@ function Header() {
                     </Link>
                   </li>
                   <li className="nav-item">
+
                     <Link className="boton nav-link fw-bold" to="/sobreNosotros" onClick={closeMenu}>
+
                       Sobre Nosotros
                     </Link>
                   </li>
                 </>
               )}
-              
+
               {user ? (
                 <li className="nav-item dropdown">
                   <Link
                     className="nav-link fw-bold dropdown-toggle"
+
                     to={user.tipoUsuario === "administrador" ? "/admin" : "/MiPerfil"}
                     onClick={closeMenu}
+
                   >
                     <i className="bi bi-person-circle"></i>
                     <span className="ms-1">{user.nombreUsuario}</span>
@@ -85,15 +90,20 @@ function Header() {
                     {user.tipoUsuario === "administrador" ? (
                       <>
                         <li>
+
                           <Link className="dropdown-item" to="/admin" onClick={closeMenu}>
                             <i className="bi bi-shield-check"></i> Panel de Admin
+
                           </Link>
                         </li>
                         <li>
                           <hr className="dropdown-divider" />
                         </li>
                         <li>
-                          <button className="dropdown-item" onClick={handleLogout}>
+                          <button
+                            className="dropdown-item"
+                            onClick={handleLogout}
+                          >
                             <i className="bi bi-door-open"></i> Cerrar sesión
                           </button>
                         </li>
@@ -106,6 +116,7 @@ function Header() {
                           </Link>
                         </li>
                         <li>
+
                           <Link className="dropdown-item" to="/MiPerfil/informacionDeCobro" onClick={closeMenu}>
                             <i className="bi bi-wallet2"></i> Informacion de cobro
                           </Link>
@@ -123,13 +134,17 @@ function Header() {
                         <li>
                           <Link className="dropdown-item" to="/MiPerfil/reportes" onClick={closeMenu}>
                             <i className="bi bi-newspaper"></i> Reportes
+
                           </Link>
                         </li>
                         <li>
                           <hr className="dropdown-divider" />
                         </li>
                         <li>
-                          <button className="dropdown-item" onClick={handleLogout}>
+                          <button
+                            className="dropdown-item"
+                            onClick={handleLogout}
+                          >
                             <i className="bi bi-door-open"></i> Cerrar sesión
                           </button>
                         </li>
