@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -11,16 +11,45 @@ function LoginPage() {
   const { login } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
+  const recaptchaRef = useRef(null);
+
+  // cargo el script del recaptcha
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://www.google.com/recaptcha/api.js";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    // con  esta función global capturo el token del captcha
+    window.onCaptchaSuccess = (token) => {
+      setCaptchaToken(token);
+    };
+
+    return () => {
+      document.body.removeChild(script);
+      delete window.onCaptchaSuccess;
+    };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+
+    // validar captcha
+    if (!captchaToken) {
+      setError("Por favor, completa el captcha");
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await fetch("http://localhost:3000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, contrasena }),
+        body: JSON.stringify({ email, contrasena, captchaToken }),
       });
 
       const data = await response.json();
@@ -35,10 +64,20 @@ function LoginPage() {
         }
       } else {
         setError(data.msg || "Credenciales inválidas");
+        // se resetea el captcha en caso de error
+        setCaptchaToken("");
+        if (window.grecaptcha) {
+          window.grecaptcha.reset();
+        }
       }
     } catch (error) {
       console.error("Error en login:", error);
       setError("Error de conexión. Intenta de nuevo.");
+      // se resetea el captcha en caso de error
+      setCaptchaToken("");
+      if (window.grecaptcha) {
+        window.grecaptcha.reset();
+      }
     } finally {
       setLoading(false);
     }
@@ -86,16 +125,27 @@ function LoginPage() {
               required
             />
           </div>
+
+          {/* reCAPTCHA */}
+          <div className="mb-3 d-flex justify-content-center">
+            <div
+              className="g-recaptcha"
+              data-sitekey="6LehcyQsAAAAALul4hrS12M_yRvPBLYVt_H3I9TH"
+              data-callback="onCaptchaSuccess"
+              ref={recaptchaRef}
+            ></div>
+          </div>
+
           <div className="d-grid gap-2 mb-2">
             <button
               type="submit"
               className="btn btn-primary"
-              disabled={loading}
+              disabled={loading || !captchaToken}
             >
-              {loading ? "Iniciando..." : "Login"}
+              {loading ? "Iniciando..." : "Iniciar Sesión"}
             </button>
             <Link to="/registerPage" className="btn btn-primary">
-              Register
+              Registrate
             </Link>
           </div>
           <div className="text-center">

@@ -6,7 +6,6 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import cors from "cors";
 import tipoCursoRoutes from "./routes/tipoCurso.routes.js";
 import cursosRoutes from "./routes/cursos.routes.js";
-import descuentosRoutes from "./routes/descuento.routes.js";
 import usuarioRoutes from "./routes/usuario.routes.js";
 import comunidadRoutes from "./routes/comunidad.routes.js";
 import publicacionRoutes from "./routes/publicacion.routes.js";
@@ -19,6 +18,7 @@ import nuevosCursosRoutes from "./routes/nuevosCursos.routes.js";
 import alumnoLeccionRoutes from "./routes/alumnoLeccion.routes.js";
 import alumnoCursoRoutes from "./routes/alumnos_cursos.routes.js"; 
 import routerPagos from "./routes/pagos.routes.js";
+import { pagoController } from "./controllers/pagos.controller.js";
 
 // Importar modelos con asociaciones
 import db from "./models/allModels.js";
@@ -30,7 +30,7 @@ passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
 
-const app = express();
+const app = express();  
 
 app.use(
   cors({
@@ -41,19 +41,11 @@ app.use(
   })
 );
 
-// ⚠️ IMPORTANTE: Webhook de Stripe DEBE ir ANTES de express.json()
+
 app.post(
-  "/api/pagos/webhook",
+  "/pagos/webhook",
   express.raw({ type: "application/json" }),
-  async (req, res) => {
-    try {
-      const { pagoController } = await import("./controllers/pagos.controller.js");
-      await pagoController.webhook(req, res);
-    } catch (error) {
-      console.error("Error en webhook:", error);
-      res.status(500).send("Webhook error");
-    }
-  }
+  pagoController.webhook
 );
 
 // Middlewares (DESPUÉS del webhook)
@@ -70,7 +62,6 @@ app.use("/", loginRoutes);
 // Otras rutas (sin /api)
 app.use(tipoCursoRoutes);
 app.use(comunidadRoutes);
-app.use(descuentosRoutes);
 app.use(usuarioRoutes);
 app.use(publicacionRoutes);
 app.use(cursoDetalleRoutes);

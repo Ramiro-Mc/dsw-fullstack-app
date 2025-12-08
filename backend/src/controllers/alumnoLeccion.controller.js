@@ -8,9 +8,9 @@ export const completarLeccion = async (req, res) => {
     const { completado, idUsuario } = req.body;
 
     if (!idUsuario) {
-      return res.status(400).json({ 
-        success: false, 
-        msg: 'ID de usuario requerido' 
+      return res.status(400).json({
+        success: false,
+        msg: "ID de usuario es obligatorio"
       });
     }
 
@@ -28,22 +28,23 @@ export const completarLeccion = async (req, res) => {
 
     // Si ya existía, actualizar
     if (!created) {
-      alumnoLeccion.completado = completado;
-      alumnoLeccion.fechaCompletado = completado ? new Date() : null;
-      await alumnoLeccion.save();
+      await alumnoLeccion.update({
+        completado: completado,
+        fechaCompletado: completado ? new Date() : null
+      });
     }
 
-    res.json({
+    res.status(200).json({
       success: true,
-      msg: 'Progreso actualizado correctamente',
-      data: alumnoLeccion
+      msg: completado ? "Lección marcada como completada" : "Lección marcada como no completada",
+      contenido: alumnoLeccion
     });
 
   } catch (error) {
-    console.error('Error al actualizar progreso:', error);
+    console.error(error);
     res.status(500).json({
       success: false,
-      msg: 'Error interno del servidor'
+      msg: error.message || "Error al actualizar la lección"
     });
   }
 };
@@ -52,34 +53,45 @@ export const obtenerProgresoUsuario = async (req, res) => {
   try {
     const { idUsuario, idCurso } = req.params;
 
-    // Obtener el progreso del usuario para las lecciones de este curso
+    if (!idUsuario || !idCurso) {
+      return res.status(400).json({
+        success: false,
+        msg: "ID de usuario e ID de curso son obligatorios"
+      });
+    }
+
+    // Obtener todas las lecciones del curso con el progreso del usuario
     const progreso = await AlumnoLeccion.findAll({
-      where: { idUsuario },
-      include: [{
-        model: Leccion,
-        as: 'Leccion',
-        include: [{
-          model: Modulo,
-          as: 'Modulo',
-          where: { idCurso }
-        }]
-      }]
+      where: { idUsuario: idUsuario },
+      include: [
+        {
+          model: Leccion,
+          as: "Leccion",
+          attributes: ["numeroLec", "tituloLec", "idModulo"],
+          include: [
+            {
+              model: Modulo,
+              as: "ModuloDeLeccion",
+              attributes: ["idModulo", "idCurso"],
+              where: { idCurso: idCurso }
+            }
+          ]
+        }
+      ],
+      attributes: ["idUsuario", "numeroLec", "completado", "fechaCompletado"]
     });
 
-    res.json({
+    res.status(200).json({
       success: true,
-      progreso: progreso.map(p => ({
-        numeroLec: p.numeroLec,
-        completado: p.completado,
-        fechaCompletado: p.fechaCompletado
-      }))
+      msg: "Progreso del usuario obtenido",
+      contenido: progreso
     });
 
   } catch (error) {
-    console.error('Error al obtener progreso:', error);
+    console.error(error);
     res.status(500).json({
       success: false,
-      msg: 'Error interno del servidor'
+      msg: error.message || "Error al obtener el progreso del usuario"
     });
   }
 };

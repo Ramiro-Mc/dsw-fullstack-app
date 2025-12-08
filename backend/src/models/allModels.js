@@ -5,13 +5,12 @@ import { sequelize } from "../database/sequelize.js";
 import { TipoCurso } from "./TipoCurso.js";
 import { Comunidad } from "./Comunidad.js";
 import { Curso } from "./Curso.js";
-import { Descuento } from "./Descuento.js";
 import { Leccion } from "./Leccion.js";
-import { Publicidad } from "./Publicidad.js";
 import { Usuario } from "./Usuario.js";
 import { Modulo } from "./Modulo.js";
 import { AlumnoCurso } from "./AlumnoCurso.js";
 import { AlumnoLeccion } from "./AlumnoLeccion.js";
+import { Publicacion } from "./Publicacion.js";
 
 // Relaciones
 
@@ -73,16 +72,28 @@ Comunidad.belongsTo(Curso, {
   as: "CursoDeComunidad",
 });
 
-// Relación Curso -> Descuento
-Curso.belongsToMany(Descuento, {
-  through: "CursoDescuento",
-  foreignKey: "idCurso",
-  as: "DescuentosDelCurso",
+// Relación Comunidad -> Publicacion
+Comunidad.hasMany(Publicacion, {
+  foreignKey: "idComunidad",
+  sourceKey: "idComunidad",
+  as: "PublicacionesDeComunidad",
 });
-Descuento.belongsToMany(Curso, {
-  through: "CursoDescuento",
-  foreignKey: "idDescuento",
-  as: "CursosConDescuento",
+Publicacion.belongsTo(Comunidad, {
+  foreignKey: "idComunidad",
+  targetKey: "idComunidad",
+  as: "ComunidadDePublicacion",
+});
+
+// Relación Usuario -> Publicacion
+Usuario.hasMany(Publicacion, {
+  foreignKey: "idUsuario",
+  sourceKey: "idUsuario",
+  as: "PublicacionesDelUsuario",
+});
+Publicacion.belongsTo(Usuario, {
+  foreignKey: "idUsuario",
+  targetKey: "idUsuario",
+  as: "UsuarioDePublicacion",
 });
 
 Usuario.belongsToMany(Leccion, {
@@ -127,15 +138,14 @@ const db = {
   TipoCurso,
   Comunidad,
   Curso,
-  Descuento,
   Leccion,
-  Publicidad,
   Usuario,
   Modulo,
   AlumnoCurso,
   AlumnoLeccion,
+  Publicacion
 };
 
 export default db;
 
-export { sequelize, Sequelize, TipoCurso, Comunidad, Curso, Descuento, Leccion, Publicidad, Usuario, Modulo, AlumnoCurso, AlumnoLeccion };
+export { sequelize, Sequelize, TipoCurso, Comunidad, Curso, Leccion, Usuario, Modulo, AlumnoCurso, AlumnoLeccion, Publicacion };

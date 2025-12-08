@@ -51,31 +51,6 @@ export const cursoDetalleController = {
     }
   },
 
-  completarLeccion: async (req, res) => {
-    try {
-      const { numeroLec } = req.params;
-      const { completado } = req.body;
-
-      await Leccion.update(
-        { completado: completado },
-        { where: { numeroLec } }
-      );
-
-      res.status(200).json({
-        success: true,
-        msg: "Progreso actualizado correctamente"
-      });
-
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        success: false,
-        msg: process.env.NODE_ENV === "development"
-          ? error.message 
-          : "Error interno del servidor",
-      });
-    }
-  },
 
   // Método adicional para obtener lecciones de un módulo
   getLeccionesByModulo: async (req, res) => {

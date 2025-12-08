@@ -1,7 +1,6 @@
 import { check } from "express-validator";
 import validateResult from "../helpers/validateHelper.js";
 import {Curso} from "../models/Curso.js";
-import { Descuento } from "../models/Descuento.js";
 import { Op } from "sequelize";
 
 const validateCreate = [

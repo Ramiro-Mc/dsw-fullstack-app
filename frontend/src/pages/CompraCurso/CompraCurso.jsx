@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import ModalProfesor from "../../components/ModalProfesor";
 import "./CompraCurso.css";
 
 const CompraCurso = () => {
@@ -8,6 +9,7 @@ const CompraCurso = () => {
   const [curso, setCurso] = useState(null);
   const [loading, setLoading] = useState(true);
   const [prof, setProfesor] = useState({});
+  const [mostrarModal, setMostrarModal] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -17,25 +19,22 @@ const CompraCurso = () => {
     fetch(`${base}/api/cursos/${idCurso}`, { signal: controller.signal })
       .then((res) => res.json())
       .then((data) => {
-        
         setCurso(data.informacion || data.contenido || data);
         setLoading(false);
 
-        // Cargar el profesor después de obtener el curso
-        const idProfesor = data.informacion.idProfesor; 
+        const idProfesor = data.informacion.idProfesor;
         if (idProfesor) {
           fetch(`http://localhost:3000/usuarios/${idProfesor}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
           })
-          .then((res) => res.json())
-          .then((profData) => {
-            
-            if (profData.success) {
-              setProfesor(profData.informacion);
-            }
-          })
-          .catch((error) => console.error("Error al cargar usuario:", error));
+            .then((res) => res.json())
+            .then((profData) => {
+              if (profData.success) {
+                setProfesor(profData.informacion);
+              }
+            })
+            .catch((error) => console.error("Error al cargar usuario:", error));
         }
       })
       .catch((err) => {
@@ -46,11 +45,14 @@ const CompraCurso = () => {
     return () => controller.abort();
   }, [idCurso]);
 
+  const modal = () => {
+    setMostrarModal(!mostrarModal);
+  };
+
   if (loading) return <div className="compra-curso-container">Cargando...</div>;
   if (!curso) return <div className="compra-curso-container">No se encontró el curso.</div>;
 
   const handleComprarAhora = () => {
-    // Redirige a la ruta de checkout ya creada (/checkout/:idCurso)
     navigate(`/checkout/${idCurso}`);
   };
 
@@ -62,7 +64,10 @@ const CompraCurso = () => {
           <h1>{curso.titulo}</h1>
           <p className="curso-descripcion">{curso.descripcion}</p>
           <div className="curso-metadata">
-            <span>Creado por {prof.nombreUsuario}</span>
+            Creado por:
+            <span className="profesor-clickable" onClick={modal} style={{ cursor: "pointer", color: "#42a5f5",marginLeft: "-20px"}}>
+              {prof.nombreUsuario || "Desconocido"}
+            </span>
             {curso.updatedAt && <span> • Última actualización: {new Date(curso.updatedAt).toLocaleDateString()}</span>}
           </div>
         </div>
@@ -99,6 +104,8 @@ const CompraCurso = () => {
           </div>
         </div>
       </aside>
+
+      {mostrarModal && <ModalProfesor nombre={prof.nombreUsuario} foto={prof.fotoDePerfil} desc={prof.descripcion} frase={prof.fraseDescriptiva} educ={prof.educacion} fecha={prof.createdAt} mostrar={modal} correo={prof.email} />}
     </div>
   );
 };

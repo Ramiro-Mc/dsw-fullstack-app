@@ -1,5 +1,4 @@
 import { Curso } from "../models/Curso.js";
-import { Descuento } from "../models/Descuento.js";
 import { TipoCurso } from "../models/TipoCurso.js";
 import { Op } from "sequelize";
 
@@ -190,99 +189,6 @@ export const cursoController = {
     }
   },
 
-  /*
-  agregarDescuento: async(req, res) => {
-    try{
-      const {idCurso} = req.params;
-      const {idDescuento} = req.body;
-
-      const curso = await Curso.findByPk(idCurso);
-      const descuento = await Descuento.findByPk(idDescuento);
-
-      if (!curso || !descuento) {
-        return res.status(404).json({
-          success: false,
-          msg: "Curso o descuento no encontrado"
-        });
-      }
-
-      await curso.addDescuentosDelCurso(descuento); // Usar el alias correcto
-
-      res.status(200).json({
-        success: true,
-        msg: "Descuento agregado correctamente",
-      });
-
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        success: false,
-        msg: process.env.NODE_ENV === "development" 
-          ? error.message 
-          : "Error interno del servidor",
-      });
-    }
-  },
-
-  quitarDescuento: async (req, res) => {
-    try{
-      const {idCurso} = req.params;
-      const {idDescuento} = req.body;
-
-      const curso = await Curso.findByPk(idCurso);
-      const descuento = await Descuento.findByPk(idDescuento);
-
-      if (!curso || !descuento) {
-        return res.status(404).json({
-          success: false,
-          msg: "Curso o descuento no encontrado"
-        });
-      }
-
-      await curso.removeDescuentosDelCurso(descuento); // Usar el alias correcto
-
-      res.status(200).json({
-        success: true,
-        msg: "Descuento removido correctamente",
-      });
-
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        success: false,
-        msg: process.env.NODE_ENV === "development" 
-          ? error.message 
-          : "Error interno del servidor",
-      });
-    }
-  },
-
-  getAllDescuentosCurso: async (req, res) => {
-    try{
-      const { idCurso } = req.params;
-
-      const curso = await Curso.findByPk(idCurso, {
-        include: [{ model: Descuento, as: "DescuentosDelCurso" }] // Usar alias correcto
-      });
-
-      res.status(200).json({
-        success: true,
-        msg: "Descuentos obtenidos correctamente",
-        informacion: curso?.DescuentosDelCurso || [] // Usar alias correcto
-      });
-
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        success: false,
-        msg: process.env.NODE_ENV === "development" 
-          ? error.message 
-          : "Error interno del servidor",
-      });
-    };
-  },
-
-  */
 
   getCursosPendientes: async (req, res) => {
     try {

@@ -1,4 +1,4 @@
-.fondo-contacto{
+.fondo-contacto {
   padding: 3rem 0;
   background-image: url("./fondoContacto.jpg");
   height: 100%;
@@ -43,6 +43,13 @@
   font-size: 1rem;
   color: #333;
   background-color: #fff;
+}
+
+.contacto-form textarea {
+  resize: vertical;
+  min-height: 120px;
+  max-height: 300px;
+  font-family: inherit;
 }
 
 .contacto-form input:focus,
