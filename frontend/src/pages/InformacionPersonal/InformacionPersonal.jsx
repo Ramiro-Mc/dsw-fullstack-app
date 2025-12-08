@@ -267,22 +267,24 @@ function InformacionPersonal() {
       {!editando ? (
         usuario.descripcion ? (
           <>
-            <button type="button" className="boton-editar" onClick={editar}>
-              <i class="bi bi-pencil-square"></i>
-            </button>
+            <div style={{ position: "relative", marginTop: "20px" }}>
+              <button type="button" className="boton-editar" onClick={editar}>
+                <i className="bi bi-pencil-square"></i>
+              </button>
 
-            <div className="pre-view container" onClick={modal}>
-              <div className="row">
-                <div className="col-12">
-                  <strong>Frase</strong>
-                  <div className="informacion-prof">{usuario.fraseDescriptiva}</div>
-                  <strong>Descripcion</strong>
-                  <div className="informacion-prof">{usuario.descripcion}</div>
-                  <strong>Educacion</strong>
-                  <div className="informacion-prof">{usuario.educacion}</div>
-                </div>
-                <div className=" d-flex justify-content-end align-items-end">
-                  <p className="clic">Vista previa</p>
+              <div className="pre-view container" onClick={modal}>
+                <div className="row">
+                  <div className="col-12">
+                    <strong>Frase</strong>
+                    <div className="informacion-prof">{usuario.fraseDescriptiva}</div>
+                    <strong>Descripcion</strong>
+                    <div className="informacion-prof">{usuario.descripcion}</div>
+                    <strong>Educacion</strong>
+                    <div className="informacion-prof">{usuario.educacion}</div>
+                  </div>
+                  <div className=" d-flex justify-content-end align-items-end">
+                    <p className="clic">Vista previa</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -315,9 +317,14 @@ function InformacionPersonal() {
             <textarea id="educacion" className="form-control" placeholder="Escribe tu formación académica..." onChange={handleEducacionChange} value={educacion}></textarea>
           </div>
 
-          <button type="button" className="btn btn-primary boton-guardar" onClick={handleSubmit}>
-            Guardar
-          </button>
+          <div style={{ display: "flex", gap: "10px", justifyContent: "flex-end" }}>
+            <button type="button" className="btn btn-secondary boton-cancelar-cambios" onClick={editar}>
+              Cancelar
+            </button>
+            <button type="button" className="btn btn-primary boton-guardar" onClick={handleSubmit}>
+              Guardar
+            </button>
+          </div>
         </div>
       )}
       {alert && (

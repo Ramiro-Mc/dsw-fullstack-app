@@ -15,35 +15,30 @@ function Landing() {
   const [minPrecio, setMinPrecio] = useState("");
   const [maxPrecio, setMaxPrecio] = useState("");
   const [precioFiltrado, setPrecioFiltrado] = useState(false);
+  const [cursosComprados, setCursosComprados] = useState([]);
+
 
   const filtrarCursosPropios = (courseList) => {
-    if (!user || !user.id) {
-      return courseList;
-    }
+    if (!user || !user.id) return courseList;
 
-    const filtrados = courseList.filter((curso) => {
-      return curso.idProfesor !== user.id;
+    return courseList.filter((curso) => {
+      const esMiCurso = curso.idProfesor === user.id;
+      const yaComprado = cursosComprados.includes(curso.idCurso);
+
+      return !esMiCurso && !yaComprado;
     });
-
-    return filtrados;
   };
+
 
   useEffect(() => {
     const fetchCursos = async () => {
       try {
         setLoadingCursos(true);
-        const response = await fetch(
-          "http://localhost:3000/api/cursos/aprobados",
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-
+        const response = await fetch("http://localhost:3000/api/cursos/aprobados");
         const data = await response.json();
 
         if (data.success) {
-          setCursos(filtrarCursosPropios(data.contenido)); // El backend devuelve { success: true, contenido: [...] }
+          setCursos(data.contenido); // SIN filtrar
         } else {
           setError(data.msg || "Error al cargar cursos");
         }
@@ -54,14 +49,11 @@ function Landing() {
         setLoadingCursos(false);
       }
     };
+
     const fetchTipos = async () => {
       try {
         setLoadingTipos(true);
-        const response = await fetch("http://localhost:3000/tipoCursos", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
-
+        const response = await fetch("http://localhost:3000/tipoCursos");
         const data = await response.json();
 
         if (data.success) {
@@ -77,9 +69,26 @@ function Landing() {
       }
     };
 
+    const fetchCursosComprados = async () => {
+      if (!user || !user.id) return;
+
+      try {
+        const response = await fetch(`http://localhost:3000/alumnos_cursos/usuario/${user.id}`);
+        const data = await response.json();
+
+        if (data.success) {
+          setCursosComprados(data.contenido.map(c => c.idCurso));
+        }
+      } catch (error) {
+        console.error("Error al cargar cursos comprados:", error);
+      }
+    };
+
     fetchCursos();
     fetchTipos();
-  }, [user]); // Se ejecuta cuando cambia el usuario
+    fetchCursosComprados();
+  }, [user]); 
+
 
   const handleSubmit = async (idTipo) => {
     setLoadingCursos(true);
@@ -102,8 +111,15 @@ function Landing() {
       console.log("Respuesta del servidor:", data);
 
       if (data.success) {
-        setCursos(filtrarCursosPropios(data.contenido));
-      } else {
+        const filtrados = data.contenido.filter((curso) => {
+          const esMiCurso = user?.id && curso.idProfesor === user.id;
+          const yaComprado = cursosComprados.includes(curso.idCurso);
+          return !esMiCurso && !yaComprado;
+        });
+
+        setCursos(filtrados);
+      }
+      else {
         setError(data.msg || "Error al cargar cursos");
       }
     } catch (error) {
@@ -113,6 +129,19 @@ function Landing() {
       setLoadingCursos(false);
     }
   };
+
+  useEffect(() => {
+    if (!user || !user.id) return;
+
+    const filtrados = cursos.filter((curso) => {
+      const esMiCurso = curso.idProfesor === user.id;
+      const yaComprado = cursosComprados.includes(curso.idCurso);
+      return !esMiCurso && !yaComprado;
+    });
+
+    setCursos(filtrados);
+  }, [cursosComprados, user]);
+
 
   const cursosFiltradosPorPrecio = cursos.filter((curso) => {
     if (!precioFiltrado) return true;

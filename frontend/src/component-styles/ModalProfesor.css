@@ -60,7 +60,6 @@
   padding-top: 6px;
   font-weight: bold;
   font-size: 1.5em !important;
-  color: #0d47a1;
   margin-bottom: 5px;
 }
 
@@ -83,7 +82,7 @@
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #6c757d !important;
+  color: orange;
   padding: 0;
 }
 
@@ -109,7 +108,7 @@
   background-color: #f1f8ff;
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid #90caf9;
+  border: 1px solid orange;
 }
 
 .modal-footer {
@@ -127,8 +126,9 @@
   margin: 0;
 }
 
-.btn-secondary {
-  background-color: #6c757d;
+.btn-cerrar {
+  background-color: orange !important;
+  border-color: none !important;
   color: white;
   padding: 8px 16px;
   border: none;
@@ -136,6 +136,7 @@
   cursor: pointer;
 }
 
-.btn-secondary:hover {
-  background-color: #5a6268;
+
+.borde-naranja{
+  border: 1px solid orange;
 }

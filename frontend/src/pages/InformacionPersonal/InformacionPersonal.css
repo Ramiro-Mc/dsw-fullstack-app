@@ -133,41 +133,43 @@
 
 .boton-editar {
   position: absolute;
-  top: 408px;
-  right: 18px;
+  top: -15px;
+  right: 20px;
   width: 50px;
   height: 50px;
   padding: 10px;
-  background-color: transparent;
+  background-color: white;
   color: orange !important;
-  border: none;
-  border-radius: 100%;
+  border: 2px solid orange !important;
+  border-radius: 50%;
   font-size: 1.3rem;
   cursor: pointer;
   z-index: 10;
+  transition: all 0.3s ease;
 }
 
 .boton-editar:hover {
   cursor: pointer;
-  opacity: 0.8;
   background-color: orange !important;
+  color: white !important;
 }
 
 .pre-view {
   width: 90%;
   height: auto;
-  border: 1px solid orange !important; /* Azul claro */
+  border: 1px solid orange !important;
   padding: 1rem;
   position: relative;
   border-radius: 15px;
-  background-color: rgb(238, 156, 3) !important; /* Azul claro */
+  background-color: rgb(238, 156, 3) !important;
   transition: all 0.3s ease !important;
+  margin-bottom: 20px;
 }
 
 .pre-view:hover {
   cursor: pointer;
   opacity: 0.8;
-  background-color: orange !important; /* Azul más oscuro */
+  background-color: orange !important;
 }
 
 .pre-view strong {
@@ -178,4 +180,9 @@
 .clic {
   color: orange;
   padding-right: 10px;
+}
+
+.boton-cancelar-cambios{
+  border-radius: 50px !important;
+  height: 40px !important;
 }

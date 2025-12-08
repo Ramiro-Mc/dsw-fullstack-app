@@ -15,7 +15,7 @@ function ModalProfesor({ nombre, foto, desc, frase, educ, fecha, mostrar, correo
         <div className="mi-modal-content" onClick={(e) => e.stopPropagation()}>
           <div className="modal-header">
             <div className="d-flex">
-              <img src={foto || "/Default.jpg"} alt="Foto de perfil" className="img-fluid rounded-circle foto-preview" />
+              <img src={foto || "/Default.jpg"} alt="Foto de perfil" className="img-fluid rounded-circle foto-preview borde-naranja" />
               <div className="ms-3">
                 <p className="nombre">
                   {nombre} <a href={`mailto:${correo}`}>{correo}</a>
@@ -24,6 +24,7 @@ function ModalProfesor({ nombre, foto, desc, frase, educ, fecha, mostrar, correo
               </div>
             </div>
           </div>
+          <hr />
           <div className="modal-body">
             <strong>Descripción</strong>
             <div className="informacion-prof">{desc}</div>
@@ -32,7 +33,7 @@ function ModalProfesor({ nombre, foto, desc, frase, educ, fecha, mostrar, correo
           </div>
           <div className="modal-footer d-flex justify-content-between">
             <p className="fecha-creacion-cuenta fecha-preview">Se unió el {new Intl.DateTimeFormat("es-AR", { dateStyle: "medium" }).format(new Date(fecha))}</p>
-            <button type="button" className="btn btn-secondary" onClick={mostrar}>
+            <button type="button" className="btn btn-secondary btn-cerrar" onClick={mostrar}>
               Cerrar
             </button>
           </div>

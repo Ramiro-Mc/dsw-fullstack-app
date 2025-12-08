@@ -23,6 +23,7 @@ const CompraCurso = () => {
         setLoading(false);
 
         const idProfesor = data.informacion.idProfesor;
+        console.log(idProfesor)
         if (idProfesor) {
           fetch(`http://localhost:3000/usuarios/${idProfesor}`, {
             method: "GET",
@@ -36,6 +37,7 @@ const CompraCurso = () => {
             })
             .catch((error) => console.error("Error al cargar usuario:", error));
         }
+        console.log(prof)
       })
       .catch((err) => {
         if (err.name !== "AbortError") console.error(err);
