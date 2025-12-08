@@ -8,3 +8,47 @@
 .contenedor-mis-cursos{
   text-align: center;
 }
+
+
+.contenedor-mis-cursos h3{
+  font-size: 36px;
+  font-weight: bold;
+  margin: 16px 0;
+}
+
+.contenedor-mis-cursos{
+  text-align: center;
+}
+
+.contenedor-mis-cursos .btn-primary {
+  background-color: #ff9500;
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 12px 32px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(255, 149, 0, 0.3);
+}
+
+.contenedor-mis-cursos .btn-primary:hover {
+  background-color: #e68600;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(255, 149, 0, 0.4);
+}
+
+.contenedor-mis-cursos .btn-primary:active,
+.contenedor-mis-cursos .btn-primary:focus {
+  background-color: #cc7700;
+  box-shadow: 0 2px 4px rgba(255, 149, 0, 0.5) !important;
+  outline: none;
+}
+
+.contenedor-mis-cursos .btn-primary:focus-visible {
+  box-shadow: 0 0 0 0.25rem rgba(255, 149, 0, 0.5) !important;
+}
+
+.no-cursos-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
