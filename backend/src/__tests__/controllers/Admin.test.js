@@ -11,7 +11,7 @@ describe('Admin Controller - Tests', () => {
   let profesorId;
   let estudianteId;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     // Limpiar tablas
     await sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
     await sequelize.query('DELETE FROM AlumnosCursos');
@@ -61,6 +61,7 @@ describe('Admin Controller - Tests', () => {
     await sequelize.query('DELETE FROM Usuarios');
     await sequelize.query('DELETE FROM TipoCursos');
     await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
+    await sequelize.close();
   });
 
   describe('GET /api/admin/stats', () => {

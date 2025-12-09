@@ -22,7 +22,6 @@ function Header() {
     setIsMenuOpen(false);
   };
 
-
   const logo = "/logo.png";
 
   return (
@@ -30,7 +29,11 @@ function Header() {
       <nav className="navbar navbar-expand-lg bg-body-tertiary border-bottom">
         <div className="container-fluid top-bar align-items-center d-flex justify-content-between">
           {/* Logo */}
-          <Link className="boton navbar-brand d-flex align-items-center" to="/" onClick={closeMenu}>
+          <Link
+            className="boton navbar-brand d-flex align-items-center"
+            to="/"
+            onClick={closeMenu}
+          >
             <img className="logo" src={logo} alt="Logo de la página web" />
           </Link>
 
@@ -48,26 +51,38 @@ function Header() {
 
           {/* Menú de navegación */}
           <div
-            className={`collapse navbar-collapse justify-content-end ${isMenuOpen ? 'show' : ''}`}
+            className={`collapse navbar-collapse justify-content-end ${
+              isMenuOpen ? "show" : ""
+            }`}
             id="navbarNav"
           >
             <ul className="navbar-nav">
               {user?.tipoUsuario !== "administrador" && (
                 <>
                   <li className="nav-item">
-                    <Link className="boton nav-link fw-bold" to="/profesores" onClick={closeMenu}>
+                    <Link
+                      className="boton nav-link fw-bold"
+                      to="/profesores"
+                      onClick={closeMenu}
+                    >
                       Profesores
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="boton nav-link fw-bold" to="/contacto" onClick={closeMenu}>
+                    <Link
+                      className="boton nav-link fw-bold"
+                      to="/contacto"
+                      onClick={closeMenu}
+                    >
                       Contacto
                     </Link>
                   </li>
                   <li className="nav-item">
-
-                    <Link className="boton nav-link fw-bold" to="/sobreNosotros" onClick={closeMenu}>
-
+                    <Link
+                      className="boton nav-link fw-bold"
+                      to="/sobreNosotros"
+                      onClick={closeMenu}
+                    >
                       Sobre Nosotros
                     </Link>
                   </li>
@@ -78,10 +93,12 @@ function Header() {
                 <li className="nav-item dropdown">
                   <Link
                     className="nav-link fw-bold dropdown-toggle"
-
-                    to={user.tipoUsuario === "administrador" ? "/admin" : "/MiPerfil"}
+                    to={
+                      user.tipoUsuario === "administrador"
+                        ? "/admin"
+                        : "/MiPerfil"
+                    }
                     onClick={closeMenu}
-
                   >
                     <i className="bi bi-person-circle"></i>
                     <span className="ms-1">{user.nombreUsuario}</span>
@@ -90,10 +107,13 @@ function Header() {
                     {user.tipoUsuario === "administrador" ? (
                       <>
                         <li>
-
-                          <Link className="dropdown-item" to="/admin" onClick={closeMenu}>
-                            <i className="bi bi-shield-check"></i> Panel de Admin
-
+                          <Link
+                            className="dropdown-item"
+                            to="/admin"
+                            onClick={closeMenu}
+                          >
+                            <i className="bi bi-shield-check"></i> Panel de
+                            Admin
                           </Link>
                         </li>
                         <li>
@@ -111,30 +131,42 @@ function Header() {
                     ) : (
                       <>
                         <li>
-                          <Link className="dropdown-item" to="/MiPerfil" onClick={closeMenu}>
+                          <Link
+                            className="dropdown-item"
+                            to="/MiPerfil"
+                            onClick={closeMenu}
+                          >
                             <i className="bi bi-person"></i> Mi perfil
                           </Link>
                         </li>
                         <li>
-
-                          <Link className="dropdown-item" to="/MiPerfil/informacionDeCobro" onClick={closeMenu}>
-                            <i className="bi bi-wallet2"></i> Informacion de cobro
+                          <Link
+                            className="dropdown-item"
+                            to="/MiPerfil/informacionDeCobro"
+                            onClick={closeMenu}
+                          >
+                            <i className="bi bi-wallet2"></i> Informacion de
+                            cobro
                           </Link>
                         </li>
                         <li>
-                          <Link className="dropdown-item" to="/MiPerfil/misCursosComprados" onClick={closeMenu}>
-                            <i className="bi bi-pencil-fill"></i> Cursos Comprados
+                          <Link
+                            className="dropdown-item"
+                            to="/MiPerfil/misCursosComprados"
+                            onClick={closeMenu}
+                          >
+                            <i className="bi bi-pencil-fill"></i> Cursos
+                            Comprados
                           </Link>
                         </li>
                         <li>
-                          <Link className="dropdown-item" to="/MiPerfil/misCursosCreados" onClick={closeMenu}>
-                            <i className="bi bi-person-video3"></i> Cursos Creados
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="dropdown-item" to="/MiPerfil/reportes" onClick={closeMenu}>
-                            <i className="bi bi-newspaper"></i> Reportes
-
+                          <Link
+                            className="dropdown-item"
+                            to="/MiPerfil/misCursosCreados"
+                            onClick={closeMenu}
+                          >
+                            <i className="bi bi-person-video3"></i> Cursos
+                            Creados
                           </Link>
                         </li>
                         <li>
@@ -154,7 +186,11 @@ function Header() {
                 </li>
               ) : (
                 <li>
-                  <Link className="nav-link fw-bold" to="/loginPage" onClick={closeMenu}>
+                  <Link
+                    className="nav-link fw-bold"
+                    to="/loginPage"
+                    onClick={closeMenu}
+                  >
                     Iniciar sesión
                   </Link>
                 </li>
