@@ -5,6 +5,7 @@ import { Modulo } from "../models/Modulo.js";
 import { Curso } from "../models/Curso.js";
 import { Usuario } from "../models/Usuario.js";
 import { TipoCurso } from "../models/TipoCurso.js";
+import { decrypt } from "../helpers/encrypt.js"; // ← AÑADIR IMPORT
 import Stripe from "stripe";
 
 // Configurar Stripe con la clave secreta del .env
@@ -15,7 +16,7 @@ const stripe = process.env.STRIPE_SECRET_KEY
 // Función auxiliar para crear relaciones AlumnoLeccion
 const crearRelacionesAlumnoLeccion = async (idUsuario, idCurso) => {
   try {
-    console.log(`📚 Creando relaciones AlumnoLeccion para usuario ${idUsuario} y curso ${idCurso}`);
+    console.log(` Creando relaciones AlumnoLeccion para usuario ${idUsuario} y curso ${idCurso}`);
     
     // Obtener todas las lecciones del curso
     const lecciones = await Leccion.findAll({
@@ -26,10 +27,10 @@ const crearRelacionesAlumnoLeccion = async (idUsuario, idCurso) => {
       }]
     });
 
-    console.log(`📚 Encontradas ${lecciones.length} lecciones para el curso ${idCurso}`);
+    console.log(` Encontradas ${lecciones.length} lecciones para el curso ${idCurso}`);
 
     if (lecciones.length === 0) {
-      console.log('⚠️ No se encontraron lecciones para este curso');
+      console.log(' No se encontraron lecciones para este curso');
       return 0;
     }
 
@@ -44,21 +45,21 @@ const crearRelacionesAlumnoLeccion = async (idUsuario, idCurso) => {
           fechaCompletado: null
         });
         relacionesCreadas.push(nuevaRelacion);
-        console.log(`✅ Relación creada: Usuario ${idUsuario} - Lección ${leccion.numeroLec}`);
+        console.log(` Relación creada: Usuario ${idUsuario} - Lección ${leccion.numeroLec}`);
       } catch (error) {
         // Si ya existe la relación, no es un error crítico
         if (error.name === 'SequelizeUniqueConstraintError') {
-          console.log(`⚠️ Relación ya existe: Usuario ${idUsuario} - Lección ${leccion.numeroLec}`);
+          console.log(`Relación ya existe: Usuario ${idUsuario} - Lección ${leccion.numeroLec}`);
         } else {
           throw error;
         }
       }
     }
 
-    console.log(`✅ Proceso completado: ${relacionesCreadas.length} relaciones AlumnoLeccion creadas`);
+    console.log(` Proceso completado: ${relacionesCreadas.length} relaciones AlumnoLeccion creadas`);
     return relacionesCreadas.length;
   } catch (error) {
-    console.error('❌ Error creando relaciones AlumnoLeccion:', error);
+    console.error(' Error creando relaciones AlumnoLeccion:', error);
     throw error;
   }
 };
@@ -99,16 +100,46 @@ export const pagoController = {
         });
       }
 
+      // DESENCRIPTAR datos bancarios antes de enviar
+      const cursoData = curso.toJSON();
+      
+      console.log(" Antes de desencriptar:");
+      console.log("CVU encriptado:", cursoData.Profesor?.cvu);
+      console.log("Alias encriptado:", cursoData.Profesor?.alias);
+      console.log("Banco encriptado:", cursoData.Profesor?.banco);
+      
+      if (cursoData.Profesor) {
+        // Desencriptar solo si los campos existen y no son null
+          if (cursoData.Profesor.nombreReferido) {
+          cursoData.Profesor.nombreReferido = decrypt(cursoData.Profesor.nombreReferido);
+        }
+        if (cursoData.Profesor.cvu) {
+          cursoData.Profesor.cvu = decrypt(cursoData.Profesor.cvu);
+        }
+        if (cursoData.Profesor.alias) {
+          cursoData.Profesor.alias = decrypt(cursoData.Profesor.alias);
+        }
+        if (cursoData.Profesor.banco) {
+          cursoData.Profesor.banco = decrypt(cursoData.Profesor.banco);
+        }
+      }
+      
+      console.log(" Después de desencriptar:");
+      console.log("CVU desencriptado:", cursoData.Profesor?.cvu);
+      console.log("Alias desencriptado:", cursoData.Profesor?.alias);
+      console.log("Banco desencriptado:", cursoData.Profesor?.banco);
+
       res.status(200).json({
         success: true,
         msg: "Datos del curso obtenidos",
-        contenido: curso,
+        contenido: cursoData,
       });
     } catch (error) {
       console.error("Error en getCursoCheckout:", error);
       res.status(500).json({
         success: false,
         msg: "Error interno del servidor",
+        error: process.env.NODE_ENV === "development" ? error.message : undefined,
       });
     }
   },
@@ -166,6 +197,12 @@ export const pagoController = {
         });
       }
 
+      // Calcular precio con descuento
+      let precioFinal = parseFloat(curso.precio);
+      if (curso.descuento && curso.descuento > 0) {
+        precioFinal = precioFinal - (precioFinal * curso.descuento / 100);
+      }
+
       // Crear sesión de checkout en Stripe
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -177,7 +214,7 @@ export const pagoController = {
                 name: curso.titulo,
                 description: curso.descripcion || 'Curso online',
               },
-              unit_amount: Math.round(parseFloat(curso.precio) * 100), // Stripe usa centavos
+              unit_amount: Math.round(precioFinal * 100), // Stripe usa centavos
             },
             quantity: 1,
           },
@@ -191,7 +228,7 @@ export const pagoController = {
         },
       });
 
-      console.log("✅ Sesión creada:", session.id);
+      console.log(" Sesión creada:", session.id);
 
       res.status(200).json({
         success: true,
@@ -201,7 +238,7 @@ export const pagoController = {
       });
 
     } catch (error) {
-      console.error("❌ Error en crearSesionStripe:", error);
+      console.error(" Error en crearSesionStripe:", error);
       res.status(500).json({
         success: false,
         msg: "Error interno del servidor",
@@ -215,6 +252,10 @@ export const pagoController = {
     const sig = req.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
+    console.log(' Webhook recibido');
+    console.log('Signature:', sig);
+    console.log('Webhook Secret configurado:', webhookSecret ? 'Sí' : 'No');
+
     let event;
 
     try {
@@ -224,49 +265,97 @@ export const pagoController = {
         sig,
         webhookSecret
       );
+      
+      console.log(' Evento verificado:', event.type);
     } catch (err) {
-      console.error('❌ Error verificando webhook:', err.message);
+      console.error(' Error verificando webhook:', err.message);
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
-
-    console.log('✅ Webhook recibido:', event.type);
 
     // Cuando el pago se completa
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object;
       
       console.log('=== PAGO COMPLETADO ===');
-      console.log('Session:', session);
+      console.log('Session ID:', session.id);
+      console.log('Payment Status:', session.payment_status);
+      console.log('Metadata:', session.metadata);
 
       const { idUsuario, idCurso } = session.metadata;
+
+      if (!idUsuario || !idCurso) {
+        console.error(' Metadata incompleta:', session.metadata);
+        return res.status(400).json({ error: 'Metadata incompleta' });
+      }
 
       try {
         const curso = await Curso.findByPk(parseInt(idCurso));
 
-        if (curso) {
-          // 1. Crear relación AlumnoCurso
-          const nuevaInscripcion = await AlumnoCurso.create({
-            idUsuario: parseInt(idUsuario),
-            idCurso: parseInt(idCurso),
-            fechaCompra: new Date(),
-            precioCompra: parseFloat(curso.precio),
-            metodoPago: 'stripe', 
-            estadoPago: 'aprobado',
-            transactionId: session.payment_intent || session.id,
-          });
-
-          console.log('✅ Relación AlumnoCurso creada:', nuevaInscripcion.toJSON());
-
-          // 2. Crear relaciones AlumnoLeccion
-          const leccionesCreadas = await crearRelacionesAlumnoLeccion(idUsuario, idCurso);
-
-          console.log(`✅ Inscripción completa registrada - ${leccionesCreadas} lecciones vinculadas`);
+        if (!curso) {
+          console.error('❌ Curso no encontrado:', idCurso);
+          return res.status(404).json({ error: 'Curso no encontrado' });
         }
+
+        console.log(' Curso encontrado:', curso.titulo);
+
+        // Verificar si ya existe la inscripción
+        const inscripcionExistente = await AlumnoCurso.findOne({
+          where: {
+            idUsuario: parseInt(idUsuario),
+            idCurso: parseInt(idCurso)
+          }
+        });
+
+        if (inscripcionExistente) {
+          console.log('⚠️ Inscripción ya existe');
+          return res.json({ received: true, message: 'Ya inscrito' });
+        }
+
+        // Calcular precio con descuento
+        let precioFinal = parseFloat(curso.precio);
+        if (curso.descuento && curso.descuento > 0) {
+          precioFinal = precioFinal - (precioFinal * curso.descuento / 100);
+        }
+
+
+        const nuevaInscripcion = await AlumnoCurso.create({
+          idUsuario: parseInt(idUsuario),
+          idCurso: parseInt(idCurso),
+          fechaCompra: new Date(),
+          precioCompra: precioFinal,
+          metodoPago: 'stripe', 
+          estadoPago: 'aprobado',
+          transactionId: session.payment_intent || session.id,
+        });
+
+        console.log(' AlumnoCurso creado:', {
+          idUsuario: nuevaInscripcion.idUsuario,
+          idCurso: nuevaInscripcion.idCurso,
+          transactionId: nuevaInscripcion.transactionId
+        });
+
+
+        const leccionesCreadas = await crearRelacionesAlumnoLeccion(idUsuario, idCurso);
+
+        console.log(` Proceso completado - ${leccionesCreadas} lecciones vinculadas`);
+        
+        return res.json({ 
+          received: true, 
+          inscripcionCreada: true,
+          leccionesCreadas: leccionesCreadas 
+        });
+
       } catch (error) {
         console.error('❌ Error registrando inscripción:', error);
+        return res.status(500).json({ 
+          error: 'Error interno',
+          message: error.message 
+        });
       }
     }
 
+    // Para otros tipos de eventos
+    console.log(' Evento no manejado:', event.type);
     res.json({ received: true });
   },
 
@@ -347,12 +436,18 @@ export const pagoController = {
       // Generar ID de transacción único
       const transactionId = `TRANSFER_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
+      // Calcular precio con descuento
+      let precioFinal = parseFloat(curso.precio);
+      if (curso.descuento && curso.descuento > 0) {
+        precioFinal = precioFinal - (precioFinal * curso.descuento / 100);
+      }
+
       // 1. Crear relación AlumnoCurso
       const nuevaInscripcion = await AlumnoCurso.create({
         idUsuario: parseInt(idUsuario),
         idCurso: parseInt(idCurso),
         fechaCompra: new Date(),
-        precioCompra: parseFloat(curso.precio),
+        precioCompra: precioFinal,
         metodoPago: "transferencia",
         estadoPago: "aprobado",
         transactionId: transactionId,
@@ -363,7 +458,7 @@ export const pagoController = {
       // 2. Crear relaciones AlumnoLeccion
       const leccionesCreadas = await crearRelacionesAlumnoLeccion(idUsuario, idCurso);
 
-      console.log(`✅ Inscripción por transferencia completa - ${leccionesCreadas} lecciones vinculadas`);
+      console.log(` Inscripción por transferencia completa - ${leccionesCreadas} lecciones vinculadas`);
 
       res.status(201).json({
         success: true,
@@ -373,7 +468,7 @@ export const pagoController = {
         inscripcion: nuevaInscripcion,
       });
     } catch (error) {
-      console.error("❌ Error en confirmarTransferencia:", error);
+      console.error(" Error en confirmarTransferencia:", error);
       res.status(500).json({
         success: false,
         msg: "Error interno del servidor",
