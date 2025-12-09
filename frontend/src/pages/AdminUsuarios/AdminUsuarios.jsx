@@ -41,104 +41,122 @@ const AdminUsuarios = () => {
     setAlert({
       message: `¿Estás seguro de desactivar al usuario "${nombreUsuario}"?`,
       type: "info",
-      onClose: async () => {
-        setAlert(null);
-        try {
-          const response = await fetch(
-            `http://localhost:3000/usuarios/${idUsuario}`,
-            {
-              method: "DELETE",
-              headers: {
-                "Content-Type": "application/json",
-              },
+      onClose: () => setAlert(null),
+      actions: [
+        {
+          label: "Cancelar",
+          onClick: () => setAlert(null),
+        },
+        {
+          label: "Desactivar",
+          onClick: async () => {
+            setAlert(null);
+            try {
+              const response = await fetch(
+                `http://localhost:3000/usuarios/${idUsuario}`,
+                {
+                  method: "DELETE",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+
+              const data = await response.json();
+
+              if (data.success) {
+                setUsuarios(
+                  usuarios.map((usuario) =>
+                    usuario.idUsuario === idUsuario
+                      ? { ...usuario, activo: false }
+                      : usuario
+                  )
+                );
+                setAlert({
+                  message: "Usuario desactivado correctamente",
+                  type: "success",
+                  onClose: () => setAlert(null),
+                });
+              } else {
+                setAlert({
+                  message: data.msg || "Error al desactivar el usuario",
+                  type: "error",
+                  onClose: () => setAlert(null),
+                });
+              }
+            } catch (err) {
+              console.error("Error:", err);
+              setAlert({
+                message: "Error de conexión al desactivar",
+                type: "error",
+                onClose: () => setAlert(null),
+              });
             }
-          );
-
-          const data = await response.json();
-
-          if (data.success) {
-            setUsuarios(
-              usuarios.map((usuario) =>
-                usuario.idUsuario === idUsuario
-                  ? { ...usuario, activo: false }
-                  : usuario
-              )
-            );
-            setAlert({
-              message: "Usuario desactivado correctamente",
-              type: "success",
-              onClose: () => setAlert(null),
-            });
-          } else {
-            setAlert({
-              message: data.msg || "Error al desactivar el usuario",
-              type: "error",
-              onClose: () => setAlert(null),
-            });
-          }
-        } catch (err) {
-          console.error("Error:", err);
-          setAlert({
-            message: "Error de conexión al desactivar",
-            type: "error",
-            onClose: () => setAlert(null),
-          });
-        }
-      },
+          },
+        },
+      ],
     });
   };
-
   const handleReactivarUsuario = async (idUsuario, nombreUsuario) => {
     setAlert({
       message: `¿Estás seguro de reactivar al usuario "${nombreUsuario}"?`,
       type: "info",
-      onClose: async () => {
-        setAlert(null);
-        try {
-          const response = await fetch(
-            `http://localhost:3000/usuarios/${idUsuario}/reactivar`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
+      onClose: () => setAlert(null),
+      actions: [
+        {
+          label: "Cancelar",
+          onClick: () => setAlert(null),
+        },
+        {
+          label: "Reactivar",
+          onClick: async () => {
+            setAlert(null);
+            try {
+              const response = await fetch(
+                `http://localhost:3000/usuarios/${idUsuario}/reactivar`,
+                {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+
+              const data = await response.json();
+
+              if (data.success) {
+                setUsuarios(
+                  usuarios.map((usuario) =>
+                    usuario.idUsuario === idUsuario
+                      ? { ...usuario, activo: true }
+                      : usuario
+                  )
+                );
+                setAlert({
+                  message: "Usuario reactivado correctamente",
+                  type: "success",
+                  onClose: () => setAlert(null),
+                });
+              } else {
+                setAlert({
+                  message: data.msg || "Error al reactivar el usuario",
+                  type: "error",
+                  onClose: () => setAlert(null),
+                });
+              }
+            } catch (err) {
+              console.error("Error:", err);
+              setAlert({
+                message: "Error de conexión al reactivar",
+                type: "error",
+                onClose: () => setAlert(null),
+              });
             }
-          );
-
-          const data = await response.json();
-
-          if (data.success) {
-            setUsuarios(
-              usuarios.map((usuario) =>
-                usuario.idUsuario === idUsuario
-                  ? { ...usuario, activo: true }
-                  : usuario
-              )
-            );
-            setAlert({
-              message: "Usuario reactivado correctamente",
-              type: "success",
-              onClose: () => setAlert(null),
-            });
-          } else {
-            setAlert({
-              message: data.msg || "Error al reactivar el usuario",
-              type: "error",
-              onClose: () => setAlert(null),
-            });
-          }
-        } catch (err) {
-          console.error("Error:", err);
-          setAlert({
-            message: "Error de conexión al reactivar",
-            type: "error",
-            onClose: () => setAlert(null),
-          });
-        }
-      },
+          },
+        },
+      ],
     });
   };
-
   if (loading) {
     return (
       <div className="admin-usuarios">
@@ -203,6 +221,7 @@ const AdminUsuarios = () => {
         <CustomAlert
           message={alert.message}
           type={alert.type}
+          actions={alert.actions}
           onClose={() => {
             setAlert(null);
             if (alert.onClose) alert.onClose();

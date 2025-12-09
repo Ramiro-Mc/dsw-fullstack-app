@@ -256,18 +256,18 @@ function Foro() {
 
   if (loading) {
     return (
-      <main className="foro-container">
+      <div className="foro-container">
         <div className="text-center">
           <div className="spinner-border" role="status">
             <span className="visually-hidden">Cargando...</span>
           </div>
         </div>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="foro-container">
+    <div className="foro-container">
       {alert && (
         <CustomAlert
           message={alert.message}
@@ -436,7 +436,7 @@ function Foro() {
           )}
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 

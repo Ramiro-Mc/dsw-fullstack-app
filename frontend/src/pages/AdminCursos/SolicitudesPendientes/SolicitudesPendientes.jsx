@@ -39,46 +39,58 @@ const SolicitudesPendientes = () => {
     setAlert({
       message: `¿Aprobar el curso "${titulo}"?`,
       type: "info",
-      onClose: async () => {
-        setAlert(null);
-        try {
-          const response = await fetch(`/api/admin/cursos/${idCurso}/aprobar`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+      onClose: () => setAlert(null),
+      actions: [
+        {
+          label: "Cancelar",
+          onClick: () => setAlert(null),
+        },
+        {
+          label: "Aprobar",
+          onClick: async () => {
+            setAlert(null);
+            try {
+              const response = await fetch(
+                `/api/admin/cursos/${idCurso}/aprobar`,
+                {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
 
-          const data = await response.json();
+              const data = await response.json();
 
-          if (data.success) {
-            setSolicitudes(
-              solicitudes.filter((curso) => curso.idCurso !== idCurso)
-            );
-            setAlert({
-              message: "Curso aprobado correctamente",
-              type: "success",
-              onClose: () => setAlert(null),
-            });
-          } else {
-            setAlert({
-              message: "Error al aprobar el curso",
-              type: "error",
-              onClose: () => setAlert(null),
-            });
-          }
-        } catch (err) {
-          console.error("Error:", err);
-          setAlert({
-            message: "Error de conexión al aprobar",
-            type: "error",
-            onClose: () => setAlert(null),
-          });
-        }
-      },
+              if (data.success) {
+                setSolicitudes(
+                  solicitudes.filter((curso) => curso.idCurso !== idCurso)
+                );
+                setAlert({
+                  message: "Curso aprobado correctamente",
+                  type: "success",
+                  onClose: () => setAlert(null),
+                });
+              } else {
+                setAlert({
+                  message: "Error al aprobar el curso",
+                  type: "error",
+                  onClose: () => setAlert(null),
+                });
+              }
+            } catch (err) {
+              console.error("Error:", err);
+              setAlert({
+                message: "Error de conexión al aprobar",
+                type: "error",
+                onClose: () => setAlert(null),
+              });
+            }
+          },
+        },
+      ],
     });
   };
-
   const handleRechazarCurso = async (idCurso, titulo) => {
     setCursoParaRechazar({ idCurso, titulo });
     setMostrarInputMotivo(true);
@@ -210,6 +222,7 @@ const SolicitudesPendientes = () => {
         <CustomAlert
           message={alert.message}
           type={alert.type}
+          actions={alert.actions}
           onClose={() => {
             setAlert(null);
             if (alert.onClose) alert.onClose();

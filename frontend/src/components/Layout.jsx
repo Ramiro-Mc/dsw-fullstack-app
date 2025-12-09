@@ -17,11 +17,13 @@ function Layout() {
   }, []);
 
   return (
-    <>
+    <div className="app">
       <Header token={token} />
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }
 

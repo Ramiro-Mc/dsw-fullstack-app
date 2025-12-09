@@ -84,10 +84,11 @@ function LoginPage() {
   };
 
   return (
-    <main
+    <div
       style={{
-        backgroundImage: "url('/principal1.jpeg')",
+        backgroundImage: "url('/imglogin.jpg')",
         minHeight: "100vh",
+        maxHeight: "100vh",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -126,7 +127,7 @@ function LoginPage() {
             />
           </div>
 
-          {/* reCAPTCHA */}
+          {/* recaptcha */}
           <div className="mb-3 d-flex justify-content-center">
             <div
               className="g-recaptcha"
@@ -148,14 +149,9 @@ function LoginPage() {
               Registrate
             </Link>
           </div>
-          <div className="text-center">
-            <Link to="#" className="text-decoration-none">
-              ¿Olvidó su contraseña?
-            </Link>
-          </div>
         </form>
       </section>
-    </main>
+    </div>
   );
 }
 

@@ -4,7 +4,6 @@ import "./Landing.css";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 
-
 function Landing() {
   const [cursos, setCursos] = useState([]);
   const [tipos, setTipos] = useState([]);
@@ -17,7 +16,6 @@ function Landing() {
   const [precioFiltrado, setPrecioFiltrado] = useState(false);
   const [cursosComprados, setCursosComprados] = useState([]);
 
-
   const filtrarCursosPropios = (courseList) => {
     if (!user || !user.id) return courseList;
 
@@ -29,12 +27,13 @@ function Landing() {
     });
   };
 
-
   useEffect(() => {
     const fetchCursos = async () => {
       try {
         setLoadingCursos(true);
-        const response = await fetch("http://localhost:3000/api/cursos/aprobados");
+        const response = await fetch(
+          "http://localhost:3000/api/cursos/aprobados"
+        );
         const data = await response.json();
 
         if (data.success) {
@@ -73,11 +72,13 @@ function Landing() {
       if (!user || !user.id) return;
 
       try {
-        const response = await fetch(`http://localhost:3000/alumnos_cursos/usuario/${user.id}`);
+        const response = await fetch(
+          `http://localhost:3000/alumnos_cursos/usuario/${user.id}`
+        );
         const data = await response.json();
 
         if (data.success) {
-          setCursosComprados(data.contenido.map(c => c.idCurso));
+          setCursosComprados(data.contenido.map((c) => c.idCurso));
         }
       } catch (error) {
         console.error("Error al cargar cursos comprados:", error);
@@ -87,8 +88,7 @@ function Landing() {
     fetchCursos();
     fetchTipos();
     fetchCursosComprados();
-  }, [user]); 
-
+  }, [user]);
 
   const handleSubmit = async (idTipo) => {
     setLoadingCursos(true);
@@ -118,8 +118,7 @@ function Landing() {
         });
 
         setCursos(filtrados);
-      }
-      else {
+      } else {
         setError(data.msg || "Error al cargar cursos");
       }
     } catch (error) {
@@ -142,7 +141,6 @@ function Landing() {
     setCursos(filtrados);
   }, [cursosComprados, user]);
 
-
   const cursosFiltradosPorPrecio = cursos.filter((curso) => {
     if (!precioFiltrado) return true;
     const precio = Number(curso.precio);
@@ -163,7 +161,7 @@ function Landing() {
   };
 
   return (
-    <main>
+    <>
       {/* Seccion presentacion */}
       <section className="presentacion">
         <div
@@ -275,8 +273,22 @@ function Landing() {
                 title="Filtrar"
               >
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                  <circle cx="11" cy="11" r="7" stroke="#ffaa00" strokeWidth="2"/>
-                  <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="#ffaa00" strokeWidth="2" strokeLinecap="round"/>
+                  <circle
+                    cx="11"
+                    cy="11"
+                    r="7"
+                    stroke="#ffaa00"
+                    strokeWidth="2"
+                  />
+                  <line
+                    x1="16.5"
+                    y1="16.5"
+                    x2="22"
+                    y2="22"
+                    stroke="#ffaa00"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
                 </svg>
               </button>
             </div>
@@ -351,14 +363,14 @@ function Landing() {
                 />
               ))
             ) : (
-              <div className="text-center">
+              <div className="noCursos text-center">
                 <p>No hay cursos disponibles para este filtro</p>
               </div>
             )}
           </div>
         </div>
       </section>
-    </main>
+    </>
   );
 }
 
