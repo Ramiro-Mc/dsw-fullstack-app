@@ -1,5 +1,5 @@
 .fondo-contacto {
-  background-image: url("./fondoContacto.jpg");
+  background-image: url("/fondoContacto.jpg");
   background-size: cover;
   background-position: center;
   padding: 3rem 0;

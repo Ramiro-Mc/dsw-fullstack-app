@@ -10,7 +10,12 @@ describe('Profesor - Tests', () => {
   let tipoId, profesorId;
 
   beforeAll(async () => {
-    await sequelize.sync({ force: true });
+    // Limpiar solo las tablas necesarias en orden correcto
+    await sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
+    await sequelize.query('DELETE FROM Cursos');
+    await sequelize.query('DELETE FROM Usuarios');
+    await sequelize.query('DELETE FROM TipoCursos');
+    await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
 
     // Crear tipo de curso
     const tipo = await TipoCurso.create({
@@ -22,6 +27,11 @@ describe('Profesor - Tests', () => {
   });
 
   afterAll(async () => {
+    await sequelize.query('SET FOREIGN_KEY_CHECKS = 0');
+    await sequelize.query('DELETE FROM Cursos');
+    await sequelize.query('DELETE FROM Usuarios');
+    await sequelize.query('DELETE FROM TipoCursos');
+    await sequelize.query('SET FOREIGN_KEY_CHECKS = 1');
     await sequelize.close();
   });
 

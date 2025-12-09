@@ -192,18 +192,22 @@ function Landing() {
           </div>
           <div className="carousel-inner">
             <div className="carousel-item active carousel-item-presentacion">
-              <img src="/placeholder.jpg" className="d-block w-100" alt="..." />
-            </div>
-            <div className="carousel-item carousel-item-presentacion">
               <img
-                src="/ImagenCarrusel02.jpg"
+                src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=600&h=400&fit=crop"
                 className="d-block w-100"
                 alt="..."
               />
             </div>
             <div className="carousel-item carousel-item-presentacion">
               <img
-                src="/ImagenCarrusel03.jpg"
+                src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop"
+                className="d-block w-100"
+                alt="..."
+              />
+            </div>
+            <div className="carousel-item carousel-item-presentacion">
+              <img
+                src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop"
                 className="d-block w-100"
                 alt="..."
               />

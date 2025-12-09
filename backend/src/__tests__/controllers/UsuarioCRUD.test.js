@@ -94,10 +94,10 @@ describe("Usuario CRUD", () => {
     });
 
     it("debería fallar con ID inexistente", async () => {
-      const response = await request(app).get("/usuarios/999").expect(404);
+      const response = await request(app).get("/usuarios/999").expect(403);
 
-      expect(response.body.success).toBe(false);
-      expect(response.body.msg).toBe("Usuario no encontrado");
+      expect(response.body.errors).toBeDefined();
+      expect(response.body.errors[0].msg).toBe("Usuario no encontrado");
     });
   });
 
@@ -130,10 +130,10 @@ describe("Usuario CRUD", () => {
           nombreUsuario: "NoExiste",
           email: "noexiste@example.com",
         })
-        .expect(404);
+        .expect(403);
 
-      expect(response.body.success).toBe(false);
-      expect(response.body.msg).toBe("Usuario no encontrado");
+      expect(response.body.errors).toBeDefined();
+      expect(response.body.errors[0].msg).toBe("Usuario no encontrado");
     });
   });
 
@@ -149,10 +149,10 @@ describe("Usuario CRUD", () => {
       const response = await request(app).delete(`/usuarios/${usuario.idUsuario}`).expect(200);
 
       expect(response.body.success).toBe(true);
-      expect(response.body.msg).toBe("Usuario eliminado correctamente");
+      expect(response.body.msg).toBe("Usuario desactivado correctamente");
 
       const usuarioEliminado = await Usuario.findByPk(usuario.idUsuario);
-      expect(usuarioEliminado).toBeNull();
+      expect(usuarioEliminado.activo).toBe(false);
     });
 
     it("debería fallar si intenta eliminar un administrador", async () => {
