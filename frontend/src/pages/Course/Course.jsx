@@ -48,7 +48,7 @@ function Course() {
         const cursoData = responseCurso.contenido;
 
         // Si hay usuario logueado, cargar su progreso
-       let progresoUsuario = {};
+        let progresoUsuario = {};
         if (idUsuario) {
           try {
             const resProgreso = await fetch(
@@ -131,7 +131,7 @@ function Course() {
     setClaseClicked(clase);
   };
 
-const completarClase = async () => {
+  const completarClase = async () => {
     try {
       const idUsuario = user?.idUsuario || user?.id;
 
@@ -193,11 +193,12 @@ const completarClase = async () => {
       setCantCompletada(nuevoEstado ? cantCompletada + 1 : cantCompletada - 1);
 
       setAlert({
-        message: nuevoEstado ? "Lección marcada como completada" : "Lección desmarcada",
+        message: nuevoEstado
+          ? "Lección marcada como completada"
+          : "Lección desmarcada",
         type: "success",
         onClose: () => setAlert(null),
       });
-
     } catch (error) {
       console.error("Error al completar lección:", error);
       setAlert({
@@ -226,7 +227,7 @@ const completarClase = async () => {
 
   return (
     <div className="app-container">
-      <main className="main-content">
+      <div className="main-content">
         <div className="container-fluid">
           <div className="row">
             <div className="col-3">
@@ -249,7 +250,7 @@ const completarClase = async () => {
             </div>
           </div>
         </div>
-      </main>
+      </div>
       {alert && (
         <CustomAlert
           message={alert.message}

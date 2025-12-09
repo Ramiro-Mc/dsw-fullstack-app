@@ -528,7 +528,7 @@ function EditarCursoPage() {
   }
 
   return (
-    <main style={{ backgroundColor: "#56565641", minHeight: "100vh" }}>
+    <div style={{ backgroundColor: "#56565641", minHeight: "100vh" }}>
       <section
         className="d-flex justify-content-center align-items-center"
         style={{ minHeight: "80vh" }}
@@ -618,7 +618,7 @@ function EditarCursoPage() {
           }}
         />
       )}
-    </main>
+    </div>
   );
 }
 

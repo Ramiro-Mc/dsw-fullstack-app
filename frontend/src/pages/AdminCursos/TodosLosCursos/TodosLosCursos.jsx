@@ -36,47 +36,53 @@ const TodosLosCursos = () => {
     setAlert({
       message: `¿Estás seguro de eliminar el curso "${titulo}"?`,
       type: "info",
-      onClose: async () => {
-        setAlert(null);
-        try {
-          const response = await fetch(
-            `/api/admin/cursos/${idCurso}/rechazar`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
+      onClose: () => setAlert(null),
+      actions: [
+        {
+          label: "Cancelar",
+          onClick: () => setAlert(null),
+        },
+        {
+          label: "Eliminar",
+          onClick: async () => {
+            setAlert(null);
+            try {
+              const response = await fetch(`/api/cursos/${idCurso}`, {
+                method: "DELETE",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
+
+              const data = await response.json();
+
+              if (data.success) {
+                setCursos(cursos.filter((curso) => curso.idCurso !== idCurso));
+                setAlert({
+                  message: "Curso eliminado correctamente",
+                  type: "success",
+                  onClose: () => setAlert(null),
+                });
+              } else {
+                setAlert({
+                  message: "Error al eliminar el curso",
+                  type: "error",
+                  onClose: () => setAlert(null),
+                });
+              }
+            } catch (err) {
+              console.error("Error:", err);
+              setAlert({
+                message: "Error de conexión al eliminar",
+                type: "error",
+                onClose: () => setAlert(null),
+              });
             }
-          );
-
-          const data = await response.json();
-
-          if (data.success) {
-            setCursos(cursos.filter((curso) => curso.idCurso !== idCurso));
-            setAlert({
-              message: "Curso eliminado correctamente",
-              type: "success",
-              onClose: () => setAlert(null),
-            });
-          } else {
-            setAlert({
-              message: "Error al eliminar el curso",
-              type: "error",
-              onClose: () => setAlert(null),
-            });
-          }
-        } catch (err) {
-          console.error("Error:", err);
-          setAlert({
-            message: "Error de conexión al eliminar",
-            type: "error",
-            onClose: () => setAlert(null),
-          });
-        }
-      },
+          },
+        },
+      ],
     });
   };
-
   if (loading) {
     return (
       <div className="todos-cursos">
@@ -146,6 +152,7 @@ const TodosLosCursos = () => {
         <CustomAlert
           message={alert.message}
           type={alert.type}
+          actions={alert.actions}
           onClose={() => {
             setAlert(null);
             if (alert.onClose) alert.onClose();

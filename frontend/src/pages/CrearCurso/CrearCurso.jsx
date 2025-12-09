@@ -217,7 +217,7 @@ function CrearCursoPage() {
       precio: parseFloat(precioCurso),
       idTipo: parseInt(moduloSeleccionado),
       idProfesor: idProfesor,
-      imagen: tipoImagen === 'default' ? null : imagenCurso, // null usará la imagen default en el backend
+      imagen: tipoImagen === "default" ? null : imagenCurso, // null usará la imagen default en el backend
       modulos: modulosGuardados.map((modulo) => ({
         titulo: modulo.nombre,
         lecciones: modulo.lecciones.map((leccion) => ({
@@ -252,7 +252,6 @@ function CrearCursoPage() {
       setModulosGuardados([]);
       setImagenCurso("");
       setTipoImagen("default");
-      
     } catch (error) {
       console.error("Error al crear curso:", error);
       setAlert({
@@ -264,7 +263,7 @@ function CrearCursoPage() {
   };
 
   return (
-    <main style={{ backgroundColor: "#56565641", minHeight: "100vh" }}>
+    <div style={{ backgroundColor: "#56565641", minHeight: "100vh" }}>
       <section
         className="d-flex justify-content-center align-items-center"
         style={{ minHeight: "80vh" }}
@@ -274,7 +273,7 @@ function CrearCursoPage() {
           <hr />
           <form onSubmit={handleSubmit}>
             <FormularioCurso
-             nombreCurso={nombreCurso}
+              nombreCurso={nombreCurso}
               setNombreCurso={setNombreCurso}
               descripcionCurso={descripcionCurso}
               setDescripcionCurso={setDescripcionCurso}
@@ -348,7 +347,7 @@ function CrearCursoPage() {
           }}
         />
       )}
-    </main>
+    </div>
   );
 }
 

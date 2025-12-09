@@ -3,7 +3,6 @@
 main {
   background-color: #56565617;
   color: #2f2f2f;
-  padding: 1rem 0; 
 }
 
 /* ============================================
@@ -72,6 +71,7 @@ main {
   border-radius: 1rem;
   box-shadow: 0 0 0.5rem rgb(0 0 0 / 15%);
   max-width: 1250px;
+  margin-bottom: 30px;
 }
 
 /* ============================================
@@ -343,6 +343,24 @@ main {
   max-width: 100px;
 }
 
+
+.noCursos{
+  text-align: center;
+  vertical-align: middle;
+  margin-bottom: 15px;
+  margin-top: 15px!important;
+  background-color: orange;
+  color: white;
+  padding: 10px;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  border: 1px solid black;
+
+}
+
+.noCursos p{
+  margin: 0;
+}
 /* Oculta las flechitas de los inputs number en todos los navegadores */
 .filtro-precio-card-inline input[type="number"]::-webkit-inner-spin-button,
 .filtro-precio-card-inline input[type="number"]::-webkit-outer-spin-button {

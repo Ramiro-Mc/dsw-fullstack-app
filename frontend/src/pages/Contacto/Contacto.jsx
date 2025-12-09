@@ -33,37 +33,58 @@ function Contacto() {
       setSuccess(true);
       setFormData({ nombre: "", email: "", mensaje: "" });
     } catch (error) {
-      setError("Hubo un problema al enviar el mensaje. Intenta nuevamente." + error);
+      setError(
+        "Hubo un problema al enviar el mensaje. Intenta nuevamente." + error
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="fondo-contacto">
+    <section className="fondo-contacto">
       <div className="contacto-container">
         <h1>Contáctanos</h1>
         <form className="contacto-form" onSubmit={handleSubmit}>
           <label>
             Nombre:
-            <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
+            <input
+              type="text"
+              name="nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              required
+            />
           </label>
           <label>
             Email:
-            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
           </label>
           <label>
             Mensaje:
-            <textarea name="mensaje" value={formData.mensaje} onChange={handleChange} required></textarea>
+            <textarea
+              name="mensaje"
+              value={formData.mensaje}
+              onChange={handleChange}
+              required
+            ></textarea>
           </label>
           <button type="submit" disabled={loading}>
             {loading ? "Enviando..." : "Enviar"}
           </button>
         </form>
-        {success && <p className="success-message">¡Mensaje enviado con éxito!</p>}
+        {success && (
+          <p className="success-message">¡Mensaje enviado con éxito!</p>
+        )}
         {error && <p className="error-message">{error}</p>}
       </div>
-    </div>
+    </section>
   );
 }
 

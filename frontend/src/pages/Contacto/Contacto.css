@@ -1,8 +1,9 @@
 .fondo-contacto {
-  padding: 3rem 0;
   background-image: url("./fondoContacto.jpg");
-  height: 100%;
-  width: 100%;
+  background-size: cover;
+  background-position: center;
+  padding: 3rem 0;
+  display: flow-root;
 }
 
 .contacto-container {

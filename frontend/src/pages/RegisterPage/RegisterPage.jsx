@@ -74,11 +74,12 @@ function RegisterPage() {
           } else if (loginRes.status === 403) {
             // Cuenta desactivada
             setAlert({
-              message: loginData.msg || "Tu cuenta ha sido desactivada. Contacta al administrador.",
+              message:
+                loginData.msg ||
+                "Tu cuenta ha sido desactivada. Contacta al administrador.",
               type: "error",
             });
           } else {
-
             setAlert({
               message: "Usuario creado. Por favor inicia sesión.",
               type: "success",
@@ -130,9 +131,9 @@ function RegisterPage() {
           }}
         />
       )}
-      <main
+      <div
         style={{
-          backgroundImage: "url('/principal1.jpeg')",
+          backgroundImage: "url('/imglogin.jpg')",
           minHeight: "100vh",
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -208,7 +209,7 @@ function RegisterPage() {
             </div>
           </form>
         </section>
-      </main>
+      </div>
     </>
   );
 }
