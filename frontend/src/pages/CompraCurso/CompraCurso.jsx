@@ -94,7 +94,7 @@ const CompraCurso = () => {
           </div>
         </div>
 
-        <div className="curso-incluye-card curso-precio-card-fisica">
+        <div className="curso-incluye curso-precio-card-fisica">
           <div className="curso-incluye">
             <h3>Este curso incluye:</h3>
             <ul>

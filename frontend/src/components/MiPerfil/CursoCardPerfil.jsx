@@ -36,10 +36,7 @@ function CursoCardPerfil({ idCurso, titulo, descripcion, imagen, precio, descuen
             </div>
           )}
 
-          <div className="separador">
-            <p>Descuento</p>
-          </div>
-
+          
           {!agregandoDesc ? (
             descuento !== 0 ? (
               <div className="descuento-contenedor">
@@ -50,12 +47,14 @@ function CursoCardPerfil({ idCurso, titulo, descripcion, imagen, precio, descuen
               </div>
             ) : (
               <button type="button" className="btn btn-warning" onClick={editar}>
-                Agregar
+                Agregar Descuento
               </button>
             )
           ) : (
             <div className="descuento-contenedor">
-              <input type="text" onChange={handleDescuentoChange} />
+              <input type="text"
+                placeholder="%"
+                onChange={handleDescuentoChange} />
               <button type="button" className="btn btn-success eliminar" onClick={handleGuardar}>
                 <i className="bi bi-check2"></i>
               </button>

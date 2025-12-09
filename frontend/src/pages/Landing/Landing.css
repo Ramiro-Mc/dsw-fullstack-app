@@ -361,3 +361,13 @@ main {
 .noCursos p{
   margin: 0;
 }
+/* Oculta las flechitas de los inputs number en todos los navegadores */
+.filtro-precio-card-inline input[type="number"]::-webkit-inner-spin-button,
+.filtro-precio-card-inline input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.filtro-precio-card-inline input[type="number"] {
+  -moz-appearance: textfield;
+}

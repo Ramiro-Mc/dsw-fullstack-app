@@ -1,5 +1,6 @@
 import { Curso } from "../models/Curso.js";
 import { TipoCurso } from "../models/TipoCurso.js";
+import { Usuario } from "../models/Usuario.js";
 import { Op } from "sequelize";
 
 export const cursoController = {
@@ -280,7 +281,10 @@ export const cursoController = {
 
       const cursosAprobados = await Curso.findAll({
         where,
-        include: [{ model: TipoCurso, as: "TipoCurso" }],
+        include: [
+          { model: TipoCurso, as: "TipoCurso" },
+          { model: Usuario, as: "Profesor", where: { activo: true } }
+        ],
       });
 
       res.status(200).json({

@@ -105,11 +105,11 @@ const router = createBrowserRouter([
       },
       {
         path: "checkout/:idCurso",
-        element: <AdminRoute><Checkout /></AdminRoute>,
+        element: <ProtectedRoute><Checkout /></ProtectedRoute>,
       },
       {
         path: "checkout/success", 
-        element: <AdminRoute><CheckoutSuccess /></AdminRoute>,
+        element: <ProtectedRoute><CheckoutSuccess /></ProtectedRoute>,
       },
       {
         path: "admin",
