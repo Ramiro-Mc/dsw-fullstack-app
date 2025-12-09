@@ -52,7 +52,7 @@ const CheckoutSuccess = () => {
         
         <p className="success-message">
           {isTransferencia 
-            ? 'Tu transferencia ha sido registrada. Recibirás acceso al curso en 24-48 horas.'
+            ? 'Tu transferencia ha sido registrada. Recibirás acceso al curso una vez verificada la transferencia.'
             : 'Tu compra se ha procesado correctamente.'
           }
         </p>
@@ -66,11 +66,7 @@ const CheckoutSuccess = () => {
               ID de transacción: <code>{(sessionId || transactionId).slice(0, 20)}...</code>
             </p>
           )}
-          {isTransferencia && (
-            <p className="transfer-note">
-              ⚠️ El acceso al curso se activará una vez verificada tu transferencia.
-            </p>
-          )}
+
         </div>
 
         <div className="countdown-box">

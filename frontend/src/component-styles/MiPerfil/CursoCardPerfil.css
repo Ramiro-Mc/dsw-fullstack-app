@@ -17,6 +17,12 @@
   font-size: 1.1rem;
 }
 
+.descuento-contenedor input[type="text"]::placeholder {
+  color: #bdbdbd;
+  background: transparent;
+  opacity: 1;
+}
+
 .descuento-contenedor .eliminar {
   width: 32px;
   height: 32px;

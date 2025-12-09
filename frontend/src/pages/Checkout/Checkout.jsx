@@ -250,7 +250,7 @@ const Checkout = () => {
                   <ol>
                     <li>Realiza la transferencia por el monto exacto</li>
                     <li>Haz clic en "Confirmar Pago"</li>
-                    <li>Recibirás acceso al curso en 24-48 horas</li>
+                    <li>Recibirás acceso al curso una vez verificada la transferencia</li>
                   </ol>
                 </div>
               </div>
