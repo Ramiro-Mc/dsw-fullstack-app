@@ -8,9 +8,6 @@ const SolicitudesPendientes = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [alert, setAlert] = useState(null);
-  const [motivoRechazo, setMotivoRechazo] = useState("");
-  const [mostrarInputMotivo, setMostrarInputMotivo] = useState(false);
-  const [cursoParaRechazar, setCursoParaRechazar] = useState(null);
 
   useEffect(() => {
     fetchSolicitudes();
@@ -22,13 +19,16 @@ const SolicitudesPendientes = () => {
       const response = await fetch("/api/admin/cursos/pendientes");
       const data = await response.json();
 
+      console.log("📥 Respuesta del backend:", data);
+
       if (data.success) {
-        setSolicitudes(data.informacion);
+        setSolicitudes(data.contenido || data.informacion || []);
+        console.log("📚 Solicitudes cargadas:", data.contenido || data.informacion);
       } else {
         setError("Error al cargar las solicitudes");
       }
     } catch (err) {
-      console.error("Error:", err);
+      console.error("❌ Error:", err);
       setError("Error de conexión");
     } finally {
       setLoading(false);
@@ -73,13 +73,13 @@ const SolicitudesPendientes = () => {
                 });
               } else {
                 setAlert({
-                  message: "Error al aprobar el curso",
+                  message: data.msg || "Error al aprobar el curso",
                   type: "error",
                   onClose: () => setAlert(null),
                 });
               }
             } catch (err) {
-              console.error("Error:", err);
+              console.error("❌ Error:", err);
               setAlert({
                 message: "Error de conexión al aprobar",
                 type: "error",
@@ -91,57 +91,59 @@ const SolicitudesPendientes = () => {
       ],
     });
   };
+
   const handleRechazarCurso = async (idCurso, titulo) => {
-    setCursoParaRechazar({ idCurso, titulo });
-    setMostrarInputMotivo(true);
-  };
-
-  const confirmarRechazo = async () => {
-    if (!cursoParaRechazar) return;
-
-    const { idCurso, titulo } = cursoParaRechazar;
-
-    try {
-      const response = await fetch(`/api/admin/cursos/${idCurso}/rechazar`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
+    setAlert({
+      message: `¿Rechazar el curso "${titulo}"?`,
+      type: "warning",
+      onClose: () => setAlert(null),
+      actions: [
+        {
+          label: "Cancelar",
+          onClick: () => setAlert(null),
         },
-        body: JSON.stringify({
-          motivo: motivoRechazo || "Sin motivo especificado",
-        }),
-      });
+        {
+          label: "Rechazar",
+          onClick: async () => {
+            setAlert(null);
+            try {
+              const response = await fetch(`/api/admin/cursos/${idCurso}/rechazar`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              });
 
-      const data = await response.json();
+              const data = await response.json();
 
-      if (data.success) {
-        setSolicitudes(
-          solicitudes.filter((curso) => curso.idCurso !== idCurso)
-        );
-        setAlert({
-          message: "Curso rechazado correctamente",
-          type: "success",
-          onClose: () => setAlert(null),
-        });
-      } else {
-        setAlert({
-          message: "Error al rechazar el curso",
-          type: "error",
-          onClose: () => setAlert(null),
-        });
-      }
-    } catch (err) {
-      console.error("Error:", err);
-      setAlert({
-        message: "Error de conexión al rechazar",
-        type: "error",
-        onClose: () => setAlert(null),
-      });
-    } finally {
-      setMostrarInputMotivo(false);
-      setMotivoRechazo("");
-      setCursoParaRechazar(null);
-    }
+              if (data.success) {
+                setSolicitudes(
+                  solicitudes.filter((curso) => curso.idCurso !== idCurso)
+                );
+                setAlert({
+                  message: "Curso rechazado correctamente",
+                  type: "success",
+                  onClose: () => setAlert(null),
+                });
+              } else {
+                setAlert({
+                  message: data.msg || "Error al rechazar el curso",
+                  type: "error",
+                  onClose: () => setAlert(null),
+                });
+              }
+            } catch (err) {
+              console.error("❌ Error:", err);
+              setAlert({
+                message: "Error de conexión al rechazar",
+                type: "error",
+                onClose: () => setAlert(null),
+              });
+            }
+          },
+        },
+      ],
+    });
   };
 
   if (loading) {
@@ -218,6 +220,7 @@ const SolicitudesPendientes = () => {
           </div>
         )}
       </div>
+
       {alert && (
         <CustomAlert
           message={alert.message}
@@ -228,50 +231,6 @@ const SolicitudesPendientes = () => {
             if (alert.onClose) alert.onClose();
           }}
         />
-      )}
-      {mostrarInputMotivo && (
-        <div
-          className="custom-alert-overlay"
-          onClick={() => setMostrarInputMotivo(false)}
-        >
-          <div
-            className="custom-alert-box"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="custom-alert-header info">!</div>
-            <div className="custom-alert-body">
-              <p>¿Por qué rechazar "{cursoParaRechazar?.titulo}"?</p>
-              <textarea
-                value={motivoRechazo}
-                onChange={(e) => setMotivoRechazo(e.target.value)}
-                placeholder="Motivo del rechazo (opcional)"
-                style={{
-                  width: "100%",
-                  minHeight: "80px",
-                  padding: "10px",
-                  marginTop: "10px",
-                  borderRadius: "5px",
-                  border: "1px solid #ccc",
-                  fontFamily: "inherit",
-                  fontSize: "14px",
-                  resize: "vertical",
-                }}
-              />
-            </div>
-            <div className="custom-alert-footer">
-              <button
-                className="custom-alert-btn"
-                onClick={() => setMostrarInputMotivo(false)}
-                style={{ marginRight: "10px", background: "#6c757d" }}
-              >
-                Cancelar
-              </button>
-              <button className="custom-alert-btn" onClick={confirmarRechazo}>
-                Rechazar
-              </button>
-            </div>
-          </div>
-        </div>
       )}
     </div>
   );

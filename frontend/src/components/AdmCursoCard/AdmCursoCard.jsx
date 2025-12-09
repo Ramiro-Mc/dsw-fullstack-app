@@ -43,7 +43,6 @@ const AdmCursoCard = ({
         </p>
         
         {variant === 'pendiente' ? (
-          
           <div className="curso-details">
             <div className="detail-item">
               <span className="label">Precio:</span>
@@ -51,7 +50,9 @@ const AdmCursoCard = ({
             </div>
             <div className="detail-item">
               <span className="label">Tipo:</span>
-              <span className="value">{curso.TipoCurso?.nombre || 'Sin tipo'}</span>
+              <span className="value">
+                {curso.TipoCurso?.nombreTipo || 'Sin tipo'}
+              </span>
             </div>
             <div className="detail-item">
               <span className="label">Fecha de solicitud:</span>
@@ -59,7 +60,6 @@ const AdmCursoCard = ({
             </div>
           </div>
         ) : (
-          
           <div className="curso-info">
             <div className="precio">
               <strong>${curso.precio?.toLocaleString()}</strong>
