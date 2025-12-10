@@ -12,6 +12,7 @@ routerCursos.get("/cursos/aprobados", cursoController.getAllCursosAprobados);
 routerCursos.put("/cursos/:idCurso", cursoValidator.validateUpdate, cursoController.updateCurso);  
 routerCursos.get("/cursos/:idCurso", cursoValidator.validateGetByIdAndDelete, cursoController.getCursoById);  
 routerCursos.delete("/cursos/:idCurso", cursoValidator.validateGetByIdAndDelete, cursoController.deleteCurso);
+routerCursos.get("/cursos/:idCurso/duracion", cursoController.getDuracionCurso);
 
 
 // Rutas administrativas bajo /api/admin

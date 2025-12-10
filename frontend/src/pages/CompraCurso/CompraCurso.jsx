@@ -10,6 +10,7 @@ const CompraCurso = () => {
   const [loading, setLoading] = useState(true);
   const [prof, setProfesor] = useState({});
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [duracion, setDuracion] = useState(null);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -42,6 +43,13 @@ const CompraCurso = () => {
       .catch((err) => {
         if (err.name !== "AbortError") console.error(err);
         setLoading(false);
+      });
+
+    // Obtener duración del curso
+    fetch(`http://localhost:3000/api/cursos/${idCurso}/duracion`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) setDuracion(data.duracion);
       });
 
     return () => controller.abort();
@@ -94,14 +102,14 @@ const CompraCurso = () => {
           </div>
         </div>
 
-        <div className="curso-incluye curso-precio-card-fisica">
+        <div className="curso-incluye-card curso-precio-card-fisica">
           <div className="curso-incluye">
             <h3>Este curso incluye:</h3>
             <ul>
-              <li>{curso.duracion || "Videos bajo demanda"}</li>
-              <li>Tareas</li>
+              <li>{duracion !== null ? `${duracion} horas de contenido` : "Videos bajo demanda"}</li>
+              <li>Videos interactivos</li>
               <li>Acceso móvil</li>
-              <li>Certificado de finalización</li>
+              <li>Descargas de contenido</li>
             </ul>
           </div>
         </div>
