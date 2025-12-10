@@ -2,6 +2,8 @@
   padding: 20px 0;
 }
 
+
+
 .informacion-personal .profile-image-container {
   width: 150px;
   height: 150px;
@@ -117,6 +119,9 @@
 .boton-camb-cont {
   padding: 10px 20px;
   font-weight: 500;
+  background-color: orange!important;
+  transition: all 0.3s ease   !important;
+  border: 1px solid orange  !important;
 }
 
 .perfil-profesor {
@@ -245,4 +250,15 @@
     font-size: 0.9rem;
     padding: 0.5rem;
   }
+}
+
+
+.cancelar2 {
+margin-top: 16px  !important;
+margin-right: 3px !important;
+background-color: red!important;
+max-height: 40px!important;
+border: 1px solid red!important;
+border-radius: 100px!important;
+transition: all 0.3s ease!important;
 }

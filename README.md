@@ -76,9 +76,9 @@ node src/scripts/createCurso.js
 **Qué hace:**
 
 - Crea un usuario profesor con credenciales:
-  - Email: `profesor@utndemy.com`
+  - Email: `carlos@utndemy.com`
   - Contraseña: `profesor123`
-- Crea 13 cursos de ejemplo distribuidos en las categorías
+- Crea cursos de ejemplo distribuidos en las categorías
 
 #### 3. Crear administrador
 
@@ -90,7 +90,6 @@ node src/scripts/createAdmin.js
 
 - **Email:** `admin@utndemy.com`
 - **Contraseña:** `admin123`
-
 
 ## 🚀 Ejecución
 

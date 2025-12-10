@@ -53,7 +53,7 @@
 }
 
 .activo {
-  box-shadow: inset 3px 0 0 #007bff;
+  box-shadow: inset 3px 0 0 white;
 }
 
 .opciones button {
@@ -113,14 +113,14 @@
 }
 
 .seccion.activo {
-  background-color: #007bff;
+  background-color: orange;
   color: white;
-  border-left: 4px solid #0056b3;
+  border-left: 4px solid orange;
   padding-left: 11px;
 }
 
 .seccion.activo:hover {
-  background-color: #0056b3;
+  background-color: orange;
 }
 
 .cerrarSesion {
@@ -176,16 +176,16 @@
 }
 
 .subseccion:hover {
-  background-color: #f0f1f2;
+  background-color: #e1d9cb87;
   color: #333;
-  border-left-color: #007bff;
+  border-left-color: orange;
   padding-left: 36px;
 }
 
 .subseccion.activo {
-  background-color: #e7f1ff;
-  color: #007bff;
-  border-left-color: #007bff;
+  background-color: #fff9e7;
+  color: orange;
+  border-left-color: orange;
   padding-left: 36px;
 }
 
