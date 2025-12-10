@@ -1,4 +1,3 @@
-
 .foro-container {
   min-height: 100vh;
   background-color: #f0f2f5;
@@ -10,7 +9,7 @@
   padding: 2rem 0;
   margin-bottom: 2rem;
 }
-  
+
 .foro-header h1 {
   font-size: 2rem;
   margin-bottom: 0.5rem;
@@ -116,7 +115,6 @@
   line-height: 1.5;
 }
 
-
 .usuario-avatar {
   width: 40px;
   height: 40px;
@@ -209,12 +207,9 @@
   background-color: #bb7000 !important;
 }
 
-
 .cancelar:hover {
   background-color: #a20000 !important;
 }
-  
-
 
 .respuesta-card {
   background: #f7f8fa;
@@ -270,7 +265,6 @@
   border-top: 1px solid #e4e6eb;
 }
 
-
 .sin-publicaciones {
   text-align: center;
   padding: 3rem 1rem;
@@ -290,4 +284,54 @@
 
 .sin-publicaciones p {
   margin: 0;
+}
+
+.publicacion-profesor {
+  border-left: 4px solid #ff9500;
+  background-color: #fff8f0;
+}
+
+.publicacion-profesor .publicacion-header {
+  background-color: #fffaf5;
+}
+
+.avatar-profesor {
+  border: 3px solid #ff9500;
+  box-shadow: 0 0 0 2px #fff8f0;
+}
+
+.usuario-nombre-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.badge-profesor {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: #ff9500;
+  color: white;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-profesor i {
+  font-size: 0.8rem;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .usuario-nombre-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .badge-profesor {
+    margin-top: 0.25rem;
+  }
 }

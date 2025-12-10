@@ -22,7 +22,7 @@ function CursoCardPerfil({
         <div className="col-12 col-md-3">
           <img
             src={imagen}
-            className="img-fluid rounded-start h-100 w-100"
+            className="img-fluid rounded-start h-100 w-100 img-curso"
             alt={titulo}
             style={{ objectFit: "cover" }}
           />

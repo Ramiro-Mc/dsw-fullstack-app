@@ -22,9 +22,7 @@ function Foro() {
     const fetchCursoYComunidad = async () => {
       try {
         // Cargar información del curso
-        const responseCurso = await fetch(
-          `http://localhost:3000/cursoDetalle/${idCurso}`
-        );
+        const responseCurso = await fetch(`http://localhost:3000/cursoDetalle/${idCurso}`);
         const dataCurso = await responseCurso.json();
 
         if (dataCurso.success) {
@@ -36,18 +34,14 @@ function Foro() {
         }
 
         // Cargar comunidad del curso
-        const responseComunidad = await fetch(
-          `http://localhost:3000/comunidades/curso/${idCurso}`
-        );
+        const responseComunidad = await fetch(`http://localhost:3000/comunidades/curso/${idCurso}`);
         const dataComunidad = await responseComunidad.json();
 
         if (dataComunidad.success) {
           setComunidad(dataComunidad.contenido);
 
           // Cargar publicaciones de la comunidad
-          const responsePublicaciones = await fetch(
-            `http://localhost:3000/publicaciones/comunidad/${dataComunidad.contenido.idComunidad}`
-          );
+          const responsePublicaciones = await fetch(`http://localhost:3000/publicaciones/comunidad/${dataComunidad.contenido.idComunidad}`);
           const dataPublicaciones = await responsePublicaciones.json();
 
           if (dataPublicaciones.success) {
@@ -55,19 +49,16 @@ function Foro() {
           }
         } else {
           // Si no existe comunidad, crearla automáticamente
-          const responseCrear = await fetch(
-            "http://localhost:3000/comunidades",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                titulo: `Foro de ${dataCurso.contenido?.titulo || "Curso"}`,
-                idCurso: idCurso,
-              }),
-            }
-          );
+          const responseCrear = await fetch("http://localhost:3000/comunidades", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              titulo: `Foro de ${dataCurso.contenido?.titulo || "Curso"}`,
+              idCurso: idCurso,
+            }),
+          });
 
           const dataCrear = await responseCrear.json();
 
@@ -76,18 +67,14 @@ function Foro() {
             setPublicaciones([]);
           } else {
             // Si falla (probablemente porque ya existe), intentar obtenerla
-            const responseComunidadRetry = await fetch(
-              `http://localhost:3000/comunidades/curso/${idCurso}`
-            );
+            const responseComunidadRetry = await fetch(`http://localhost:3000/comunidades/curso/${idCurso}`);
             const dataComunidadRetry = await responseComunidadRetry.json();
 
             if (dataComunidadRetry.success) {
               setComunidad(dataComunidadRetry.contenido);
 
               // Cargar publicaciones
-              const responsePublicaciones = await fetch(
-                `http://localhost:3000/publicaciones/comunidad/${dataComunidadRetry.contenido.idComunidad}`
-              );
+              const responsePublicaciones = await fetch(`http://localhost:3000/publicaciones/comunidad/${dataComunidadRetry.contenido.idComunidad}`);
               const dataPublicaciones = await responsePublicaciones.json();
 
               if (dataPublicaciones.success) {
@@ -170,29 +157,20 @@ function Foro() {
     }
 
     try {
-      const response = await fetch(
-        `http://localhost:3000/publicaciones/${idPublicacion}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            contenido: editandoContenido,
-          }),
-        }
-      );
+      const response = await fetch(`http://localhost:3000/publicaciones/${idPublicacion}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contenido: editandoContenido,
+        }),
+      });
 
       const data = await response.json();
 
       if (data.success) {
-        setPublicaciones(
-          publicaciones.map((pub) =>
-            pub.idPublicacion === idPublicacion
-              ? { ...pub, contenido: editandoContenido }
-              : pub
-          )
-        );
+        setPublicaciones(publicaciones.map((pub) => (pub.idPublicacion === idPublicacion ? { ...pub, contenido: editandoContenido } : pub)));
         setEditandoId(null);
         setEditandoContenido("");
         setError("");
@@ -220,21 +198,14 @@ function Foro() {
           onClick: async () => {
             setAlert(null);
             try {
-              const response = await fetch(
-                `http://localhost:3000/publicaciones/${idPublicacion}`,
-                {
-                  method: "DELETE",
-                }
-              );
+              const response = await fetch(`http://localhost:3000/publicaciones/${idPublicacion}`, {
+                method: "DELETE",
+              });
 
               const data = await response.json();
 
               if (data.success) {
-                setPublicaciones(
-                  publicaciones.filter(
-                    (pub) => pub.idPublicacion !== idPublicacion
-                  )
-                );
+                setPublicaciones(publicaciones.filter((pub) => pub.idPublicacion !== idPublicacion));
                 setError("");
               } else {
                 setError(data.msg || "Error al eliminar publicación");
@@ -268,24 +239,14 @@ function Foro() {
 
   return (
     <div className="foro-container">
-      {alert && (
-        <CustomAlert
-          message={alert.message}
-          type={alert.type}
-          onClose={alert.onClose}
-          actions={alert.actions}
-        />
-      )}
+      {alert && <CustomAlert message={alert.message} type={alert.type} onClose={alert.onClose} actions={alert.actions} />}
+
       <div className="foro-header">
         <div className="container">
-          <button
-            className="btn btn-link text-white mb-3"
-            onClick={() => navigate(`/course/${idCurso}`)}
-          >
+          <button className="btn btn-link text-white mb-3" onClick={() => navigate(`/course/${idCurso}`)}>
             <i className="bi bi-arrow-left"></i> Volver al curso
           </button>
           <h1>Foro de {curso?.titulo || "Cargando..."}</h1>
-
           <p>Comparte tus dudas, ideas y experiencias con otros estudiantes</p>
         </div>
       </div>
@@ -306,19 +267,9 @@ function Foro() {
           </div>
 
           <form onSubmit={handlePublicar}>
-            <textarea
-              className="form-control publicacion-textarea"
-              placeholder="¿Qué estás pensando?"
-              value={nuevaPublicacion}
-              onChange={(e) => setNuevaPublicacion(e.target.value)}
-              rows="4"
-            />
+            <textarea className="form-control publicacion-textarea" placeholder="¿Qué estás pensando?" value={nuevaPublicacion} onChange={(e) => setNuevaPublicacion(e.target.value)} rows="4" />
             <div className="publicacion-acciones">
-              <button
-                type="submit"
-                className="btn btn-publicar"
-                disabled={!nuevaPublicacion.trim()}
-              >
+              <button type="submit" className="btn btn-publicar" disabled={!nuevaPublicacion.trim()}>
                 <i className="bi bi-send"></i> Publicar
               </button>
             </div>
@@ -328,16 +279,9 @@ function Foro() {
         {/* Lista de publicaciones */}
         <div className="publicaciones-lista">
           {error && (
-            <div
-              className="alert alert-danger alert-dismissible fade show"
-              role="alert"
-            >
+            <div className="alert alert-danger alert-dismissible fade show" role="alert">
               {error}
-              <button
-                type="button"
-                className="btn-close"
-                onClick={() => setError("")}
-              ></button>
+              <button type="button" className="btn-close" onClick={() => setError("")}></button>
             </div>
           )}
 
@@ -348,91 +292,75 @@ function Foro() {
               <p>Sé el primero en compartir algo en este foro</p>
             </div>
           ) : (
-            publicaciones.map((pub) => (
-              <div key={pub.idPublicacion} className="publicacion-card">
-                {/* Publicación header */}
-                <div className="publicacion-header">
-                  <img
-                    src={
-                      pub.UsuarioDePublicacion?.fotoDePerfil || "/Default.jpg"
-                    }
-                    alt={pub.UsuarioDePublicacion?.nombreUsuario}
-                    className="usuario-avatar"
-                    onError={(e) => {
-                      e.target.src = "/Default.jpg";
-                    }}
-                  />
-                  <div className="publicacion-info">
-                    <h4 className="usuario-nombre">
-                      {pub.UsuarioDePublicacion?.nombreUsuario}
-                    </h4>
-                    <span className="publicacion-fecha">
-                      {new Date(pub.fechaPublicacion).toLocaleDateString(
-                        "es-ES",
-                        {
+            publicaciones.map((pub) => {
+              const esProfesor = curso?.idProfesor === pub.idUsuario;
+
+              return (
+                <div key={pub.idPublicacion} className={`publicacion-card ${esProfesor ? "publicacion-profesor" : ""}`}>
+                  {/* Publicación header */}
+                  <div className="publicacion-header">
+                    <img
+                      src={pub.UsuarioDePublicacion?.fotoDePerfil || "/Default.jpg"}
+                      alt={pub.UsuarioDePublicacion?.nombreUsuario}
+                      className={`usuario-avatar ${esProfesor ? "avatar-profesor" : ""}`}
+                      onError={(e) => {
+                        e.target.src = "/Default.jpg";
+                      }}
+                    />
+                    <div className="publicacion-info">
+                      <div className="usuario-nombre-container">
+                        <h4 className="usuario-nombre">{pub.UsuarioDePublicacion?.nombreUsuario}</h4>
+                        {esProfesor && (
+                          <span className="badge-profesor">
+                            <i className="bi bi-mortarboard-fill"></i> Profesor
+                          </span>
+                        )}
+                      </div>
+                      <span className="publicacion-fecha">
+                        {new Date(pub.fechaPublicacion).toLocaleDateString("es-ES", {
                           year: "numeric",
                           month: "long",
                           day: "numeric",
                           hour: "2-digit",
                           minute: "2-digit",
-                        }
-                      )}
-                    </span>
+                        })}
+                      </span>
+                    </div>
+
+                    {/* Mostrar botones solo si es el dueño */}
+                    {(user?.idUsuario === pub.idUsuario || user?.id === pub.idUsuario) && (
+                      <div className="publicacion-opciones-header">
+                        <button className="btn btn-sm btn-outline-primary" onClick={() => handleEditar(pub)} title="Editar publicación">
+                          <i className="bi bi-pencil"></i>
+                        </button>
+                        <button className="btn btn-sm btn-outline-danger" onClick={() => handleEliminar(pub.idPublicacion)} title="Eliminar publicación">
+                          <i className="bi bi-trash"></i>
+                        </button>
+                      </div>
+                    )}
                   </div>
 
-                  {/* Mostrar botones solo si es el dueño - ARRIBA A LA DERECHA */}
-                  {(user?.idUsuario === pub.idUsuario ||
-                    user?.id === pub.idUsuario) && (
-                    <div className="publicacion-opciones-header">
-                      <button
-                        className="btn btn-sm btn-outline-primary"
-                        onClick={() => handleEditar(pub)}
-                        title="Editar publicación"
-                      >
-                        <i className="bi bi-pencil"></i>
-                      </button>
-                      <button
-                        className="btn btn-sm btn-outline-danger"
-                        onClick={() => handleEliminar(pub.idPublicacion)}
-                        title="Eliminar publicación"
-                      >
-                        <i className="bi bi-trash"></i>
-                      </button>
+                  {/* Publicación contenido */}
+                  {editandoId === pub.idPublicacion ? (
+                    <div className="publicacion-edicion">
+                      <textarea className="form-control" value={editandoContenido} onChange={(e) => setEditandoContenido(e.target.value)} rows="3" />
+                      <div className="publicacion-acciones-edicion mt-2">
+                        <button className="btn btn-sm guardar" onClick={() => handleGuardarEdicion(pub.idPublicacion)}>
+                          <i className="bi bi-check"></i> Guardar
+                        </button>
+                        <button className="btn btn-sm cancelar" onClick={handleCancelarEdicion}>
+                          <i className="bi bi-x"></i> Cancelar
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="publicacion-contenido">
+                      <p>{pub.contenido}</p>
                     </div>
                   )}
                 </div>
-
-                {/* Publicación contenido */}
-                {editandoId === pub.idPublicacion ? (
-                  <div className="publicacion-edicion">
-                    <textarea
-                      className="form-control"
-                      value={editandoContenido}
-                      onChange={(e) => setEditandoContenido(e.target.value)}
-                      rows="3"
-                    />
-                    <div className="publicacion-acciones-edicion mt-2">
-                      <button
-                        className="btn btn-sm guardar"
-                        onClick={() => handleGuardarEdicion(pub.idPublicacion)}
-                      >
-                        <i className="bi bi-check"></i> Guardar
-                      </button>
-                      <button
-                        className="btn btn-sm cancelar"
-                        onClick={handleCancelarEdicion}
-                      >
-                        <i className="bi bi-x"></i> Cancelar
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="publicacion-contenido">
-                    <p>{pub.contenido}</p>
-                  </div>
-                )}
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </div>
