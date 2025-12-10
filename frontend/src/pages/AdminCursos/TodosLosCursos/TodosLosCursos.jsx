@@ -16,7 +16,7 @@ const TodosLosCursos = () => {
   const fetchCursos = async () => {
     try {
       setLoading(true);
-      const response = await fetch("/api/cursos");
+      const response = await fetch("/api/cursos/aprobados");
       const data = await response.json();
 
       if (data.success) {
@@ -57,6 +57,7 @@ const TodosLosCursos = () => {
               const data = await response.json();
 
               if (data.success) {
+                // Eliminar el curso de la lista ya que no aparecerá en próximos fetch
                 setCursos(cursos.filter((curso) => curso.idCurso !== idCurso));
                 setAlert({
                   message: "Curso eliminado correctamente",
@@ -134,13 +135,11 @@ const TodosLosCursos = () => {
                 actions={[
                   {
                     label:
-                      curso.estado === "rechazado"
-                        ? "Ya eliminado"
-                        : "Eliminar",
+                      curso.estado === "eliminado" ? "Eliminado" : "Eliminar",
                     className: "btn-eliminar",
                     onClick: () =>
                       handleEliminarCurso(curso.idCurso, curso.titulo),
-                    disabled: curso.estado === "rechazado",
+                    disabled: curso.estado === "eliminado",
                   },
                 ]}
               />
