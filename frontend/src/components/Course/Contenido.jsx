@@ -1,18 +1,17 @@
 import '../../component-styles/Contenido.css'
 
 function Contenido({ claseClicked }) {
-    console.log("=== DEBUG CONTENIDO ===");
+    console.log(" DEBUG CONTENIDO ");
     console.log("claseClicked completo:", claseClicked);
     console.log("claseClicked.videoLeccion:", claseClicked.videoLeccion);
-    console.log("claseClicked.imagenUrl:", claseClicked.imagenUrl);
-    console.log("claseClicked.archivoUrl:", claseClicked.archivoUrl);
-    console.log("Tipo de videoLeccion:", typeof claseClicked.videoLeccion);
+
+    const isYouTubeUrl = (url) => {
+        if (!url) return false;
+        return url.includes('youtube.com') || url.includes('youtu.be');
+    };
 
     const getVideoEmbedUrl = (url) => {
-   
-        if (!url) {
-            return '';
-        }
+        if (!url) return '';
         
         // Si ya es una URL de embed de YouTube
         if (url.includes('youtube.com/embed/')) {
@@ -23,8 +22,7 @@ function Contenido({ claseClicked }) {
         if (url.includes('youtube.com/watch?v=')) {
             const videoId = url.split('v=')[1]?.split('&')[0];
             if (videoId) {
-                const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&showinfo=0`;
-                return embedUrl;
+                return `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&showinfo=0`;
             }
         }
         
@@ -32,17 +30,19 @@ function Contenido({ claseClicked }) {
         if (url.includes('youtu.be/')) {
             const videoId = url.split('youtu.be/')[1]?.split('?')[0];
             if (videoId) {
-                const embedUrl = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&showinfo=0`;
-                return embedUrl;
+                return `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&showinfo=0`;
             }
         }
 
-        // Si no es una URL reconocida,
         return '';
     };
 
-    const videoUrl = getVideoEmbedUrl(claseClicked.videoLeccion);
-    console.log("URL final para iframe:", videoUrl);
+    const videoUrl = claseClicked.videoLeccion;
+    const isYouTube = isYouTubeUrl(videoUrl);
+    const embedUrl = isYouTube ? getVideoEmbedUrl(videoUrl) : null;
+
+    console.log("URL final para video:", videoUrl);
+    console.log("Es YouTube?", isYouTube);
 
     return (
         <div className="cont-principal">
@@ -67,27 +67,50 @@ function Contenido({ claseClicked }) {
             {claseClicked.videoLeccion && (
                 <div className="contenedor-video">
                     <h3>Video de la lección:</h3>
-                    {videoUrl ? (
-                        <iframe 
+                    {isYouTube ? (
+                        // Video de YouTube (iframe)
+                        embedUrl ? (
+                            <iframe 
+                                className="video"
+                                width="560" 
+                                height="315" 
+                                src={embedUrl}
+                                title={claseClicked.tituloLeccion} 
+                                frameBorder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowFullScreen
+                                loading="lazy"
+                                onLoad={() => console.log("Iframe cargado correctamente")}
+                                onError={(e) => console.error(" Error en iframe:", e)}
+                            />
+                        ) : (
+                            <div className="video-placeholder">
+                                <p>Video de YouTube no disponible</p>
+                                <small>URL original: {videoUrl}</small>
+                            </div>
+                        )
+                    ) : (
+                        // Video directo (Cloudinary, MP4, etc.) usando <video>
+                        <video 
                             className="video"
                             width="560" 
                             height="315" 
-                            src={videoUrl}
-                            title={claseClicked.tituloLeccion} 
-                            frameBorder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            allowFullScreen
-                            loading="lazy"
-                            onLoad={() => console.log(" Iframe cargado correctamente")}
-                            onError={(e) => console.error(" Error en iframe:", e)}
-                        />
-                    ) : (
-                        <div className="video-placeholder">
-                            <p>Video no disponible</p>
-                            <small>URL original: {claseClicked.videoLeccion || 'undefined'}</small>
-                            <br />
-                            <small>URL procesada: {videoUrl || 'vacía'}</small>
-                        </div>
+                            controls
+                            preload="metadata"
+                            onError={(e) => {
+                                console.error("Error al cargar video:", e);
+                                e.target.parentElement.innerHTML = `
+                                    <div class="video-placeholder">
+                                        <p>Error al cargar el video</p>
+                                        <small>URL: ${videoUrl}</small>
+                                    </div>
+                                `;
+                            }}
+                        >
+                            <source src={videoUrl} type="video/mp4" />
+                            <source src={videoUrl} type="video/webm" />
+                            Tu navegador no soporta el elemento de video.
+                        </video>
                     )}
                 </div>
             )}
@@ -96,7 +119,7 @@ function Contenido({ claseClicked }) {
             <div className="recursos-adicionales">
                 {claseClicked.imagenUrl && (
                     <div className="contenedor-imagen">
-                        <h3>Archvios e Imagenes adicionales:</h3>
+                        <h3>Archivos e Imagenes adicionales:</h3>
                         <img 
                             src={claseClicked.imagenUrl} 
                             alt={`Imagen de ${claseClicked.tituloLeccion}`}
@@ -117,15 +140,8 @@ function Contenido({ claseClicked }) {
                             rel="noopener noreferrer"
                             className="enlace-archivo"
                         >
-                            Abrir archivo
+                            Descargar archivo
                         </a>
-                    </div>
-                )}
-                
-                {/* Mostrar sección vacía para debug */}
-                {!claseClicked.imagenUrl && !claseClicked.archivoUrl && (
-                    <div style={{color: '#999', fontStyle: 'italic'}}>
-                        No hay recursos adicionales (imágenes o archivos) para esta lección.
                     </div>
                 )}
             </div>
