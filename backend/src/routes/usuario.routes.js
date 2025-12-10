@@ -13,18 +13,13 @@ routerUsuario.put("/usuarios/:idUsuario", usuarioValidator.validateUpdate, usuar
 routerUsuario.delete("/usuarios/:idUsuario", usuarioValidator.validateGetByIdAndDelete, usuarioController.deleteUsuario);
 routerUsuario.get("/usuarios/:idUsuario", usuarioValidator.validateGetByIdAndDelete, usuarioController.getUsuarioById);
 routerUsuario.put("/usuarios/:idUsuario/reactivar", usuarioValidator.validateGetByIdAndDelete, usuarioController.reactivateUsuario);
-// routerUsuario.post("/login", usuarioController.loginUsuario); 
 
-// Manejo de foto de perfil con Cloudinary
-
-// Configurar Cloudinary 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Configurar almacenamiento con multer
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
