@@ -302,15 +302,27 @@ const createCursosData = async () => {
     }
 
     // Crear módulos y lecciones
-    console.log("\n📚 Creando módulos y lecciones...");
+    console.log("\nCreando módulos y lecciones...");
 
-    const cursosParaModulos = cursosCreados.slice(0, 5);
+    // TODOS los cursos deben tener al menos 1 módulo con 1 lección
+    for (let i = 0; i < cursosCreados.length; i++) {
+      const curso = cursosCreados[i];
+      
+      // Verificar si el curso ya tiene módulos
+      const modulosExistentes = await Modulo.count({ where: { idCurso: curso.idCurso } });
+      
+      if (modulosExistentes > 0) {
+        console.log(`Curso ya tiene ${modulosExistentes} módulo(s): ${curso.titulo}`);
+        continue;
+      }
 
-    for (let i = 0; i < cursosParaModulos.length; i++) {
-      const curso = cursosParaModulos[i];
-      console.log(`\n📖 Creando contenido para: ${curso.titulo}`);
+      console.log(`\nCreando contenido para: ${curso.titulo}`);
 
-      for (let moduloNum = 1; moduloNum <= 3; moduloNum++) {
+      // Los primeros 5 cursos tienen más contenido, el resto tienen mínimo
+      const numModulos = i < 5 ? 3 : 1;
+      const numLeccionesPorModulo = i < 5 ? 2 : 1;
+
+      for (let moduloNum = 1; moduloNum <= numModulos; moduloNum++) {
         const [modulo] = await Modulo.findOrCreate({
           where: {
             idCurso: curso.idCurso,
@@ -322,7 +334,7 @@ const createCursosData = async () => {
           },
         });
 
-        for (let leccionNum = 1; leccionNum <= 2; leccionNum++) {
+        for (let leccionNum = 1; leccionNum <= numLeccionesPorModulo; leccionNum++) {
           await Leccion.findOrCreate({
             where: {
               idModulo: modulo.idModulo,
@@ -341,12 +353,13 @@ const createCursosData = async () => {
           });
         }
       }
+      console.log(`✅ ${numModulos} módulo(s) con ${numLeccionesPorModulo} lección(es) cada uno`);
     }
 
     // Inscripciones
     const cursosParaComprar = cursosCreados.filter((curso) => curso.estado === "aprobado").slice(0, 5);
 
-    console.log("\n💳 Creando compras de cursos para el alumno...");
+    console.log("\nCreando compras de cursos para el alumno...");
 
     for (const curso of cursosParaComprar) {
       const [, compraCreated] = await AlumnoCurso.findOrCreate({
@@ -370,14 +383,14 @@ const createCursosData = async () => {
       }
     }
 
-    console.log("\n🎉 === DATOS CREADOS EXITOSAMENTE ===");
-    console.log("\n👨‍🏫 Profesores:");
+    console.log("\n === DATOS CREADOS EXITOSAMENTE ===");
+    console.log("\n Profesores:");
     profesores.forEach((prof, idx) => {
       console.log(`   ${idx + 1}. ${prof.nombreUsuario} (${prof.email})`);
     });
-    console.log("\n👨‍🎓 Alumno: alumno@utndemy.com / alumno123");
-    console.log(`📚 Total de cursos: ${cursosData.length}`);
-    console.log(`💰 Total gastado: $${cursosParaComprar.reduce((total, curso) => total + curso.precio, 0)}`);
+    console.log("\n Alumno: alumno@utndemy.com / alumno123");
+    console.log(` Total de cursos: ${cursosData.length}`);
+    console.log(` Total gastado: $${cursosParaComprar.reduce((total, curso) => total + curso.precio, 0)}`);
   } catch (error) {
     console.error("❌ Error:", error);
   } finally {
@@ -388,28 +401,36 @@ const createCursosData = async () => {
 function getModuloTitulo(cursoTitulo, moduloNum) {
   const modulos = {
     "JavaScript desde Cero": ["Fundamentos", "Funciones", "DOM"],
-    "JavaScript Avanzado": ["Closures", "Async/Await", "ES6+"],
+    "JavaScript Avanzado": ["Closures y Prototipos", "Async/Await", "ES6+"],
     "React JS desde Cero": ["Componentes", "State y Props", "Hooks"],
-    "Diseño UI/UX Completo": ["Principios", "Wireframes", "Prototipos"],
+    "Diseño UI/UX Completo": ["Principios de Diseño", "Wireframes", "Prototipos"],
     "Figma Masterclass": ["Básico", "Avanzado", "Componentes"],
+    "Node.js y Express": ["Introducción a Node.js"],
+    "React Avanzado + Redux": ["Redux y Estado Global"],
+    "Coaching Personal y Profesional": ["Fundamentos del Coaching"],
+    "Innovación y Emprendimiento": ["Design Thinking"],
+    "Fotografía Digital Avanzada": ["Técnicas Profesionales"],
+    "Inteligencia Artificial con Python": ["Introducción a IA"],
+    "Marketing Digital 2024": ["Estrategias Digitales"],
+    "Gastronomía Internacional": ["Técnicas Culinarias"],
   };
-  return modulos[cursoTitulo]?.[moduloNum - 1] || `Contenido ${moduloNum}`;
+  return modulos[cursoTitulo]?.[moduloNum - 1] || `Introducción al curso`;
 }
 
 function getLeccionTitulo(cursoTitulo, moduloNum, leccionNum) {
   const lecciones = {
     "JavaScript desde Cero": {
-      1: ["Intro", "Variables"],
-      2: ["Funciones", "Condicionales"],
-      3: ["DOM", "Eventos"],
+      1: ["Introducción a JavaScript", "Variables y tipos de datos"],
+      2: ["Funciones básicas", "Condicionales y bucles"],
+      3: ["Manipulación del DOM", "Eventos"],
     },
     "React JS desde Cero": {
-      1: ["Componentes", "JSX"],
-      2: ["useState", "Props"],
-      3: ["useEffect", "Context"],
+      1: ["Componentes funcionales", "JSX y Props"],
+      2: ["useState Hook", "Comunicación entre componentes"],
+      3: ["useEffect Hook", "Context API"],
     },
   };
-  return lecciones[cursoTitulo]?.[moduloNum]?.[leccionNum - 1] || `Lección ${leccionNum}`;
+  return lecciones[cursoTitulo]?.[moduloNum]?.[leccionNum - 1] || `Clase ${leccionNum}: Introducción`;
 }
 
 function getLeccionDescripcion(cursoTitulo, moduloNum, leccionNum) {
