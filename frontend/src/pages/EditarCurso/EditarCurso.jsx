@@ -25,6 +25,10 @@ function EditarCursoPage() {
   const [moduloSeleccionado, setModuloSeleccionado] = useState("");
   const [modulosGuardados, setModulosGuardados] = useState([]);
   const [tiposCurso, setTiposCurso] = useState([]);
+  
+ 
+  const [imagenCurso, setImagenCurso] = useState("");
+  const [tipoImagen, setTipoImagen] = useState("default");
 
   // Estados para módulo
   const [mostrarFormularioModulo, setMostrarFormularioModulo] = useState(false);
@@ -63,6 +67,15 @@ function EditarCursoPage() {
         setDescripcionCurso(curso.descripcion);
         setPrecioCurso(curso.precio.toString());
         setModuloSeleccionado(curso.idTipo.toString());
+
+        // Cargar imagen del curso
+        if (curso.imagen && curso.imagen !== '/default-course.jpg') {
+          setImagenCurso(curso.imagen);
+          setTipoImagen('url');
+        } else {
+          setImagenCurso("");
+          setTipoImagen('default');
+        }
 
         // Convertir módulos al formato esperado con marcadores de existencia
         const modulosFormateados =
@@ -288,6 +301,7 @@ function EditarCursoPage() {
       descripcion: descripcionCurso,
       precio: parseFloat(precioCurso),
       idTipo: parseInt(moduloSeleccionado),
+      imagen: tipoImagen === 'default' ? null : imagenCurso, // Incluir imagen
     };
 
     try {
@@ -422,15 +436,129 @@ function EditarCursoPage() {
     });
   };
 
+  // función para actualizar lección en la BD
+  const actualizarLeccionEnBD = async (leccion) => {
+    try {
+      const datosLeccion = {
+        tituloLec: leccion.tituloLec,
+        descripcionLec: leccion.descripcionLec || leccion.descripcion || "Sin descripción",
+        horasLec: leccion.horas ? parseInt(leccion.horas) : 1,
+      };
+
+      // Solo agregar URLs si tienen contenido válido
+      if (leccion.videoUrl && leccion.videoUrl.trim()) {
+        datosLeccion.videoUrl = leccion.videoUrl.trim();
+      }
+      if (leccion.contenidoTexto && leccion.contenidoTexto.trim()) {
+        datosLeccion.contenidoTexto = leccion.contenidoTexto.trim();
+      }
+      if (leccion.imagenUrl && leccion.imagenUrl.trim()) {
+        datosLeccion.imagenUrl = leccion.imagenUrl.trim();
+      }
+      if (leccion.archivoUrl && leccion.archivoUrl.trim()) {
+        datosLeccion.archivoUrl = leccion.archivoUrl.trim();
+      }
+
+      const response = await fetch(
+        `http://localhost:3000/lecciones/${leccion.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(datosLeccion),
+        }
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response:", errorText);
+        throw new Error(`Error al actualizar lección: ${response.status}`);
+      }
+
+      const resultado = await response.json();
+      return resultado.contenido;
+    } catch (error) {
+      console.error("Error actualizando lección:", error);
+      throw error;
+    }
+  };
+
+  // función para actualizar módulo en la BD
+  const actualizarModuloEnBD = async (idModulo, titulo) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/modulos/${idModulo}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ titulo }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error response:", errorText);
+        throw new Error(`Error al actualizar módulo: ${response.status}`);
+      }
+
+      const resultado = await response.json();
+      return resultado.contenido;
+    } catch (error) {
+      console.error("Error actualizando módulo:", error);
+      throw error;
+    }
+  };
+
   const handleFinalizarModulo = async (moduloCompleto) => {
     try {
       if (editandoModulo) {
-        // Actualizar módulo existente - solo crear las nuevas lecciones
+        //  Actualizar título del módulo si cambió
+        if (moduloCompleto.nombre !== editandoModulo.nombre) {
+          await actualizarModuloEnBD(moduloCompleto.id, moduloCompleto.nombre);
+        }
+
+        // Separar lecciones en nuevas, existentes y modificadas
         const leccionesNuevas = moduloCompleto.lecciones.filter(
           (leccion) => !leccion.esExistente
         );
+        const leccionesExistentes = moduloCompleto.lecciones.filter(
+          (leccion) => leccion.esExistente
+        );
 
-        // Crear las nuevas lecciones en la BD
+        // Actualizar lecciones existentes que fueron modificadas
+        const leccionesActualizadas = [];
+        for (const leccion of leccionesExistentes) {
+          // Buscar la lección original para comparar
+          const leccionOriginal = editandoModulo.lecciones.find(
+            (l) => l.id === leccion.id
+          );
+          
+          // Verificar si hubo cambios
+          const hubocambios = 
+            leccionOriginal.tituloLec !== leccion.tituloLec ||
+            leccionOriginal.descripcionLec !== leccion.descripcionLec ||
+            leccionOriginal.horas !== leccion.horas ||
+            leccionOriginal.videoUrl !== leccion.videoUrl ||
+            leccionOriginal.contenidoTexto !== leccion.contenidoTexto ||
+            leccionOriginal.imagenUrl !== leccion.imagenUrl ||
+            leccionOriginal.archivoUrl !== leccion.archivoUrl;
+
+          if (huboChangios) {
+            const leccionActualizada = await actualizarLeccionEnBD(leccion);
+            leccionesActualizadas.push({
+              ...leccion,
+              id: leccionActualizada.numeroLec,
+              esExistente: true,
+            });
+          } else {
+            leccionesActualizadas.push(leccion);
+          }
+        }
+
+        // ✅ Crear nuevas lecciones en la BD
         const leccionesCreadas = [];
         for (const leccion of leccionesNuevas) {
           const leccionCreada = await crearLeccionEnBD(
@@ -444,11 +572,8 @@ function EditarCursoPage() {
           });
         }
 
-        // Actualizar el estado con todas las lecciones (existentes + nuevas)
-        const leccionesExistentes = moduloCompleto.lecciones.filter(
-          (leccion) => leccion.esExistente
-        );
-        const todasLasLecciones = [...leccionesExistentes, ...leccionesCreadas];
+        // Combinar todas las lecciones
+        const todasLasLecciones = [...leccionesActualizadas, ...leccionesCreadas];
 
         setModulosGuardados((prev) =>
           prev.map((modulo) =>
@@ -461,15 +586,19 @@ function EditarCursoPage() {
           )
         );
 
+        const cantidadActualizadas = leccionesActualizadas.filter(
+          (l) => leccionesExistentes.find(orig => orig.id === l.id && 
+            (orig.tituloLec !== l.tituloLec || orig.descripcionLec !== l.descripcionLec))
+        ).length;
+
         setAlert({
-          message: `Módulo "${moduloCompleto.nombre}" actualizado con ${leccionesNuevas.length} nueva(s) lección(es)`,
+          message: `Módulo "${moduloCompleto.nombre}" actualizado. ${cantidadActualizadas} lección(es) actualizada(s), ${leccionesNuevas.length} nueva(s)`,
           type: "success",
           onClose: () => setAlert(null),
         });
         setEditandoModulo(null);
       } else {
         // Crear todas las lecciones del nuevo módulo en la BD
-
         const leccionesCreadas = [];
         for (const leccion of moduloCompleto.lecciones) {
           const leccionCreada = await crearLeccionEnBD(
@@ -558,6 +687,10 @@ function EditarCursoPage() {
               moduloSeleccionado={moduloSeleccionado}
               setModuloSeleccionado={setModuloSeleccionado}
               modulos={tiposCurso}
+              imagenCurso={imagenCurso}
+              setImagenCurso={setImagenCurso}
+              tipoImagen={tipoImagen}
+              setTipoImagen={setTipoImagen}
             />
 
             <ListaModulos

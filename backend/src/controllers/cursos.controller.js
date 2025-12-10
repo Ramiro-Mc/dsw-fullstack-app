@@ -89,7 +89,7 @@ export const cursoController = {
   updateCurso: async (req, res) => {
     try {
       const { idCurso } = req.params;
-      const { titulo, descripcion, precio, idTipo, descuento } = req.body;
+      const { titulo, descripcion, precio, idTipo, descuento, imagen } = req.body; 
 
       const camposAActualizar = {};
 
@@ -98,6 +98,7 @@ export const cursoController = {
       if (precio) {camposAActualizar.precio = precio;}
       if (idTipo) {camposAActualizar.idTipo = idTipo;}
       if (descuento !== undefined) {camposAActualizar.descuento = descuento;}
+      if (imagen !== undefined) {camposAActualizar.imagen = imagen || '/default-course.jpg';}
 
       await Curso.update(camposAActualizar, { where: { idCurso } });
 
