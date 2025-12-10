@@ -52,3 +52,9 @@
   font-size: 4rem;
   margin-bottom: 1rem;
 }
+
+.btn-foro-curso-creado{
+  width: 80% !important;
+  margin-bottom: -10px;
+  margin-top: 10px;
+}

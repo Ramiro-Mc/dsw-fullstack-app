@@ -116,7 +116,7 @@ function MisCursosComprados() {
                   <div className="curso-acciones">
                     <Link 
                       to={`/foro/${compra.idCurso}`} 
-                      className="btn-foro"
+                      className="btn-foro "
                       title="Ir al foro del curso"
                     >
                       <i className="bi bi-chat-dots"></i>

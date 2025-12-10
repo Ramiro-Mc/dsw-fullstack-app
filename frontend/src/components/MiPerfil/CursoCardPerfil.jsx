@@ -54,6 +54,9 @@ function CursoCardPerfil({
               <span className="badge bg-warning text-dark">Pendiente</span>
             )}
           </div>
+          <Link to={`/foro/${idCurso}`} className="btn-foro btn-foro-curso-creado" title="Ir al foro del curso">
+            <i className="bi bi-chat-dots"></i> Ver Foro
+          </Link>
           <hr
             className="d-none d-md-block"
             style={{
@@ -90,7 +93,7 @@ function CursoCardPerfil({
             ) : (
               <button
                 type="button"
-                className="btn btn-warning mt-2"
+                className="btn btn-warning mb-2"
                 onClick={editar}
               >
                 Agregar Descuento
