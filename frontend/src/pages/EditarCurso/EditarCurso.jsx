@@ -546,7 +546,7 @@ function EditarCursoPage() {
             leccionOriginal.imagenUrl !== leccion.imagenUrl ||
             leccionOriginal.archivoUrl !== leccion.archivoUrl;
 
-          if (huboChangios) {
+          if (hubocambios) {
             const leccionActualizada = await actualizarLeccionEnBD(leccion);
             leccionesActualizadas.push({
               ...leccion,
