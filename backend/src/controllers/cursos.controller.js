@@ -1,6 +1,8 @@
 import { Curso } from "../models/Curso.js";
 import { TipoCurso } from "../models/TipoCurso.js";
 import { Usuario } from "../models/Usuario.js";
+import { Leccion } from "../models/Leccion.js";
+import { Modulo } from "../models/Modulo.js";
 import { Op } from "sequelize";
 
 export const cursoController = {
@@ -363,6 +365,27 @@ export const cursoController = {
           ? error.message 
           : "Error interno del servidor",
       });
+    }
+  },
+
+  getDuracionCurso: async (req, res) => {
+    try {
+      const { idCurso } = req.params;
+      const modulos = await Modulo.findAll({ where: { idCurso } });
+      const idModulos = modulos.map(m => m.idModulo);
+
+      const lecciones = await Leccion.findAll({
+        where: { idModulo: idModulos }
+      });
+
+      const duracionTotal = lecciones.reduce((acc, lec) => acc + (lec.horasLec || 0), 0);
+
+      res.status(200).json({
+        success: true,
+        duracion: duracionTotal
+      });
+    } catch (error) {
+      res.status(500).json({ success: false, msg: error.message });
     }
   },
 };
