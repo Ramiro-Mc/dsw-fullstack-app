@@ -250,7 +250,10 @@ const Checkout = () => {
                   <ol>
                     <li>Realiza la transferencia por el monto exacto</li>
                     <li>Haz clic en "Confirmar Pago"</li>
-                    <li>Recibirás acceso al curso una vez verificada la transferencia</li>
+                    <li>
+                      Recibirás acceso al curso una vez verificada la
+                      transferencia
+                    </li>
                   </ol>
                 </div>
               </div>
@@ -267,9 +270,6 @@ const Checkout = () => {
           <div className="order-details">
             <h2>Detalles del pedido</h2>
             <div className="course-item">
-              <div className="course-thumbnail">
-                <img src="/placeholder-course.jpg" alt={curso.titulo} />
-              </div>
               <div className="course-info">
                 <h3>{curso.titulo}</h3>
                 <p>Por {curso.Profesor?.nombreUsuario || "Instructor"}</p>
