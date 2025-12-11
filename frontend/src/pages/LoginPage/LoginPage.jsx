@@ -14,7 +14,7 @@ function LoginPage() {
   const [captchaToken, setCaptchaToken] = useState("");
   const recaptchaRef = useRef(null);
 
-  // cargo el script del recaptcha
+  
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://www.google.com/recaptcha/api.js";
@@ -38,7 +38,7 @@ function LoginPage() {
     setLoading(true);
     setError("");
 
-    // validar captcha
+  
     if (!captchaToken) {
       setError("Por favor, completa el captcha");
       setLoading(false);
@@ -64,7 +64,6 @@ function LoginPage() {
         }
       } else {
         setError(data.msg || "Credenciales inválidas");
-        // se resetea el captcha en caso de error
         setCaptchaToken("");
         if (window.grecaptcha) {
           window.grecaptcha.reset();
@@ -73,7 +72,6 @@ function LoginPage() {
     } catch (error) {
       console.error("Error en login:", error);
       setError("Error de conexión. Intenta de nuevo.");
-      // se resetea el captcha en caso de error
       setCaptchaToken("");
       if (window.grecaptcha) {
         window.grecaptcha.reset();

@@ -17,6 +17,7 @@ function Foro() {
   const [editandoId, setEditandoId] = useState(null);
   const [editandoContenido, setEditandoContenido] = useState("");
   const [alert, setAlert] = useState(null);
+  const [usuarioCompleto, setUsuarioCompleto] = useState(null); // ← NUEVO ESTADO
 
   useEffect(() => {
     const fetchCursoYComunidad = async () => {
@@ -32,6 +33,14 @@ function Foro() {
           });
           setLoading(false);
           return;
+        }
+
+        // === 1.5 CARGAR DATOS COMPLETOS DEL USUARIO ===
+        const responseUsuario = await fetch(`http://localhost:3000/usuarios/${idUsuario}`);
+        const dataUsuario = await responseUsuario.json();
+        
+        if (dataUsuario.success) {
+          setUsuarioCompleto(dataUsuario.informacion);
         }
 
         // === 2. CARGAR INFORMACIÓN DEL CURSO ===
@@ -303,18 +312,24 @@ function Foro() {
         <div className="crear-publicacion-card">
           <div className="publicacion-usuario-info">
             <img
-              src={user?.fotoDePerfil || "/Default.jpg"}
-              alt={user?.nombreUsuario}
+              src={usuarioCompleto?.fotoDePerfil || "/Default.jpg"}
+              alt={usuarioCompleto?.nombreUsuario || user?.nombreUsuario}
               className="usuario-avatar"
               onError={(e) => {
                 e.target.src = "/Default.jpg";
               }}
             />
-            <span className="usuario-nombre">{user?.nombreUsuario}</span>
+            <span className="usuario-nombre">{usuarioCompleto?.nombreUsuario || user?.nombreUsuario}</span>
           </div>
 
           <form onSubmit={handlePublicar}>
-            <textarea className="form-control publicacion-textarea" placeholder="¿Qué estás pensando?" value={nuevaPublicacion} onChange={(e) => setNuevaPublicacion(e.target.value)} rows="4" />
+            <textarea 
+              className="form-control publicacion-textarea" 
+              placeholder="¿Qué estás pensando?" 
+              value={nuevaPublicacion} 
+              onChange={(e) => setNuevaPublicacion(e.target.value)} 
+              rows="4" 
+            />
             <div className="publicacion-acciones">
               <button type="submit" className="btn btn-publicar" disabled={!nuevaPublicacion.trim()}>
                 <i className="bi bi-send"></i> Publicar
@@ -344,7 +359,6 @@ function Foro() {
 
               return (
                 <div key={pub.idPublicacion} className={`publicacion-card ${esProfesor ? "publicacion-profesor" : ""}`}>
-                  {/* Publicación header */}
                   <div className="publicacion-header">
                     <img
                       src={pub.UsuarioDePublicacion?.fotoDePerfil || "/Default.jpg"}

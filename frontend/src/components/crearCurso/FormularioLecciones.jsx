@@ -10,7 +10,7 @@ function FormularioLecciones({
   editandoModulo,
   onFinalizarModulo,
   onCancelar,
-  onEliminarLeccion, // ✅ NUEVA PROP
+  onEliminarLeccion, 
 }) {
   const [leccionesDelModulo, setLeccionesDelModulo] = useState(
     modulo.lecciones || []
@@ -18,7 +18,6 @@ function FormularioLecciones({
   const [editandoLeccion, setEditandoLeccion] = useState(null);
   const [alert, setAlert] = useState(null);
 
-  // Referencia para el formulario de lección
   const formularioLeccionRef = useRef(null);
 
   const handleGuardarLeccion = (leccionData) => {
@@ -104,7 +103,6 @@ function FormularioLecciones({
       return;
     }
 
-    // Usar nombreModulo del estado en lugar de modulo.nombre
     const nombreFinal = editandoModulo ? nombreModulo : modulo.nombre;
 
     const moduloCompleto = {
@@ -144,7 +142,6 @@ function FormularioLecciones({
         onEliminarLeccion={handleEliminarLeccion}
       />
 
-      {/* Agregar la referencia aquí */}
       <div ref={formularioLeccionRef}>
         <FormularioLeccion
           leccionEditando={editandoLeccion}

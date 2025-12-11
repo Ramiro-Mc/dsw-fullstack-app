@@ -206,15 +206,14 @@
 .usuarios-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  gap: 25px; /* ← AUMENTADO: De 20px a 25px */
+  gap: 25px; 
   margin-top: 20px;
 }
 
-/* Sobreescribir estilos del componente para más espaciado */
 .admin-usuarios .usuario-card .card-header,
 .admin-usuarios .usuario-card .card-body,
 .admin-usuarios .usuario-card .card-actions {
-  padding: 25px 30px !important; /* ← MÁS ESPACIADO */
+  padding: 25px 30px !important; 
 }
 
 /* Responsive */
@@ -233,7 +232,7 @@
   .admin-usuarios .usuario-card .card-header,
   .admin-usuarios .usuario-card .card-body,
   .admin-usuarios .usuario-card .card-actions {
-    padding: 20px 25px !important; /* Menos padding en móviles */
+    padding: 20px 25px !important;
   }
 }
 

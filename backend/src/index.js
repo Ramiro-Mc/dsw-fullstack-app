@@ -5,7 +5,7 @@ import app from "./app.js";
 import { sequelize } from "./database/sequelize.js";
 import morgan from "morgan";
 
-// Solo importar allModels que ya tiene todas las asociaciones
+//solo importo allmodels que ya tiene todas las asociaciones
 import db from "./models/allModels.js";
 
 app.use(morgan("dev"));

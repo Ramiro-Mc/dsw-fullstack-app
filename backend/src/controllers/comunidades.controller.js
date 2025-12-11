@@ -56,7 +56,7 @@ export const comunidadesController = {
           },
           {
             model: Publicacion,
-            as: "PublicacionesDeComunidad", // incluir publicaciones
+            as: "PublicacionesDeComunidad", 
             include: [
               {
                 model: Usuario, //  importar Usuario
@@ -92,7 +92,7 @@ export const comunidadesController = {
     }
   },
 
-  // método para buscar comunidad por idCurso
+  // buscar comunidad por idCurso
   getComunidadByCurso: async (req, res) => {
     try {
       const { idCurso } = req.params;
@@ -213,7 +213,7 @@ export const comunidadesController = {
  
   deleteComunidad: async (req, res) => {
     try {
-      const { idComunidad } = req.params; // ✅ CAMBIAR: usar idComunidad
+      const { idComunidad } = req.params; 
 
       const comunidad = await Comunidad.findByPk(idComunidad);
 

@@ -66,7 +66,7 @@ const TodosLosCursos = () => {
               const data = await response.json();
 
               if (data.success) {
-                // Actualizar el estado del curso a 'eliminado' en el UI
+              
                 setCursos(
                   cursos.map((curso) =>
                     curso.idCurso === idCurso
@@ -128,7 +128,6 @@ const TodosLosCursos = () => {
               const data = await response.json();
 
               if (data.success) {
-                // Actualizar el estado del curso a 'pendiente' en el UI
                 setCursos(
                   cursos.map((curso) =>
                     curso.idCurso === idCurso
@@ -150,7 +149,7 @@ const TodosLosCursos = () => {
                 });
               }
             } catch (err) {
-              console.error("❌ Error:", err);
+              console.error("Error:", err);
               setAlert({
                 message: "Error de conexión al restaurar",
                 type: "error",

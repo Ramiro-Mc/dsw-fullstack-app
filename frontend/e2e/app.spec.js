@@ -16,7 +16,7 @@ test('Navegación completa de la plataforma de cursos', async ({ page }) => {
   const count = await cursos.count();
   
   expect(count).toBeGreaterThan(0);
-  console.log(`✓ Se encontraron ${count} cursos en la página`);
+  console.log(`Se encontraron ${count} cursos en la página`);
   
   // hace click en el 1er curso
   await cursos.first().click();

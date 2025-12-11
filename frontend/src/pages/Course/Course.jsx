@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // ← Agregar useNavigate
+import { useParams, useNavigate } from "react-router-dom"; 
 import { useAuth } from "../../context/AuthContext";
 import CustomAlert from "../../components/CustomAlert/CustomAlert";
 import Accordion from "../../components/Course/Accordion.jsx";
@@ -11,7 +11,7 @@ import "./Course.css";
 function Course() {
   const { idCurso } = useParams();
   const { user } = useAuth();
-  const navigate = useNavigate(); // ← Agregar esto
+  const navigate = useNavigate(); 
   
   const [curso, setCurso] = useState(null);
   const [cargando, setCargando] = useState(true);
@@ -32,7 +32,6 @@ function Course() {
 
         const idUsuario = user?.idUsuario || user?.id;
 
-        // === 1. CARGAR EL CURSO ===
         const resCurso = await fetch(
           `http://localhost:3000/cursoDetalle/${idCurso}`
         );
@@ -47,15 +46,12 @@ function Course() {
 
         const cursoData = responseCurso.contenido;
 
-        // === 2. VERIFICAR SI EL USUARIO COMPRÓ EL CURSO ===
         if (idUsuario) {
-          // Verificar si el usuario es el creador del curso
           const esCreador = 
             cursoData.idProfesor === idUsuario || 
             cursoData.idProfesor === user?.idUsuario;
 
           if (!esCreador) {
-            // Si no es el creador, verificar si compró el curso
             const resCompra = await fetch(
               `http://localhost:3000/alumnos_cursos/${idUsuario}/${idCurso}`
             );
@@ -67,7 +63,6 @@ function Course() {
             const responseCompra = await resCompra.json();
 
             if (!responseCompra.success || !responseCompra.contenido) {
-              // Usuario NO compró el curso → Redirigir
               setAlert({
                 message: "No tienes acceso a este curso. Debes comprarlo primero.",
                 type: "error",
@@ -78,7 +73,6 @@ function Course() {
             }
           }
         } else {
-          // Usuario no logueado → Redirigir a login
           setAlert({
             message: "Debes iniciar sesión para acceder a este curso",
             type: "error",
@@ -88,7 +82,6 @@ function Course() {
           return;
         }
 
-        // === 3. CARGAR PROGRESO DEL USUARIO (si ya tiene acceso) ===
         let progresoUsuario = {};
         if (idUsuario) {
           try {
@@ -109,7 +102,6 @@ function Course() {
           }
         }
 
-        // === 4. MAPEAR ESTRUCTURA DEL CURSO ===
         const cursoMapeado = {
           ...cursoData,
           modulos: cursoData.Modulos.map((modulo) => ({
@@ -164,7 +156,7 @@ function Course() {
     };
 
     cargarCursoConProgreso();
-  }, [idCurso, user, navigate]); // ← Agregar navigate a las dependencias
+  }, [idCurso, user, navigate]);
 
   const manejarClick = (clase) => {
     setClaseClicked(clase);

@@ -5,7 +5,6 @@ import { Leccion } from "../models/Leccion.js";
 import { Modulo } from "../models/Modulo.js";
 
 const validateCreate = [
-  // NO validar numeroLec porque es autoincremental
   check('tituloLec').exists().notEmpty()
     .withMessage('El título de la lección es requerido')
     .custom(async (tituloLec, { req }) => {
@@ -58,7 +57,7 @@ const validateUpdate = [
     .custom(async (tituloLec, { req }) => {
       const { numeroLec } = req.params;
       
-      // Obtener la lección actual para conocer su módulo
+      
       const leccionActual = await Leccion.findByPk(numeroLec);
       if (!leccionActual) {
         throw new Error("La lección no existe");

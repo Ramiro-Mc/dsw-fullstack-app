@@ -5,7 +5,6 @@ import { TipoCurso } from '../models/TipoCurso.js';
 import { Comunidad } from '../models/Comunidad.js';
 import { sequelize } from '../database/sequelize.js';
 
-// Obtener todos los tipos de curso
 export const obtenerTiposCurso = async (req, res) => {
   try {
     const tipos = await TipoCurso.findAll();
@@ -15,7 +14,7 @@ export const obtenerTiposCurso = async (req, res) => {
   }
 };
 
-// Subir imagen a Cloudinary
+
 export const subirImagenCurso = async (req, res) => {
   try {
     if (!req.file) {
@@ -39,7 +38,6 @@ export const subirImagenCurso = async (req, res) => {
   }
 };
 
-// Crear comunidad para un curso
 const crearComunidadDelCurso = async (curso) => {
   try {
     const comunidad = await Comunidad.create({
@@ -80,14 +78,13 @@ export const crearCursoCompleto = async (req, res) => {
       });
     }
 
-    // Crear el curso
     const nuevoCurso = await Curso.create({
       titulo,
       descripcion,
       precio,
       idTipo,
       idProfesor,
-      imagen: imagen || '/default-course.jpg' // usa la imagen local por defecto
+      imagen: imagen || '/default-course.jpg' 
     }, { transaction });
 
     // Crear los módulos y sus lecciones
@@ -116,10 +113,10 @@ export const crearCursoCompleto = async (req, res) => {
       }
     }
 
-    // COMMIT de la transacción principal ANTES de crear la comunidad
+    // ANTES de crear la comunidad
     await transaction.commit();
 
-    // CREAR COMUNIDAD DESPUÉS del commit (fuera de la transacción)
+    // DESPUÉS del commit (fuera de la transacción)
     let comunidadCreada = null;
     try {
       comunidadCreada = await crearComunidadDelCurso(nuevoCurso);
@@ -127,7 +124,6 @@ export const crearCursoCompleto = async (req, res) => {
       console.error('Error al crear comunidad, pero curso fue creado exitosamente:', comunidadError.message);
     }
 
-    // Obtener el curso completo creado
     const cursoCompleto = await Curso.findByPk(nuevoCurso.idCurso, {
       include: [
         {

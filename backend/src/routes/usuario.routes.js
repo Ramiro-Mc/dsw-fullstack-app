@@ -30,7 +30,6 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-// Agregar validator a esto
 
 routerUsuario.put("/usuarios/:idUsuario/foto", upload.single("fotoDePerfil"), usuarioController.updateFotoDePerfil);
 

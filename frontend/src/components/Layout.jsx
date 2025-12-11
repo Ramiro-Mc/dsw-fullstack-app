@@ -11,7 +11,7 @@ function Layout() {
     const tokenFromGoogle = params.get("token");
     if (tokenFromGoogle) {
       localStorage.setItem("token", tokenFromGoogle);
-      setToken(tokenFromGoogle); // Actualiza el estado
+      setToken(tokenFromGoogle); 
       window.history.replaceState({}, document.title, "/");
     }
   }, []);

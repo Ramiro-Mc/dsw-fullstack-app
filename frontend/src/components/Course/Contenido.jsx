@@ -1,9 +1,7 @@
 import '../../component-styles/Contenido.css'
 
 function Contenido({ claseClicked }) {
-    console.log(" DEBUG CONTENIDO ");
-    console.log("claseClicked completo:", claseClicked);
-    console.log("claseClicked.videoLeccion:", claseClicked.videoLeccion);
+ 
 
     const isYouTubeUrl = (url) => {
         if (!url) return false;
@@ -13,12 +11,10 @@ function Contenido({ claseClicked }) {
     const getVideoEmbedUrl = (url) => {
         if (!url) return '';
         
-        // Si ya es una URL de embed de YouTube
         if (url.includes('youtube.com/embed/')) {
             return url;
         }
         
-        // Si es una URL normal de YouTube
         if (url.includes('youtube.com/watch?v=')) {
             const videoId = url.split('v=')[1]?.split('&')[0];
             if (videoId) {
@@ -26,7 +22,6 @@ function Contenido({ claseClicked }) {
             }
         }
         
-        // Si es una URL corta de YouTube
         if (url.includes('youtu.be/')) {
             const videoId = url.split('youtu.be/')[1]?.split('?')[0];
             if (videoId) {
@@ -46,7 +41,6 @@ function Contenido({ claseClicked }) {
 
     return (
         <div className="cont-principal">
-            {/* 1. Título y descripción de la lección */}
             <div className="leccion-header">
                 <h2>{claseClicked.tituloLeccion}</h2>
                 {claseClicked.descripcion && (
@@ -56,14 +50,12 @@ function Contenido({ claseClicked }) {
             
             <hr/>
             
-            {/* 2. Contenido de texto */}
             {claseClicked.contenido && (
                 <div className="contenido-texto">
                     <p>{claseClicked.contenido}</p>
                 </div>
             )}
             
-            {/* 3. Video */}
             {claseClicked.videoLeccion && (
                 <div className="contenedor-video">
                     <h3>Video de la lección:</h3>
@@ -115,7 +107,6 @@ function Contenido({ claseClicked }) {
                 </div>
             )}
             
-            {/* 4. Imágenes y archivos */}
             <div className="recursos-adicionales">
                 {claseClicked.imagenUrl && (
                     <div className="contenedor-imagen">

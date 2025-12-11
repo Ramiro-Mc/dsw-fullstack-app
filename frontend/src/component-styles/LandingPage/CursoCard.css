@@ -18,9 +18,9 @@
   top: 50%;
   left: 0;
   width: 100%;
-  height: 2px; /* grosor de la barra */
-  background-color: #dc3545; /* rojo suave tipo Bootstrap */
-  transform: rotate(-15deg); /* inclinación diagonal */
+  height: 2px; 
+  background-color: #dc3545; 
+  transform: rotate(-15deg); 
   transform-origin: center;
   opacity: 0.9;
 }

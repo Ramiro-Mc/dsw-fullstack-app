@@ -78,7 +78,7 @@
 
 /* Header de la tarjeta */
 .card-header {
-  padding: 25px 30px; /* ← CAMBIO: De 20px a 25px 30px */
+  padding: 25px 30px; 
   border-bottom: 1px solid #eee;
   display: flex;
   justify-content: space-between;

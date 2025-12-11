@@ -1,7 +1,7 @@
-/* === ESTILOS DE COURSE PAGE (ACCORDION) === */
+
 
 .accordion-button::after {
-  filter: invert(1); /* hace la flecha blanca */
+  filter: invert(1); 
 }
 
 .accordion-button {

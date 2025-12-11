@@ -6,16 +6,15 @@ const CheckoutSuccess = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   
-  const sessionId = searchParams.get('session_id'); // Stripe
-  const transactionId = searchParams.get('transactionId'); // Transferencia
-  const method = searchParams.get('method'); // 'transfer' o undefined
+  const sessionId = searchParams.get('session_id'); 
+  const transactionId = searchParams.get('transactionId'); 
+  const method = searchParams.get('method'); 
   
   const [countdown, setCountdown] = useState(10);
 
   const isTransferencia = method === 'transfer';
 
   useEffect(() => {
-    // Countdown timer
     const timer = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {

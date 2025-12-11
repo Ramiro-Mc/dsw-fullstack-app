@@ -25,10 +25,10 @@ function Contacto() {
 
     try {
       await emailjs.send(
-        "service_r07cr3w", // Reemplaza con tu Service ID
-        "template_svy1nkf", // Reemplaza con tu Template ID
+        "service_r07cr3w", 
+        "template_svy1nkf", 
         formData,
-        "KXPJAh7CDgE9sXSON" // Reemplaza con tu User ID
+        "KXPJAh7CDgE9sXSON" 
       );
       setSuccess(true);
       setFormData({ nombre: "", email: "", mensaje: "" });

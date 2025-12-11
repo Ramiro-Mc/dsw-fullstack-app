@@ -9,7 +9,7 @@ main {
    ESTILOS PARA LANDING PAGE
    ============================================ */
 
-/* Títulos de sección */
+
 
 .seccion-titulo {
   text-align: center;
@@ -129,7 +129,7 @@ main {
   margin-bottom: 0;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; /* ← Título en una sola línea */
+  white-space: nowrap; 
   margin-bottom: 0.5rem;
 }
 
@@ -145,10 +145,10 @@ main {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* ← Máximo 3 líneas */
+  -webkit-line-clamp: 3; 
   -webkit-box-orient: vertical;
-  line-height: 1.4; /* ← AGREGAR altura de línea */
-  max-height: calc(1.4em * 3); /* ← AGREGAR altura máxima calculada */
+  line-height: 1.4;
+  max-height: calc(1.4em * 3);
   flex-grow: 1;
   margin-bottom: 1rem;
 }
@@ -201,7 +201,7 @@ main {
   margin: 0 1rem;
 }
 
-/* Columnas responsivas para las tarjetas */
+
 .columna {
   margin-bottom: 1.5rem;
 }
@@ -288,7 +288,6 @@ main {
   padding: 0;
 }
 
-/* Nuevo layout para título y filtro en la misma fila */
 .seccion-titulo-filtro {
   display: flex;
   align-items: flex-start;
@@ -311,7 +310,7 @@ main {
   margin-top: 0.5rem;
 }
 
-/* Botón de aplicar filtro (lupa) */
+
 .filtro-precio-card-inline .btn-filtrar {
   border-radius: 50%;
   width: 40px;
@@ -331,14 +330,14 @@ main {
   background: #d1d1d1;
 }
 
-/* SVG lupa dentro del botón */
+
 .filtro-precio-card-inline .btn-filtrar svg {
   width: 28px;
   height: 28px;
   display: block;
 }
 
-/* Inputs de precio */
+
 .filtro-precio-card-inline input[type="number"] {
   max-width: 100px;
 }
@@ -361,7 +360,7 @@ main {
 .noCursos p{
   margin: 0;
 }
-/* Oculta las flechitas de los inputs number en todos los navegadores */
+
 .filtro-precio-card-inline input[type="number"]::-webkit-inner-spin-button,
 .filtro-precio-card-inline input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;

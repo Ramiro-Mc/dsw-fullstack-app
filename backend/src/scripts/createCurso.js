@@ -23,7 +23,6 @@ const createCursosData = async () => {
       return;
     }
 
-    // Crear 5 profesores
     const profesoresData = [
       {
         nombreUsuario: "Carlos Mendez",
@@ -119,7 +118,7 @@ const createCursosData = async () => {
       profesores.push(profesor);
     }
 
-    // Crear alumno
+  
     const hashedPasswordAlumno = await bcrypt.hash("alumno123", 10);
     const [alumno, alumnoCreated] = await Usuario.findOrCreate({
       where: { email: "alumno@utndemy.com" },
@@ -136,14 +135,11 @@ const createCursosData = async () => {
       console.log("✅ Alumno creado: " + alumno.email);
     }
 
-    // Obtener tipos de curso
     const tipos = await Promise.all([TipoCurso.findOne({ where: { nombreTipo: "JavaScript" } }), TipoCurso.findOne({ where: { nombreTipo: "React" } }), TipoCurso.findOne({ where: { nombreTipo: "Node.js" } }), TipoCurso.findOne({ where: { nombreTipo: "Coaching" } }), TipoCurso.findOne({ where: { nombreTipo: "Fotografía" } }), TipoCurso.findOne({ where: { nombreTipo: "Gastronomía" } }), TipoCurso.findOne({ where: { nombreTipo: "IA" } }), TipoCurso.findOne({ where: { nombreTipo: "Innovación" } }), TipoCurso.findOne({ where: { nombreTipo: "Diseño" } }), TipoCurso.findOne({ where: { nombreTipo: "Marketing" } })]);
 
     const [tipoJavaScript, tipoReact, tipoNodeJS, tipoCoaching, tipoFotografia, tipoGastronomia, tipoIA, tipoInnovacion, tipoDiseno, tipoMarketing] = tipos;
 
-    // Datos de cursos distribuidos entre 5 profesores
     const cursosData = [
-      // CARLOS (0) - JavaScript
       {
         idProfesor: profesores[0].idUsuario,
         idTipo: tipoJavaScript.idTipo,
@@ -165,7 +161,7 @@ const createCursosData = async () => {
         descuento: 0,
       },
 
-      // MARÍA (1) - Diseño
+  
       {
         idProfesor: profesores[1].idUsuario,
         idTipo: tipoDiseno.idTipo,
@@ -187,7 +183,7 @@ const createCursosData = async () => {
         descuento: 0,
       },
 
-      // JUAN (2) - React y Node.js
+    
       {
         idProfesor: profesores[2].idUsuario,
         idTipo: tipoReact.idTipo,
@@ -219,7 +215,7 @@ const createCursosData = async () => {
         descuento: 0,
       },
 
-      // SOFIA (3) - Coaching e Innovación
+ 
       {
         idProfesor: profesores[3].idUsuario,
         idTipo: tipoCoaching.idTipo,
@@ -241,7 +237,7 @@ const createCursosData = async () => {
         descuento: 0,
       },
 
-      // ROBERTO (4) - Fotografía, IA y Marketing
+  
       {
         idProfesor: profesores[4].idUsuario,
         idTipo: tipoFotografia.idTipo,
@@ -284,7 +280,7 @@ const createCursosData = async () => {
       },
     ];
 
-    // Insertar cursos
+    
     const cursosCreados = [];
     for (const cursoData of cursosData) {
       const [curso, created] = await Curso.findOrCreate({
@@ -301,14 +297,13 @@ const createCursosData = async () => {
       }
     }
 
-    // Crear módulos y lecciones
     console.log("\nCreando módulos y lecciones...");
 
-    // TODOS los cursos deben tener al menos 1 módulo con 1 lección
+  
     for (let i = 0; i < cursosCreados.length; i++) {
       const curso = cursosCreados[i];
       
-      // Verificar si el curso ya tiene módulos
+    
       const modulosExistentes = await Modulo.count({ where: { idCurso: curso.idCurso } });
       
       if (modulosExistentes > 0) {
@@ -318,7 +313,7 @@ const createCursosData = async () => {
 
       console.log(`\nCreando contenido para: ${curso.titulo}`);
 
-      // Los primeros 5 cursos tienen más contenido, el resto tienen mínimo
+ 
       const numModulos = i < 5 ? 3 : 1;
       const numLeccionesPorModulo = i < 5 ? 2 : 1;
 
@@ -356,7 +351,7 @@ const createCursosData = async () => {
       console.log(`✅ ${numModulos} módulo(s) con ${numLeccionesPorModulo} lección(es) cada uno`);
     }
 
-    // Inscripciones
+    
     const cursosParaComprar = cursosCreados.filter((curso) => curso.estado === "aprobado").slice(0, 5);
 
     console.log("\nCreando compras de cursos para el alumno...");

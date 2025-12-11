@@ -133,7 +133,7 @@ const SolicitudesPendientes = () => {
                 });
               }
             } catch (err) {
-              console.error("❌ Error:", err);
+              console.error("Error:", err);
               setAlert({
                 message: "Error de conexión al rechazar",
                 type: "error",

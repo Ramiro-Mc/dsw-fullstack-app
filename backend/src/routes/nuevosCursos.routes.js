@@ -56,12 +56,11 @@ const uploadLessonVideo = multer({ storage: storageLessonVideos });
 const uploadLessonImage = multer({ storage: storageLessonImages });
 const uploadLessonFile = multer({ storage: storageLessonFiles });
 
-// Rutas existentes
 routerNuevosCursos.get('/tipos-curso', obtenerTiposCurso);
 routerNuevosCursos.post('/nuevosCursos/upload-imagen', uploadCourseImage.single("imagenCurso"), subirImagenCurso);
 routerNuevosCursos.post('/cursos', crearCursoCompleto);
 
-// Nuevas rutas para multimedia de lecciones
+//rutas para multimedia de lecciones
 routerNuevosCursos.post('/lecciones/upload-video', uploadLessonVideo.single("video"), (req, res) => {
   try {
     if (!req.file) {

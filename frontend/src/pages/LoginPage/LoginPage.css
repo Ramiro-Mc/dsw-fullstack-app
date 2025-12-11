@@ -1,5 +1,3 @@
-/* === ESTILOS DE LOGIN PAGE === */
-
 .fondo-loginRegister {
   background-size: cover;
   background-position: center;
@@ -109,7 +107,6 @@ input::placeholder {
   color: rgb(0, 0, 0);
 }
 
-/* Estilos adicionales para botones primarios */
 .btn-primary {
   width: 100% !important;
   margin-bottom: 20px !important;
@@ -136,7 +133,7 @@ input::placeholder {
   color: #000000 !important;
 }
 
-/* Media queries específicas para LoginPage */
+
 @media screen and (max-width: 1000px) {
   .loginRegister-box {
     width: 50%;

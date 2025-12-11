@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
-  background: #f5f5f5; /* ← Cambiado a gris */
+  background: #f5f5f5; 
 }
 
 .success-card {
@@ -33,12 +33,11 @@
   width: 80px;
   height: 80px;
   margin: 0 auto 30px;
-  background: #28a745; /* ← Verde simple */
+  background: #28a745; 
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* ← Animación eliminada */
 }
 
 .success-icon svg {
@@ -62,7 +61,7 @@
 
 .info-box {
   background: #f7fafc;
-  border-left: 4px solid #28a745; /* ← Verde */
+  border-left: 4px solid #28a745; 
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 25px;
@@ -76,7 +75,7 @@
 }
 
 .info-box strong {
-  color: #28a745; /* ← Verde */
+  color: #28a745; 
   font-weight: 600;
 }
 
@@ -141,20 +140,20 @@
 }
 
 .btn-primary {
-  background: #28a745; /* ← Verde */
+  background: #28a745; 
   color: white;
 }
 
 .btn-primary:hover {
-  background: #218838; /* ← Verde más oscuro */
+  background: #218838; 
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3);
 }
 
 .btn-secondary {
   background: white;
-  color: #28a745; /* ← Verde */
-  border: 2px solid #28a745; /* ← Verde */
+  color: #28a745; 
+  border: 2px solid #28a745; 
 }
 
 .btn-secondary:hover {
@@ -175,7 +174,7 @@
 }
 
 .help-text a {
-  color: #28a745; /* ← Verde */
+  color: #28a745;
   text-decoration: none;
   font-weight: 600;
 }

@@ -156,7 +156,6 @@ describe('Cursos API - Tests Simples', () => {
 
     console.log('CURSO INEXISTENTE Status:', response.status);
 
-    // Tu validador retorna 403, no 404
     expect(response.status).toBe(403);
     expect(response.body).toHaveProperty('errors');
   });
@@ -176,7 +175,6 @@ describe('Cursos API - Tests Simples', () => {
 
     console.log('PRECIO INVÁLIDO Status:', response.status);
 
-    // Tu validador captura esto y retorna 403
     expect(response.status).toBe(403);
     expect(response.body).toHaveProperty('errors');
     

@@ -9,12 +9,11 @@ function LayoutMiPerfil() {
   return (
     <>
       <div className="layout-miperfil">
-        {/* Botón hamburguesa para móvil */}
         <button className="btn-sidebar-toggle d-lg-none" onClick={() => setSidebarOpen(!sidebarOpen)}>
           <i className="bi bi-list"></i>
         </button>
 
-        {/* Overlay para cerrar sidebar en móvil */}
+        {/* Overlay para sidebar */}
         {sidebarOpen && <div className="sidebar-overlay d-lg-none" onClick={() => setSidebarOpen(false)}></div>}
 
         <div className="row g-0">

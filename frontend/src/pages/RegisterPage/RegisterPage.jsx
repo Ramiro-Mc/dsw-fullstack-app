@@ -36,7 +36,7 @@ function RegisterPage() {
           contrasena,
           tipoUsuario: "usuario",
           fotoDePerfil: "/Default.jpg",
-          activo: true, // Asegurar que se cree como activo
+          activo: true, 
           nombreReferido: null,
           banco: null,
           cvu: null,

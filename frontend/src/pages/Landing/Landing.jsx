@@ -37,7 +37,7 @@ function Landing() {
         const data = await response.json();
 
         if (data.success) {
-          setCursos(data.contenido); // SIN filtrar
+          setCursos(data.contenido);
         } else {
           setError(data.msg || "Error al cargar cursos");
         }

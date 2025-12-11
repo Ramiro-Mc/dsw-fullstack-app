@@ -47,7 +47,7 @@ const validateUpdate = [
     .custom(async (titulo, { req }) => {
       const { idModulo } = req.params;
       
-      // Obtener el módulo actual para conocer su curso
+    
       const moduloActual = await Modulo.findByPk(idModulo);
       if (!moduloActual) {
         throw new Error("El módulo no existe");

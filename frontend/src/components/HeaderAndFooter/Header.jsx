@@ -28,7 +28,7 @@ function Header() {
     <header className="contenedor-header">
       <nav className="navbar navbar-expand-lg bg-body-tertiary border-bottom">
         <div className="container-fluid top-bar align-items-center d-flex justify-content-between">
-          {/* Logo */}
+          
           <Link
             className="boton navbar-brand d-flex align-items-center"
             to="/"
@@ -37,7 +37,7 @@ function Header() {
             <img className="logo" src={logo} alt="Logo de la página web" />
           </Link>
 
-          {/* Botón hamburguesa */}
+          
           <button
             className="navbar-toggler"
             type="button"
@@ -49,7 +49,7 @@ function Header() {
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          {/* Menú de navegación */}
+          
           <div
             className={`collapse navbar-collapse justify-content-end ${
               isMenuOpen ? "show" : ""

@@ -125,7 +125,7 @@ export const usuarioController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development" 
           ? error.message 
           : "Error interno del servidor",
       });
@@ -175,7 +175,6 @@ export const usuarioController = {
     try {
       const { idUsuario } = req.params;
 
-      // Verificar que el usuario existe
       const usuario = await Usuario.findByPk(idUsuario);
       if (!usuario) {
         return res.status(404).json({
@@ -184,7 +183,6 @@ export const usuarioController = {
         });
       }
 
-      // Verificar que no sea un administrador
       if (usuario.tipoUsuario === 'administrador') {
         return res.status(403).json({
           success: false,
@@ -192,7 +190,6 @@ export const usuarioController = {
         });
       }
 
-      // Verificar si ya está inactivo
       if (!usuario.activo) {
         return res.status(400).json({
           success: false,
@@ -200,7 +197,6 @@ export const usuarioController = {
         });
       }
 
-      // Baja lógica: cambiar activo a false
       await Usuario.update({ activo: false }, { where: { idUsuario } });
 
       res.status(200).json({
@@ -257,26 +253,24 @@ export const usuarioController = {
   },
 
 
-  //Foto de perfil con cloudinary
 
   updateFotoDePerfil: async (req, res) => {
     try {
       const { idUsuario } = req.params;
       const fotoDePerfil = req.file?.path; // URL pública de Cloudinary
       
-      //esto habria que hacerlo en el validator
+    
       if (!fotoDePerfil) {
         return res.status(400).json({ success: false, msg: "No se proporcionó una imagen válida." });
       }
 
       const usuario = await Usuario.findByPk(idUsuario);
 
-      //esto habria que hacerlo en el validator
       if (!usuario) {
         return res.status(404).json({ success: false, msg: "Usuario no encontrado." });
       }
 
-      // Actualizar la foto de perfil en la base de datos
+      // actualizar la foto de perfil en la base de datos
       usuario.fotoDePerfil = fotoDePerfil;
       await usuario.save();
 

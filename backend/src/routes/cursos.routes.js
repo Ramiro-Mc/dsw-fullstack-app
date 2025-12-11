@@ -4,7 +4,7 @@ import cursoValidator from "../validators/cursos.js";
 
 const routerCursos = Router();
 
-// Rutas principales bajo /api/cursos
+//rutas principales 
 routerCursos.get("/cursos", cursoController.getAllCursos);                   
 routerCursos.get("/cursos/aprobados", cursoController.getAllCursosAprobados);  
 routerCursos.post("/cursos", cursoValidator.validateCreate, cursoController.createCurso);  
@@ -15,7 +15,7 @@ routerCursos.delete("/cursos/:idCurso", cursoValidator.validateGetByIdAndDelete,
 routerCursos.get("/cursos/:idCurso/duracion", cursoController.getDuracionCurso);
 
 
-// Rutas administrativas bajo /api/admin
+//rutas de admin
 routerCursos.get("/admin/cursos/pendientes", cursoController.getCursosPendientes);
 routerCursos.put("/admin/cursos/:idCurso/aprobar", cursoValidator.validateGetByIdAndDelete, cursoController.aprobarCurso);
 routerCursos.put("/admin/cursos/:idCurso/rechazar", cursoValidator.validateGetByIdAndDelete, cursoController.rechazarCurso);

@@ -64,8 +64,8 @@ describe('Nuevos Cursos API', () => {
       console.log('Datos de prueba listos');
       
     } catch (error) {
-      console.error('❌ Error creando datos de prueba:', error.message);
-      console.error('❌ Stack:', error.stack);
+      console.error(' Error creando datos de prueba:', error.message);
+      console.error(' Stack:', error.stack);
     }
   };
 
@@ -73,9 +73,9 @@ describe('Nuevos Cursos API', () => {
     // Limpiar cursos antes de cada test para evitar conflictos
     try {
       await db.Curso.destroy({ where: {}, force: true });
-      console.log('🧹 Cursos limpiados');
+      console.log(' Cursos limpiados');
     } catch (error) {
-      console.log('⚠️ No se pudieron limpiar cursos:', error.message);
+      console.log(' No se pudieron limpiar cursos:', error.message);
     }
   });
 
@@ -148,7 +148,7 @@ describe('Nuevos Cursos API', () => {
       expect(response.body.errors[0]).toHaveProperty('msg', 'El titulo ya está en uso');
       expect(response.body.errors[0]).toHaveProperty('path', 'titulo');
     } else {
-      console.log('⚠️ Saltando test de duplicado - primer curso no se creó');
+      console.log(' Saltando test de duplicado - primer curso no se creó');
       expect(firstResponse.status).toBeGreaterThan(0);
     }
   });
@@ -157,7 +157,6 @@ describe('Nuevos Cursos API', () => {
     const cursoIncompleto = {
       descripcion: 'Solo descripción',
       precio: 50.00
-      // Falta título, idTipo, idProfesor
     };
 
     const response = await request(app)

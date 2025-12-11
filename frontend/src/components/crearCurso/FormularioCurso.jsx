@@ -29,7 +29,6 @@ function FormularioCurso({
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validar tipo de archivo
     const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
     if (!validTypes.includes(file.type)) {
       setErrorImagen("Solo se permiten archivos JPG, JPEG o PNG");
@@ -217,7 +216,7 @@ function FormularioCurso({
             <img 
               src={
                 tipoImagen === 'default' 
-                  ? '/default-course.jpg'   // usa la imagen local en public
+                  ? '/default-course.jpg'  
                   : imagenCurso
               } 
               alt="Vista previa del curso" 
@@ -229,7 +228,7 @@ function FormularioCurso({
                 border: '1px solid #ddd'
               }}
               onError={(e) => {
-                e.target.src = '/default-course.jpg'; // fallback local
+                e.target.src = '/default-course.jpg'; 
               }}
             />
           </div>

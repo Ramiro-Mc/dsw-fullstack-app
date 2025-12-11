@@ -1,7 +1,6 @@
 import { Sequelize } from "sequelize";
 import { sequelize } from "../database/sequelize.js";
 
-// Modelos
 import { TipoCurso } from "./TipoCurso.js";
 import { Comunidad } from "./Comunidad.js";
 import { Curso } from "./Curso.js";
@@ -12,7 +11,6 @@ import { AlumnoCurso } from "./AlumnoCurso.js";
 import { AlumnoLeccion } from "./AlumnoLeccion.js";
 import { Publicacion } from "./Publicacion.js";
 
-// Relaciones
 
 // Relaciones TipoCurso -> Curso
 TipoCurso.hasMany(Curso, {

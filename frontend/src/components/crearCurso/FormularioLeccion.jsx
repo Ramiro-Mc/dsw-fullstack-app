@@ -57,7 +57,6 @@ function FormularioLeccion({ leccionEditando, onGuardarLeccion, onCancelarEdicio
     setTipoArchivo("url");
   };
 
-  // Manejadores de subida de archivos
   const handleVideoFileSelect = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -111,7 +110,7 @@ function FormularioLeccion({ leccionEditando, onGuardarLeccion, onCancelarEdicio
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) { // 5MB
+    if (file.size > 5 * 1024 * 1024) { 
       setAlert({
         message: "La imagen no debe superar los 5MB",
         type: "error",
@@ -152,7 +151,7 @@ function FormularioLeccion({ leccionEditando, onGuardarLeccion, onCancelarEdicio
       return;
     }
 
-    if (file.size > 10 * 1024 * 1024) { // 10MB
+    if (file.size > 10 * 1024 * 1024) { 
       setAlert({
         message: "El archivo no debe superar los 10MB",
         type: "error",
@@ -258,7 +257,7 @@ function FormularioLeccion({ leccionEditando, onGuardarLeccion, onCancelarEdicio
             type="radio" 
             className="btn-check" 
             name="tipoVideo" 
-            id="videoArchivoLeccion"          // <-- id único
+            id="videoArchivoLeccion"          
             value="archivo"
             checked={tipoVideo === 'archivo'}
             onChange={(e) => setTipoVideo(e.target.value)}
@@ -271,7 +270,7 @@ function FormularioLeccion({ leccionEditando, onGuardarLeccion, onCancelarEdicio
             type="radio" 
             className="btn-check" 
             name="tipoVideo" 
-            id="videoUrlLeccion"              // <-- id único
+            id="videoUrlLeccion"              
             value="url"
             checked={tipoVideo === 'url'}
             onChange={(e) => setTipoVideo(e.target.value)}
@@ -350,7 +349,7 @@ function FormularioLeccion({ leccionEditando, onGuardarLeccion, onCancelarEdicio
             type="radio" 
             className="btn-check" 
             name="tipoImagen" 
-            id="imagenArchivoLeccion"         // <-- id único
+            id="imagenArchivoLeccion"         
             value="archivo"
             checked={tipoImagen === 'archivo'}
             onChange={(e) => setTipoImagen(e.target.value)}
@@ -363,7 +362,7 @@ function FormularioLeccion({ leccionEditando, onGuardarLeccion, onCancelarEdicio
             type="radio" 
             className="btn-check" 
             name="tipoImagen" 
-            id="imagenUrlLeccion"             // <-- id único
+            id="imagenUrlLeccion"             
             value="url"
             checked={tipoImagen === 'url'}
             onChange={(e) => setTipoImagen(e.target.value)}
@@ -441,7 +440,7 @@ function FormularioLeccion({ leccionEditando, onGuardarLeccion, onCancelarEdicio
             type="radio" 
             className="btn-check" 
             name="tipoArchivo" 
-            id="archivoFileLeccion"           // <-- id único
+            id="archivoFileLeccion"           
             value="archivo"
             checked={tipoArchivo === 'archivo'}
             onChange={(e) => setTipoArchivo(e.target.value)}
@@ -454,7 +453,7 @@ function FormularioLeccion({ leccionEditando, onGuardarLeccion, onCancelarEdicio
             type="radio" 
             className="btn-check" 
             name="tipoArchivo" 
-            id="archivoUrlLeccion"            // <-- id único
+            id="archivoUrlLeccion"            
             value="url"
             checked={tipoArchivo === 'url'}
             onChange={(e) => setTipoArchivo(e.target.value)}

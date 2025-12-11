@@ -1,5 +1,3 @@
-/* === LAYOUT PRINCIPAL DE LA APLICACIÓN === */
-
 .app-container {
   display: flex;
   flex-direction: column;
@@ -16,17 +14,16 @@ main.main-content {
   background-color: #56565617;
 }
 
-/* Bootstrap overrides específicos para layout */
 .container-fluid {
   flex: 1;
   display: flex;
-  --bs-gutter-x: 0 !important; /* Elimina el padding horizontal */
+  --bs-gutter-x: 0 !important;
 }
 
 .row {
   flex: 1;
   display: flex;
-  --bs-gutter-x: 0 !important; /* Elimina el padding horizontal */
+  --bs-gutter-x: 0 !important;
 }
 
 .header {

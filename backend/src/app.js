@@ -20,7 +20,6 @@ import alumnoCursoRoutes from "./routes/alumnos_cursos.routes.js";
 import routerPagos from "./routes/pagos.routes.js";
 import { pagoController } from "./controllers/pagos.controller.js";
 
-// Importar modelos con asociaciones
 import db from "./models/allModels.js";
 
 passport.serializeUser((user, done) => {

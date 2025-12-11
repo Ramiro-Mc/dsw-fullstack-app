@@ -56,6 +56,25 @@ function InformacionDePago() {
   }, [user, authLoading]);
 
   const handleSave = async () => {
+    if (cvu && !/^\d+$/.test(cvu)) {
+      setAlert({
+        message: "El CVU solo puede contener números",
+        type: "error",
+        onClose: () => setAlert(null),
+      });
+      return;
+    }
+
+
+    if (cvu && cvu.length !== 22) {
+      setAlert({
+        message: "El CVU debe tener exactamente 22 dígitos",
+        type: "error",
+        onClose: () => setAlert(null),
+      });
+      return;
+    }
+
     try {
       const userId = user.id;
 
@@ -102,6 +121,7 @@ function InformacionDePago() {
   const handleCancel = () => {
     setIsEditing(false);
     if (usuario) {
+      setNombreBanco(usuario.banco || "");
       setAlias(usuario.alias || "");
       setcvu(usuario.cvu || "");
       setNombre(usuario.nombreReferido || "");
@@ -113,7 +133,10 @@ function InformacionDePago() {
   };
 
   const handleCvuChange = (e) => {
-    setcvu(e.target.value);
+    const value = e.target.value;
+    if (value === "" || /^\d+$/.test(value)) {
+      setcvu(value);
+    }
   };
 
   const handleNombreChange = (e) => {
@@ -136,14 +159,23 @@ function InformacionDePago() {
         <strong>Nombre del Banco</strong>
       </label>
       <input type="text" value={nombreBanco} disabled={!isEditing} onChange={handleNombreBancoChange} />
+      
       <label>
         <strong>ALIAS</strong>
       </label>
       <input type="text" value={alias} disabled={!isEditing} onChange={handleAliasChange} />
+      
       <label>
         <strong>CVU</strong>
       </label>
-      <input type="text" value={cvu} disabled={!isEditing} onChange={handleCvuChange} />
+      <input 
+        type="text" 
+        value={cvu} 
+        disabled={!isEditing} 
+        onChange={handleCvuChange}
+        maxLength={22}
+      />
+      
       <label>
         <strong>Nombre asociado</strong>
       </label>

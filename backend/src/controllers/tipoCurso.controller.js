@@ -24,7 +24,7 @@ export const tipoCursoController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development" 
           ? error.message 
           : "Error interno del servidor",
       });
@@ -47,7 +47,7 @@ export const tipoCursoController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development" 
           ? error.message 
           : "Error interno del servidor",
       });
@@ -80,7 +80,7 @@ export const tipoCursoController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development" 
           ? error.message 
           : "Error interno del servidor",
       });
@@ -103,7 +103,7 @@ export const tipoCursoController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development" 
           ? error.message 
           : "Error interno del servidor",
       });
@@ -125,7 +125,7 @@ export const tipoCursoController = {
       console.error(error);
       res.status(500).json({
         success: false,
-        msg: process.env.NODE_ENV === "development" //si estas en entorno de desarrollador te muestra el error, si estas del lado de cliente solo te dice que hubo un error interno
+        msg: process.env.NODE_ENV === "development" 
           ? error.message 
           : "Error interno del servidor",
       });

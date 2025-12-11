@@ -315,10 +315,6 @@
   gap: 10px;
 }
 
-
-/* Estilos checkoutV2 */
-
-
 .transfer-option {
   padding: 15px;
   border-bottom: 1px solid #d1d7dc;
@@ -528,9 +524,6 @@
     padding: 5px 8px;
   }
 }
-
-
-/* ...existing code... */
 
 .transfer-details {
   margin-top: 20px;

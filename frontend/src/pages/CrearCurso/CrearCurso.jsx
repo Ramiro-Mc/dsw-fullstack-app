@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import "./CrearCurso.css";
 
 function CrearCursoPage() {
-  const { user } = useAuth(); // Obtener el usuario del contexto (puede ser 'user' o 'usuario')
+  const { user } = useAuth();
   const [moduloSeleccionado, setModuloSeleccionado] = useState("");
   const [mostrarFormularioModulo, setMostrarFormularioModulo] = useState(false);
   const [mostrarFormularioLecciones, setMostrarFormularioLecciones] =
@@ -17,23 +17,23 @@ function CrearCursoPage() {
   const [alert, setAlert] = useState(null);
   const navigate = useNavigate();
 
-  // Estados para el curso
+
   const [nombreCurso, setNombreCurso] = useState("");
   const [descripcionCurso, setDescripcionCurso] = useState("");
   const [precioCurso, setPrecioCurso] = useState("");
   const [imagenCurso, setImagenCurso] = useState("");
   const [tipoImagen, setTipoImagen] = useState("default");
 
-  // Estados para módulo
+
   const [nombreModulo, setNombreModulo] = useState("");
   const [moduloActual, setModuloActual] = useState(null);
   const [modulosGuardados, setModulosGuardados] = useState([]);
   const [editandoModulo, setEditandoModulo] = useState(null);
 
-  // Opciones de tipos de curso (cargadas desde el backend)
+
   const [tiposCurso, setTiposCurso] = useState([]);
 
-  // Cargar tipos de curso al montar el componente
+  
   const cargarTiposCurso = async () => {
     try {
       const response = await fetch("http://localhost:3000/tipos-curso");
@@ -48,7 +48,7 @@ function CrearCursoPage() {
     cargarTiposCurso();
   }, []);
 
-  // Función para crear el curso completo
+ 
   const crearCursoCompleto = async (datoCurso) => {
     try {
       const response = await fetch("http://localhost:3000/cursos", {
@@ -217,7 +217,7 @@ function CrearCursoPage() {
       precio: parseFloat(precioCurso),
       idTipo: parseInt(moduloSeleccionado),
       idProfesor: idProfesor,
-      imagen: tipoImagen === "default" ? null : imagenCurso, // null usará la imagen default en el backend
+      imagen: tipoImagen === "default" ? null : imagenCurso, 
       modulos: modulosGuardados.map((modulo) => ({
         titulo: modulo.nombre,
         lecciones: modulo.lecciones.map((leccion) => ({
@@ -244,7 +244,7 @@ function CrearCursoPage() {
           navigate("/MiPerfil/misCursosCreados");
         },
       });
-      // Limpiar formulario
+      // Limpia el formulario
       setNombreCurso("");
       setDescripcionCurso("");
       setPrecioCurso("");

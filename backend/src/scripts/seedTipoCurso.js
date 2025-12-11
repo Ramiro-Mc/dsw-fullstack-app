@@ -79,5 +79,4 @@ const seedTipoCurso = async () => {
   }
 };
 
-// Auto-ejecutar (como createAdmin.js)
 seedTipoCurso();

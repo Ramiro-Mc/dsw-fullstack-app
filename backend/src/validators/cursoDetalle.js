@@ -58,7 +58,6 @@ const validateLeccionExists = [
   validateResult
 ];
 
-// Validación para obtener clases de un módulo específico
 const validateGetLeccionesByModulo = [
   check('idModulo').exists().notEmpty()
     .isInt({ min: 1 }).withMessage('El ID del módulo debe ser un número entero positivo')
@@ -73,21 +72,6 @@ const validateGetLeccionesByModulo = [
   validateResult
 ];
 
-// // Validación para actualizar progreso de tiempo visto (si lo implementas más adelante)
-// const validateActualizarTiempoVisto = [
-//   check('idClase').exists().notEmpty()
-//     .isInt({ min: 1 }).withMessage('El ID de la clase debe ser un número entero positivo')
-//     .custom(async (idClase) => {
-//       const claseEnc = await Clase.findByPk(idClase);
-//       if (!claseEnc) {
-//         throw new Error("Clase no encontrada");
-//       }
-//       return true;
-//     }),
-//   check('tiempoVisto').exists().notEmpty()
-//     .isInt({ min: 0 }).withMessage('El tiempo visto debe ser un número entero no negativo'),
-//   validateResult
-// ];
 
 export default { 
   validateGetCursoCompleto, 
@@ -95,5 +79,4 @@ export default {
   validateModuloExists, 
   validateLeccionExists,
   validateGetLeccionesByModulo,
-//   validateActualizarTiempoVisto
 };

@@ -11,13 +11,11 @@ const validateCreate = [
   check('idCurso').exists().notEmpty().isNumeric()
     .withMessage('ID de curso es obligatorio y debe ser numérico')
     .custom(async (idCurso) => {
-      // Verificar que el curso existe
       const cursoEnc = await Curso.findByPk(idCurso);
       if (!cursoEnc) {
         throw new Error("Curso no encontrado");
       }
       
-      // Verificar que el curso no tenga ya una comunidad
       const comunidadExistente = await Comunidad.findOne({ where: { idCurso } });
       if (comunidadExistente) {
         throw new Error("Este curso ya tiene una comunidad");
@@ -46,7 +44,6 @@ const validateUpdate = [
   validateResult
 ];
 
-// Para operaciones por ID de comunidad
 const validateGetByIdAndDelete = [
   check('idComunidad').exists().notEmpty().isNumeric()
     .withMessage('ID de comunidad es obligatorio y debe ser numérico')

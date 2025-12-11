@@ -16,8 +16,6 @@ function InformacionPersonal() {
 
   const { user, loading: authLoading } = useAuth();
 
-  // Perfil de profesor
-
   const [educacion, setEducacion] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [frase, setFrase] = useState("");
@@ -151,7 +149,7 @@ function InformacionPersonal() {
       formData.append("fotoDePerfil", file);
 
       try {
-        const userId = user.id; // ID del usuario actual
+        const userId = user.id; 
 
         const response = await fetch(
           `http://localhost:3000/usuarios/${userId}/foto`,
@@ -164,7 +162,6 @@ function InformacionPersonal() {
         const data = await response.json();
 
         if (data.success) {
-          // Actualizar la foto de perfil en el estado
           setUsuario((prev) => ({
             ...prev,
             fotoDePerfil: data.fotoDePerfil, // URL pública de Cloudinary

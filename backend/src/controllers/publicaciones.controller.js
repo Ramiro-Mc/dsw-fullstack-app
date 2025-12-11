@@ -54,7 +54,7 @@ export const publicacionController = {
     }
   },
 
-    //  publicaciones por comunidad
+
   getPublicacionesByComunidad: async (req, res) => {
     try {
       const { idComunidad } = req.params;
@@ -96,7 +96,6 @@ export const publicacionController = {
     try {
       const { titulo, contenido, idComunidad, idUsuario } = req.body;
 
-      //  Validar que la comunidad existe
       const comunidadExiste = await Comunidad.findByPk(idComunidad);
       if (!comunidadExiste) {
         return res.status(404).json({
@@ -105,7 +104,6 @@ export const publicacionController = {
         });
       }
 
-      // Validar que el usuario existe
       const usuarioExiste = await Usuario.findByPk(idUsuario);
       if (!usuarioExiste) {
         return res.status(404).json({

@@ -1,4 +1,3 @@
-/* Estilos base de la tarjeta de usuario */
 .usuario-card {
   background: white;
   border-radius: 12px;
@@ -13,14 +12,12 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Estilo para usuarios inactivos */
 .usuario-card.usuario-inactivo {
   opacity: 0.7;
   border-left: 4px solid #dc3545;
   background-color: #f8f9fa;
 }
 
-/* Header de la tarjeta */
 .card-header {
   padding: 20px;
   border-bottom: 1px solid #eee;
@@ -140,7 +137,6 @@
   font-weight: 600;
 }
 
-/* Estados activo/inactivo */
 .value.estado-activo {
   color: #28a745;
   font-weight: bold;
@@ -151,7 +147,6 @@
   font-weight: bold;
 }
 
-/* Acciones de la tarjeta */
 .card-actions {
   padding: 20px;
   border-top: 1px solid #eee;
@@ -160,7 +155,6 @@
   gap: 10px;
 }
 
-/* Botón eliminar/desactivar */
 .btn-eliminar {
   width: 100%;
   padding: 12px 15px;
@@ -194,7 +188,6 @@
   opacity: 0.6;
 }
 
-/* Botón reactivar */
 .btn-reactivar {
   width: 100%;
   padding: 12px 15px;
@@ -218,7 +211,6 @@
   box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .card-header {
     flex-direction: column;

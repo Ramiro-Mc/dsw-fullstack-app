@@ -19,14 +19,12 @@
   padding: 20px 20px !important;
 }
 
-/* Si las clases son diferentes, prueba con: */
 .solicitudes-pendientes .card-header,
 .solicitudes-pendientes .card-body,
 .solicitudes-pendientes .card-actions {
   padding: 20px 20px !important;
 }
 
-/* O si usa otras clases: */
 .solicitudes-grid > * .card-header,
 .solicitudes-grid > * .card-body,
 .solicitudes-grid > * .card-actions {

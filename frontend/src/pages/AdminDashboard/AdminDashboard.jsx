@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
 import './AdminDashboard.css';
-//Estados del componente: stats, loading, error
 const AdminDashboard = () => {
   const { user } = useAuth();
   

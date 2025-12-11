@@ -1,89 +1,86 @@
-
-    .accordion-button {
-      font-weight: bold;
-    }
-
-
-    .accordion-header { 
-      border: none;
-      border-bottom: 1px solid #444; /* línea divisoria entre módulos */    
-    }
-
-    .clase-item {
-      color: #fff;
-      display: block;
-      padding: 5px 0;
-      text-decoration: none;
-      border-bottom: 1px solid #444; /* línea divisoria entre clases */
-  
-    }
-
-    .accordion-body a:last-child {
-  border-bottom: none; /* quitar borde del último elemento */
+.accordion-button {
+  font-weight: bold;
 }
 
-    .accordion-body a:hover {
-      text-decoration: underline;
-    }
+.accordion-header { 
+  border: none;
+  border-bottom: 1px solid #444; 
+}
 
-    .accordion-header {
-      background-color: transparent;
-    }
+.clase-item {
+  color: #fff;
+  display: block;
+  padding: 5px 0;
+  text-decoration: none;
+  border-bottom: 1px solid #444; 
+}
+
+.accordion-body a:last-child {
+  border-bottom: none; 
+}
+
+.accordion-body a:hover {
+  text-decoration: underline;
+}
+
+.accordion-header {
+  background-color: transparent;
+}
 
 
-  .cont-principal{
-    width: x;
-  }
+.cont-principal{
+  width: x;
+}
 
-  .titulo {
-    display:inline;
-  }
+.titulo {
+  display:inline;
+}
 
-  .titulo-corto {
-     display: none; /* Ocultar por defecto */
-  }
+.titulo-corto {
+  display: none;
+}
 
-  h6.noClicked {
-    color: white;
-  }
+h6.noClicked {
+  color: white;
+}
 
-  h6.clicked {
-    color: orange;
-  }
+h6.clicked {
+  color: orange;
+}
 
-  i.completado {
-    color: orange;
-  }
-  
-  i.noCompletado {
-    color: white;
-  }
+i.completado {
+  color: orange;
+}
 
-  /* responsive */
+i.noCompletado {
+  color: white;
+}
+
+/* responsive */
+
 @media (max-width: 768px) {
   .titulo {
-		font-size: 0.75rem !important; /* Ajustar el tamaño de fuente */
+		font-size: 0.75rem !important; 
 	}
-
-	}
+}
 
 
 @media (max-width: 600px) {
   .titulo {
-		display: none; /* Ocultar en pantallas pequeñas */
+		display: none; 
 	}
 	.titulo-corto {
-		display: inline; /* Mostrar en pantallas pequeñas */
+		display: inline; 
 	}
 	.accordion-button {
-		padding: 5px 8px 5px 5px !important; /* Ajustar el padding para pantallas pequeñas */
-		font-size: 14px !important; /* Ajustar el tamaño de fuente */
+		padding: 5px 8px 5px 5px !important; 
+		font-size: 14px !important; 
 	}
 	.accordion-body {
-		padding: 10px !important; /* Ajustar el padding del cuerpo del acordeón */
+		padding: 10px !important; 
 	}
 	.nombre-clase {
-		font-size: 0.75rem !important; /* Ajustar el tamaño de fuente */
+		font-size: 0.75rem !important; 
 	}
 }
   

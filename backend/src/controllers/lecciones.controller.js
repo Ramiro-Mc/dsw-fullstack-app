@@ -41,7 +41,7 @@ export const leccionController = {
 
   getLeccionById: async (req, res) => {
     try {
-      const { numeroLec } = req.params; // ← Cambiar a numeroLec
+      const { numeroLec } = req.params; 
 
       const leccion = await Leccion.findByPk(numeroLec, {
         include: [
@@ -79,8 +79,7 @@ export const leccionController = {
 
   createLeccion: async (req, res) => {
     try {
-      // NO incluir numeroLec porque es autoincremental
-      // Incluir TODOS los campos del modelo
+      
       const { 
         idModulo, 
         tituloLec, 
@@ -122,11 +121,11 @@ export const leccionController = {
 
   updateLeccion: async (req, res) => {
     try {
-      const { numeroLec } = req.params; // ← Cambiar a numeroLec
+      const { numeroLec } = req.params; 
       const updateData = req.body;
 
       const [updatedRowsCount] = await Leccion.update(updateData, {
-        where: { numeroLec } // ← Usar numeroLec
+        where: { numeroLec } 
       });
 
       if (updatedRowsCount === 0) {
@@ -149,7 +148,7 @@ export const leccionController = {
       res.status(200).json({
         success: true,
         msg: "Lección actualizada correctamente",
-        contenido: leccionActualizada, // ← Cambiar 'atributo' por 'contenido'
+        contenido: leccionActualizada, 
       });
 
     } catch (error) {
@@ -165,10 +164,10 @@ export const leccionController = {
 
   deleteLeccion: async (req, res) => {
     try {
-      const { numeroLec } = req.params; // ← Cambiar a numeroLec
+      const { numeroLec } = req.params; 
 
       const deletedRowsCount = await Leccion.destroy({
-        where: { numeroLec } // ← Usar numeroLec
+        where: { numeroLec } 
       });
 
       if (deletedRowsCount === 0) {

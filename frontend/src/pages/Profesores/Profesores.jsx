@@ -9,7 +9,7 @@ function Profesores() {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [profesorSeleccionado, setProfesorSeleccionado] = useState(null);
 
-  // Obtener tipos de curso para los filtros
+
   useEffect(() => {
     fetch("http://localhost:3000/tipoCursos")
       .then((res) => res.json())

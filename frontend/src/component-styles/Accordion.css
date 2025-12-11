@@ -2,14 +2,12 @@
 
 
 .sidebar {
-  /* padding: 20px; */
   height: 100%;
-  
 }
 
 
 .accordion-button::after {
-  filter: invert(1); /* hace la flecha blanca */
+  filter: invert(1); 
 }
 
 .accordion-button {

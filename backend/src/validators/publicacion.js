@@ -31,7 +31,6 @@ const validateCreate = [
       return true;
     }),
   
-  // Validar idPublicacionPadre si existe (para respuestas)
   check('idPublicacionPadre').optional().isNumeric()
     .withMessage('ID de publicación padre debe ser numérico')
     .custom(async (idPublicacionPadre) => {
@@ -48,7 +47,6 @@ const validateCreate = [
 ];
 
 const validateUpdate = [
-  // Validar que la publicación existe
   check('idPublicacion').exists().notEmpty().isNumeric()
     .withMessage('ID de publicación es obligatorio y debe ser numérico')
     .custom(async (idPublicacion) => {
@@ -59,7 +57,6 @@ const validateUpdate = [
       return true;
     }),
   
-  // Campos opcionales para actualización
   check('titulo').optional().notEmpty()
     .withMessage('El título no puede estar vacío si se proporciona'),
   
@@ -82,7 +79,6 @@ const validateGetByIdAndDelete = [
   validateResult
 ];
 
-// Validador para obtener publicaciones por comunidad
 const validateGetByComunidad = [
   check('idComunidad').exists().notEmpty().isNumeric()
     .withMessage('ID de comunidad es obligatorio y debe ser numérico')

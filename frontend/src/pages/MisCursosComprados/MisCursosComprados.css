@@ -22,7 +22,6 @@
   font-size: 1.1rem;
 }
 
-/* Loading y Error */
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -59,7 +58,7 @@
   color: #c33;
 }
 
-/* No cursos */
+
 .no-cursos {
   text-align: center;
   padding: 4rem 2rem;
@@ -102,7 +101,7 @@
   transform: translateY(-2px);
 }
 
-/* Stats */
+
 .cursos-stats {
   background: #ecf0f1;
   padding: 1rem;
@@ -117,7 +116,7 @@
   color: #2c3e50;
 }
 
-/* Grid de cursos */
+
 .cursos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));

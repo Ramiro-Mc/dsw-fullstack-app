@@ -7,7 +7,6 @@ const AdmCursoCard = ({
   actions = [], 
   variant = 'default' 
 }) => {
-  // Agregar función para obtener el color del badge según el estado
   const getEstadoColor = (estado) => {
     switch (estado) {
       case 'aprobado':

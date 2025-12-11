@@ -52,7 +52,7 @@ export const cursoDetalleController = {
   },
 
 
-  // Método adicional para obtener lecciones de un módulo
+  // obtener lecciones de un módulo
   getLeccionesByModulo: async (req, res) => {
     try {
       const { idModulo } = req.params;

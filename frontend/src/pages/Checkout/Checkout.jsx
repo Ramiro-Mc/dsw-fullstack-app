@@ -14,7 +14,7 @@ const Checkout = () => {
   const [procesandoPago, setProcesandoPago] = useState(false);
   const [error, setError] = useState(null);
   const [metodoPago, setMetodoPago] = useState("stripe");
-  const [alert, setAlert] = useState(null); // 'stripe' o 'transferencia'
+  const [alert, setAlert] = useState(null); 
 
   const [datosTransferencia, setDatosTransferencia] = useState({
     nombre: "Cargando...",
@@ -31,7 +31,7 @@ const Checkout = () => {
       if (data.success) {
         setCurso(data.contenido);
 
-        // Cargar datos de transferencia del profesor
+        
         if (data.contenido.Profesor) {
           setDatosTransferencia({
             nombre:

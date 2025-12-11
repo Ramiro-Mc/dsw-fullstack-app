@@ -1,4 +1,4 @@
-import { AlumnoCurso, Usuario, Curso } from "../models/allModels.js"; // ← AGREGAR Curso aquí
+import { AlumnoCurso, Usuario, Curso } from "../models/allModels.js"; 
 
 export const alumnoCursoController = {
   getAllAlumnosCursos: async (req, res) => {

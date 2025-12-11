@@ -13,7 +13,7 @@ const stripe = process.env.STRIPE_SECRET_KEY
   ? new Stripe(process.env.STRIPE_SECRET_KEY) 
   : null;
 
-// Función auxiliar para crear relaciones AlumnoLeccion
+// Función  para crear relaciones AlumnoLeccion
 const crearRelacionesAlumnoLeccion = async (idUsuario, idCurso) => {
   try {
     console.log(` Creando relaciones AlumnoLeccion para usuario ${idUsuario} y curso ${idCurso}`);
@@ -47,7 +47,7 @@ const crearRelacionesAlumnoLeccion = async (idUsuario, idCurso) => {
         relacionesCreadas.push(nuevaRelacion);
         console.log(` Relación creada: Usuario ${idUsuario} - Lección ${leccion.numeroLec}`);
       } catch (error) {
-        // Si ya existe la relación, no es un error crítico
+  
         if (error.name === 'SequelizeUniqueConstraintError') {
           console.log(`Relación ya existe: Usuario ${idUsuario} - Lección ${leccion.numeroLec}`);
         } else {
@@ -76,7 +76,7 @@ export const pagoController = {
       const curso = await Curso.findOne({
         where: {
           idCurso: parseInt(idCurso),
-          estado: "aprobado", // Solo cursos aprobados
+          estado: "aprobado", 
         },
         include: [
           {
@@ -87,7 +87,7 @@ export const pagoController = {
           {
             model: Usuario,
             as: "Profesor",
-            attributes: ["nombreUsuario", "nombreReferido", "banco", "cvu", "alias"], // ← Incluir datos bancarios
+            attributes: ["nombreUsuario", "nombreReferido", "banco", "cvu", "alias"], 
             required: false,
           },
         ],
@@ -109,7 +109,7 @@ export const pagoController = {
       console.log("Banco encriptado:", cursoData.Profesor?.banco);
       
       if (cursoData.Profesor) {
-        // Desencriptar solo si los campos existen y no son null
+  
           if (cursoData.Profesor.nombreReferido) {
           cursoData.Profesor.nombreReferido = decrypt(cursoData.Profesor.nombreReferido);
         }
@@ -144,14 +144,12 @@ export const pagoController = {
     }
   },
 
-  // Crear sesión de pago en Stripe
   crearSesionStripe: async (req, res) => {
     try {
       const { idCurso, idUsuario } = req.body;
       console.log("=== CREAR SESIÓN STRIPE ===");
       console.log("Body:", req.body);
 
-      // Validar usuario
       if (!idUsuario) {
         return res.status(400).json({
           success: false,
@@ -189,7 +187,6 @@ export const pagoController = {
         });
       }
 
-      // Verificar que Stripe esté configurado
       if (!stripe) {
         return res.status(500).json({
           success: false,
@@ -247,7 +244,7 @@ export const pagoController = {
     }
   },
 
-  //  Webhook de Stripe - Registra inscripción automáticamente
+  // Registra inscripción automáticamente
   webhook: async (req, res) => {
     const sig = req.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -292,13 +289,12 @@ export const pagoController = {
         const curso = await Curso.findByPk(parseInt(idCurso));
 
         if (!curso) {
-          console.error('❌ Curso no encontrado:', idCurso);
+          console.error('Curso no encontrado:', idCurso);
           return res.status(404).json({ error: 'Curso no encontrado' });
         }
 
         console.log(' Curso encontrado:', curso.titulo);
 
-        // Verificar si ya existe la inscripción
         const inscripcionExistente = await AlumnoCurso.findOne({
           where: {
             idUsuario: parseInt(idUsuario),
@@ -307,7 +303,7 @@ export const pagoController = {
         });
 
         if (inscripcionExistente) {
-          console.log('⚠️ Inscripción ya existe');
+          console.log('Inscripción ya existe');
           return res.json({ received: true, message: 'Ya inscrito' });
         }
 
@@ -346,7 +342,7 @@ export const pagoController = {
         });
 
       } catch (error) {
-        console.error('❌ Error registrando inscripción:', error);
+        console.error('Error registrando inscripción:', error);
         return res.status(500).json({ 
           error: 'Error interno',
           message: error.message 
@@ -379,7 +375,7 @@ export const pagoController = {
         metadata: session.metadata,
       });
     } catch (error) {
-      console.error('❌ Error verificando pago:', error);
+      console.error(' Error verificando pago:', error);
       res.status(500).json({
         success: false,
         msg: "Error al verificar pago",
@@ -387,12 +383,11 @@ export const pagoController = {
     }
   },
 
-  //  Confirmar pago por transferencia bancaria
+
   confirmarTransferencia: async (req, res) => {
     try {
       const { idCurso, idUsuario } = req.body;
 
-      console.log("=== CONFIRMAR TRANSFERENCIA ===");
       console.log("Body:", req.body);
 
       // Validar datos
@@ -403,7 +398,7 @@ export const pagoController = {
         });
       }
 
-      // Buscar el curso
+
       const curso = await Curso.findOne({
         where: {
           idCurso: parseInt(idCurso),
@@ -442,7 +437,7 @@ export const pagoController = {
         precioFinal = precioFinal - (precioFinal * curso.descuento / 100);
       }
 
-      // 1. Crear relación AlumnoCurso
+      // relación AlumnoCurso
       const nuevaInscripcion = await AlumnoCurso.create({
         idUsuario: parseInt(idUsuario),
         idCurso: parseInt(idCurso),
@@ -453,9 +448,9 @@ export const pagoController = {
         transactionId: transactionId,
       });
 
-      console.log('✅ Relación AlumnoCurso creada:', nuevaInscripcion.toJSON());
+      console.log('Relación AlumnoCurso creada:', nuevaInscripcion.toJSON());
 
-      // 2. Crear relaciones AlumnoLeccion
+      // relaciones AlumnoLeccion
       const leccionesCreadas = await crearRelacionesAlumnoLeccion(idUsuario, idCurso);
 
       console.log(` Inscripción por transferencia completa - ${leccionesCreadas} lecciones vinculadas`);

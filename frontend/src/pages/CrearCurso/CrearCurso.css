@@ -1,8 +1,7 @@
-/* Crear Curso */
+
 
 
 .formulario-curso {
-  /* border: 2px solid black; */
   margin: auto;
   width: 90%;
   height: 100%;
@@ -39,7 +38,7 @@
   padding: 0.5rem 1rem;
 }
 
-/* Estilos para inputs más notorios */
+
 .formulario-curso .form-control,
 .formulario-curso .form-select,
 .formulario-curso input,
@@ -161,7 +160,6 @@ textarea {
   width: 2rem;
 }
 
-/* Estilo para el botón de editar (lápiz) */
 .btn-outline-primary {
   color: orange !important;
   border-color: orange !important;
@@ -184,7 +182,6 @@ textarea {
 }
 
 
-/* Estilos para los botones de selección de imagen */
 .btn-group .btn-check:checked + .btn-outline-primary {
   background-color: orange !important;
   border-color: orange !important;
@@ -203,9 +200,7 @@ textarea {
   color: orange !important;
 }
 
-/* RESPONSIVE PARA DISPOSITIVOS PEQUEÑOS */
 
-/* Tablets (768px y menores) */
 @media (max-width: 768px) {
   .formulario-curso {
     width: 95%;
@@ -255,7 +250,6 @@ textarea {
   }
 }
 
-/* Móviles (480px y menores) */
 @media (max-width: 480px) {
   .formulario-curso {
     width: 98%;
@@ -296,7 +290,6 @@ textarea {
     width: 1.5rem;
   }
 
-  /* Hacer que las listas de lecciones sean más amigables en móvil */
   .small.d-flex {
     flex-direction: column !important;
     align-items: flex-start !important;
@@ -308,7 +301,6 @@ textarea {
     align-self: flex-end;
   }
 
-  /* Prevenir zoom en iOS cuando se toca un input */
   .form-control {
     font-size: 16px !important;
   }
@@ -324,7 +316,6 @@ textarea {
   }
 }
 
-/* Móviles muy pequeños (360px y menores) */
 @media (max-width: 360px) {
   .formulario-curso {
     width: 100%;
@@ -366,7 +357,6 @@ textarea {
   }
 }
 
-/* Estilos específicos para el dropdown del select */
 .formulario-curso select option {
   padding: 0.5rem;
   font-size: 14px;
