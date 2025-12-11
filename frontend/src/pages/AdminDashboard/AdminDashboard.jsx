@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
 import './AdminDashboard.css';
-
+//Estados del componente: stats, loading, error
 const AdminDashboard = () => {
   const { user } = useAuth();
   
@@ -22,7 +22,7 @@ const AdminDashboard = () => {
       setLoading(true);
       setError(null);
       
-      console.log('Haciendo petición a las estadísticas...');
+
       
       const response = await fetch('http://localhost:3000/api/admin/stats', {
         method: 'GET',

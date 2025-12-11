@@ -7,7 +7,6 @@ import Layout from "./components/Layout";
 import Landing from "./pages/Landing/Landing";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
-import UsuariosPage from "./pages/UsuariosPage/UsuariosPage";
 import LayoutMiPerfil from "./components/MiPerfil/LayoutMiPerfil";
 import InformacionDeCobro from "./pages/InformacionDeCobro/InformacionDeCobro";
 import MisCursosCreados from "./pages/MisCursosCreados/MisCursosCreados";
@@ -39,15 +38,15 @@ const router = createBrowserRouter([
       },
       {
         path: "course/:idCurso",
-        element: <AdminRoute><Course /></AdminRoute>,
+        element: <ProtectedRoute><AdminRoute><Course /></AdminRoute></ProtectedRoute>,
       },
       {
         path: "loginPage",
-        element: <LoginPage />,
+        element: <AdminRoute><LoginPage /></AdminRoute>,
       },
       {
         path: "registerPage",
-        element: <RegisterPage />,
+        element: <AdminRoute><RegisterPage /></AdminRoute>,
       },
       {
         path: "sobreNosotros",
@@ -59,11 +58,11 @@ const router = createBrowserRouter([
       },
       {
         path: "foro/:idCurso",
-        element: <AdminRoute><Foro /></AdminRoute>,
+        element: <ProtectedRoute><AdminRoute><Foro /></AdminRoute></ProtectedRoute>,
       },
       {
         path: "MiPerfil",
-        element: <AdminRoute><LayoutMiPerfil /></AdminRoute>,
+        element: <ProtectedRoute><AdminRoute><LayoutMiPerfil /></AdminRoute></ProtectedRoute>,
         children: [
           {
             index: true,
@@ -84,16 +83,12 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "usuariosPage",
-        element: <AdminRoute><UsuariosPage /></AdminRoute>,
-      },
-      {
         path: "crearCurso",
-        element: <AdminRoute><CrearCursoPage /></AdminRoute>,
+        element: <ProtectedRoute><AdminRoute><CrearCursoPage /></AdminRoute></ProtectedRoute>,
       },
       {
         path: "editarCurso/:idCurso", 
-        element: <AdminRoute><EditarCursoPage /></AdminRoute>,
+        element: <ProtectedRoute><AdminRoute><EditarCursoPage /></AdminRoute></ProtectedRoute>,
       },
       {
         path: "profesores",

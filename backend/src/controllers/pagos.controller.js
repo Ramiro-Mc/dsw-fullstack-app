@@ -5,7 +5,7 @@ import { Modulo } from "../models/Modulo.js";
 import { Curso } from "../models/Curso.js";
 import { Usuario } from "../models/Usuario.js";
 import { TipoCurso } from "../models/TipoCurso.js";
-import { decrypt } from "../helpers/encrypt.js"; // ← AÑADIR IMPORT
+import { decrypt } from "../helpers/encrypt.js"; 
 import Stripe from "stripe";
 
 // Configurar Stripe con la clave secreta del .env

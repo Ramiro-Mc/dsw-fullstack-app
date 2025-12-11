@@ -233,3 +233,9 @@
 .todos-cursos .adm-curso-card .card-actions {
   padding: 25px 30px !important;
 }
+
+.btn-restaurar{
+  width: 100%;
+  background-color: #28a745!important;
+  color: white !important;
+}

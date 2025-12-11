@@ -21,19 +21,66 @@ function Foro() {
   useEffect(() => {
     const fetchCursoYComunidad = async () => {
       try {
-        // Cargar información del curso
+        const idUsuario = user?.idUsuario || user?.id;
+
+        // === 1. VERIFICAR SI EL USUARIO ESTÁ LOGUEADO ===
+        if (!idUsuario) {
+          setAlert({
+            message: "Debes iniciar sesión para acceder al foro",
+            type: "error",
+            onClose: () => navigate("/loginPage"),
+          });
+          setLoading(false);
+          return;
+        }
+
+        // === 2. CARGAR INFORMACIÓN DEL CURSO ===
         const responseCurso = await fetch(`http://localhost:3000/cursoDetalle/${idCurso}`);
         const dataCurso = await responseCurso.json();
 
         if (dataCurso.success) {
           setCurso(dataCurso.contenido);
+
+          // === 3. VERIFICAR SI EL USUARIO TIENE ACCESO AL CURSO ===
+          const esCreador =
+            dataCurso.contenido.idProfesor === idUsuario ||
+            dataCurso.contenido.idProfesor === user?.idUsuario;
+
+          if (!esCreador) {
+            // Si no es el creador, verificar si compró el curso
+            const resCompra = await fetch(
+              `http://localhost:3000/alumnos_cursos/${idUsuario}/${idCurso}`
+            );
+
+            if (!resCompra.ok) {
+              setAlert({
+                message: "No tienes acceso a este foro. Debes comprar el curso primero.",
+                type: "error",
+                onClose: () => navigate(`/compraCurso/${idCurso}`),
+              });
+              setLoading(false);
+              return;
+            }
+
+            const responseCompra = await resCompra.json();
+
+            if (!responseCompra.success || !responseCompra.contenido) {
+              setAlert({
+                message: "No tienes acceso a este foro. Debes comprar el curso primero.",
+                type: "error",
+                onClose: () => navigate(`/compraCurso/${idCurso}`),
+              });
+              setLoading(false);
+              return;
+            }
+          }
         } else {
           setError("Error al cargar el curso");
           setLoading(false);
           return;
         }
 
-        // Cargar comunidad del curso
+        // === 4. CARGAR COMUNIDAD DEL CURSO (solo si tiene acceso) ===
         const responseComunidad = await fetch(`http://localhost:3000/comunidades/curso/${idCurso}`);
         const dataComunidad = await responseComunidad.json();
 
@@ -96,7 +143,7 @@ function Foro() {
     };
 
     fetchCursoYComunidad();
-  }, [idCurso]);
+  }, [idCurso, user, navigate]); // Agregar navigate a las dependencias
 
   const handlePublicar = async (e) => {
     e.preventDefault();

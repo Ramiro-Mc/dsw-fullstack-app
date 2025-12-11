@@ -1,17 +1,18 @@
-import "../../App.css";
-import "./Course.css";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom"; // ← Agregar useNavigate
+import { useAuth } from "../../context/AuthContext";
 import CustomAlert from "../../components/CustomAlert/CustomAlert";
 import Accordion from "../../components/Course/Accordion.jsx";
 import Contenido from "../../components/Course/Contenido.jsx";
 import BarraSuperior from "../../components/Course/BarraSuperior.jsx";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import "../../App.css";
+import "./Course.css";
 
 function Course() {
-  console.log("Course esta cargando...");
-  const { idCurso } = useParams(); // Obtener el ID del curso desde la URL
-  const { user } = useAuth(); // Usar el contexto de autenticación
+  const { idCurso } = useParams();
+  const { user } = useAuth();
+  const navigate = useNavigate(); // ← Agregar esto
+  
   const [curso, setCurso] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [claseClicked, setClaseClicked] = useState({});
@@ -29,10 +30,9 @@ function Course() {
       try {
         console.log("Intentando cargar curso desde la base de datos...");
 
-        // Obtener el usuario desde el contexto
         const idUsuario = user?.idUsuario || user?.id;
 
-        // Cargar el curso
+        // === 1. CARGAR EL CURSO ===
         const resCurso = await fetch(
           `http://localhost:3000/cursoDetalle/${idCurso}`
         );
@@ -47,7 +47,48 @@ function Course() {
 
         const cursoData = responseCurso.contenido;
 
-        // Si hay usuario logueado, cargar su progreso
+        // === 2. VERIFICAR SI EL USUARIO COMPRÓ EL CURSO ===
+        if (idUsuario) {
+          // Verificar si el usuario es el creador del curso
+          const esCreador = 
+            cursoData.idProfesor === idUsuario || 
+            cursoData.idProfesor === user?.idUsuario;
+
+          if (!esCreador) {
+            // Si no es el creador, verificar si compró el curso
+            const resCompra = await fetch(
+              `http://localhost:3000/alumnos_cursos/${idUsuario}/${idCurso}`
+            );
+
+            if (!resCompra.ok) {
+              throw new Error("No tienes acceso a este curso");
+            }
+
+            const responseCompra = await resCompra.json();
+
+            if (!responseCompra.success || !responseCompra.contenido) {
+              // Usuario NO compró el curso → Redirigir
+              setAlert({
+                message: "No tienes acceso a este curso. Debes comprarlo primero.",
+                type: "error",
+                onClose: () => navigate(`/compraCurso/${idCurso}`),
+              });
+              setCargando(false);
+              return;
+            }
+          }
+        } else {
+          // Usuario no logueado → Redirigir a login
+          setAlert({
+            message: "Debes iniciar sesión para acceder a este curso",
+            type: "error",
+            onClose: () => navigate("/loginPage"),
+          });
+          setCargando(false);
+          return;
+        }
+
+        // === 3. CARGAR PROGRESO DEL USUARIO (si ya tiene acceso) ===
         let progresoUsuario = {};
         if (idUsuario) {
           try {
@@ -68,7 +109,7 @@ function Course() {
           }
         }
 
-        // Mapear la estructura de la BD al formato esperado por el frontend
+        // === 4. MAPEAR ESTRUCTURA DEL CURSO ===
         const cursoMapeado = {
           ...cursoData,
           modulos: cursoData.Modulos.map((modulo) => ({
@@ -79,7 +120,7 @@ function Course() {
               tituloLeccion: leccion.tituloLec,
               contenido: leccion.contenidoTexto,
               videoLeccion: leccion.videoUrl,
-              completado: progresoUsuario[leccion.numeroLec] || false, // Usar progreso del usuario
+              completado: progresoUsuario[leccion.numeroLec] || false,
               descripcion: leccion.descripcionLec,
               horas: leccion.horasLec,
               estado: leccion.estadoLec,
@@ -93,7 +134,6 @@ function Course() {
         console.log("Curso mapeado:", cursoMapeado);
         setCurso(cursoMapeado);
 
-        // Verificar que existan módulos y lecciones antes de asignar
         if (
           cursoMapeado.modulos?.length > 0 &&
           cursoMapeado.modulos[0].lecciones?.length > 0
@@ -101,7 +141,6 @@ function Course() {
           setClaseClicked(cursoMapeado.modulos[0].lecciones[0]);
         }
 
-        // Calcular lecciones completadas inicial
         const leccionesCompletadas =
           cursoMapeado.modulos?.reduce((total, modulo) => {
             return (
@@ -117,15 +156,15 @@ function Course() {
         console.error("Error al cargar curso desde BD:", err);
         setCargando(false);
         setAlert({
-          message: `Error al cargar el curso: ${err.message}`,
+          message: `Error: ${err.message}`,
           type: "error",
-          onClose: () => setAlert(null),
+          onClose: () => navigate("/"),
         });
       }
     };
 
     cargarCursoConProgreso();
-  }, [idCurso, user]); // Agregar user como dependencia
+  }, [idCurso, user, navigate]); // ← Agregar navigate a las dependencias
 
   const manejarClick = (clase) => {
     setClaseClicked(clase);
@@ -146,7 +185,6 @@ function Course() {
 
       const nuevoEstado = !claseClicked.completado;
 
-      // Actualizar en la base de datos
       const response = await fetch(
         `http://localhost:3000/lecciones/${claseClicked.idLeccion}/completar`,
         {
@@ -171,7 +209,6 @@ function Course() {
         throw new Error(result.msg || "Error al actualizar la lección");
       }
 
-      // Actualizar estado local después de confirmar en BD
       setCurso((prevCurso) => ({
         ...prevCurso,
         modulos: prevCurso.modulos.map((modulo) => ({
@@ -189,7 +226,6 @@ function Course() {
         completado: nuevoEstado,
       });
 
-      // Actualizar contador
       setCantCompletada(nuevoEstado ? cantCompletada + 1 : cantCompletada - 1);
 
       setAlert({
@@ -220,7 +256,7 @@ function Course() {
   if (!curso) {
     return (
       <div className="error-container">
-        <strong>No se pudo cargar el curso.</strong>
+        <strong>Acceso a curso no autorizado.</strong>
       </div>
     );
   }

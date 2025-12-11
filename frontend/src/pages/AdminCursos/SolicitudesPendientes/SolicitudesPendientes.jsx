@@ -19,16 +19,16 @@ const SolicitudesPendientes = () => {
       const response = await fetch("/api/admin/cursos/pendientes");
       const data = await response.json();
 
-      console.log("📥 Respuesta del backend:", data);
+      console.log(" Respuesta del backend:", data);
 
       if (data.success) {
         setSolicitudes(data.contenido || data.informacion || []);
-        console.log("📚 Solicitudes cargadas:", data.contenido || data.informacion);
+        console.log(" Solicitudes cargadas:", data.contenido || data.informacion);
       } else {
         setError("Error al cargar las solicitudes");
       }
     } catch (err) {
-      console.error("❌ Error:", err);
+      console.error(" Error:", err);
       setError("Error de conexión");
     } finally {
       setLoading(false);

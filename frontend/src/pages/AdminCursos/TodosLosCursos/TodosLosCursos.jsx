@@ -13,24 +13,30 @@ const TodosLosCursos = () => {
     fetchCursos();
   }, []);
 
-  const fetchCursos = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch("/api/cursos/aprobados");
-      const data = await response.json();
+ const fetchCursos = async () => {
+  try {
+    setLoading(true);
+    
 
-      if (data.success) {
-        setCursos(data.contenido);
-      } else {
-        setError("Error al cargar los cursos");
-      }
-    } catch (err) {
-      console.error("Error:", err);
-      setError("Error de conexión");
-    } finally {
-      setLoading(false);
+    const response = await fetch("http://localhost:3000/api/admin/cursos/aprobados");
+    const data = await response.json();
+
+    console.log("Respuesta del backend:", data);
+
+    if (data.success) {
+      setCursos(data.contenido || []);
+    } else {
+      setError("Error al cargar los cursos");
+      setCursos([]);
     }
-  };
+  } catch (err) {
+    console.error(" Error:", err);
+    setError("Error de conexión");
+    setCursos([]);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleEliminarCurso = async (idCurso, titulo) => {
     setAlert({
@@ -47,18 +53,27 @@ const TodosLosCursos = () => {
           onClick: async () => {
             setAlert(null);
             try {
-              const response = await fetch(`/api/cursos/${idCurso}`, {
-                method: "DELETE",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              });
+              const response = await fetch(
+                `http://localhost:3000/api/cursos/${idCurso}`,
+                {
+                  method: "DELETE",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
 
               const data = await response.json();
 
               if (data.success) {
-                // Eliminar el curso de la lista ya que no aparecerá en próximos fetch
-                setCursos(cursos.filter((curso) => curso.idCurso !== idCurso));
+                // Actualizar el estado del curso a 'eliminado' en el UI
+                setCursos(
+                  cursos.map((curso) =>
+                    curso.idCurso === idCurso
+                      ? { ...curso, estado: "eliminado" }
+                      : curso
+                  )
+                );
                 setAlert({
                   message: "Curso eliminado correctamente",
                   type: "success",
@@ -66,13 +81,13 @@ const TodosLosCursos = () => {
                 });
               } else {
                 setAlert({
-                  message: "Error al eliminar el curso",
+                  message: data.msg || "Error al eliminar el curso",
                   type: "error",
                   onClose: () => setAlert(null),
                 });
               }
             } catch (err) {
-              console.error("Error:", err);
+              console.error("❌ Error:", err);
               setAlert({
                 message: "Error de conexión al eliminar",
                 type: "error",
@@ -84,6 +99,70 @@ const TodosLosCursos = () => {
       ],
     });
   };
+
+  const handleRestaurarCurso = async (idCurso, titulo) => {
+    setAlert({
+      message: `¿Estás seguro de restaurar el curso "${titulo}"?`,
+      type: "info",
+      onClose: () => setAlert(null),
+      actions: [
+        {
+          label: "Cancelar",
+          onClick: () => setAlert(null),
+        },
+        {
+          label: "Restaurar",
+          onClick: async () => {
+            setAlert(null);
+            try {
+              const response = await fetch(
+                `http://localhost:3000/api/admin/cursos/${idCurso}/restaurar`,
+                {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+
+              const data = await response.json();
+
+              if (data.success) {
+                // Actualizar el estado del curso a 'pendiente' en el UI
+                setCursos(
+                  cursos.map((curso) =>
+                    curso.idCurso === idCurso
+                      ? { ...curso, estado: "aprobado" }
+                      : curso
+                  )
+                );
+                setAlert({
+                  message:
+                    "Curso restaurado correctamente. Ahora está en estado aprobado.",
+                  type: "success",
+                  onClose: () => setAlert(null),
+                });
+              } else {
+                setAlert({
+                  message: data.msg || "Error al restaurar el curso",
+                  type: "error",
+                  onClose: () => setAlert(null),
+                });
+              }
+            } catch (err) {
+              console.error("❌ Error:", err);
+              setAlert({
+                message: "Error de conexión al restaurar",
+                type: "error",
+                onClose: () => setAlert(null),
+              });
+            }
+          },
+        },
+      ],
+    });
+  };
+
   if (loading) {
     return (
       <div className="todos-cursos">
@@ -132,16 +211,26 @@ const TodosLosCursos = () => {
                 key={curso.idCurso}
                 curso={curso}
                 variant="admin"
-                actions={[
-                  {
-                    label:
-                      curso.estado === "eliminado" ? "Eliminado" : "Eliminar",
-                    className: "btn-eliminar",
-                    onClick: () =>
-                      handleEliminarCurso(curso.idCurso, curso.titulo),
-                    disabled: curso.estado === "eliminado",
-                  },
-                ]}
+                showEstado={true}
+                actions={
+                  curso.estado === "eliminado"
+                    ? [
+                        {
+                          label: "Restaurar",
+                          className: "btn-restaurar",
+                          onClick: () =>
+                            handleRestaurarCurso(curso.idCurso, curso.titulo),
+                        },
+                      ]
+                    : [
+                        {
+                          label: "Eliminar",
+                          className: "btn-eliminar",
+                          onClick: () =>
+                            handleEliminarCurso(curso.idCurso, curso.titulo),
+                        },
+                      ]
+                }
               />
             ))}
           </div>

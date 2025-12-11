@@ -321,7 +321,7 @@ export const cursoController = {
       }
 
       await Curso.update(
-        { estado: 'pendiente' }, 
+        { estado: 'aprobado' }, 
         { where: { idCurso } }
       );
 
@@ -388,4 +388,46 @@ export const cursoController = {
       res.status(500).json({ success: false, msg: error.message });
     }
   },
+
+getAllCursosAdmin: async (req, res) => {
+  try {
+    // Traer solo cursos con estado 'aprobado' O 'eliminado'
+    const allCursos = await Curso.findAll({
+      where: { 
+        estado: { [Op.in]: ['aprobado', 'eliminado'] }
+      },
+      include: [
+        { model: TipoCurso, as: "TipoCurso" },
+        { 
+          model: Usuario, 
+          as: "Profesor",
+          attributes: ["nombreUsuario", "fotoDePerfil"]
+        }
+      ],
+
+    });
+
+    if (allCursos.length === 0) {
+      return res.status(404).json({
+        success: false,
+        msg: "No hay cursos",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      msg: "Cursos administrativos enviados",
+      contenido: allCursos,
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      msg: process.env.NODE_ENV === "development" 
+        ? error.message 
+        : "Error interno del servidor",
+    });
+  }
+},
 };

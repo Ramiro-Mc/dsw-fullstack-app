@@ -19,7 +19,7 @@ routerCursos.get("/cursos/:idCurso/duracion", cursoController.getDuracionCurso);
 routerCursos.get("/admin/cursos/pendientes", cursoController.getCursosPendientes);
 routerCursos.put("/admin/cursos/:idCurso/aprobar", cursoValidator.validateGetByIdAndDelete, cursoController.aprobarCurso);
 routerCursos.put("/admin/cursos/:idCurso/rechazar", cursoValidator.validateGetByIdAndDelete, cursoController.rechazarCurso);
-routerCursos.get("/admin/cursos/aprobados", cursoController.getAllCursosAprobados);
+routerCursos.get("/admin/cursos/aprobados", cursoController.getAllCursosAdmin);
 routerCursos.put("/admin/cursos/:idCurso/restaurar", cursoValidator.validateGetByIdAndDelete, cursoController.restaurarCurso);
 routerCursos.get("/admin/cursos/eliminados", cursoController.getCursosEliminados);
 

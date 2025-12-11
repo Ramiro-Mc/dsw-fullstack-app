@@ -7,12 +7,19 @@ const AdmCursoCard = ({
   actions = [], 
   variant = 'default' 
 }) => {
+  // Agregar función para obtener el color del badge según el estado
   const getEstadoColor = (estado) => {
     switch (estado) {
-      case 'aprobado': return 'success';
-      case 'pendiente': return 'warning';
-      case 'rechazado': return 'danger';
-      default: return 'secondary';
+      case 'aprobado':
+        return 'success';
+      case 'pendiente':
+        return 'warning';
+      case 'rechazado':
+        return 'danger';
+      case 'eliminado':
+        return 'danger';
+      default:
+        return 'secondary';
     }
   };
 
@@ -76,9 +83,9 @@ const AdmCursoCard = ({
           {actions.map((action, index) => (
             <button
               key={index}
+              className={`btn ${action.className}`}
               onClick={action.onClick}
-              className={action.className}
-              disabled={action.disabled || false}
+              disabled={action.disabled}
             >
               {action.label}
             </button>
